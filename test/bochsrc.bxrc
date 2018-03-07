@@ -25,7 +25,8 @@ boot: floppy
 
 #display_library: x
 # other choices: win32 sdl wx carbon amigaos beos macintosh nogui rfb term svga
-#display_library: win32
+# display_library: nogui
+# display_library: win32, options="gui_debug"
 
 # where do we send log messages?
 log: bochsout.txt
