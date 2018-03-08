@@ -1,25 +1,31 @@
-; ç¨‹åºæºä»£ç ï¼ˆstone.asmï¼‰
-; æœ¬ç¨‹åºåœ¨æ–‡æœ¬æ–¹å¼æ˜¾ç¤ºå™¨ä¸Šä»å·¦è¾¹å°„å‡ºä¸€ä¸ª*å·,ä»¥45åº¦å‘å³ä¸‹è¿åŠ¨ï¼Œæ’åˆ°è¾¹æ¡†ååå°„,å¦‚æ­¤ç±»æ¨.
-;  å‡Œåº”æ ‡ 2014/3
+; ³ÌĞòÔ´´úÂë£¨stone.asm£©
+; ±¾³ÌĞòÔÚÎÄ±¾·½Ê½ÏÔÊ¾Æ÷ÉÏ´Ó×ó±ßÉä³öÒ»¸ö*ºÅ,ÒÔ45¶ÈÏòÓÒÏÂÔË¶¯£¬×²µ½±ß¿òºó·´Éä,Èç´ËÀàÍÆ.
+;  ÁèÓ¦±ê 2014/3
+;   MASM»ã±à¸ñÊ½
      Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
      Up_Rt equ 2                  ;
      Up_Lt equ 3                  ;
      Dn_Lt equ 4                  ;
-     delay equ 50000					; è®¡æ—¶å™¨å»¶è¿Ÿè®¡æ•°,ç”¨äºæ§åˆ¶ç”»æ¡†çš„é€Ÿåº¦
-     ddelay equ 5					; è®¡æ—¶å™¨å»¶è¿Ÿè®¡æ•°,ç”¨äºæ§åˆ¶ç”»æ¡†çš„é€Ÿåº¦
-     org 7c00h	; ç»™ç›¸å¯¹åç§»åŠ ä¸Š7c00hè¿™ä¸€ä¸ªåç§»é‡
+     delay equ 50000					; ¼ÆÊ±Æ÷ÑÓ³Ù¼ÆÊı,ÓÃÓÚ¿ØÖÆ»­¿òµÄËÙ¶È
+     ddelay equ 580					; ¼ÆÊ±Æ÷ÑÓ³Ù¼ÆÊı,ÓÃÓÚ¿ØÖÆ»­¿òµÄËÙ¶È
+     .386
+     org 100h					; ³ÌĞò¼ÓÔØµ½100h£¬¿ÉÓÃÓÚÉú³ÉCOM
+     ASSUME cs:code,ds:code
+code SEGMENT
 start:
-	;xor ax,ax					; AX = 0   ç¨‹åºåŠ è½½åˆ°0000ï¼š100hæ‰èƒ½æ­£ç¡®æ‰§è¡Œ
+	;xor ax,ax					; AX = 0   ³ÌĞò¼ÓÔØµ½0000£º100h²ÅÄÜÕıÈ·Ö´ĞĞ
       mov ax,cs
+	mov es,ax					; ES = 0
 	mov ds,ax					; DS = CS
 	mov es,ax					; ES = CS
-	mov ax,0B800h				; æ–‡æœ¬çª—å£æ˜¾å­˜èµ·å§‹åœ°å€
+	mov ax,0B800h				; ÎÄ±¾´°¿ÚÏÔ´æÆğÊ¼µØÖ·
 	mov gs,ax					; GS = B800h
+      mov byte[char],'A'
 loop1:
-	dec word[count]				; é€’å‡è®¡æ•°å˜é‡
-	jnz loop1					; >0ï¼šè·³è½¬;
+	dec word[count]				; µİ¼õ¼ÆÊı±äÁ¿
+	jnz loop1					; >0£ºÌø×ª;
 	mov word[count],delay
-	dec word[dcount]				; é€’å‡è®¡æ•°å˜é‡
+	dec word[dcount]				; µİ¼õ¼ÆÊı±äÁ¿
       jnz loop1
 	mov word[count],delay
 	mov word[dcount],ddelay
@@ -130,7 +136,7 @@ dl2ul:
       jmp show
 	
 show:	
-      xor ax,ax                 ; è®¡ç®—æ˜¾å­˜åœ°å€
+      xor ax,ax                 ; ¼ÆËãÏÔ´æµØÖ·
       mov ax,word[x]
 	mov bx,80
 	mul bx
@@ -138,22 +144,20 @@ show:
 	mov bx,2
 	mul bx
 	mov bx,ax
-	mov ah,0Fh				;  0000ï¼šé»‘åº•ã€1111ï¼šäº®ç™½å­—ï¼ˆé»˜è®¤å€¼ä¸º07hï¼‰
-	mov al,byte[char]			;  AL = æ˜¾ç¤ºå­—ç¬¦å€¼ï¼ˆé»˜è®¤å€¼ä¸º20h=ç©ºæ ¼ç¬¦ï¼‰
-	mov [gs:bx],ax  		;  æ˜¾ç¤ºå­—ç¬¦çš„ASCIIç å€¼
+	mov ah,0Fh				;  0000£ººÚµ×¡¢1111£ºÁÁ°××Ö£¨Ä¬ÈÏÖµÎª07h£©
+	mov al,byte[char]			;  AL = ÏÔÊ¾×Ö·ûÖµ£¨Ä¬ÈÏÖµÎª20h=¿Õ¸ñ·û£©
+	mov es:[bx],ax  		;  ÏÔÊ¾×Ö·ûµÄASCIIÂëÖµ
 	jmp loop1
 	
 end:
-    jmp $                   ; åœæ­¢ç”»æ¡†ï¼Œæ— é™å¾ªç¯ 
+    jmp $                   ; Í£Ö¹»­¿ò£¬ÎŞÏŞÑ­»· 
 	
 datadef:	
     count dw delay
     dcount dw ddelay
-    rdul db Dn_Rt         ; å‘å³ä¸‹è¿åŠ¨
+    rdul db Dn_Rt         ; ÏòÓÒÏÂÔË¶¯
     x    dw 7
     y    dw 0
     char db 'A'
-
-
-times 510-($-$$) db 0
-dw 0xaa55
+code ENDS
+     END start

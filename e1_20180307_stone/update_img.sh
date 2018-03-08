@@ -1,5 +1,5 @@
 name=$1
-nasm -f bin $1.asm -o $1.bin
+nasm -f bin -l $1.list $1.asm -o $1.bin
 # add the feature : if the image not exist, create the image
 if [ ! -f "a.img" ]
 then
