@@ -1,0 +1,196 @@
+     1                                  ; 程序源代码（stone.asm）
+     2                                  ; 本程序在文本方式显示器上从左边射出一个*号,以45度向右下运动，撞到边框后反射,如此类推.
+     3                                  ;  凌应标 2014/3
+     4                                       Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
+     5                                       Up_Rt equ 2                  ;
+     6                                       Up_Lt equ 3                  ;
+     7                                       Dn_Lt equ 4                  ;
+     8                                       delay equ 50000					; 计时器延迟计数,用于控制画框的速度
+     9                                       ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
+    10                                       org 7c00h	; 给相对偏移加上7c00h这一个偏移量
+    11                                  start:
+    12                                  	;xor ax,ax					; AX = 0   程序加载到0000：100h才能正确执行
+    13 00000000 8CC8                          mov ax,cs
+    14 00000002 8ED8                    	mov ds,ax					; DS = CS
+    15 00000004 8EC0                    	mov es,ax					; ES = CS
+    16 00000006 B800B8                  	mov ax,0B800h				; 文本窗口显存起始地址
+    17 00000009 8EE8                    	mov gs,ax					; GS = B800h
+    18 0000000B E85101                  	call clean_screen
+    19                                  
+    20                                  loop1:
+    21 0000000E FF0E[9701]              	dec word[count]				; 递减计数变量
+    22 00000012 75FA                    	jnz loop1					; >0：跳转;
+    23 00000014 C706[9701]50C3          	mov word[count],delay
+    24 0000001A FF0E[9901]              	dec word[dcount]				; 递减计数变量
+    25 0000001E 75EE                          jnz loop1
+    26 00000020 C706[9701]50C3          	mov word[count],delay
+    27 00000026 C706[9901]0500          	mov word[dcount],ddelay
+    28                                  
+    29 0000002C B001                          mov al,1
+    30 0000002E 3A06[9B01]                    cmp al,byte[rdul]
+    31 00000032 741E                    	jz  DnRt
+    32 00000034 B002                          mov al,2
+    33 00000036 3A06[9B01]                    cmp al,byte[rdul]
+    34 0000003A 7453                    	jz  UpRt
+    35 0000003C B003                          mov al,3
+    36 0000003E 3A06[9B01]                    cmp al,byte[rdul]
+    37 00000042 0F848500                	jz  UpLt
+    38 00000046 B004                          mov al,4
+    39 00000048 3A06[9B01]                    cmp al,byte[rdul]
+    40 0000004C 0F84B500                	jz  DnLt
+    41 00000050 EBFE                          jmp $	
+    42                                  
+    43                                  DnRt:
+    44 00000052 FF06[9C01]              	inc word[x]
+    45 00000056 FF06[9E01]              	inc word[y]
+    46 0000005A 8B1E[9C01]              	mov bx,word[x]
+    47 0000005E B81900                  	mov ax,25
+    48 00000061 29D8                    	sub ax,bx
+    49 00000063 740E                          jz  dr2ur
+    50 00000065 8B1E[9E01]              	mov bx,word[y]
+    51 00000069 B85000                  	mov ax,80
+    52 0000006C 29D8                    	sub ax,bx
+    53 0000006E 7411                          jz  dr2dl
+    54 00000070 E9CC00                  	jmp show
+    55                                  dr2ur:
+    56 00000073 C706[9C01]1700                mov word[x],23
+    57 00000079 C606[9B01]02                  mov byte[rdul],Up_Rt	
+    58 0000007E E9BE00                        jmp show
+    59                                  dr2dl:
+    60 00000081 C706[9E01]4E00                mov word[y],78
+    61 00000087 C606[9B01]04                  mov byte[rdul],Dn_Lt	
+    62 0000008C E9B000                        jmp show
+    63                                  
+    64                                  UpRt:
+    65 0000008F FF0E[9C01]              	dec word[x]
+    66 00000093 FF06[9E01]              	inc word[y]
+    67 00000097 8B1E[9E01]              	mov bx,word[y]
+    68 0000009B B85000                  	mov ax,80
+    69 0000009E 29D8                    	sub ax,bx
+    70 000000A0 740E                          jz  ur2ul
+    71 000000A2 8B1E[9C01]              	mov bx,word[x]
+    72 000000A6 B8FFFF                  	mov ax,-1
+    73 000000A9 29D8                    	sub ax,bx
+    74 000000AB 7411                          jz  ur2dr
+    75 000000AD E98F00                  	jmp show
+    76                                  ur2ul:
+    77 000000B0 C706[9E01]4E00                mov word[y],78
+    78 000000B6 C606[9B01]03                  mov byte[rdul],Up_Lt	
+    79 000000BB E98100                        jmp show
+    80                                  ur2dr:
+    81 000000BE C706[9C01]0100                mov word[x],1
+    82 000000C4 C606[9B01]01                  mov byte[rdul],Dn_Rt	
+    83 000000C9 EB74                          jmp show
+    84                                  
+    85                                  	
+    86                                  	
+    87                                  UpLt:
+    88 000000CB FF0E[9C01]              	dec word[x]
+    89 000000CF FF0E[9E01]              	dec word[y]
+    90 000000D3 8B1E[9C01]              	mov bx,word[x]
+    91 000000D7 B8FFFF                  	mov ax,-1
+    92 000000DA 29D8                    	sub ax,bx
+    93 000000DC 740D                          jz  ul2dl
+    94 000000DE 8B1E[9E01]              	mov bx,word[y]
+    95 000000E2 B8FFFF                  	mov ax,-1
+    96 000000E5 29D8                    	sub ax,bx
+    97 000000E7 740F                          jz  ul2ur
+    98 000000E9 EB54                    	jmp show
+    99                                  
+   100                                  ul2dl:
+   101 000000EB C706[9C01]0100                mov word[x],1
+   102 000000F1 C606[9B01]04                  mov byte[rdul],Dn_Lt	
+   103 000000F6 EB47                          jmp show
+   104                                  ul2ur:
+   105 000000F8 C706[9E01]0100                mov word[y],1
+   106 000000FE C606[9B01]02                  mov byte[rdul],Up_Rt	
+   107 00000103 EB3A                          jmp show
+   108                                  
+   109                                  	
+   110                                  	
+   111                                  DnLt:
+   112 00000105 FF06[9C01]              	inc word[x]
+   113 00000109 FF0E[9E01]              	dec word[y]
+   114 0000010D 8B1E[9E01]              	mov bx,word[y]
+   115 00000111 B8FFFF                  	mov ax,-1
+   116 00000114 29D8                    	sub ax,bx
+   117 00000116 740D                          jz  dl2dr
+   118 00000118 8B1E[9C01]              	mov bx,word[x]
+   119 0000011C B81900                  	mov ax,25
+   120 0000011F 29D8                    	sub ax,bx
+   121 00000121 740F                          jz  dl2ul
+   122 00000123 EB1A                    	jmp show
+   123                                  
+   124                                  dl2dr:
+   125 00000125 C706[9E01]0100                mov word[y],1
+   126 0000012B C606[9B01]01                  mov byte[rdul],Dn_Rt	
+   127 00000130 EB0D                          jmp show
+   128                                  	
+   129                                  dl2ul:
+   130 00000132 C706[9C01]1700                mov word[x],23
+   131 00000138 C606[9B01]03                  mov byte[rdul],Up_Lt	
+   132 0000013D EB00                          jmp show
+   133                                  	
+   134                                  show:	
+   135 0000013F 31C0                          xor ax,ax                 ; 计算显存地址
+   136 00000141 A1[9C01]                      mov ax,word[x]
+   137 00000144 BB5000                  	mov bx,80
+   138 00000147 F7E3                    	mul bx
+   139 00000149 0306[9E01]              	add ax,word[y]
+   140 0000014D BB0200                  	mov bx,2
+   141 00000150 F7E3                    	mul bx
+   142 00000152 89C3                    	mov bx,ax
+   143 00000154 B40F                    	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
+   144 00000156 A0[A001]                	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
+   145 00000159 658907                  	mov [gs:bx],ax  		;  显示字符的ASCII码值
+   146 0000015C E9AFFE                  	jmp loop1
+   147                                  
+   148                                  ; 清屏函数	
+   149                                  clean_screen:
+   150 0000015F 31C9                    	xor cx, cx
+   151 00000161 31D2                    	xor dx, dx
+   152                                  clean_screen_x_loop:
+   153 00000163 89CA                    	mov dx, cx
+   154 00000165 51                      	push cx
+   155 00000166 31C9                    	xor cx, cx
+   156                                  clean_screen_y_loop:
+   157 00000168 31C0                    	xor ax, ax
+   158 0000016A 5A                      	pop dx      ; 为了能够在内循环里有一个与外循环相关联的量,并且不被内循环的add语句打乱,每次用到这个量的时候都从栈中拿出来
+   159 0000016B 52                      	push dx
+   160 0000016C 89D0                    	mov ax, dx  ; x
+   161 0000016E BB5000                  	mov bx, 80
+   162 00000171 F7E3                    	mul bx
+   163 00000173 01C8                    	add ax, cx  ; y ; 会修改dx
+   164 00000175 BB0200                  	mov bx, 2
+   165 00000178 F7E3                    	mul bx
+   166 0000017A 89C3                    	mov bx, ax
+   167 0000017C B407                    	mov ah, 07h ; 与默认相同
+   168 0000017E B020                    	mov al, 20h ; 显示空格,即将该格显示的内容清除
+   169 00000180 658907                  	mov [gs:bx], ax
+   170 00000183 41                      	inc cx      
+   171 00000184 83F950                  	cmp cx, 80 ; 若y等于80,则该行清空完成,转到下一行
+   172 00000187 7402                    	jz clean_screen_next_x
+   173 00000189 EBDD                    	jmp clean_screen_y_loop
+   174                                  clean_screen_next_x:
+   175 0000018B 59                      	pop cx
+   176 0000018C 41                      	inc cx
+   177 0000018D 83F919                  	cmp cx, 25 ; 若x等于25,则所有列清空完成
+   178 00000190 7402                    	jz clean_screen_exit
+   179 00000192 EBCF                    	jmp clean_screen_x_loop
+   180                                  clean_screen_exit:
+   181 00000194 C3                      	ret
+   182                                  
+   183                                  end:
+   184 00000195 EBFE                        jmp $                   ; 停止画框，无限循环 
+   185                                  	
+   186                                  datadef:	
+   187 00000197 50C3                        count dw delay
+   188 00000199 0500                        dcount dw ddelay
+   189 0000019B 01                          rdul db Dn_Rt         ; 向右下运动
+   190 0000019C 0700                        x    dw 7
+   191 0000019E 0000                        y    dw 0
+   192 000001A0 41                          char db 'A'
+   193                                  
+   194                                  
+   195 000001A1 00<rept>                times 510-($-$$) db 0
+   196 000001FE 55AA                    dw 0xaa55

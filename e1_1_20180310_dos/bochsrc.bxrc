@@ -2,8 +2,8 @@
 # config_interface: textconfig
 # display_library: x
 megs: 32
-romimage: file="$BXSHARE/BIOS-bochs-latest"
-vgaromimage: file="$BXSHARE/VGABIOS-lgpl-latest"
+romimage: file="../data/BIOS-bochs-latest"
+vgaromimage: file="../data/VGABIOS-lgpl-latest"
 boot: disk
 # no floppya
 # no floppyb

@@ -15,6 +15,8 @@ start:
 	mov es,ax					; ES = CS
 	mov ax,0B800h				; 文本窗口显存起始地址
 	mov gs,ax					; GS = B800h
+	call clean_screen
+
 loop1:
 	dec word[count]				; 递减计数变量
 	jnz loop1					; >0：跳转;
@@ -142,7 +144,43 @@ show:
 	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
 	mov [gs:bx],ax  		;  显示字符的ASCII码值
 	jmp loop1
-	
+
+; 清屏函数
+; 被调用函数不保存任何寄存器,需要改进	
+clean_screen:
+	xor cx, cx
+	xor dx, dx
+clean_screen_x_loop:
+	mov dx, cx
+	push cx
+	xor cx, cx
+clean_screen_y_loop:
+	xor ax, ax
+	pop dx      ; 为了能够在内循环里有一个与外循环相关联的量,并且不被内循环的add语句打乱,每次用到这个量的时候都从栈中拿出来
+	push dx
+	mov ax, dx  ; x
+	mov bx, 80
+	mul bx
+	add ax, cx  ; y ; 会修改dx
+	mov bx, 2
+	mul bx
+	mov bx, ax
+	mov ah, 07h ; 与默认相同
+	mov al, 20h ; 显示空格,即将该格显示的内容清除
+	mov [gs:bx], ax
+	inc cx      
+	cmp cx, 80 ; 若y等于80,则该行清空完成,转到下一行
+	jz clean_screen_next_x
+	jmp clean_screen_y_loop
+clean_screen_next_x:
+	pop cx
+	inc cx
+	cmp cx, 25 ; 若x等于25,则所有列清空完成
+	jz clean_screen_exit
+	jmp clean_screen_x_loop
+clean_screen_exit:
+	ret
+
 end:
     jmp $                   ; 停止画框，无限循环 
 	
