@@ -1,6 +1,10 @@
 % \documentclass{WHUBachelor}% 选项 forprint: 交付打印时添加, 避免彩色链接字迹打印偏淡. 即使用下一行:
  \documentclass[forprint]{WHUBachelor}
 
+
+
+
+
 \begin{document}
 %%%%%%% 下面的内容, 据实填空.
 
@@ -379,11 +383,17 @@ x = 1.
 
 \chapter{附录测试}
 
-测试
+\begin{lstlisting}
+for i:=maxint to 0 do
+  begin
+  { do nothing }
+  end;
+\end{lstlisting}
+
 
 \chapter{附录测试}
 
-测试
+\lstinputlisting[language=c]{code/test.c}
 
 \cleardoublepage
 \end{document}

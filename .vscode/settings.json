@@ -1,0 +1,33 @@
+{
+"latex-workshop.latex.toolchain": [
+        {
+          "command": "xelatex",
+          "args": [
+            "-synctex=1",
+            "-shell-escape",
+            "%DOC%"
+          ]
+        }, {
+          "command": "xelatex",
+          "args": [
+            "-synctex=1",
+            "-shell-escape",
+            "%DOC%"
+          ]
+        }, {
+          "command": "xelatex",
+          "args": [
+            "-synctex=1",
+            "-shell-escape",
+            "%DOC%"
+          ]
+        }, {
+          "command": "xelatex",
+          "args": [
+            "-synctex=1",
+            "-shell-escape",
+            "%DOC%"
+          ]
+        }
+      ]
+}

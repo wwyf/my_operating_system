@@ -11,7 +11,6 @@
 \ProcessOptions
 
 
-
 %------------------------ Page layout ----------------------------------
 \RequirePackage{fancyhdr,hyperref}
 
@@ -121,7 +120,7 @@
 \RequirePackage{amsmath,amssymb}
 \RequirePackage[amsmath,thmmarks]{ntheorem}% AMSLaTeX宏包.
 \RequirePackage{graphicx}                 % 图形
-\RequirePackage{color,xcolor}             %支持彩色
+\RequirePackage[dvipsnames]{color,xcolor}             %支持彩色
 %\RequirePackage{mathrsfs}   % 不同于\mathcal or \mathfrak 之类的英文花体字体
 \RequirePackage{url}
 \RequirePackage{enumerate}
@@ -150,6 +149,53 @@
 
 
 \newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}  %自定义新命令\upcite, 使参考文献引用以上标出现
+
+%--------------------------code------------------------------
+
+\RequirePackage{listings}
+% \usepackage[usenames,dvipsnames]{color}
+ 
+\definecolor{DarkGreen}{rgb}{0.0,0.4,0.0}
+ 
+\lstloadlanguages{c}
+\definecolor{CPPLight}  {HTML} {686868}
+\definecolor{CPPSteel}  {HTML} {888888}
+\definecolor{CPPDark}   {HTML} {262626}
+\definecolor{CPPBlue}   {HTML} {4172A3}
+\definecolor{CPPGreen}  {HTML} {487818}
+\definecolor{CPPBrown}  {HTML} {A07040}
+\definecolor{CPPRed}    {HTML} {AD4D3A}
+\definecolor{CPPViolet} {HTML} {7040A0}
+\definecolor{CPPGray}  {HTML} {B8B8B8}
+\lstset{
+    columns=fixed,       
+    numbers=left,                                        % 在左侧显示行号
+    frame=shadowbox,                                          % 不显示背景边框
+    backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
+    keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
+    numberstyle=\footnotesize\color{darkgray},           % 设定行号格式
+    commentstyle=\it\color[RGB]{0,96,96},                % 设置代码注释的格式
+    stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
+    showstringspaces=false,                              % 不显示字符串中的空格
+    language=c,                                        % 设置语言
+    morekeywords={alignas,continute,friend,register,true,alignof,decltype,goto,
+    reinterpret_cast,try,asm,defult,if,return,typedef,auto,delete,inline,short,
+    typeid,bool,do,int,signed,typename,break,double,long,sizeof,union,case,
+    dynamic_cast,mutable,static,unsigned,catch,else,namespace,static_assert,using,
+    char,enum,new,static_cast,virtual,char16_t,char32_t,explict,noexcept,struct,
+    void,export,nullptr,switch,volatile,class,extern,operator,template,wchar_t,
+    const,false,private,this,while,constexpr,float,protected,thread_local,
+    const_cast,for,public,throw,std},
+    emph={map,set,multimap,multiset,unordered_map,unordered_set,
+    unordered_multiset,unordered_multimap,vector,string,list,deque,
+    array,stack,forwared_list,iostream,memory,shared_ptr,unique_ptr,
+    random,bitset,ostream,istream,cout,cin,endl,move,default_random_engine,
+    uniform_int_distribution,iterator,algorithm,functional,bing,numeric,},
+    emphstyle=\color{CPPViolet}, 
+}
+
+
+
 
 %%%%%%%-------------------------------------------------
 %%%===  suppress extra inter-line spacing in \list environments
