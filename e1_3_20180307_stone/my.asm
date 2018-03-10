@@ -15,7 +15,53 @@ start:
 	mov es,ax					; ES = CS
 	mov ax,0B800h				; 文本窗口显存起始地址
 	mov gs,ax					; GS = B800h
-	call clean_screen
+
+
+display_infomation:
+	xor cx, cx                ; 计数器清零
+      xor ax,ax                 ; 计算显存地址
+      mov ax, 24
+	mov bx,80
+	mul bx
+	add ax,57
+	mov bx,2
+	mul bx
+	mov bx,ax
+display_infomation_loop:
+	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
+	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
+	mov si, cx
+	mov al, byte [bp+si]
+	mov [gs:bx],ax 
+	add bx, 2  		;  显示字符的ASCII码值
+	inc cx
+	cmp cx, 23  ; 个人信息长度
+	jnz display_infomation_loop
+	jmp check_keyboard
+
+check_keyboard:
+    mov ah, 01h 
+    int 16h
+    ; 如果没有按， zf为0
+    ; 如果有按，往下执行
+    jz check_keyboard
+
+    ; 从键盘读入字符,扫描码读进ah,ascII码读进al
+    mov ah, 00h
+    int 16h
+
+    ; 判断字符
+    cmp al, 'l'
+    je loop1
+    cmp al, 'c'
+    mov word [status], 0720h
+    je clean_screen
+    cmp al, 'd'
+    je display_infomation
+    cmp al, 'h'
+    mov word [status], 0f65h
+    je clean_screen
+    jmp check_keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 loop1:
 	dec word[count]			; 递减计数变量
@@ -26,18 +72,18 @@ loop1:
 	mov word[count],delay
 	mov word[dcount],ddelay
 
-clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
-      xor ax,ax                 ; 计算显存地址
-      mov ax,word[x]
-	mov bx,80
-	mul bx
-	add ax,word[y]
-	mov bx,2
-	mul bx
-	mov bx,ax
-	mov ah,07h				
-	mov al,20h		
-	mov [gs:bx],ax  		;  显示字符的ASCII码值
+; clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
+;       xor ax,ax                 ; 计算显存地址
+;       mov ax,word[x]
+; 	mov bx,80
+; 	mul bx
+; 	add ax,word[y]
+; 	mov bx,2
+; 	mul bx
+; 	mov bx,ax
+; 	mov ah,07h				
+; 	mov al,20h		
+; 	mov [gs:bx],ax  		
 
       mov al,1
       cmp al,byte[rdul]
@@ -143,8 +189,7 @@ dl2ul:
       mov byte[rdul],Up_Lt	
       jmp show
 	
-show:	
-      xor ax,ax                 ; 计算显存地址
+show:	                ; 计算显存地址
       mov ax,word[x]
 	mov bx,80
 	mul bx
@@ -155,13 +200,12 @@ show:
 	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
 	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
 	mov [gs:bx],ax  		;  显示字符的ASCII码值
-	jmp loop1
+	jmp check_keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 清屏函数
 ; 被调用函数不保存任何寄存器,需要改进	
 clean_screen:
 	xor cx, cx
-	xor dx, dx
 clean_screen_x_loop:
 	mov dx, cx
 	push cx
@@ -177,8 +221,9 @@ clean_screen_y_loop:
 	mov bx, 2
 	mul bx
 	mov bx, ax
-	mov ah, 07h ; 与默认相同
-	mov al, 20h ; 显示空格,即将该格显示的内容清除
+	; mov ah, 07h ; 与默认相同
+	; mov al, 20h ; 显示空格,即将该格显示的内容清除
+	mov ax, word [status]
 	mov [gs:bx], ax
 	inc cx      
 	cmp cx, 80 ; 若y等于80,则该行清空完成,转到下一行
@@ -191,10 +236,8 @@ clean_screen_next_x:
 	jz clean_screen_exit
 	jmp clean_screen_x_loop
 clean_screen_exit:
-	ret
+	jmp check_keyboard
 
-end:
-    jmp $                   ; 停止画框，无限循环 
 
 datadef:	
     count dw delay
@@ -203,7 +246,12 @@ datadef:
     x    dw 7
     y    dw 0
     char db 2
+    name db '16337237 wang yong feng'
+    status dw 0720h
+;     number db '16337237'
 
 
 times 510-($-$$) db 0
 dw 0xaa55
+
+
