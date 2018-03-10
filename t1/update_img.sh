@@ -9,7 +9,7 @@ then
 else
     echo "a.img exists !"
 fi
-dd if=$1.bin of=a.img bs=512 count=1 conv=notrunc
+dd if=$1.bin of=a.img bs=1024 count=1 conv=notrunc
 if [ ! -f "bochsrc.bxrc" ]
 then
     echo "bochsrc.bxrc not exist!"
