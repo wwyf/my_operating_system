@@ -31,7 +31,7 @@
     31                                  
     32                                  	; 判断字符
     33 0000001E 3C63                    	cmp al, 'c'
-    34 00000020 C706[B701]2007          	mov word [status], 0720h
+    34 00000020 C706[D501]2007          	mov word [status], 0720h
     35 00000026 E80F01                  	call clean_screen
     36                                  	; cmp al, 'h'
     37                                  	; mov word [status], 0f65h
@@ -41,13 +41,13 @@
     41                                  ; si:x
     42                                  ; di:y
     43                                  loop1:
-    44 0000002B FF0E[9B01]              	dec word[count]			; 递减计数变量
+    44 0000002B FF0E[9901]              	dec word[count]			; 递减计数变量
     45 0000002F 75FA                    	jnz loop1					; >0：跳转;
-    46 00000031 C706[9B01]50C3          	mov word[count],delay
-    47 00000037 FF0E[9D01]              	dec word[dcount]			; 递减计数变量
+    46 00000031 C706[9901]50C3          	mov word[count],delay
+    47 00000037 FF0E[9B01]              	dec word[dcount]			; 递减计数变量
     48 0000003B 75EE                          jnz loop1
-    49 0000003D C706[9B01]50C3          	mov word[count],delay
-    50 00000043 C706[9D01]0500          	mov word[dcount],ddelay
+    49 0000003D C706[9901]50C3          	mov word[count],delay
+    50 00000043 C706[9B01]0500          	mov word[dcount],ddelay
     51                                  
     52                                  
     53                                      ; mov cx, 0f20h     ; 调用函数  清除当前字母的图像,准备显示下一个字母
@@ -66,16 +66,16 @@
     66                                  ; 	mov [gs:bx],ax  		
     67                                  
     68 00000049 B001                          mov al,1
-    69 0000004B 3A06[9F01]                    cmp al,byte[rdul]
+    69 0000004B 3A06[9D01]                    cmp al,byte[rdul]
     70 0000004F 741C                    	jz  DnRt
     71 00000051 B002                          mov al,2
-    72 00000053 3A06[9F01]                    cmp al,byte[rdul]
+    72 00000053 3A06[9D01]                    cmp al,byte[rdul]
     73 00000057 7440                    	jz  UpRt
     74 00000059 B003                          mov al,3
-    75 0000005B 3A06[9F01]                    cmp al,byte[rdul]
+    75 0000005B 3A06[9D01]                    cmp al,byte[rdul]
     76 0000005F 7462                    	jz  UpLt
     77 00000061 B004                          mov al,4
-    78 00000063 3A06[9F01]                    cmp al,byte[rdul]
+    78 00000063 3A06[9D01]                    cmp al,byte[rdul]
     79 00000067 0F848200                	jz  DnLt
     80 0000006B EBFE                          jmp $	
     81                                  ;------------------------字母移动部分---------------------------------
@@ -93,11 +93,11 @@
     93 00000081 E99300                  	jmp move_and_exit
     94                                  dr2ur:
     95 00000084 BE1700                        mov si,23
-    96 00000087 C606[9F01]02                  mov byte[rdul],Up_Rt	
+    96 00000087 C606[9D01]02                  mov byte[rdul],Up_Rt	
     97 0000008C E98800                        jmp move_and_exit
     98                                  dr2dl:
     99 0000008F BF4E00                        mov di,78
-   100 00000092 C606[9F01]04                  mov byte[rdul],Dn_Lt	
+   100 00000092 C606[9D01]04                  mov byte[rdul],Dn_Lt	
    101 00000097 EB7E                          jmp move_and_exit
    102                                  
    103                                  UpRt:
@@ -114,11 +114,11 @@
    114 000000AD EB68                    	jmp move_and_exit
    115                                  ur2ul:
    116 000000AF BF4E00                        mov di,78
-   117 000000B2 C606[9F01]03                  mov byte[rdul],Up_Lt	
+   117 000000B2 C606[9D01]03                  mov byte[rdul],Up_Lt	
    118 000000B7 EB5E                          jmp move_and_exit
    119                                  ur2dr:
    120 000000B9 BE0100                        mov si,1
-   121 000000BC C606[9F01]01                  mov byte[rdul],Dn_Rt	
+   121 000000BC C606[9D01]01                  mov byte[rdul],Dn_Rt	
    122 000000C1 EB54                          jmp move_and_exit
    123                                  UpLt:
    124 000000C3 4E                      	dec si
@@ -136,11 +136,11 @@
    136                                  
    137                                  ul2dl:
    138 000000D9 BE0100                        mov si,1
-   139 000000DC C606[9F01]04                  mov byte[rdul],Dn_Lt	
+   139 000000DC C606[9D01]04                  mov byte[rdul],Dn_Lt	
    140 000000E1 EB34                          jmp move_and_exit
    141                                  ul2ur:
    142 000000E3 BF0100                        mov di,1
-   143 000000E6 C606[9F01]02                  mov byte[rdul],Up_Rt	
+   143 000000E6 C606[9D01]02                  mov byte[rdul],Up_Rt	
    144 000000EB EB2A                          jmp move_and_exit
    145                                  DnLt:
    146 000000ED 46                      	inc si
@@ -157,12 +157,12 @@
    157                                  
    158                                  dl2dr:
    159 00000103 BF0100                      mov di,1
-   160 00000106 C606[9F01]01                mov byte[rdul],Dn_Rt	
+   160 00000106 C606[9D01]01                mov byte[rdul],Dn_Rt	
    161 0000010B EB0A                        jmp move_and_exit
    162                                  	
    163                                  dl2ul:
    164 0000010D BE1700                      mov si,23
-   165 00000110 C606[9F01]03                mov byte[rdul],Up_Lt	
+   165 00000110 C606[9D01]03                mov byte[rdul],Up_Lt	
    166 00000115 EB00                        jmp move_and_exit
    167                                  
    168                                  move_and_exit:
@@ -209,7 +209,7 @@
    209 00000151 89C3                    	mov bx, ax
    210                                  	; mov ah, 07h ; 与默认相同
    211                                  	; mov al, 20h ; 显示空格,即将该格显示的内容清除
-   212 00000153 A1[B701]                	mov ax, word [status]
+   212 00000153 A1[D501]                	mov ax, word [status]
    213 00000156 658907                  	mov [gs:bx], ax
    214 00000159 41                      	inc cx      
    215 0000015A 83F950                  	cmp cx, 80 ; 若y等于80,则该行清空完成,转到下一行
@@ -230,39 +230,43 @@
    230 0000016F B81800                        mov ax, 24
    231 00000172 BB5000                  	mov bx,80
    232 00000175 F7E3                    	mul bx
-   233 00000177 83C039                  	add ax,57
+   233 00000177 83C018                  	add ax,24
    234 0000017A BB0200                  	mov bx,2
    235 0000017D F7E3                    	mul bx
    236 0000017F 89C3                    	mov bx,ax
    237 00000181 56                          push si
    238                                  display_infomation_loop:
-   239 00000182 8A26[9D01]              	mov ah,byte[dcount]				;  0000：黑底、1111：亮白字（默认值为07h）TODO:
-   240 00000186 BD[A001]                	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
-   241 00000189 89CE                    	mov si, cx
-   242 0000018B 8A02                    	mov al, byte [bp+si]
-   243 0000018D 658907                  	mov [gs:bx],ax 
-   244 00000190 83C302                  	add bx, 2  		;  显示字符的ASCII码值
-   245 00000193 41                      	inc cx
-   246 00000194 83F917                  	cmp cx, 23  ; 个人信息长度
-   247 00000197 75E9                    	jnz display_infomation_loop
-   248 00000199 5E                          pop si
-   249 0000019A C3                      	ret
+   239 00000182 B4AD                    	mov ah,10101101b				;  0000：黑底、1111：亮白字（默认值为07h）TODO:
+   240 00000184 BD[9E01]                	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
+   241 00000187 89CE                    	mov si, cx
+   242 00000189 8A02                    	mov al, byte [bp+si]
+   243 0000018B 658907                  	mov [gs:bx],ax 
+   244 0000018E 83C302                  	add bx, 2  		;  显示字符的ASCII码值
+   245 00000191 41                      	inc cx
+   246 00000192 83F937                  	cmp cx, 55  ; 个人信息长度
+   247 00000195 75EB                    	jnz display_infomation_loop
+   248 00000197 5E                          pop si
+   249 00000198 C3                      	ret
    250                                  
    251                                  datadef:	
-   252 0000019B 50C3                        count dw delay
-   253 0000019D 0500                        dcount dw ddelay
-   254 0000019F 01                          rdul db Dn_Rt         ; 向右下运动
+   252 00000199 50C3                        count dw delay
+   253 0000019B 0500                        dcount dw ddelay
+   254 0000019D 01                          rdul db Dn_Rt         ; 向右下运动
    255                                      ; x    db 7
    256                                      ; y    db 0
    257                                      ; char db 2
-   258 000001A0 313633333732333720-         name db '16337237 wang yong feng'
-   258 000001A9 77616E6720796F6E67-
-   258 000001B2 2066656E67         
-   259 000001B7 2007                        status dw 0720h
+   258 0000019E 656E74657220432074-         name db 'enter C to clean the screen! By 16337237 wang yong feng'
+   258 000001A7 6F20636C65616E2074-
+   258 000001B0 68652073637265656E-
+   258 000001B9 212042792031363333-
+   258 000001C2 373233372077616E67-
+   258 000001CB 20796F6E672066656E-
+   258 000001D4 67                 
+   259 000001D5 2007                        status dw 0720h
    260                                  ;     number db '16337237'
    261                                  
    262                                  
-   263 000001B9 00<rept>                times 510-($-$$) db 0
+   263 000001D7 00<rept>                times 510-($-$$) db 0
    264 000001FE 55AA                    dw 0xaa55
    265                                  
    266                                  

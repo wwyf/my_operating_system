@@ -1,10 +1,5 @@
 % \documentclass{WHUBachelor}% 选项 forprint: 交付打印时添加, 避免彩色链接字迹打印偏淡. 即使用下一行:
  \documentclass[forprint]{WHUBachelor}
-
-
-
-
-
 \begin{document}
 %%%%%%% 下面的内容, 据实填空.
 
@@ -28,7 +23,43 @@
 \tableofcontents
 \mainmatter %% 以下是正文
 %%%%%%%%%%%%%%%%%%%%%%%%%%%--------main matter-------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{先说重要的}
+\chapter{实验目的及工具}
+
+\section{实验目的}
+
+\begin{enumerate}
+  \item 学会使用虚拟机启动DOS引导盘，并使用DOS引导盘运行16位的汇编程序
+  \item 学会使用winhex修改磁盘镜像文件
+  \item 学会使用nasm编译x86汇编程序
+  \item 能够自己独立编写引导程序，并能引导虚拟机正常启动
+\end{enumerate}
+
+\section{实验所用工具}
+
+\begin{table}[htp]
+  \caption{本实验所使用的工具链}
+  \centering
+  \begin{tabular}{cc}
+    \toprule
+    软件名称 & 用途  \\
+    \midrule
+    nasm & 将x86汇编文件编译成.bin二进制文件 \\
+    dd & 将二进制文件的内容写进软盘镜像中  \\
+    winhex & 以二进制形式查看及修改软盘镜像文件 \\
+    bochs & 虚拟机，用于加载装有自定义引导程序的软盘  \\
+    bochsdbg & 调试工具，用于给装有自定义引导程序的软盘文件进行调试 \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:tools}
+\end{table}
+
+
+
+\chapter{实验1:DOS引导盘的制作}
+\section{实验步骤}
+\chapter{实验2:二进制文件的编辑}
+\chapter{实验3:自定义引导程序的实现}
+\chapter{实验难点及亮点}
  
  \section{具体使用步骤}
 

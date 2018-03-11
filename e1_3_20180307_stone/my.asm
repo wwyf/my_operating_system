@@ -230,20 +230,20 @@ display_infomation:
       mov ax, 24
 	mov bx,80
 	mul bx
-	add ax,57
+	add ax,24
 	mov bx,2
 	mul bx
 	mov bx,ax
     push si
 display_infomation_loop:
-	mov ah,byte[dcount]				;  0000：黑底、1111：亮白字（默认值为07h）TODO:
+	mov ah,10101101b				;  0000：黑底、1111：亮白字（默认值为07h）TODO:
 	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
 	mov si, cx
 	mov al, byte [bp+si]
 	mov [gs:bx],ax 
 	add bx, 2  		;  显示字符的ASCII码值
 	inc cx
-	cmp cx, 23  ; 个人信息长度
+	cmp cx, 55  ; 个人信息长度
 	jnz display_infomation_loop
     pop si
 	ret
@@ -255,7 +255,7 @@ datadef:
     ; x    db 7
     ; y    db 0
     ; char db 2
-    name db '16337237 wang yong feng'
+    name db 'enter C to clean the screen! By 16337237 wang yong feng'
     status dw 0720h
 ;     number db '16337237'
 
