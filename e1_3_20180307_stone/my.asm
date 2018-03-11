@@ -19,7 +19,7 @@ start:
 check_keyboard:
     call loop1
 	call display_infomation
-	mov ah, 01h
+	mov ah, 01
 	int 16h
 	; 如果没有按， zf为0
 	; 如果有按，往下执行
@@ -50,8 +50,8 @@ loop1:
 	mov word[dcount],ddelay
 
 
-    mov cl, 20h     ; 调用函数  清除当前字母的图像,准备显示下一个字母
-    call show
+    ; mov cx, 0f20h     ; 调用函数  清除当前字母的图像,准备显示下一个字母
+    ; call show
 ; clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
 ;       xor ax,ax                 ; 计算显存地址
 ;       mov ax,si
@@ -166,12 +166,15 @@ dl2ul:
     jmp move_and_exit
 
 move_and_exit:
+    mov cx, si
+    shl cx, 8 
     mov cl, 02h 
     call show
     ret
 
 ;----------------------------字母移动部分----------------------------
 ; 显示字母函数
+; 对外接口为ch, 控制显示格式
 ; 对外接口为cl, 控制显示字母
 show:	                ; 计算显存地址
     mov ax, si
@@ -181,8 +184,7 @@ show:	                ; 计算显存地址
 	mov bx,2
 	mul bx
 	mov bx,ax
-	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
-	mov al,cl			;  AL = 显示字符值（默认值为20h=空格符）
+	mov ax,cx			;  AL = 显示字符值（默认值为20h=空格符）
 	mov [gs:bx],ax  		;  显示字符的ASCII码值
 	ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -221,7 +223,7 @@ clean_screen_next_x:
 	jmp clean_screen_x_loop
 clean_screen_exit:
     ret
-
+;-------------展示名字-----------------------------
 display_infomation:
 	xor cx, cx                ; 计数器清零
       xor ax,ax                 ; 计算显存地址
@@ -234,7 +236,7 @@ display_infomation:
 	mov bx,ax
     push si
 display_infomation_loop:
-	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
+	mov ah,byte[dcount]				;  0000：黑底、1111：亮白字（默认值为07h）TODO:
 	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
 	mov si, cx
 	mov al, byte [bp+si]
