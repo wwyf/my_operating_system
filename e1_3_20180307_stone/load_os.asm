@@ -24,12 +24,12 @@ welcome_words:
 	ret
 load_os:
 	mov ah,02h                            ;读磁盘扇区
-	mov al,07h                            ;读取1个扇区
+	mov al,07h                            ;读取7个扇区
 	mov ch,00h                            ;起始磁道
 	mov cl,02h                            ;起始扇区
 	mov dh,00h                            ;磁头号
 	mov dl,00h                            ;驱动器号
-	mov bx,os                             ;存储缓冲区
+	mov bx,os                             ;os为标签，地址为第二扇区的第一个字节
 	int 13h
 	ret
 boot_message:

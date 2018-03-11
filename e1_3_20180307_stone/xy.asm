@@ -7,12 +7,27 @@
      Up_Lt equ 3                  ;
      Dn_Lt equ 4                  ;
      delay equ 50000					; 计时器延迟计数,用于控制画框的速度
-     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
+     ddelay equ 580					; 计时器延迟计数,用于控制画框的速度
      ;.386
      ;org 100h					; 程序加载到100h，可用于生成COM
-    BOOTSEG     equ 0x07c0 
+    BOOTSEG     equ 0x0000 
     DISPLAYSEG  equ 0xb800  
-  
+
+    org 07c00h  
+    mov ax, cs  
+    mov ds, ax  
+ 
+
+ 
+    mov ah,02h                            ;读磁盘扇区  
+    mov al,01h                            ;读取1个扇区  
+    mov ch,00h                            ;起始磁道  
+    mov cl,02h                            ;起始扇区  
+    mov dh,00h                            ;磁头号  
+    mov dl,00h                            ;驱动器号  
+    mov bx,os                             ;存储缓冲区  
+    int 13h  
+
 _start:  
   
     ;初始化数据段，使其指向段基址0X7C0处，即Boot代码被加载的地方  
@@ -25,14 +40,15 @@ _start:
   
     mov     cx, [msglen]  
     mov     si, message  
-    xor     di, di 
- 
+    xor     di, di  
+  
 print_str:  
+  
     mov     al, [si]  
     mov     [es:di], al  
     inc   si  
     inc     di  
-    mov byte    [es:di], 0x6c  
+    mov byte    [es:di], 0x42  
     inc     di  
     loop    print_str  
   
@@ -166,22 +182,10 @@ dl2ul:
       mov byte[rdul],Up_Lt	
       jmp show
 	
-show:	
-      xor ax,ax                 ; 计算显存地址
-      mov ax,word[x]
-	mov bx,80
-	mul bx
-	add ax,word[y]
-	mov bx,2
-	mul bx
-	mov bx,ax
-	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
-	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
-	mov [es:bx],ax  		;  显示字符的ASCII码值
-	jmp loop1
+
 	
-end:
-    jmp $                   ; 停止画框，无限循环 
+	
+
 	
 	message     db "16337266 xu yuan", 13, 10  
     msglen      dw $ - message 
@@ -193,4 +197,43 @@ end:
     char db 'A'
 	times 510-($-$$) db 0  
     dw  0xaa55 
+	
+os:  
+    call os_say_hello  
+    jmp $  
+os_say_hello:  
+    mov ax,os_message  
+    mov bp,ax  
+    mov cx,os_message_length  
+    mov ax,01301h  
+    mov bx,000eh  
+    mov dx,1000h  
+    int 10h  
+    ret  
+	
+	
+show:	
+      xor ax,ax                 ; 计算显存地址
+      mov ax,word[x]
+	mov bx,80
+	mul bx
+	add ax,word[y]
+	mov bx,2
+	mul bx
+	mov bx,ax
+	mov ah,47h				;  0000：黑底、1111：亮白字（默认值为07h）
+	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
+	mov [es:bx],ax  		;  显示字符的ASCII码值
+	jmp loop1
+	
+end:
+    jmp $                   ; 停止画框，无限循环 
+os_message:  
+    db "[OS]os loaded"  
+    db 0dh,0ah  
+    db "[OS]happy using"  
+os_message_length equ $-os_message  
 
+
+times 1022-($-$$) db 0  
+dw  0xaa55 

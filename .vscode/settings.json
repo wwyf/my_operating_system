@@ -8,11 +8,9 @@
             "%DOC%"
           ]
         }, {
-          "command": "xelatex",
+          "command": "bibtex",
           "args": [
-            "-synctex=1",
-            "-shell-escape",
-            "%DOC%"
+            "%DOCFILE%"
           ]
         }, {
           "command": "xelatex",
