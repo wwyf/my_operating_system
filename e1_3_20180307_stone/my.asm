@@ -1,68 +1,45 @@
 ; 程序源代码（stone.asm）
 ; 本程序在文本方式显示器上从左边射出一个*号,以45度向右下运动，撞到边框后反射,如此类推.
 ;  凌应标 2014/3
-     Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
-     Up_Rt equ 2                  ;
-     Up_Lt equ 3                  ;
-     Dn_Lt equ 4                  ;
-     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
-     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
-     org 7c00h	; 给相对偏移加上7c00h这一个偏移量
+    Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
+    Up_Rt equ 2                  ;
+    Up_Lt equ 3                  ;
+    Dn_Lt equ 4                  ;
+    delay equ 50000					; 计时器延迟计数,用于控制画框的速度
+    ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
+    color equ 10
+    org 7c00h	; 给相对偏移加上7c00h这一个偏移量
 start:
-	;xor ax,ax					; AX = 0   程序加载到0000：100h才能正确执行
-      mov ax,cs
-	mov ds,ax					; DS = CS
-	mov es,ax					; ES = CS
 	mov ax,0B800h				; 文本窗口显存起始地址
 	mov gs,ax					; GS = B800h
-
-
-display_infomation:
-	xor cx, cx                ; 计数器清零
-      xor ax,ax                 ; 计算显存地址
-      mov ax, 24
-	mov bx,80
-	mul bx
-	add ax,57
-	mov bx,2
-	mul bx
-	mov bx,ax
-display_infomation_loop:
-	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
-	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
-	mov si, cx
-	mov al, byte [bp+si]
-	mov [gs:bx],ax 
-	add bx, 2  		;  显示字符的ASCII码值
-	inc cx
-	cmp cx, 23  ; 个人信息长度
-	jnz display_infomation_loop
-	jmp check_keyboard
+    call clean_screen
+    mov si, 7
+    mov di, 0
 
 check_keyboard:
-    mov ah, 01h 
-    int 16h
-    ; 如果没有按， zf为0
-    ; 如果有按，往下执行
-    jz check_keyboard
+    call loop1
+	call display_infomation
+	mov ah, 01h
+	int 16h
+	; 如果没有按， zf为0
+	; 如果有按，往下执行
+	jz check_keyboard
 
-    ; 从键盘读入字符,扫描码读进ah,ascII码读进al
-    mov ah, 00h
-    int 16h
+	; 从键盘读入字符,扫描码读进ah,ascII码读进al
+	mov ah, 00h
+	int 16h
 
-    ; 判断字符
-    cmp al, 'l'
-    je loop1
-    cmp al, 'c'
-    mov word [status], 0720h
-    je clean_screen
-    cmp al, 'd'
-    je display_infomation
-    cmp al, 'h'
-    mov word [status], 0f65h
-    je clean_screen
-    jmp check_keyboard
+	; 判断字符
+	cmp al, 'c'
+	mov word [status], 0720h
+	call clean_screen
+	; cmp al, 'h'
+	; mov word [status], 0f65h
+	; je clean_screen
+	jmp check_keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; si:x
+; di:y
 loop1:
 	dec word[count]			; 递减计数变量
 	jnz loop1					; >0：跳转;
@@ -72,12 +49,15 @@ loop1:
 	mov word[count],delay
 	mov word[dcount],ddelay
 
+
+    mov cl, 20h     ; 调用函数  清除当前字母的图像,准备显示下一个字母
+    call show
 ; clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
 ;       xor ax,ax                 ; 计算显存地址
-;       mov ax,word[x]
+;       mov ax,si
 ; 	mov bx,80
 ; 	mul bx
-; 	add ax,word[y]
+; 	add ax,di
 ; 	mov bx,2
 ; 	mul bx
 ; 	mov bx,ax
@@ -98,109 +78,113 @@ loop1:
       cmp al,byte[rdul]
 	jz  DnLt
       jmp $	
-
+;------------------------字母移动部分---------------------------------
 DnRt:
-	inc word[x]
-	inc word[y]
-	mov bx,word[x]
+	inc si 
+	inc di
+	mov bx,si
 	mov ax,25
 	sub ax,bx
       jz  dr2ur
-	mov bx,word[y]
+	mov bx,di
 	mov ax,80
 	sub ax,bx
       jz  dr2dl
-	jmp show
+	jmp move_and_exit
 dr2ur:
-      mov word[x],23
+      mov si,23
       mov byte[rdul],Up_Rt	
-      jmp show
+      jmp move_and_exit
 dr2dl:
-      mov word[y],78
+      mov di,78
       mov byte[rdul],Dn_Lt	
-      jmp show
+      jmp move_and_exit
 
 UpRt:
-	dec word[x]
-	inc word[y]
-	mov bx,word[y]
+	dec si
+	inc di
+	mov bx,di
 	mov ax,80
 	sub ax,bx
       jz  ur2ul
-	mov bx,word[x]
+	mov bx,si
 	mov ax,-1
 	sub ax,bx
       jz  ur2dr
-	jmp show
+	jmp move_and_exit
 ur2ul:
-      mov word[y],78
+      mov di,78
       mov byte[rdul],Up_Lt	
-      jmp show
+      jmp move_and_exit
 ur2dr:
-      mov word[x],1
+      mov si,1
       mov byte[rdul],Dn_Rt	
-      jmp show
-
-	
+      jmp move_and_exit
 UpLt:
-	dec word[x]
-	dec word[y]
-	mov bx,word[x]
+	dec si
+	dec di
+	mov bx,si
 	mov ax,-1
 	sub ax,bx
       jz  ul2dl
-	mov bx,word[y]
+	mov bx,di
 	mov ax,-1
 	sub ax,bx
       jz  ul2ur
-	jmp show
+	jmp move_and_exit
+
 
 ul2dl:
-      mov word[x],1
+      mov si,1
       mov byte[rdul],Dn_Lt	
-      jmp show
+      jmp move_and_exit
 ul2ur:
-      mov word[y],1
+      mov di,1
       mov byte[rdul],Up_Rt	
-      jmp show
-
-	
-	
+      jmp move_and_exit
 DnLt:
-	inc word[x]
-	dec word[y]
-	mov bx,word[y]
+	inc si
+	dec di
+	mov bx,di
 	mov ax,-1
 	sub ax,bx
       jz  dl2dr
-	mov bx,word[x]
+	mov bx,si
 	mov ax,25
 	sub ax,bx
       jz  dl2ul
-	jmp show
+	jmp move_and_exit
 
 dl2dr:
-      mov word[y],1
-      mov byte[rdul],Dn_Rt	
-      jmp show
+    mov di,1
+    mov byte[rdul],Dn_Rt	
+    jmp move_and_exit
 	
 dl2ul:
-      mov word[x],23
-      mov byte[rdul],Up_Lt	
-      jmp show
-	
+    mov si,23
+    mov byte[rdul],Up_Lt	
+    jmp move_and_exit
+
+move_and_exit:
+    mov cl, 02h 
+    call show
+    ret
+
+;----------------------------字母移动部分----------------------------
+; 显示字母函数
+; 对外接口为cl, 控制显示字母
 show:	                ; 计算显存地址
-      mov ax,word[x]
+    mov ax, si
 	mov bx,80
 	mul bx
-	add ax,word[y]
+	add ax, di
 	mov bx,2
 	mul bx
 	mov bx,ax
 	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
-	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
+	mov al,cl			;  AL = 显示字符值（默认值为20h=空格符）
 	mov [gs:bx],ax  		;  显示字符的ASCII码值
-	jmp check_keyboard
+	ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 清屏函数
 ; 被调用函数不保存任何寄存器,需要改进	
@@ -236,16 +220,39 @@ clean_screen_next_x:
 	jz clean_screen_exit
 	jmp clean_screen_x_loop
 clean_screen_exit:
-	jmp check_keyboard
+    ret
 
+display_infomation:
+	xor cx, cx                ; 计数器清零
+      xor ax,ax                 ; 计算显存地址
+      mov ax, 24
+	mov bx,80
+	mul bx
+	add ax,57
+	mov bx,2
+	mul bx
+	mov bx,ax
+    push si
+display_infomation_loop:
+	mov ah,0Fh				;  0000：黑底、1111：亮白字（默认值为07h）
+	mov bp,name		;  AL = 显示字符值（默认值为20h=空格符）
+	mov si, cx
+	mov al, byte [bp+si]
+	mov [gs:bx],ax 
+	add bx, 2  		;  显示字符的ASCII码值
+	inc cx
+	cmp cx, 23  ; 个人信息长度
+	jnz display_infomation_loop
+    pop si
+	ret
 
 datadef:	
     count dw delay
     dcount dw ddelay
     rdul db Dn_Rt         ; 向右下运动
-    x    dw 7
-    y    dw 0
-    char db 2
+    ; x    db 7
+    ; y    db 0
+    ; char db 2
     name db '16337237 wang yong feng'
     status dw 0720h
 ;     number db '16337237'
