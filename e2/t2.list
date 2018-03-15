@@ -1,0 +1,111 @@
+     1                                  ;程序源代码（myos1.asm）
+     2                                  org  7c00h		; BIOS将把引导扇区加载到0:7C00h处，并开始执行
+     3                                  OffSetOfUserPrg1 equ 0A100h
+     4                                  Start:
+     5 00000000 8CC8                    	mov	ax, cs	       ; 置其他段寄存器值与CS相同
+     6 00000002 8ED8                    	mov	ds, ax	       ; 数据段
+     7 00000004 BD[3400]                	mov	bp, Message		 ; BP=当前串的偏移地址
+     8 00000007 8CD8                    	mov	ax, ds		 ; ES:BP = 串地址
+     9 00000009 8EC0                    	mov	es, ax		 ; 置ES=DS
+    10 0000000B B92C00                  	mov	cx, MessageLength  ; CX = 串长（=9）
+    11 0000000E B80113                  	mov	ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
+    12 00000011 BB0700                  	mov	bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
+    13 00000014 B600                          mov dh, 0		       ; 行号=0
+    14 00000016 B200                    	mov	dl, 0			 ; 列号=0
+    15 00000018 CD10                    	int	10h			 ; BIOS的10h功能：显示一行字符
+    16                                  LoadnEx:
+    17                                       ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
+    18 0000001A 8CC8                          mov ax,cs                ;段地址 ; 存放数据的内存基地址
+    19 0000001C 8EC0                          mov es,ax                ;设置段地址（不能直接mov es,段地址）
+    20 0000001E BB00A1                        mov bx, OffSetOfUserPrg1  ;偏移地址; 存放数据的内存偏移地址
+    21 00000021 B402                          mov ah,2                 ; 功能号
+    22 00000023 B001                          mov al,1                 ;扇区数
+    23 00000025 B200                          mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
+    24 00000027 B600                          mov dh,0                 ;磁头号 ; 起始编号为0
+    25 00000029 B500                          mov ch,0                 ;柱面号 ; 起始编号为0
+    26 0000002B B102                          mov cl,2                 ;起始扇区号 ; 起始编号为1
+    27 0000002D CD13                          int 13H ;                调用读磁盘BIOS的13h功能
+    28                                        ; 用户程序a.com已加载到指定内存区域中
+    29 0000002F E9(00A1)                      jmp OffSetOfUserPrg1
+    30                                  AfterRun:
+    31 00000032 EBFE                          jmp $                      ;无限循环
+    32                                  Message:
+    33 00000034 48656C6C6F2C204D79-           db 'Hello, MyOs is loading user program A.COM…'
+    33 0000003D 4F73206973206C6F61-
+    33 00000046 64696E672075736572-
+    33 0000004F 2070726F6772616D20-
+    33 00000058 412E434F4DE280A6   
+    34                                  MessageLength  equ ($-Message)
+    35 00000060 00<rept>                      times 510-($-$$) db 0
+    36 000001FE 55AA                          db 0x55,0xaa
+    37                                  	  
+    38                                  ;my program 
+    39                                  ; section .my_program vstart=0
+    40                                  start1:	
+    41                                  
+    42                                  		;org 0A100H
+    43 00000200 31C0                    		xor ax,ax					; AX = 0   程序加载到0000：100h才能正确执行
+    44 00000202 8CC8                    		mov ax,cs
+    45 00000204 8EC0                    		mov es,ax					; ES = 0
+    46 00000206 8ED8                    		mov ds,ax					; DS = CS
+    47 00000208 8EC0                    		mov es,ax
+    48                                  		
+    49 0000020A B800B8                  		mov	ax,0B800h
+    50 0000020D 8EE8                    		mov gs,ax
+    51 0000020F B90000                  		mov cx,0
+    52 00000212 B800A1                          mov ax, 0A100h
+    53 00000215 05[7002]                        add ax, myid
+    54 00000218 89C6                    		mov si, ax
+    55 0000021A BF[7802]                		mov	di, name
+    56                                  loop1:	
+    57 0000021D BB5000                  		mov bx,80
+    58 00000220 B80C00                  		mov	ax,12
+    59 00000223 F7E3                    		mul bx
+    60 00000225 BB2200                  		mov	bx,34
+    61 00000228 01CB                    		add bx,cx
+    62 0000022A 01D8                    		add ax,bx
+    63 0000022C BB0200                  		mov bx,2
+    64 0000022F F7E3                    		mul bx
+    65 00000231 89C5                    		mov bp,ax
+    66                                  		
+    67 00000233 B479                    		mov ah,79h
+    68 00000235 8A04                    		mov	al,byte[si]
+    69 00000237 65894600                		mov [gs:bp],ax
+    70 0000023B 83C601                  		add si,1
+    71                                  		
+    72 0000023E 41                      		inc cx
+    73 0000023F 83F908                  		cmp cx,8
+    74 00000242 75D9                    		jne	loop1
+    75 00000244 B90000                  		mov cx,0
+    76                                  		
+    77                                  loop2:	
+    78 00000247 BB5000                  		mov bx,80
+    79 0000024A B80D00                  		mov	ax,13
+    80 0000024D F7E3                    		mul bx
+    81 0000024F BB2200                  		mov	bx,34
+    82 00000252 01CB                    		add bx,cx
+    83 00000254 01D8                    		add ax,bx
+    84 00000256 BB0200                  		mov bx,2
+    85 00000259 F7E3                    		mul bx
+    86 0000025B 89C5                    		mov bp,ax
+    87                                  		
+    88 0000025D B479                    		mov ah,79h
+    89 0000025F 8A05                    		mov	al,byte[di]
+    90 00000261 65894600                		mov [gs:bp],ax
+    91 00000265 83C701                  		add di,1
+    92                                  		
+    93 00000268 41                      		inc cx
+    94 00000269 83F90A                  		cmp cx,10
+    95 0000026C 75D9                    		jne	loop2
+    96                                  
+    97                                  end:
+    98 0000026E EBFE                    		jmp $
+    99                                  		
+   100                                  datadef:
+   101 00000270 3136333337323637        		myid	db	'16337267'
+   102 00000278 78757A68656E676A69-     		name	db	'xuzhengjin'
+   102 00000281 6E                 
+   103                                  
+   104                                  	  
+   105                                  	  
+   106                                  
