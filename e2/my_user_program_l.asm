@@ -1,3 +1,4 @@
+section my_user1_program_header vstart=0x10000
 ;NASM 汇编
 ;nasm this.asm -o hello_os
     Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
@@ -5,60 +6,8 @@
     Up_Lt equ 3                  ;
     Dn_Lt equ 4                  ;
     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
-    ddelay equ 500					; 计时器延迟计数,用于控制画框的速度
+    ddelay equ 50					; 计时器延迟计数,用于控制画框的速度
     color equ 10
-	org 07c00h
-    mov ax, cs
-    mov ds, ax
-call welcome_words
-call load_os
-jmp os
-welcome_words:
-	mov ax,boot_message
-	mov bp,ax                             ;bp存储需要显示的字符串的起始地址
-	mov cx,boot_message_length            ;cx存储要显示的字符串的长度
-	mov ax,01301h                         ;ah=13h,是int 10h中断的参数之一,al=01h,标识输出方式
-	mov bx,000ah                          ;bh为页码,bl为颜色
-	mov dx,0d00h                          ;dx为显示位置坐标,0d行,0列
-	int 10h
-	ret
-load_os:
-	mov ah,02h                            ;读磁盘扇区
-	mov al,07h                            ;读取7个扇区
-	mov ch,00h                            ;起始磁道
-	mov cl,02h                            ;起始扇区
-	mov dh,00h                            ;磁头号
-	mov dl,00h                            ;驱动器号
-	mov bx,os                             ;os为标签，地址为第二扇区的第一个字节
-	int 13h
-	ret
-boot_message:
-	db "[Boot]modu os"
-	db 0dh,0ah                            ;换行
-	db "[Boot]loading..."
-boot_message_length equ $-boot_message    ;计算字符串长度
-times 510-($-$$) db 0                     ;填充至510byte
-dw 0xaa55                                 ;引导扇区标识,至此文件大小为512byte
-
-os:
-; 	call os_say_hello
-; 	jmp $
-; os_say_hello:
-; 	mov ax,os_message
-; 	mov bp,ax
-; 	mov cx,os_message_length
-; 	mov ax,01301h
-; 	mov bx,000eh
-; 	mov dx,1000h
-; 	int 10h
-; 	ret
-; os_message:
-; 	db "[OS]os loaded"
-; 	db 0dh,0ah
-; 	db "[OS]happy using"
-; os_message_length equ $-os_message
-; times 1022-($-$$) db 0
-
 
 start:
 	mov ax,0B800h				; 文本窗口显存起始地址
@@ -89,13 +38,14 @@ check_keyboard:
 	jmp check_keyboard
 check_keyboard_d:
 	cmp al, 'd'
-	jnz check_keyboard_h
+	jnz check_keyboard_q
 	call clean_screen
 	call display_chinese_name
 	jmp check_keyboard
-check_keyboard_h:
-	; mov word [status], 0f65h
-	; je clean_screen
+check_keyboard_q:
+	cmp al, 'q'
+	jnz check_keyboard
+	int 40h
 	jmp check_keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; si:x
@@ -290,7 +240,7 @@ display_infomation:
       mov ax, 24
 	mov bx,80
 	mul bx
-	add ax,24
+	add ax,10
 	mov bx,2
 	mul bx
 	mov bx,ax
@@ -315,7 +265,7 @@ display_message:
       mov ax, 23
 	mov bx,80
 	mul bx
-	add ax,24
+	add ax,10
 	mov bx,2
 	mul bx
 	mov bx,ax
@@ -328,7 +278,7 @@ display_message_loop:
 	mov [gs:bx],ax 
 	add bx, 2  		;  显示字符的ASCII码值
 	inc cx
-	cmp cx, 37 ; 个人信息长度
+	cmp cx, 66 ; 个人信息长度
 	jnz display_message_loop
     pop si
 	ret
@@ -377,9 +327,19 @@ display_chinese_next_x:
 	jz display_chinese_exit
 	jmp display_chinese_x_loop
 display_chinese_exit:
-	jmp $
-	jmp $
-	jmp $
+return_point:
+    mov ah, 01h
+    int 16h
+    ; 不断查询键盘缓冲区的状况
+    ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
+    jz return_point
+    ; 有字符输入,从al中读取键盘输入
+    mov ah, 00h
+    int 16h
+
+    cmp al, 'q' ; 如果键入q则退出
+    jnz return_point
+	int 40h
 	ret
 
 datadef:	
@@ -391,15 +351,15 @@ datadef:
     ; char db 2
 	number_char dw 0
     name db 'enter C to clean the screen! By 16337237 wang yong feng'
-	message db 'enter D to display my name in chinese in several seconds'
+	message db 'enter D to display my name in chinese, and enter Q to return menu!'
     status dw 0720h
 ;     number db '16337237'
 
-chinese_name   db '@@@@@@@@@@@@@@@@@@@                @@@@#                @@         :@@       .~#'     
+chinese_name  db '@@@@@@@@@@@@@@@@@@@                @@@@#                @@         :@@       .~#'     
 db '@@@@@@@@@@@@@@@@@@@                  @@@=              @@@         @@@@@@@@@@@@*'     
 db '          @#                          @@               @@         @@@       @@@ '     
 db '          @#                                          @@@@@@@@@  @@@       @@@  '     
-db '          @#             .           ,              =@@        @@@:  @@@ @@@    '     
+db '          @#                                        =@@        @@@:  @@@ @@@    '     
 db '          @#             @@@@@@@@@@@@@             =@@;          $    @@@@@     '     
 db '          @#             @@@@@@@@@@@@#          @ @@@@                 @@@      '     
 db '          @#                        @@         $@@!@@                 =@@@@;    '     
@@ -419,3 +379,4 @@ db ';;;;;;;;;;@@;;;;;;;  #@@@           @#          #@      =@ @@@ @@@@@@@@@@@@@
 db '@@@@@@@@@@@@@@@@@@@ @@@@            @#                  $@@@@           @.      '     
 db '#*!!!!!!!!!!!!!!!!! @@$             @#                  @@@@            @.      '      
 db '                                    @@,                 @@,                     '    
+db 'Enter q to return memu!             @@,                 @@,                     '    

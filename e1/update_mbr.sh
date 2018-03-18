@@ -42,6 +42,6 @@ d)
         ;;  
 esac
 rm *.bin
-rm *.list
+# rm *.list
 rm bochsout.txt
 rm amsg.txt
