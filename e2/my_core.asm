@@ -103,6 +103,8 @@ show_welcome_screen:
     push cx
     push dx
     push bp
+    push si
+    push di
     push ds
 
 ; 设置背景色
@@ -131,7 +133,7 @@ fill_screen_loop:
 display_welcome_screen_loop:
     mov di, 2000
     sub di, cx
-    mov al, [ds:bp+di]  ; 这条语句出了问题
+    mov al, [ds:bp+di]  ; 这条语句出了问题 为什么[ds:si]就读不了呢？
 	mov byte [es:si], al
 	inc si
 	mov byte [es:si], 71h
@@ -139,6 +141,8 @@ display_welcome_screen_loop:
 	loop display_welcome_screen_loop
     
     pop ds
+    pop di
+    pop si
     pop bp
     pop dx
     pop cx
@@ -412,16 +416,17 @@ db '          ||               [1]:test                                 ||      
 db '          ||               [1]:test                                 ||          '
 db '          ||               [l]:the experiment one                   ||          '
 db '          ||               [t]:test                                 ||          '
-db '          ||                        sdf                             ||          '
-db '          ||                            sdf                         ||          '
 db '          ||                                                        ||          '
-db '          ||                     sf      asdfasfasfsadfsadfasdfasfas||          '
+db '          ||                                                        ||          '
+db '          ||                                                        ||          '
+db '          ||                                                        ||          '
 db '          ||                                                        ||          '
 db '          ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||          '
 db '                                                                                '
 db '                                                                                '
 db '                                                                                '
-db '                                                  asf                           '
+db '                                                                                '
+db '                                                                                '
 db '                                                                                '
 feature_message_length equ ($-feature_message)
 
