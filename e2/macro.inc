@@ -10,3 +10,23 @@ user1_program_address equ 0x2000
 user2_program_address equ 0x3000
 user3_program_address equ 0x4000
 user4_program_address equ 0x5000
+
+user1_bound_x_up equ 1 
+user1_bound_x_down equ 12
+user1_bound_y_left equ 1
+user1_bound_y_right equ 39 
+
+user2_bound_x_up equ 1 
+user2_bound_x_down equ 12
+user2_bound_y_left equ 40
+user2_bound_y_right equ 78 
+
+user3_bound_x_up equ 13 
+user3_bound_x_down equ 23
+user3_bound_y_left equ 1
+user3_bound_y_right equ 39
+
+user4_bound_x_up equ 13 
+user4_bound_x_down equ 23
+user4_bound_y_left equ 40
+user4_bound_y_right equ 78 

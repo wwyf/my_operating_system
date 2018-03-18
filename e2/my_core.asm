@@ -40,9 +40,12 @@ section code align=16 vstart=0
 clean_screen:
 	; 存放寄存器
 	push ax
+    push bx
 	push cx
+    push dx
 	push si
 	push es
+    push bp
 	; 设置段寄存器
 	mov ax, 0xB800
 	mov es, ax
@@ -54,10 +57,14 @@ clean_screen_loop:
 	mov byte [es:si], 07h
 	inc si
 	loop clean_screen_loop
+
 clean_screen_exit:
+    pop bp
 	pop es
 	pop si
+    pop dx
 	pop cx
+    pop bx
 	pop ax
 	ret
 ;------------------------------------------------------------------------------------
@@ -78,7 +85,7 @@ display_core_massage:
 	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
 	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
 	mov dl, 0 		 ; 列号=0
-	mov dh, 9		       ; 行号=0
+	mov dh, 12		       ; 行号=0
 	mov cx, Core_MessageLength  ; CX = 串长（=9）
 	mov bp, Core_Message		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
@@ -223,7 +230,24 @@ load_com_user_program:
     pop bx
     pop ax
     ret
+;--------------------------------------------------------------
+; 取得随机数，结果保存在ax中
+; 会修改ax！！作为返回值！！
+get_random:
+    push bx
 
+    mov ax, 00h
+    out 43h, al
+    in al, 40h
+
+    mov bl, 8 ; 除以8，得到范围为0-7的随机数
+    div bl
+
+    mov al, ah
+    mov ah, 0h
+    add ax, 114 ; 加上白色背景色
+    pop bx
+    ret
 ;###################################################################################
 ;--------------------------------内部过程-------------------------------------------
 ; 安装40号中断，用于用户程序返回内核
@@ -278,6 +302,117 @@ int40_for_return:
 
     iret ; 成功回到内核
 
+;--------------------------安装8号中断----------------------------
+;
+install_int8:
+    push ax
+    push ds
+    push es
+
+    mov al,34h   ; 设控制字值 
+    out 43h,al   ; 写控制字到控制字寄存器 
+    mov ax,0ffffh ; 中断时间设置
+    out 40h,al   ; 写计数器 0 的低字节 
+    mov al,ah    ; AL=AH 
+    out 40h,al   ; 写计数器 0 的高字节
+ 
+    mov ax, 0
+    mov ds, ax
+    mov ax, cs
+    mov word [4*8], new_int8 ; 设置偏移地址为子过程所在位置
+    mov word [4*8+2], ax ; 设置段地址为cs
+
+    ; mov ax, 0b800h
+    ; mov es, ax
+    ; mov ax, 0730h
+    ; mov [es:0x00], ax
+
+    pop es
+    pop ds
+    pop ax
+    ret
+;------------------------------------------------------------------------------
+new_int8:
+    push es
+    push ax
+    push bx
+    push cx
+    push dx
+    push bp
+
+    ; 设置段地址
+    mov ax, 0b800h
+    mov es, ax
+; for i = 24:1
+    ; [es:160*i] = [es:160*(i-1)]
+    
+    ; 计算左下角所在地址，并取出左下角的字符
+    mov cx, 24
+    mov al, 160
+    mul cl
+    mov bp, ax
+    mov dl, byte [es:bp] ; [es:160*24]
+    ; 向下平移
+    sub bp, 160            ;[es:160*23]
+    ; 将当前行的字符移到下一行
+scroll_bound_loop_1:
+    mov al, byte [es:bp]
+    mov byte [es:bp+160], al
+    call get_random
+    mov byte [es:bp+161], al
+    sub bp, 160
+    loop scroll_bound_loop_1
+
+    ; 将第一行的1-79的字符移到0-78
+    mov cx, 79
+    mov bp, 2
+scroll_bound_loop_2:
+    mov al, byte [es:bp]
+    mov byte [es:bp-2], al
+    call get_random
+    mov byte [es:bp-1], al
+    inc bp
+    inc bp
+    loop scroll_bound_loop_2
+
+    mov bp, 158+160
+    mov cx, 24
+scroll_bound_loop_3:
+    mov al, byte [es:bp]
+    mov byte [es:bp-160], al
+    call get_random
+    mov byte [es:bp-159], al
+    add bp, 160
+    loop scroll_bound_loop_3
+
+    sub bp, 160
+    sub bp, 2
+    mov cx, 78
+scroll_bound_loop_4:
+    mov al, byte [es:bp]
+    mov byte [es:bp+2], al
+    call get_random
+    mov byte [es:bp+3], al
+    sub bp, 2
+    loop scroll_bound_loop_4
+
+    add bp, 2
+    mov byte [es:bp], dl
+    call get_random
+    mov byte [es:bp+1], al
+    pop bp
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop es
+
+	mov al,20h			; AL = EOI
+	out 20h,al			; 发送EOI到主8529A
+	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
+
+    iret
+
 ;##############################################################################
 ;------------------------------------内核初始化----------------------------------
 code_start:
@@ -298,6 +433,7 @@ code_start:
     ; 安装中断
     ; 安装40号中断，用于返回
     call install_int40
+    call install_int8
     ; 内核已加载完成，按enter继续
     call display_core_massage
 
@@ -362,7 +498,8 @@ check_key_board_load_feature_l:
 check_key_board_load_feature_t:
     cmp al, 't' 
     jnz check_key_board_load_feature
-    ; TODO: 该按键作为test
+    mov ax, 108
+    jmp run_com
     jmp check_key_board_load_feature
 
 ; 根据al里面的值加载对应的用户程序
@@ -396,38 +533,37 @@ section data align=16 vstart=0
 
 
 Core_Message:
-    db '                    Loading core completed!'
+    db '                            Loading core completed!'
     db 0x0d ; 回车
     db 0x0a ; 换行
-    db '                    Enter to continue....'
+    db '                            Enter to continue....'
 Core_MessageLength equ ($-Core_Message)
 
-feature_message db '                                                                                '
-db '                                                                                '
-db '                                                                                '
-db '                                                                                '
-db '                                                                                '
-db '          ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||          '
-db '          ||                  wyf OS is ready!                      ||          '
-db '          ||                                                        ||          '
-db '          ||               [1]:test                                 ||          '
-db '          ||               [1]:test                                 ||          '
-db '          ||               [1]:test                                 ||          '
-db '          ||               [1]:test                                 ||          '
-db '          ||               [l]:the experiment one                   ||          '
-db '          ||               [t]:test                                 ||          '
-db '          ||                                                        ||          '
-db '          ||                                                        ||          '
-db '          ||                                                        ||          '
-db '          ||                                                        ||          '
-db '          ||                                                        ||          '
-db '          ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||          '
-db '                                                                                '
-db '                                                                                '
-db '                                                                                '
-db '                                                                                '
-db '                                                                                '
-db '                                                                                '
+feature_message db '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+db '*                                                                              *'
+db '*                                                                              *'
+db '*                                                                              *'
+db '*                                                                              *'
+db '*         ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||         *'
+db '*         ||                  wyf OS is ready!                      ||         *'
+db '*         ||                                                        ||         *'
+db '*         ||       [1]:user program one(top left conrner)           ||         *'
+db '*         ||       [2]:user program one(top right conrner)          ||         *'
+db '*         ||       [3]:user program one(lower left conrner)         ||         *'
+db '*         ||       [4]:user program one(lower right conrner)        ||         *'
+db '*         ||       [l]:the experiment one                           ||         *'
+db '*         ||       [t]:waiting for develop                          ||         *'
+db '*         ||                                                        ||         *'
+db '*         ||                                                        ||         *'
+db '*         ||                                                        ||         *'
+db '*         ||                                                        ||         *'
+db '*         ||                                  copyright by wyf      ||         *'
+db '*         ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||         *'
+db '*                                                                              *'
+db '*                  student number: 16337237                                    *'
+db '*                           name : wang yong feng                              *'
+db '*                                                                              *'
+db '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 feature_message_length equ ($-feature_message)
 
 

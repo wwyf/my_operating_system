@@ -5,8 +5,8 @@ section my_user1_program_header vstart=0x10000
     Up_Rt equ 2                  ;
     Up_Lt equ 3                  ;
     Dn_Lt equ 4                  ;
-    delay equ 50000					; 计时器延迟计数,用于控制画框的速度
-    ddelay equ 50					; 计时器延迟计数,用于控制画框的速度
+    delay equ 5000					; 计时器延迟计数,用于控制画框的速度
+    ddelay equ 10					; 计时器延迟计数,用于控制画框的速度
     color equ 10
 
 start:
@@ -93,20 +93,20 @@ DnRt:
 	inc si 
 	inc di
 	mov bx,si
-	mov ax,25
+	mov ax,24
 	sub ax,bx
       jz  dr2ur
 	mov bx,di
-	mov ax,80
+	mov ax,79
 	sub ax,bx
       jz  dr2dl
 	jmp move_and_exit
 dr2ur:
-      mov si,23
+      mov si,22
       mov byte[rdul],Up_Rt	
       jmp move_and_exit
 dr2dl:
-      mov di,78
+      mov di,77
       mov byte[rdul],Dn_Lt	
       jmp move_and_exit
 
@@ -114,64 +114,64 @@ UpRt:
 	dec si
 	inc di
 	mov bx,di
-	mov ax,80
+	mov ax,79
 	sub ax,bx
       jz  ur2ul
 	mov bx,si
-	mov ax,-1
+	mov ax,0
 	sub ax,bx
       jz  ur2dr
 	jmp move_and_exit
 ur2ul:
-      mov di,78
+      mov di,77
       mov byte[rdul],Up_Lt	
       jmp move_and_exit
 ur2dr:
-      mov si,1
+      mov si,2
       mov byte[rdul],Dn_Rt	
       jmp move_and_exit
 UpLt:
 	dec si
 	dec di
 	mov bx,si
-	mov ax,-1
+	mov ax,0
 	sub ax,bx
       jz  ul2dl
 	mov bx,di
-	mov ax,-1
+	mov ax,0
 	sub ax,bx
       jz  ul2ur
 	jmp move_and_exit
 
 
 ul2dl:
-      mov si,1
+      mov si,2
       mov byte[rdul],Dn_Lt	
       jmp move_and_exit
 ul2ur:
-      mov di,1
+      mov di,2
       mov byte[rdul],Up_Rt	
       jmp move_and_exit
 DnLt:
 	inc si
 	dec di
 	mov bx,di
-	mov ax,-1
+	mov ax,0
 	sub ax,bx
       jz  dl2dr
 	mov bx,si
-	mov ax,25
+	mov ax,24
 	sub ax,bx
       jz  dl2ul
 	jmp move_and_exit
 
 dl2dr:
-    mov di,1
+    mov di,2
     mov byte[rdul],Dn_Rt	
     jmp move_and_exit
 	
 dl2ul:
-    mov si,23
+    mov si,22
     mov byte[rdul],Up_Lt	
     jmp move_and_exit
 
@@ -237,7 +237,7 @@ clean_screen_exit:
 display_infomation:
 	xor cx, cx                ; 计数器清零
       xor ax,ax                 ; 计算显存地址
-      mov ax, 24
+      mov ax, 23
 	mov bx,80
 	mul bx
 	add ax,10
@@ -262,7 +262,7 @@ display_infomation_loop:
 display_message:
 	xor cx, cx                ; 计数器清零
       xor ax,ax                 ; 计算显存地址
-      mov ax, 23
+      mov ax, 22
 	mov bx,80
 	mul bx
 	add ax,10
@@ -283,50 +283,25 @@ display_message_loop:
     pop si
 	ret
 
-display_chinese_name:
-	xor cx, cx
-	; mov ax, chinese_name
-	; mov ds, ax
-display_chinese_x_loop:
-	mov dx, cx
-	push cx
-	xor cx, cx
-display_chinese_y_loop:
-	xor ax, ax
-	pop dx      ; 为了能够在内循环里有一个与外循环相关联的量,并且不被内循环的add语句打乱,每次用到这个量的时候都从栈中拿出来
-	push dx
-	mov ax, dx  ; x
-	mov bx, 80
-	mul bx
-	add ax, cx  ; y ; 会修改dx
-	mov [number_char], ax 
-	mov bx, 2
-	mul bx
-	mov bx, ax
-	; mov ah, 07h ; 与默认相同
-	push si 
-	push bp
-	mov bp, chinese_name
-	mov si, [number_char]
-	; add si, 30h ;经测试,bx数字正确
-	; mov ax, si
-	mov al, byte [bp+si]
-	; mov al, 42h ; 显示空格,即将该格显示的内容清除
-	mov ah, 8bh
-	pop bp
-	pop si
-	mov [gs:bx], ax
-	inc cx      
-	cmp cx, 80 ; 若y等于80,则该行清空完成,转到下一行
-	jz display_chinese_next_x
-	jmp display_chinese_y_loop
-display_chinese_next_x:
-	pop cx
-	inc cx
-	cmp cx, 25 ; 若x等于25,则所有列清空完成
-	jz display_chinese_exit
-	jmp display_chinese_x_loop
+display_chinese_name:	
+
+    mov ax, 0B800h
+    mov es, ax
+
+    mov bp, chinese_name
+	mov cx, 2000
+	mov si, 0
+display_chinese_loop:
+    mov di, 2000
+    sub di, cx
+    mov al, [ds:bp+di]; 这条语句出了问题 为什么[ds:si]就读不了呢？
+	mov byte [es:si], al
+	inc si
+	mov byte [es:si], 71h
+	inc si
+	loop display_chinese_loop
 display_chinese_exit:
+
 return_point:
     mov ah, 01h
     int 16h
@@ -346,37 +321,34 @@ datadef:
     count dw delay
     dcount dw ddelay
     rdul db Dn_Rt         ; 向右下运动
-    ; x    db 7
-    ; y    db 0
-    ; char db 2
 	number_char dw 0
     name db 'enter C to clean the screen! By 16337237 wang yong feng'
 	message db 'enter D to display my name in chinese, and enter Q to return menu!'
     status dw 0720h
 ;     number db '16337237'
 
-chinese_name  db '@@@@@@@@@@@@@@@@@@@                @@@@#                @@         :@@       .~#'     
-db '@@@@@@@@@@@@@@@@@@@                  @@@=              @@@         @@@@@@@@@@@@*'     
-db '          @#                          @@               @@         @@@       @@@ '     
-db '          @#                                          @@@@@@@@@  @@@       @@@  '     
-db '          @#                                        =@@        @@@:  @@@ @@@    '     
-db '          @#             @@@@@@@@@@@@@             =@@;          $    @@@@@     '     
-db '          @#             @@@@@@@@@@@@#          @ @@@@                 @@@      '     
-db '          @#                        @@         $@@!@@                 =@@@@;    '     
-db '          @#                        @@        @@@@   @@@@@@@@@      .@@@@@@@@@  '     
-db '          @#                        @@.      @@@@    @@@@@@@@@    :@@@@.   @@@@@'    
-db '          @#                        @@@     @@@:     ,  =@  .;-#@@@@@*  @@   $@@'    
-db '          @#                        @@@   ,@@@          =@    :@@@@!    @$     .'     
-db '@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@.   @@@@ #@@;           =@              @,      '     
-db '@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@    @#@@@@@             =@              @.      '
-db '          @#                 @@=    @# @@*              =@      @@#$$$$$@#$$$$#@'     
-db '          @#                 @@     @#  @@         @@@@@@@@@@@@         @.      '     
-db '          @#                =@@     @#  !@@        @@@@@@@@@@@@         @.      '     
-db '          @#               @@@      @#    @@@           =@       @@@@@@@@@@@@@@!'             
-db '          @#              @@=       @#      @@@         =@              @.      '     
-db '          @#            @@@         @#        @@@@      =@   #          @.      '     
-db ';;;;;;;;;;@@;;;;;;;  #@@@           @#          #@      =@ @@@ @@@@@@@@@@@@@@@@@'     
-db '@@@@@@@@@@@@@@@@@@@ @@@@            @#                  $@@@@           @.      '     
-db '#*!!!!!!!!!!!!!!!!! @@$             @#                  @@@@            @.      '      
-db '                                    @@,                 @@,                     '    
-db 'Enter q to return memu!             @@,                 @@,                     '    
+chinese_name   db '                                                                                '                     
+db '                                   @@@@@@                 @@@       @@@~        '                     
+db ' @@@@@@@@@@@@@@@@@@@@@              .@@@@@@               @@*       @@@@@@@@@@  '                     
+db ' @@@@@@@@@@@@@@@@@@@@@                 @@@@              @@@       @@@@@@@@@@#  '                     
+db ' @@@@@@@@@@@@@@@@@@@@@                  .@!              @@@@@@@  @@@@    @@@   '                     
+db '          @@@                  @@@@@@@@@@               @@@@@@@@ @@@@@@  @@@~   '                     
+db '          @@@                  @@@@@@@@@@               @@@     @@@@ @@@@@@#    '                     
+db '          @@@                         @@@              @@@       @@   @@@@#     '                     
+db '          @@@                         @@@      @@     @@@           ,@@@@@@@-   '                     
+db '          @@@                         @@@     @@@@    @@@@@@@@@;  @@@@@@ @@@@@@ '                     
+db '          @@@                         @@@    @@@@@     @@@@@@@@*@@@@@ @@@  @@@@ '                     
+db '  @@@@@@@@@@@@@@@@@@@     .@@@@@@@@@@ @@@   @@@@;         @@@   @@@@  @@@       '                     
+db '  @@@@@@@@@@@@@@@@@@@     .@@@@@@@@@@ @@@@@@@@@           @@@         @@@       '                     
+db '  @@@###@@@@@@@###@@@            .@@$ @@@@@@@@            @@@    @@@@@@@@@@@@@= '                     
+db '          @@@                    @@@  @@@=@@:          @@@@@@@@@ @@@@@@@@@@@@@= '                     
+db '          @@@                    @@@  @@@ @@@          @@@@@@@@@      @@@       '                     
+db '          @@@                   @@@;  @@@ @@@@            @@@     @@@@@@@@@@@@  '                     
+db '          @@@                  ~@@@   @@@  @@@#           @@@     @@@@@@@@@@@@  '                     
+db '          @@@                  @@@~   @@@   @@@@          @@@         @@@       '                
+db '          @@@                .@@@@    @@@   .@@@@.        @@@  @      @@@       '                     
+db '          @@@               ;@@@@     @@@     @@@@@       @@@@@@ @@@@@@@@@@@@@@ '                     
+db ' @@@@@@@@@@@@@@@@@@@@@@   @@@@@      @@@      @@@@*      @@@@@  @@@@@@@@@@@@@@ '                     
+db ' @@@@@@@@@@@@@@@@@@@@@@   ~@@@@    @@@@@@       !@$      @@@@!         @@       '                     
+db ' @@@@@@@@@@@@@@@@@@@@@@     @;     @@@@@#                 @@           @@       '                     
+db 'Enter q to return memu!                                                         '

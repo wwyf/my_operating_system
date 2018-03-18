@@ -5,6 +5,7 @@ nasm.exe -f bin my_user_program_2.asm -l my_user_program_2.list -o my_user_progr
 nasm.exe -f bin my_user_program_3.asm -l my_user_program_3.list -o my_user_program_3.bin   || { echo "nasm complied failed"; exit 1; }
 nasm.exe -f bin my_user_program_4.asm -l my_user_program_4.list -o my_user_program_4.bin   || { echo "nasm complied failed"; exit 1; }
 nasm.exe -f bin my_user_program_l.asm -l my_user_program_l.list -o my_user_program_l.bin   || { echo "nasm complied failed"; exit 1; }
+nasm.exe -f bin my_user_program_t.asm -l my_user_program_t.list -o my_user_program_t.bin   || { echo "nasm complied failed"; exit 1; }
 dd if=/dev/zero of=a.img ibs=512 count=100 conv=notrunc
 dd if=my_mbr.bin of=a.img ibs=512 count=1 conv=notrunc
 dd if=my_core.bin of=a.img ibs=512 count=10 conv=notrunc seek=1
@@ -13,11 +14,11 @@ dd if=my_user_program_2.bin of=a.img ibs=512 count=10 conv=notrunc seek=36
 dd if=my_user_program_3.bin of=a.img ibs=512 count=10 conv=notrunc seek=54
 dd if=my_user_program_4.bin of=a.img ibs=512 count=10 conv=notrunc seek=72
 dd if=my_user_program_l.bin of=a.img ibs=512 count=10 conv=notrunc seek=90
+dd if=my_user_program_t.bin of=a.img ibs=512 count=10 conv=notrunc seek=108
 # qemu-system-i386.exe -fda a.img
 # hexdump -C a.img
 # bochs.exe -q
 # bochsdbg.exe -q
-
 
 case $1 in
 b)

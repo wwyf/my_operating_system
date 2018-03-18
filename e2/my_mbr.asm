@@ -18,11 +18,11 @@ Start:
 	int 10h			 ; BIOS的10h功能：显示一行字符
 LoadnEx:
      ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
-	; mov ax,my_core_header_address                ;段地址 ; 存放数据的内存基地址
-	; mov es,ax                ;设置段地址（不能直接mov es,段地址）
-	mov bx, my_core_header_address ;偏移地址; 存放数据的内存偏移地址
+	mov ax,core_header_data_segment                ;段地址 ; 存放数据的内存基地址
+	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
 	mov ah,2                 ; 功能号
-	mov al,7                 ;扇区数
+	mov al,10                 ;扇区数
 	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
 	mov dh,0                 ;磁头号 ; 起始编号为0
 	mov ch,0                 ;柱面号 ; 起始编号为0
@@ -30,14 +30,7 @@ LoadnEx:
 	int 13H ;                调用读磁盘BIOS的13h功能
 	; 系统内核已加载到指定内存区域中
 ; 转入系统内核
-
 redirect:
-	; mov ax, my_core_header_address
-	; shl ax, 4
-	; add word [0x02], ax
-
-	; mov ax, my_core_header_address
-	; mov ds, ax
 	jmp my_core_header_address
 Message:
 	db 'Hello, MyOs is loading system core.'
