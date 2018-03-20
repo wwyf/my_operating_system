@@ -1,0 +1,14 @@
+
+my_user_program_t_asm.o:     file format elf32-i386
+
+SYMBOL TABLE:
+00000000 l    df *ABS*	00000000 foo.asm
+00000000 l    d  .data	00000000 .data
+00000000 l    d  .text	00000000 .text
+00000000 l       .data	00000000 num1st
+00000004 l       .data	00000000 num2nd
+00000000         *UND*	00000000 choose
+00000000 g       .text	00000000 _start
+00000020 g       .text	00000000 myprint
+
+
