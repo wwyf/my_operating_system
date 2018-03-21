@@ -122,6 +122,7 @@ A20地址线：修改了寻址空间
 ## 对C函数调用约定的了解TODO:
 https://en.wikipedia.org/wiki/X86_calling_conventions 
 http://blog.csdn.net/zsjum/article/details/6117043 加深对esp，ebp的理解
+https://zh.wikipedia.org/wiki/X86%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A
 
 来自wiki的理解：cdecl（C declaration）是一种来源于C语言的函数调用约定，被大多数基于X86架构的C编译器使用。
 
@@ -132,7 +133,7 @@ http://blog.csdn.net/zsjum/article/details/6117043 加深对esp，ebp的理解
     1. EBP寄存器存放了一个地址
         1. 该地址往高依次是返回地址EIP，然后是第一个参数，第二个参数。。。。
         1. 该地址往低的话是被调用者自己申请的栈空间，包括自己的局部变量等。
-    1. 注意这里都是32位的！
+    1. 注意这里都是32位的！低于32位的参数提升至32位，补0，高于32位的
     1. 被调用者将返回值放在EAX中
     1. 被调用者需要回复旧的帧栈，将之前放进栈中的ebp恢复回来。
 1. 调用完被调用者之后，bp，sp是不会变的，bx也是不会变的
