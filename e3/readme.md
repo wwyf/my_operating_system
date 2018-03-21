@@ -150,3 +150,56 @@ https://wiki.osdev.org/X86-64_Instruction_Encoding
 其实还有另一个办法，如果nasm有办法将call指令和ret指令都加上前缀66,让这些指令显式地变成32位指令。有办法！
 其实简单说来，就是要让我的汇编符合gcc的规范。
 
+使用了nasm的宏指令，将ret指令前面手动加上0x66，修改为32位的指令。
+
+## 弄清楚ld干了什么事情
+一个问题，连接生成的二进制文件可能不能控制它的数据段的位置（比如我明明代码只有100多字节，连接器非要把数据段放到两千多字节）
+解决方法，linker script 已实验成功，手动修改输出的二进制文件各个段的位置
+
+https://blog.louie.lu/2016/11/06/10%E5%88%86%E9%90%98%E8%AE%80%E6%87%82-linker-scripts/
+
+linker script ！！！
+
+https://github.com/SeanXP/ARM-Tiny6410/blob/master/doc/lds/Linux%E4%B8%8B%E7%9A%84lds%E9%93%BE%E6%8E%A5%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80.pdf
+
+```
+SECTIONS
+{
+    . = 0x10000;
+    .text :
+    {
+        *(.text)
+    }
+    . = 0x10500;
+    .data :
+    {
+        *(.data)
+    }
+    .bss :
+    {
+        *(.bss)
+    }
+}
+```
+
+然后在ld里面加上-T指令就可以使用自己的连接脚本来进行连接了。
+
+
+## 问题：程序运行时，段寄存器和栈的环境是怎样的。
+
+我的程序在运行的时候，会把cs，ss变成程序首指令地址，然后再初始化sp为0x400，进入用户程序之后，看看gcc是如何处理我的栈段的。
+
+```asm
+lea    0x4(%esp),%ecx ; esp+4， 给 ecx
+and    $0xfffffff0,%esp ; 低四位置0，做的应该是栈的16字节对齐吧。不是必要的
+pushl  -0x4(%ecx) ; 
+push   %ebp
+mov    %esp,%ebp
+push   %ecx
+sub    $0x14,%esp  ; 应该是为了程序中的某些局部变量申请空间
+sub    $0x8,%esp
+;后面就是我的用户程序了。
+```
+
+https://stackoverflow.com/questions/4228261/understanding-the-purpose-of-some-assembly-statements
+这个问题的回答很详细。

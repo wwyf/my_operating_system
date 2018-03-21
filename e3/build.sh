@@ -12,11 +12,12 @@ nasm.exe -f bin my_user_program_t.asm -l my_user_program_t.list -o my_user_progr
 # ld -s -m elf_i386 -o my_user_program_t.bin  my_user_program_t_asm.o my_user_program_t_c.o || { echo "link failed"; exit 1; }
 gcc -c -m16 -o c.o t.c || { echo "nasm complied failed"; exit 1; }
 nasm -f elf32 -o asm.o t.asm || { echo "nasm complied failed"; exit 1; }
-ld -o test.bin -Ttext 0x10000 -m elf_i386 --oformat binary c.o asm.o || { echo "nasm complied failed"; exit 1; }
+# ld -o test.bin -Ttext 0x10000 -m elf_i386 --oformat binary c.o asm.o t.lds || { echo "nasm complied failed"; exit 1; }
+ld -o test.bin -Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary c.o asm.o  || { echo "nasm complied failed"; exit 1; }
 # objdmp -D test.bin -m i8086 -b binary > test.objdump
 # objcopy -R .note -R .comment -R .eh_frame -S test test.bin
 
-dd if=/dev/zero of=a.img ibs=512 count=100 conv=notrunc
+dd if=/dev/zero of=a.img ibs=512 count=150 conv=notrunc
 dd if=my_mbr.bin of=a.img ibs=512 count=1 conv=notrunc
 dd if=my_core.bin of=a.img ibs=512 count=10 conv=notrunc seek=1
 dd if=my_user_program_1.bin of=a.img ibs=512 count=10 conv=notrunc seek=18
