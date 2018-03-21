@@ -35,7 +35,7 @@ log: bochsout.txt
 mouse: enabled=0
 
 # set up IPS value and clock sync
-cpu: ips=20000000
+cpu: ips=15000000
 clock: sync=both
 
 # enable key mapping, using US layout as default.

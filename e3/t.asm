@@ -5,6 +5,10 @@ global display_message
 
 extern message
 ; extern user_messageLength
+%macro retl 0
+    db 0x66
+    ret
+%endmacro
 
 bits 16
 section .data
@@ -16,6 +20,7 @@ display_char:
     mov es, ax
     mov ecx, [esp+4] ; 1 argument
     mov [es:0x00], cx
+    db 0x66
     ret
 return_point:
     mov ah, 01h
@@ -38,8 +43,9 @@ display_string:
 	mov dl, 1 		 ; 列号=0
 	mov dh, 2		       ; 行号=0
 	mov ecx, [esp+8] ; CX = 串长（=9）
-	mov ebp, [esp+4 ]		 ; es:BP=当前串的偏移地址
+	mov ebp, [esp+4]		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
+    db 0x66
     ret
 display_message:
     mov ax, cs
@@ -51,4 +57,5 @@ display_message:
 	mov ecx, [esp+4] ; CX = 串长（=9）
 	mov ebp, message		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
+    db 0x66
     ret
