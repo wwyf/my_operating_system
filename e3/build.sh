@@ -12,7 +12,7 @@ nasm.exe -f bin my_user_program_t.asm -l my_user_program_t.list -o my_user_progr
 # ld -s -m elf_i386 -o my_user_program_t.bin  my_user_program_t_asm.o my_user_program_t_c.o || { echo "link failed"; exit 1; }
 gcc -c -m16 -o c.o t.c || { echo "nasm complied failed"; exit 1; }
 nasm -f elf32 -o asm.o t.asm || { echo "nasm complied failed"; exit 1; }
-ld -o test.bin -Ttext 0x10000 -m elf_i386 -e main --oformat binary c.o asm.o || { echo "nasm complied failed"; exit 1; }
+ld -o test.bin -Ttext 0x10000 -m elf_i386 --oformat binary c.o asm.o || { echo "nasm complied failed"; exit 1; }
 # objdmp -D test.bin -m i8086 -b binary > test.objdump
 # objcopy -R .note -R .comment -R .eh_frame -S test test.bin
 
@@ -48,6 +48,6 @@ d)
 esac
 
 rm *.o
-rm *.bin
+# rm *.bin
 rm *.list
 rm bochsout.txt

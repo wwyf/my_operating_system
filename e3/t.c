@@ -12,8 +12,8 @@ int main(){
     // int a = 6;
     display_char('@');
     for(int i = 0;i <= 1000000;i++);
-    display_string(message,a);// 调用函数的时候，会将cs和ip（32位）的push进栈中，
-    // display_message(a);
+    // display_string(message,a);// 调用函数的时候，会将cs和ip（32位）的push进栈中，
+    display_message(a);
     return_point();
     return 0;
 }

@@ -15,7 +15,7 @@ Disassembly of section .data:
       1a:	66 83 ec 08          	sub    $0x8,%esp
       1e:	66 6a 04             	pushl  $0x4
       21:	66 6a 03             	pushl  $0x3
-      24:	66 e8 69 00 00 00    	calll  0x93
+      24:	66 e8 63 00 00 00    	calll  0x8d
       2a:	66 83 c4 10          	add    $0x10,%esp
       2e:	67 66 89 45 f4       	mov    %eax,-0xc(%ebp)
       33:	66 83 ec 0c          	sub    $0xc,%esp
@@ -29,24 +29,26 @@ Disassembly of section .data:
       55:	67 66 81 7d f0 40 42 	cmpl   $0xf4240,-0x10(%ebp)
       5c:	0f 00 
       5e:	7e ef                	jle    0x4f
-      60:	66 83 ec 08          	sub    $0x8,%esp
+      60:	66 83 ec 0c          	sub    $0xc,%esp
       64:	67 66 ff 75 f4       	pushl  -0xc(%ebp)
-      69:	66 68 74 11 01 00    	pushl  $0x11174
-      6f:	66 e8 5d 00 00 00    	calll  0xd2
-      75:	66 83 c4 10          	add    $0x10,%esp
-      79:	66 e8 43 00 00 00    	calll  0xc2
-      7f:	66 b8 00 00 00 00    	mov    $0x0,%eax
-      85:	67 66 8b 4d fc       	mov    -0x4(%ebp),%ecx
-      8a:	66 c9                	leavel 
-      8c:	67 66 8d 61 fc       	lea    -0x4(%ecx),%esp
-      91:	66 c3                	retl   
-      93:	66 55                	push   %ebp
-      95:	66 89 e5             	mov    %esp,%ebp
-      98:	67 66 8b 55 08       	mov    0x8(%ebp),%edx
-      9d:	67 66 8b 45 0c       	mov    0xc(%ebp),%eax
-      a2:	66 01 d0             	add    %edx,%eax
-      a5:	66 5d                	pop    %ebp
-      a7:	66 c3                	retl   
+      69:	66 e8 81 00 00 00    	calll  0xf0
+      6f:	66 83 c4 10          	add    $0x10,%esp
+      73:	66 e8 49 00 00 00    	calll  0xc2
+      79:	66 b8 00 00 00 00    	mov    $0x0,%eax
+      7f:	67 66 8b 4d fc       	mov    -0x4(%ebp),%ecx
+      84:	66 c9                	leavel 
+      86:	67 66 8d 61 fc       	lea    -0x4(%ecx),%esp
+      8b:	66 c3                	retl   
+      8d:	66 55                	push   %ebp
+      8f:	66 89 e5             	mov    %esp,%ebp
+      92:	67 66 8b 55 08       	mov    0x8(%ebp),%edx
+      97:	67 66 8b 45 0c       	mov    0xc(%ebp),%eax
+      9c:	66 01 d0             	add    %edx,%eax
+      9f:	66 5d                	pop    %ebp
+      a1:	66 c3                	retl   
+      a3:	66 90                	xchg   %eax,%eax
+      a5:	66 90                	xchg   %eax,%eax
+      a7:	66 90                	xchg   %eax,%eax
       a9:	66 90                	xchg   %eax,%eax
       ab:	66 90                	xchg   %eax,%eax
       ad:	66 90                	xchg   %eax,%eax
@@ -103,7 +105,7 @@ Disassembly of section .data:
      12f:	00 d0                	add    %dl,%al
      131:	fe                   	(bad)  
      132:	ff                   	(bad)  
-     133:	ff 93 00 00          	call   *0x0(%bp,%di)
+     133:	ff 8d 00 00          	decw   0x0(%di)
      137:	00 00                	add    %al,(%bx,%si)
      139:	46                   	inc    %si
      13a:	0c 01                	or     $0x1,%al
@@ -112,7 +114,7 @@ Disassembly of section .data:
      142:	00 45 0f             	add    %al,0xf(%di)
      145:	03 75 7c             	add    0x7c(%di),%si
      148:	06                   	push   %es
-     149:	02 74 0c             	add    0xc(%si),%dh
+     149:	02 6e 0c             	add    0xc(%bp),%ch
      14c:	01 00                	add    %ax,(%bx,%si)
      14e:	42                   	inc    %dx
      14f:	c5 45 0c             	lds    0xc(%di),%ax
@@ -121,7 +123,7 @@ Disassembly of section .data:
      156:	00 00                	add    %al,(%bx,%si)
      158:	48                   	dec    %ax
      159:	00 00                	add    %al,(%bx,%si)
-     15b:	00 37                	add    %dh,(%bx)
+     15b:	00 31                	add    %dh,(%bx,%di)
      15d:	ff                   	(bad)  
      15e:	ff                   	(bad)  
      15f:	ff 16 00 00          	call   *0x0
