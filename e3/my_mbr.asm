@@ -4,13 +4,13 @@
 section my_mbr vstart=0x7c00
 
 Start:
-	mov ax, cs	       ; 置其他段寄存器值与CS相同
+	mov eax, cs	       ; 置其他段寄存器值与CS相同
 	mov ds, ax	       ; 数据段
 	mov es, ax		 ; 置ES=DS
     ; 显示字符串
     ; 此时es 就是0，与cs相同
-	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
-	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
+	mov eax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
+	mov ebx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
 	mov dl, 0			 ; 列号=0
 	mov dh, 0		       ; 行号=0
 	mov cx, MessageLength  ; CX = 串长（=9）
@@ -18,7 +18,7 @@ Start:
 	int 10h			 ; BIOS的10h功能：显示一行字符
 LoadnEx:
      ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
-	mov ax,core_header_data_segment                ;段地址 ; 存放数据的内存基地址
+	mov eax,core_header_data_segment                ;段地址 ; 存放数据的内存基地址
 	mov es,ax                ;设置段地址（不能直接mov es,段地址）
 	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
 	mov ah,2                 ; 功能号

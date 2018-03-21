@@ -1,0 +1,98 @@
+
+my_user_program_t_c.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <choose>:
+   0:	66 55                	push   %ebp
+   2:	66 89 e5             	mov    %esp,%ebp
+   5:	66 83 ec 08          	sub    $0x8,%esp
+   9:	67 66 8b 45 08       	mov    0x8(%ebp),%eax
+   e:	67 66 3b 45 0c       	cmp    0xc(%ebp),%eax
+  13:	7c 19                	jl     2e <choose+0x2e>
+  15:	66 83 ec 08          	sub    $0x8,%esp
+  19:	66 6a 0d             	pushl  $0xd
+  1c:	66 68 00 00 00 00    	pushl  $0x0
+  22:	66 e8 fc ff ff ff    	calll  24 <choose+0x24>
+  28:	66 83 c4 10          	add    $0x10,%esp
+  2c:	eb 17                	jmp    45 <choose+0x45>
+  2e:	66 83 ec 08          	sub    $0x8,%esp
+  32:	66 6a 0d             	pushl  $0xd
+  35:	66 68 0e 00 00 00    	pushl  $0xe
+  3b:	66 e8 fc ff ff ff    	calll  3d <choose+0x3d>
+  41:	66 83 c4 10          	add    $0x10,%esp
+  45:	66 b8 00 00 00 00    	mov    $0x0,%eax
+  4b:	66 c9                	leavel 
+  4d:	66 c3                	retl   
+
+Disassembly of section .rodata:
+
+00000000 <.rodata>:
+   0:	74 68                	je     6a <choose+0x6a>
+   2:	65 20 31             	and    %dh,%gs:(%bx,%di)
+   5:	73 74                	jae    7b <choose+0x7b>
+   7:	20 6f 6e             	and    %ch,0x6e(%bx)
+   a:	65 20 0a             	and    %cl,%gs:(%bp,%si)
+   d:	00 74 68             	add    %dh,0x68(%si)
+  10:	65 20 32             	and    %dh,%gs:(%bp,%si)
+  13:	6e                   	outsb  %ds:(%si),(%dx)
+  14:	64 20 6f 6e          	and    %ch,%fs:0x6e(%bx)
+  18:	65 20 0a             	and    %cl,%gs:(%bp,%si)
+	...
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	00 47 43             	add    %al,0x43(%bx)
+   3:	43                   	inc    %bx
+   4:	3a 20                	cmp    (%bx,%si),%ah
+   6:	28 55 62             	sub    %dl,0x62(%di)
+   9:	75 6e                	jne    79 <choose+0x79>
+   b:	74 75                	je     82 <choose+0x82>
+   d:	20 35                	and    %dh,(%di)
+   f:	2e 34 2e             	cs xor $0x2e,%al
+  12:	30 2d                	xor    %ch,(%di)
+  14:	36 75 62             	ss jne 79 <choose+0x79>
+  17:	75 6e                	jne    87 <choose+0x87>
+  19:	74 75                	je     90 <choose+0x90>
+  1b:	31 7e 31             	xor    %di,0x31(%bp)
+  1e:	36 2e 30 34          	ss xor %dh,%cs:(%si)
+  22:	2e 39 29             	cmp    %bp,%cs:(%bx,%di)
+  25:	20 35                	and    %dh,(%di)
+  27:	2e 34 2e             	cs xor $0x2e,%al
+  2a:	30 20                	xor    %ah,(%bx,%si)
+  2c:	32 30                	xor    (%bx,%si),%dh
+  2e:	31 36 30 36          	xor    %si,0x3630
+  32:	30 39                	xor    %bh,(%bx,%di)
+	...
+
+Disassembly of section .eh_frame:
+
+00000000 <.eh_frame>:
+   0:	14 00                	adc    $0x0,%al
+   2:	00 00                	add    %al,(%bx,%si)
+   4:	00 00                	add    %al,(%bx,%si)
+   6:	00 00                	add    %al,(%bx,%si)
+   8:	01 7a 52             	add    %di,0x52(%bp,%si)
+   b:	00 01                	add    %al,(%bx,%di)
+   d:	7c 08                	jl     17 <.eh_frame+0x17>
+   f:	01 1b                	add    %bx,(%bp,%di)
+  11:	0c 04                	or     $0x4,%al
+  13:	04 88                	add    $0x88,%al
+  15:	01 00                	add    %ax,(%bx,%si)
+  17:	00 1c                	add    %bl,(%si)
+  19:	00 00                	add    %al,(%bx,%si)
+  1b:	00 1c                	add    %bl,(%si)
+  1d:	00 00                	add    %al,(%bx,%si)
+  1f:	00 00                	add    %al,(%bx,%si)
+  21:	00 00                	add    %al,(%bx,%si)
+  23:	00 4f 00             	add    %cl,0x0(%bx)
+  26:	00 00                	add    %al,(%bx,%si)
+  28:	00 42 0e             	add    %al,0xe(%bp,%si)
+  2b:	08 85 02 43          	or     %al,0x4302(%di)
+  2f:	0d 05 02             	or     $0x205,%ax
+  32:	48                   	dec    %ax
+  33:	c5 0c                	lds    (%si),%cx
+  35:	04 04                	add    $0x4,%al
+	...

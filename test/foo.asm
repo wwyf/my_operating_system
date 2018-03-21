@@ -1,5 +1,5 @@
 extern choose
-
+[bits 16]
 [section .data]
 
 num1st dd 3
