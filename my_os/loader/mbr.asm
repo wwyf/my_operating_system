@@ -1,6 +1,6 @@
 ;程序源代码（myos1.asm）
 ; org  7c00h		; BIOS将把引导扇区加载到0:7C00h处，并开始执行
-%include "macro.inc"
+%include "../include/macro.inc"
 section my_mbr vstart=0x7c00
 
 Start:
@@ -34,6 +34,7 @@ redirect:
 	jmp my_core_header_address
 Message:
 	db 'Hello, MyOs is loading system core.'
+
 MessageLength  equ ($-Message)
 times 510-($-$$) db 0
 db 0x55,0xaa
