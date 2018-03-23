@@ -128,17 +128,17 @@ display_message:
 ## gcc 参数设置
 摘自gcc 文档
 
->These ‘-m’ switches are supported in addition to the above on x86-64 processors in 64-bit environments.
--m32
--m64
--mx32
--m16
--miamcu
-Generate code for a 16-bit, 32-bit or 64-bit environment. The -m32 option sets int, long, and pointer types to 32 bits, and generates code that runs on any i386 system.
-The -m64 option sets int to 32 bits and long and pointer types to 64 bits, and generates code for the x86-64 architecture. For Darwin only the -m64 option also turns off the -fno-pic and -mdynamic-no-pic options.
-The -mx32 option sets int, long, and pointer types to 32 bits, and generates code for the x86-64 architecture.
-The -m16 option is the same as -m32, except for that it outputs the .code16gcc assembly directive at the beginning of the assembly output so that the binary can run in 16-bit mode.
-The -miamcu option generates code which conforms to Intel MCU psABI. It requires the -m32 option to be turned on.
+>These ‘-m’ switches are supported in addition to the above on x86-64 processors in 64-bit environments.   
+-m32  
+-m64  
+-mx32  
+-m16  
+-miamcu  
+>Generate code for a 16-bit, 32-bit or 64-bit environment. The -m32 option sets int, long, and pointer types to 32 bits, and generates code that runs on any i386 system.   
+> The -m64 option sets int to 32 bits and long and pointer types to 64 bits, and generates code for the x86-64 architecture. For Darwin only the -m64 option also turns off the -fno-pic and -mdynamic-no-pic options.   
+> The -mx32 option sets int, long, and pointer types to 32 bits, and generates code for the x86-64 architecture.   
+>The -m16 option is the same as -m32, except for that it outputs the .code16gcc assembly directive at the beginning of the assembly output so that the binary can run in 16-bit mode.   
+>The -miamcu option generates code which conforms to Intel MCU psABI. It requires the -m32 option to be turned on.
 
 
 ## 疑问？
