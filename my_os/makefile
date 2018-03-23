@@ -12,13 +12,13 @@ $(loader)/mbr.bin :
 	cd loader && make
 	cd ..
 
-bar:
-	
-
 runq:
 	qemu-system-i386.exe -fda a.img
 debug:
 	bochsdbg.exe -q
+bar:
+	make all
+	make runq
 
 .PHONY : clean
 clean :

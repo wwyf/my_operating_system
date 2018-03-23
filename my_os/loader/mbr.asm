@@ -4,21 +4,20 @@
 section my_mbr vstart=0x7c00
 
 Start:
-
-
-# Clear screen 
-	mov	ax, 0x0600   # %ah=6, %al=0 
-	mov	bx, 0x0700   # Black white 
-	mov	cx, 0        # Top left: (0,0) 
-	mov	dx, 0x184f,   # Bottom right: (80,50) 
-	int	10h         # BIOS int 10h, ah=6: Initialize screen 
-
-
-	mov eax, cs	       ; 置其他段寄存器值与CS相同
+	mov ax, cs	       ; 置其他段寄存器值与CS相同
 	mov ds, ax	       ; 数据段
 	mov es, ax		 ; 置ES=DS
-    ; 显示字符串
     ; 此时es 就是0，与cs相同
+;------------------------------------------
+; 清屏
+	mov	ax, 0600h  ; ah=6, al=0
+	mov	bx, 0700h  ; Black white
+	mov	cx, 0      ;  Top left: (0,0)
+	mov	dx, 184fh  ; Bottom right: (79,24)
+	int	10h        ; BIOS int 10h, ah=6: Initialize screen
+
+;-----------------------------------------------
+; 显示字符串
 	mov eax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
 	mov ebx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
 	mov dl, 0			 ; 列号=0
