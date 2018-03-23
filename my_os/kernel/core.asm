@@ -2,7 +2,7 @@
 ; 在mbr中已经写好了内核在软盘和在内存中的位置
 ; 软盘第2-5个扇区中
 ; 加载到内存 0x1000处
-%include "macro.inc"
+%include "include/macro.inc"
 section my_core_header vstart=0
 
 ; 重定向段表

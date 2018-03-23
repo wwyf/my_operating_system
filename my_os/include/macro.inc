@@ -1,4 +1,7 @@
-my_core_header_address equ 1000h
+kernel_code_segment equ 0x1000
+kernel_code_entry equ 0x0000
+
+
 core_header_data_segment equ 0100h
 core_code_entry_header_offset equ 0x2A
 core_code_segment_header_offset equ 0x2C

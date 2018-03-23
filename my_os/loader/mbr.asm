@@ -31,7 +31,9 @@ LoadnEx:
 	; 系统内核已加载到指定内存区域中
 ; 转入系统内核
 redirect:
-	jmp my_core_header_address
+	jmp $
+	jmp kernel_code_segment:kernel_code_entry
+	; jmp 1000:0000
 Message:
 	db 'Hello, MyOs is loading system core.'
 
