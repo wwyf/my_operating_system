@@ -4,6 +4,16 @@
 section my_mbr vstart=0x7c00
 
 Start:
+
+
+# Clear screen 
+	mov	ax, 0x0600   # %ah=6, %al=0 
+	mov	bx, 0x0700   # Black white 
+	mov	cx, 0        # Top left: (0,0) 
+	mov	dx, 0x184f,   # Bottom right: (80,50) 
+	int	10h         # BIOS int 10h, ah=6: Initialize screen 
+
+
 	mov eax, cs	       ; 置其他段寄存器值与CS相同
 	mov ds, ax	       ; 数据段
 	mov es, ax		 ; 置ES=DS
@@ -34,6 +44,7 @@ redirect:
 	jmp $
 	jmp kernel_code_segment:kernel_code_entry
 	; jmp 1000:0000
+
 Message:
 	db 'Hello, MyOs is loading system core.'
 

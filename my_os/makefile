@@ -12,6 +12,9 @@ $(loader)/mbr.bin :
 	cd loader && make
 	cd ..
 
+bar:
+	
+
 runq:
 	qemu-system-i386.exe -fda a.img
 debug:
