@@ -1,5 +1,5 @@
-# 生成loader.bin 加载器，将系统内核加载并转交控制权
-objects = loader
+# 生成boot.bin 引导器，将加载器加载并转交控制权
+objects = boot
 include = ../include
 
 all : $(objects).bin

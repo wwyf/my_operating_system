@@ -1,4 +1,4 @@
-%include "macro.inc"
+%include "../include/macro.inc"
 section my_user1_program_header vstart=0x10000
     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
