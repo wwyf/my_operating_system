@@ -1,5 +1,5 @@
-%include "macro.inc"
-section my_user3_program_header vstart=0x10000
+%include "../include/macro.inc"
+section my_user2_program_header vstart=0x50000
     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
 start:
@@ -13,15 +13,15 @@ start:
 
 	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
 	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
-	mov dl, 2 		 ; 列号=0
-	mov dh, 3		       ; 行号=0
-	mov cx, user3_MessageLength  ; CX = 串长（=9）
-	mov bp, user3_Message		 ; es:BP=当前串的偏移地址
+	mov dl, 40 		 ; 列号=0
+	mov dh, 23		       ; 行号=0
+	mov cx, user2_MessageLength  ; CX = 串长（=9）
+	mov bp, user2_Message		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
 
-user3_Message:
+user2_Message:
     db 'Enter q to return system menu!                                                 '
-user3_MessageLength equ ($-user3_Message)
+user2_MessageLength equ ($-user2_Message)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 loop1:
@@ -60,10 +60,10 @@ clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字
 	mov [gs:bx],ax  		;  显示字符的ASCII码值
 
 check_x:
-    mov ax, user3_bound_x_up
+    mov ax, user2_bound_x_up
     cmp word [x], ax
     jz toggle_x_direct
-    mov ax, user3_bound_x_down
+    mov ax, user2_bound_x_down
     cmp word [x], ax
     jz toggle_x_direct
     jmp check_y
@@ -72,10 +72,10 @@ toggle_x_direct:
     sub ax, word [x_direct]
     mov word [x_direct], ax
 check_y:
-    mov ax, user3_bound_y_left
+    mov ax, user2_bound_y_left
     cmp word [y], ax
     jz toggle_y_direct
-    mov ax, user3_bound_y_right
+    mov ax, user2_bound_y_right
     cmp word [y], ax
     jz toggle_y_direct
     jmp char_move
@@ -141,9 +141,9 @@ end:
 datadef:	
     count dw delay
     dcount dw ddelay
-    x    dw user3_bound_x_up+1
+    x    dw user2_bound_x_up+1
     x_direct dw 1
-    y    dw user3_bound_y_left+1
+    y    dw user2_bound_y_left+1
     y_direct dw 1
     char db 2
 

@@ -1,16 +1,18 @@
-loader_code_segment equ 0x0800
-loader_code_entry equ 0x0000
-kernel_code_segment equ 0x1000
-kernel_code_entry equ 0x0000
+loader_code_segment equ 0800h
+loader_code_entry equ 0000h
+kernel_code_segment equ 1000h
+kernel_code_entry equ 0000h
 
+core_header_data_segment equ 1000h
 
-core_header_data_segment equ 0100h
 core_code_entry_header_offset equ 0x2A
 core_code_segment_header_offset equ 0x2C
 core_data_segment_header_offset equ 0x2E
 core_stack_segment_header_offset equ 0x30
+
 core_stack_length equ 256
 core_entry_header_offset equ 0x32
+
 user1_program_address equ 0x2000
 user2_program_address equ 0x3000
 user3_program_address equ 0x4000
