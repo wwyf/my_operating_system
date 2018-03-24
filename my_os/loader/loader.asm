@@ -1,150 +1,85 @@
 %include "../include/macro.inc"
-section my_user1_program_header vstart=0x10000
-    delay equ 50000					; 计时器延迟计数,用于控制画框的速度
-    ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
+%include "../include/pm.inc"
+section LOADER_ENTRY vstart=0x10000
 start:
-	;xor ax,ax					; AX = 0   程序加载到0000：100h才能正确执行
-    mov ax,cs
-	mov ds,ax					; DS = CS
-	mov es,ax					; ES = CS
-	mov ax,0B800h				; 文本窗口显存起始地址
-	mov gs,ax					; GS = B800h
-	call clean_screen
+[BITS	16]
+	; 初始化段寄存器，此时cs为0x1000， 并且分配0x100的栈空间
+	mov	ax, cs
+	mov	ds, ax
+	mov	es, ax
+	mov	ss, ax
+	mov	sp, 0100h
 
-	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
-	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
-	mov dl, 2 		 ; 列号=0
-	mov dh, 23		       ; 行号=0
-	mov cx, user1_MessageLength  ; CX = 串长（=9）
-	mov bp, user1_Message		 ; es:BP=当前串的偏移地址
-	int 10h			 ; BIOS的10h功能：显示一行字符
+	; ; 初始化 32 位代码段描述符
+	xor	eax, eax 
+	mov	ax, cs
+	shl	eax, 4
+	add	eax, LABEL_SEG_CODE32
+	mov	word [LABEL_DESC_CODE32 + 2], ax
+	shr	eax, 16
+	mov	byte [LABEL_DESC_CODE32 + 4], al
+	mov	byte [LABEL_DESC_CODE32 + 7], ah
 
-user1_Message:
-    db 'Enter q to return system menu!                                                 '
-user1_MessageLength equ ($-user1_Message)
+	; 为加载 GDTR 作准备, 将0x1000写到
+	xor	eax, eax
+	mov	ax, ds
+	shl	eax, 4
+	add	eax, LABEL_GDT		; eax <- gdt 基地址
+	mov	dword [GdtPtr + 2], eax	; [GdtPtr + 2] <- gdt 基地址
+	; 搞清楚了，gdt界限占用两个字节，因此加个2就到基址部分了。
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-loop1:
-	dec word[count]			; 递减计数变量
-	jnz loop1					; >0：跳转;
-	mov word[count],delay
-	dec word[dcount]			; 递减计数变量
-      jnz loop1
-	mov word[count],delay
-	mov word[dcount],ddelay
+	; 加载 GDTR
+	lgdt	[GdtPtr]
 
-check_keyboard:
-    mov ah, 01h
-    int 16h
-    ; 不断查询键盘缓冲区的状况
-    ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
-    jz clean_current_char
-    ; 有字符输入,从al中读取键盘输入
-    mov ah, 00h
-    int 16h
+	; 关中断
+	cli
 
-    cmp al, 'q' ; 如果键入q则退出
-    jnz check_keyboard
-	int 40h
-clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
-      xor ax,ax                 ; 计算显存地址
-      mov ax,word[x]
-	mov bx,80
-	mul bx
-	add ax,word[y]
-	mov bx,2
-	mul bx
-	mov bx,ax
-	mov ah,07h				
-	mov al,20h		
-	mov [gs:bx],ax  		;  显示字符的ASCII码值
+	; 打开地址线A20
+	in	al, 92h
+	or	al, 00000010b
+	out	92h, al
 
-check_x:
-    mov ax, user1_bound_x_up
-    cmp word [x], ax
-    jz toggle_x_direct
-    mov ax, user1_bound_x_down
-    cmp word [x], ax
-    jz toggle_x_direct
-    jmp check_y
-toggle_x_direct:
-    mov ax, 0
-    sub ax, word [x_direct]
-    mov word [x_direct], ax
-check_y:
-    mov ax, user1_bound_y_left
-    cmp word [y], ax
-    jz toggle_y_direct
-    mov ax, user1_bound_y_right
-    cmp word [y], ax
-    jz toggle_y_direct
-    jmp char_move
-toggle_y_direct:    
-    mov ax, 0
-    sub ax, word [y_direct]
-    mov word [y_direct], ax
+	; 准备切换到保护模式
+	mov	eax, cr0
+	or	eax, 1
+	mov	cr0, eax
 
-char_move:
-    mov ax, word [x_direct]
-    add word [x], ax
-    mov ax, word [y_direct]
-    add word [y], ax
-show:	
-    xor ax,ax                 ; 计算显存地址
-    mov ax,word[x]
-	mov bx,80
-	mul bx
-	add ax,word[y]
-	mov bx,2
-	mul bx
-	mov bx,ax
-	mov ah,bh				;  0000：黑底、1111：亮白字（默认值为07h）
-	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
-	mov [gs:bx],ax  		;  显示字符的ASCII码值
-	jmp loop1
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; 清屏函数
-; 被调用函数不保存任何寄存器,需要改进	
-clean_screen:
-	; 存放寄存器
-	push ax
-	push cx
-	push si
-	push es
-	; 设置段寄存器
-	mov ax, 0xB800
-	mov es, ax
-	mov cx, 2000
-	mov si, 0
-clean_screen_loop:
-	mov byte [es:si], 20h
-	inc si
-	mov byte [es:si], 07h
-	inc si
-	loop clean_screen_loop
-clean_screen_exit:
+	; 真正进入保护模式
+	; 此处为16位保护模式，为了保证能够修改32位的eip，必须使用dword
+	jmp	dword SelectorCode32:0
 
-    mov ax, 0b800h
-    mov es, ax
-    mov ax, 0702h
-    mov [es:0x00], ax
 
-	pop es
-	pop si
-	pop cx
-	pop ax
-	ret
+[BITS	32]
 
-end:
-    jmp $                   ; 停止画框，无限循环 
+LABEL_SEG_CODE32:
+	mov	ax, SelectorVideo
+	mov	gs, ax			; 视频段选择子(目的)
 
-datadef:	
-    count dw delay
-    dcount dw ddelay
-    ; rdul db Dn_Rt         ; 向右下运动
-    x_direct    dw 1
-    x dw user1_bound_x_up+1
-    y_direct    dw 1
-    y dw user1_bound_y_left+1
-    char db 2
+	mov	edi, (80 * 11 + 79) * 2	; 屏幕第 11 行, 第 79 列。
+	mov	ah, 0Ch			; 0000: 黑底    1100: 红字
+	mov	al, 'P'
+	mov	[gs:edi], ax
 
+	
+
+
+
+SegCode32Len	equ	$ - LABEL_SEG_CODE32
+; END of [SECTION .s32]
+
+
+;                              段基址,       段界限     , 属性
+LABEL_GDT:   	   Descriptor       0,               0, 0           ; 空描述符
+LABEL_DESC_CODE32: Descriptor 0,10000h, DA_C + DA_32; 非一致代码段
+LABEL_DESC_VIDEO:  Descriptor 0B8000h,          0ffffh, DA_DRW	    
+; 显存首地址, 仍然是16位的，因此就不加上DA_32
+
+; GDT 段表信息
+GdtLen		equ	$ - LABEL_GDT	; GDT长度
+GdtPtr		dw	GdtLen - 1	; GDT界限
+			dd  0		; GDT基地址
+
+; GDT 选择子
+SelectorCode32		equ	LABEL_DESC_CODE32	- LABEL_GDT
+SelectorVideo		equ	LABEL_DESC_VIDEO	- LABEL_GDT
+; END of [SECTION .gdt]
