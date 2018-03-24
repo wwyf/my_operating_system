@@ -35,7 +35,7 @@ inkernel:
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov sp, 400h
+    mov sp, 2000h
 	jmp kernel_code_segment:kernel_code_entry
 Message:
 	db 'Hello, MyOs is loading system core.'

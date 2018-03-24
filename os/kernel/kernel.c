@@ -18,8 +18,8 @@ int main(){
     }
 
     set_cursor(80);
-    puti(2372342);
-    // puts("0123456789", 10);
+    // puti(2332442);
+    puts("0123456789", 10);
 
     // int a = get_cursor();
     // set_cursor(1000);
