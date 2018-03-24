@@ -33,8 +33,20 @@ u16 get_cursor(){
 
 void putc(char c){
     u16 cursor_index = get_cursor();
-    _put_char(c, cursor_index);
-    set_cursor(cursor_index+1);
+    u16 row = cursor_index / 80;
+    u16 col = cursor_index % 80;
+    switch (c) {
+        case '\n':
+            set_cursor((row+1)*80+col); // 回车，移到下一行
+            break;
+        case '\r':
+            set_cursor(row*80);    // 移到本行开头处
+            break;
+        default:
+            _put_char(c, cursor_index);
+            set_cursor(cursor_index+1);
+            break;
+    }
     return ;
 }
 
