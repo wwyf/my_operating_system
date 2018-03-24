@@ -16,7 +16,7 @@ void set_cursor(u16 cursor_index){
     write_port_byte(0x3d5, high_eight);// 将光标索引高八位写入端口
     write_port_byte(0x3d4,0x0f);// 指定索引寄存器为光标寄存器的低八位
     write_port_byte(0x3d5, low_eight);// 将光标索引低八位写入端口
-    return 0;
+    return ;
 }
 
 u16 get_cursor(){
@@ -35,5 +35,19 @@ void putc(char c){
     u16 cursor_index = get_cursor();
     _put_char(c, cursor_index);
     set_cursor(cursor_index+1);
+    return ;
+}
+
+void puti(u32 n){
+    int len = 0;
+    int num[10];
+    while (n != 0){
+        num[len] = n % 10;
+        n = n / 10;
+        len++;
+    }
+    for (int i = len-1; i >= 0; i--){
+        putc(num[i]+'0');
+    }
     return ;
 }

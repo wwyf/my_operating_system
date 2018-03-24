@@ -12,10 +12,13 @@ int main(){
     for (int i = 0; i < 2000; i++){
         putc(' ');
     }
-    set_cursor(1000);
-    for (int i = '0'; i <= 'z'; i++){
+    set_cursor(0);
+    for (char i = '0'; i <= 'z'; i++){
         putc(i);
     }
+
+    // set_cursor(0);
+    puti(2372342);
 
     // int a = get_cursor();
     // set_cursor(1000);
