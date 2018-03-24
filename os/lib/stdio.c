@@ -52,7 +52,7 @@ void putc(char c){
 
 void puti(u32 n){
     int len = 0;
-    int num[10];
+    int num[10];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
     while (n != 0){
         num[len] = n % 10;
         n = n / 10;
@@ -60,6 +60,15 @@ void puti(u32 n){
     }
     for (int i = len-1; i >= 0; i--){
         putc(num[i]+'0');
+    }
+    return ;
+}
+
+void puts(char * str, int size){
+    int i = 0;
+    while (i < size){
+        putc(str[i]);
+        i++;
     }
     return ;
 }

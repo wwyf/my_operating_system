@@ -20,9 +20,13 @@ u16 get_cursor();
 若光标已经处于屏幕末端最后一个字符，则进行滚屏 TODO:没有实现滚屏 */
 void putc(char c);
 
-/* 
+/* tested
 在光标处输出整数 */
 void puti(u32 n);
+
+/*
+在光标处输出字符串,字符串以0结尾 */
+void puts(char * str, int size);
 
 /* 格式化字符串，放到第一个参数所指的地址处,字符串后需加0 */
 // void sprintf(char * , char * format , ...);

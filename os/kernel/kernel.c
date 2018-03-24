@@ -17,8 +17,9 @@ int main(){
         putc(i);
     }
 
-    // set_cursor(0);
+    set_cursor(80);
     puti(2372342);
+    // puts("0123456789", 10);
 
     // int a = get_cursor();
     // set_cursor(1000);
