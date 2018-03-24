@@ -33,7 +33,7 @@ all:
 	make clean
 	make everthing
 	make runq
-	make clean
+	# make clean
 
 .PHONY : clean
 clean :
