@@ -37,3 +37,13 @@ user4_bound_x_up equ 13
 user4_bound_x_down equ 23
 user4_bound_y_left equ 40
 user4_bound_y_right equ 78 
+
+%macro retl 0
+    db 66h
+    ret
+%endmacro
+
+%macro calll 1
+    db 66h
+    call %1
+%endmacro

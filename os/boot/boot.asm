@@ -30,7 +30,12 @@ LoadnEx:
 	int 13H ;                调用读磁盘BIOS的13h功能
 	; 系统内核已加载到指定内存区域中
 ; 转入系统内核
-redirect:
+inkernel:
+    mov ax, 1000h
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov sp, 400h
 	jmp kernel_code_segment:kernel_code_entry
 Message:
 	db 'Hello, MyOs is loading system core.'
