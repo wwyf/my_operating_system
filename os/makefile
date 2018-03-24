@@ -39,6 +39,7 @@ all:
 
 .PHONY : clean
 clean :
+	-rm */*.o
 	-rm */*.bin
 	-rm */*.list
 	-rm */*.objdump
