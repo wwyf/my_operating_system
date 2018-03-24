@@ -70,7 +70,6 @@ LABEL_SEG_CODE32:
 	jmp $
 
 SegCode32Len	equ	$ - LABEL_SEG_CODE32
-; END of [SECTION .s32]
 
 ;##############################################################
 ; GDT  Table
