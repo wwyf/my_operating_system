@@ -31,7 +31,7 @@ u16 get_cursor(){
     return cursor_index;
 }
 
-void puts(char c){
+void putc(char c){
     u16 cursor_index = get_cursor();
     _put_char(c, cursor_index);
     set_cursor(cursor_index+1);

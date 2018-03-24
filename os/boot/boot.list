@@ -1,0 +1,101 @@
+     1                                  ;程序源代码（myos1.asm）
+     2                                  ; org  7c00h		; BIOS将把引导扇区加载到0:7C00h处，并开始执行
+     3                                  %include "../include/macro.inc"
+     4                              <1> loader_code_segment equ 0800h
+     5                              <1> loader_code_entry equ 0000h
+     6                              <1> kernel_code_segment equ 1000h
+     7                              <1> kernel_code_entry equ 0000h
+     8                              <1> 
+     9                              <1> core_header_data_segment equ 1000h
+    10                              <1> 
+    11                              <1> core_code_entry_header_offset equ 0x2A
+    12                              <1> core_code_segment_header_offset equ 0x2C
+    13                              <1> core_data_segment_header_offset equ 0x2E
+    14                              <1> core_stack_segment_header_offset equ 0x30
+    15                              <1> 
+    16                              <1> core_stack_length equ 256
+    17                              <1> core_entry_header_offset equ 0x32
+    18                              <1> 
+    19                              <1> user1_program_address equ 0x2000
+    20                              <1> user2_program_address equ 0x3000
+    21                              <1> user3_program_address equ 0x4000
+    22                              <1> user4_program_address equ 0x5000
+    23                              <1> 
+    24                              <1> user1_bound_x_up equ 1 
+    25                              <1> user1_bound_x_down equ 12
+    26                              <1> user1_bound_y_left equ 1
+    27                              <1> user1_bound_y_right equ 39 
+    28                              <1> 
+    29                              <1> user2_bound_x_up equ 1 
+    30                              <1> user2_bound_x_down equ 12
+    31                              <1> user2_bound_y_left equ 40
+    32                              <1> user2_bound_y_right equ 78 
+    33                              <1> 
+    34                              <1> user3_bound_x_up equ 13 
+    35                              <1> user3_bound_x_down equ 23
+    36                              <1> user3_bound_y_left equ 1
+    37                              <1> user3_bound_y_right equ 39
+    38                              <1> 
+    39                              <1> user4_bound_x_up equ 13 
+    40                              <1> user4_bound_x_down equ 23
+    41                              <1> user4_bound_y_left equ 40
+    42                              <1> user4_bound_y_right equ 78 
+    43                              <1> 
+    44                              <1> %macro retl 0
+    45                              <1>     db 66h
+    46                              <1>     ret
+    47                              <1> %endmacro
+    48                              <1> 
+    49                              <1> %macro calll 1
+    50                              <1>     db 66h
+    51                              <1>     call %1
+    52                              <1> %endmacro
+    53                                  section my_mbr vstart=0x7c00
+    54                                  
+    55                                  Start:
+    56 00000000 668CC8                  	mov eax, cs	       ; 置其他段寄存器值与CS相同
+    57 00000003 8ED8                    	mov ds, ax	       ; 数据段
+    58 00000005 8EC0                    	mov es, ax		 ; 置ES=DS
+    59                                      ; 显示字符串
+    60                                      ; 此时es 就是0，与cs相同
+    61 00000007 66B801130000            	mov eax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
+    62 0000000D 66BB07000000            	mov ebx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
+    63 00000013 B200                    	mov dl, 0			 ; 列号=0
+    64 00000015 B600                    	mov dh, 0		       ; 行号=0
+    65 00000017 B92300                  	mov cx, MessageLength  ; CX = 串长（=9）
+    66 0000001A BD[4600]                	mov bp, Message		 ; BP=当前串的偏移地址
+    67 0000001D CD10                    	int 10h			 ; BIOS的10h功能：显示一行字符
+    68                                  LoadnEx:
+    69                                       ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
+    70 0000001F B80010                  	mov ax,kernel_code_segment  ;段地址 ; 存放数据的内存基地址
+    71 00000022 8EC0                    	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+    72 00000024 BB0000                  	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
+    73 00000027 B402                    	mov ah,2                 ; 功能号
+    74 00000029 B012                    	mov al,18                 ;扇区数
+    75 0000002B B200                    	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
+    76 0000002D B600                    	mov dh,0                 ;磁头号 ; 起始编号为0
+    77 0000002F B501                    	mov ch,1                 ;柱面号 ; 起始编号为0
+    78 00000031 B101                    	mov cl,1                 ;起始扇区号 ; 起始编号为1
+    79 00000033 CD13                    	int 13H ;                调用读磁盘BIOS的13h功能
+    80                                  	; 系统内核已加载到指定内存区域中
+    81                                  ; 转入系统内核
+    82                                  inkernel:
+    83 00000035 B80010                      mov ax, 1000h
+    84 00000038 8ED8                        mov ds, ax
+    85 0000003A 8EC0                        mov es, ax
+    86 0000003C 8ED0                        mov ss, ax
+    87 0000003E BC0004                      mov sp, 400h
+    88 00000041 EA00000010              	jmp kernel_code_segment:kernel_code_entry
+    89                                  Message:
+    90 00000046 48656C6C6F2C204D79-     	db 'Hello, MyOs is loading system core.'
+    91 0000004F 4F73206973206C6F61-
+    92 00000058 64696E672073797374-
+    93 00000061 656D20636F72652E   
+    94                                  MessageLength  equ ($-Message)
+    95 00000069 00<rept>                times 510-($-$$) db 0
+    96 000001FE 55AA                    db 0x55,0xaa
+    97                                  
+    98                                  
+    99                                  
+   100                                  
+   101                                  

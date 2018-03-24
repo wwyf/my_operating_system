@@ -10,11 +10,11 @@ int main(){
 
     set_cursor(0);
     for (int i = 0; i < 2000; i++){
-        puts(' ');
+        putc(' ');
     }
     set_cursor(1000);
     for (int i = '0'; i <= 'z'; i++){
-        puts(i);
+        putc(i);
     }
 
     // int a = get_cursor();
