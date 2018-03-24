@@ -1,8 +1,9 @@
 ; 已经在保护模式
-
+%include "../include/gdt.inc"
+[BITS 32]
 start:
-    mov eax, 0018h
+    mov ax, SelectorVideo
     mov ds, ax
-    mov byte [ds:0x00], '@'
-    mov byte [ds:0x01], 07h
+    mov ax, 0732h
+    mov word [ds:0x00], ax
     jmp $

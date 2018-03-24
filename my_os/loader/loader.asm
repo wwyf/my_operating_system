@@ -1,56 +1,64 @@
 %include "../include/macro.inc"
 %include "../include/pm.inc"
+%include "../include/gdt.inc"
 section LOADER_ENTRY
 start:
 [BITS	16]
-
-;#################################################################
-; 加载内核到内存中
-;#################################################################
-LoadnEx:
-     ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
-	mov ax,loader_code_segment                ;段地址 ; 存放数据的内存基地址
-	mov es,ax                ;设置段地址（不能直接mov es,段地址）
-	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
-	mov ah,2                 ; 功能号
-	mov al,18                 ;扇区数 ；
-	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
-	mov dh,0                 ;磁头号 ; 起始编号为0
-	mov ch,1                 ;柱面号 ; 起始编号为0
-	mov cl,1                 ;起始扇区号 ; 起始编号为1
-	int 13H ;                调用读磁盘BIOS的13h功能
-
-
-
-;#################################################################
-; 进入保护模式前的初始化工作
-;#################################################################
-
-	; 初始化段寄存器，此时cs为0x1000， 并且分配0x100的栈空间
+	; 初始化段寄存器，此时cs为0x0800，ip为0， 并且分配0x100的栈空间
 	mov	ax, cs
 	mov	ds, ax
 	mov	es, ax
 	mov	ss, ax
 	mov	sp, 0100h
 
-	; ; 初始化 32 位代码段描述符
-	xor	eax, eax 
-	mov	ax, cs
-	shl	eax, 4
-	add	eax, LABEL_SEG_CODE32
-	mov	word [LABEL_DESC_CODE32 + 2], ax
-	shr	eax, 16
-	mov	byte [LABEL_DESC_CODE32 + 4], al
-	mov	byte [LABEL_DESC_CODE32 + 7], ah
+;#################################################################
+; 加载内核到内存0x10000中
+;#################################################################
+LoadKernel:
+    ;内核位于逻辑扇区号为54-72的位置：
+	;从第 ax 个 Sector 开始, 将 cl 个 Sector 读入 es:bx 中
+	push es
+	mov ax,kernel_code_segment ;段地址 ; 存放数据的内存基地址
+	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+	mov bx,0 				;偏移地址; 存放数据的内存偏移地址
+	mov ax, 54
+	mov cl, 18
+	call ReadSector
+	pop es
 
-	; 为加载 GDTR 作准备, 将0x1000写到
-	xor	eax, eax
-	mov	ax, ds
-	shl	eax, 4
-	add	eax, LABEL_GDT		; eax <- gdt 基地址
-	mov	dword [GdtPtr + 2], eax	; [GdtPtr + 2] <- gdt 基地址
-	; 搞清楚了，gdt界限占用两个字节，因此加个2就到基址部分了。
+;#################################################################
+; 加载GDT表到内存0x1000中
+;#################################################################
+LoadGDT:
+    ;内核位于逻辑扇区号为54-72的位置：
+	;从第 ax 个 Sector 开始, 将 cl 个 Sector 读入 es:bx 中
+	push es
+	mov ax,GDT_segment ;段地址 ; 存放数据的内存基地址
+	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+	mov bx,0 				;偏移地址; 存放数据的内存偏移地址
+	mov ax, 35
+	mov cl, 1
+	call ReadSector
+	pop es
 
+;#################################################################
+; 加载用户程序1到内存0x50000中
+;#################################################################
+; LoadUserProgram1:
+;     ;内核位于逻辑扇区号为54-72的位置：
+; 	;从第 ax 个 Sector 开始, 将 cl 个 Sector 读入 es:bx 中
+; 	mov ax,kernel_code_segment ;段地址 ; 存放数据的内存基地址
+; 	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+; 	mov bx,0 				;偏移地址; 存放数据的内存偏移地址
+; 	mov ax, 54
+; 	mov cl, 18
+; 	call ReadSector
+
+
+;#################################################################
+; 进入保护模式前的初始化工作
+;#################################################################
+	; 段表已经提前加载到内存中了，这里只需要指定地址就好
 	; 加载 GDTR
 	lgdt	[GdtPtr]
 
@@ -69,27 +77,7 @@ LoadnEx:
 
 	; 真正进入保护模式
 	; 此处为16位保护模式，为了保证能够修改32位的eip，必须使用dword
-	jmp	dword SelectorCode32:0
-
-;#################################################################
-; 进入保护模式后先运行的32位代码
-;#################################################################
-
-[BITS	32]
-
-LABEL_SEG_CODE32:
-	mov	ax, SelectorVideo
-	mov	gs, ax			; 视频段选择子(目的)
-
-	mov	edi, (80 * 11 + 79) * 2	; 屏幕第 11 行, 第 79 列。
-	mov	ah, 0Ch			; 0000: 黑底    1100: 红字
-	mov	al, 'P'
-	mov	[gs:edi], ax
-	jmp $
-
-SegCode32Len	equ	$ - LABEL_SEG_CODE32
-
-
+	jmp	dword SelectorKernel:0
 
 ;##############################################################
 ; 在加载器中使用的公共例程
@@ -140,20 +128,8 @@ ReadSector:
 
 
 ;##############################################################
-; GDT  Table
+; GDT段表信息
 ;##############################################################
-;                              段基址,       段界限     , 属性
-LABEL_GDT:   	   Descriptor       0,               0, 0           ; 空描述符
-LABEL_DESC_CODE32: Descriptor 0,10000h, DA_C + DA_32; 非一致代码段
-LABEL_DESC_VIDEO:  Descriptor 0B8000h,          0ffffh, DA_DRW	    
-; 显存首地址, 仍然是16位的，因此就不加上DA_32
+GdtPtr		dw	GDT_bound	; GDT界限
+			dd  GDT_address		; GDT基地址
 
-; GDT 段表信息
-GdtLen		equ	$ - LABEL_GDT	; GDT长度
-GdtPtr		dw	GdtLen - 1	; GDT界限
-			dd  0		; GDT基地址
-
-; GDT 选择子
-SelectorCode32		equ	LABEL_DESC_CODE32	- LABEL_GDT
-SelectorVideo		equ	LABEL_DESC_VIDEO	- LABEL_GDT
-; END of [SECTION .gdt]

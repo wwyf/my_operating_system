@@ -5,13 +5,13 @@ BOOT = boot
 KERNEL = kernel
 
 
-everthing : $(objects) $(BOOT)/boot.bin $(LOADER)/loader.bin $(KERNEL)/kernel.bin
+everthing : $(objects) $(BOOT)/boot.bin $(LOADER)/loader.bin $(KERNEL)/kernel.bin $(LOADER)/gdt.bin
 
 $(BOOT)/boot.bin:
 	cd boot && make
 	cd ..
 
-$(LOADER)/loader.bin:
+$(LOADER)/loader.bin $(LOADER)/gdt.bin:
 	cd loader && make
 	cd ..
 
@@ -22,6 +22,7 @@ $(KERNEL)/kernel.bin:
 $(objects) : $(BOOT)/boot.bin $(LOADER)/loader.bin $(KERNEL)/kernel.bin $(include)/macro.inc
 	dd if=/dev/zero of=a.img ibs=512 count=150 conv=notrunc
 	dd if=$(BOOT)/boot.bin of=a.img ibs=512 count=1 conv=notrunc
+	dd if=$(LOADER)/gdt.bin of=a.img ibs=512 count=18 conv=notrunc seek=35
 	dd if=$(LOADER)/loader.bin of=a.img ibs=512 count=18 conv=notrunc seek=36
 	dd if=$(KERNEL)/kernel.bin of=a.img ibs=512 count=18 conv=notrunc seek=54
 
