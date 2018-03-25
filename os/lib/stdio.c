@@ -106,7 +106,6 @@ void sprintf(char * dest , char * format, ...){
                 }
                 case 's':{
                     char * str = *(arg_addr + arg_num++);
-                    //TODO: 先写一个strlen（）
                     u32 str_len = strlen(str);
                     u32 i = 0;
                     while (i < str_len){
@@ -147,8 +146,81 @@ void sprintf(char * dest , char * format, ...){
 }
 
 
-
 void printf(char * format, ...){
-    char buf[BUFF_LENGTH];
-    sprintf(buf, &format, ...);
+    vprintf(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
+    return ;
+}
+
+void vprintf(char * format, va_list va){
+    char buf[BUF_LENGTH];
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+    int* arg_addr = va; // 边长参数第一个参数的地址。
+    while (format[src_index] != 0){
+        if (format[src_index] == '%'){
+            src_index++;
+            switch(format[src_index]){
+                case 'c':{
+                    buf[des_index++] =*(arg_addr + arg_num++);
+                    src_index++;
+                    break;
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+                    int len = 0; 
+                    int num[INT_LENGTH];
+                    while (n != 0){
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+                        buf[des_index++] = num[i]+'0';
+                    }
+                    src_index++;
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+                    u32 str_len = strlen(str);
+                    u32 i = 0;
+                    while (i < str_len){
+                        buf[des_index++] = str[i++];
+                    }
+                    src_index++;
+                    break;
+                }
+                default :
+                    src_index++;
+                    break;
+            }
+        }
+        else if (format[src_index] == '\\') {
+            switch(format[src_index]){
+                src_index++;
+                switch(format[src_index]){
+                    case 'n':
+                        buf[des_index++] = 0x0a;
+                        src_index++;
+                        break;
+                    case 'r':
+                        buf[des_index++] = 0x0d;
+                        src_index++;
+                        break;
+                    default:
+                    src_index++;
+                        break;
+                }
+            }
+        }
+        else {
+            buf[des_index++] = format[src_index++];
+        }
+    }
+    buf[des_index] = 0;
+    for (int i = 0; i < des_index; i++){
+        putc(buf[i]);
+    }
+    return ;
 }

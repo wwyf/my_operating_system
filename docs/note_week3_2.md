@@ -91,6 +91,9 @@ kernel:加载到0x10000 - 0x50000
 
 1. printf函数
     1. 新的问题出现了，sprintf支持变长参数，但是printf如何调用他呢？
+    1. https://www.zhihu.com/question/51102741 知乎学习，指日可待
+    1. TODO:暂且将sprintf的代码复制到printf吧，有点难懂。va_list啥的
+    1. 
 
 
 ## 记录
@@ -120,3 +123,17 @@ call时，地址会push进栈中，这个时候是如何进栈的？是高字节
 leave：https://x86.puri.sm/html/file_module_x86_id_154.html
 
 关于函数参数的调用，注意是字节地址，字节地址！！
+
+
+### 再整理一个问题
+
+```
+char * a;
+&a+1// 到底会加多少！
+```
+![](https://i.loli.net/2018/03/25/5ab71d37ab035.png)
+
+https://www.jianshu.com/p/b5d8e52e5836
+解释通了，注意+1操作与操作数的类型相关。
+如果是数组指针+1，会加整个数组
+如果是普通指针，会加该类型对应的值（如int就+4个字节诸如此类）

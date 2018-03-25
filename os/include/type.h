@@ -8,8 +8,9 @@ typedef unsigned char u8;
 typedef int s32;
 typedef short s16;
 typedef char s8;
+typedef char * va_list ;
 
 #define INT_LENGTH 15
-#define BUFF 100
+#define BUF_LENGTH 100
 
 #endif

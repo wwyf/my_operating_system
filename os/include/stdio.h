@@ -33,8 +33,13 @@ void puts(char * str, int size);
 暂时支持%d %c,  \n , \r */
 void sprintf(char * , char * format , ...);
 
+/*
+将可变参数转变为 va_list a
+va_list 实际上是一个参数数组*/
+void vprintf(char * format, va_list a);
+
 /* 将字符串输出到屏幕上 */
-// void printf(char *, ...);
+void printf(char * format, ...);
 
 // void scanf(char *, ...);
 
