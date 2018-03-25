@@ -4,4 +4,8 @@
 #include "../include/type.h"
 #include "../include/basic.h"
 
+/*
+just a placeholder */
+void check_keyboard();
+
 #endif

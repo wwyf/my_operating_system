@@ -43,6 +43,16 @@ void vprintf(char * format, va_list a);
 将字符串输出到屏幕上 */
 void printf(char * format, ...);
 
+
+/* tested
+将指定的中断修改为自定义的中断，并设置中断处理例程的段地址和偏移量 */
+void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset);
+
+/* tested
+将指定的中断修改为自定义的中断，并使用函数指针设置中断处理例程的地址 */
+void install_interrupt_handler(u8 n, void (*interrupt_handler)());
+
+
 /* TODO:
 从键盘缓冲区获取一个键盘输入 */
 
@@ -52,7 +62,7 @@ void printf(char * format, ...);
 void check_keyboard();
 
 /* TODO:
-从键盘缓冲区获得输入，并写到相应的地址处。
+从键盘缓冲区获得输入，并写到相应的地址处。*/
 // void scanf(char *, ...);
 
 #endif

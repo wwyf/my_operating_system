@@ -1,9 +1,9 @@
 # 生成kernel.bin
-objects = kernel.bin
+TARGET = kernel.bin
 include = ../include
 LIB=../lib
-
-C_FLAGS=-c -m16 -ffreestanding -O
+OBJECTS=stdio.o  basic.o  kernel.o string.o interrupt.o keyboard.o
+C_FLAGS=-c -m16 -ffreestanding -O0
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
@@ -12,7 +12,7 @@ KERNEL_C=kernel.c
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(objects) stdio.o basic.o  kernel.o string.o interrupt.o keyboard.o
+all : $(TARGET) $(OBJECTS)
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -27,13 +27,13 @@ string.o : ../lib/string.c
 	gcc $(C_FLAGS) -o string.o ../lib/string.c
 
 interrupt.o : ../lib/interrupt.c
-	gcc $(C_FLAGS) -o interrupt.o ../lib/interrupt.c
+	nasm $(NASM_FLAGS) -o interrupt.o ../lib/interrupt.asm
 
 keyboard.o : ../lib/keyboard.c
 	gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.c
 
-$(objects): stdio.o  basic.o  kernel.o string.o interrupt.o
-	ld $(LINK_FLAGS) -o kernel.bin  kernel.o  basic.o  stdio.o  string.o interrupt.o keyboard.o
+$(TARGET): $(OBJECTS)
+	ld $(LINK_FLAGS) -o kernel.bin $(OBJECTS)
 	objdump $(OBJDUMP_FLAGS) -D kernel.bin > kernel.objdump
 
 

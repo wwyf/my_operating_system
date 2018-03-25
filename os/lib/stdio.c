@@ -1,5 +1,6 @@
 #include "../include/basic.h"
 #include "../include/type.h"
+#include "../include/string.h"
 
 void _put_char(char c, u16 cursor_index){
     int _address = 0xb8000;
@@ -146,11 +147,6 @@ void sprintf(char * dest , char * format, ...){
 }
 
 
-void printf(char * format, ...){
-    vprintf(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
-    return ;
-}
-
 void vprintf(char * format, va_list va){
     char buf[BUF_LENGTH];
     int arg_num = 0;
@@ -222,5 +218,25 @@ void vprintf(char * format, va_list va){
     for (int i = 0; i < des_index; i++){
         putc(buf[i]);
     }
+    return ;
+}
+
+void printf(char * format, ...){
+    vprintf(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
+    return ;
+}
+
+
+void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset){
+    write_memory_word(n*4, entry_offset);
+    write_memory_word(n*4+2, segment_address);
+    return ;
+}
+
+
+void install_interrupt_handler(u8 n, void (*interrupt_handler)()){
+    // 猜想：TODO: 函数指针是代码段的偏移量，也就是eip
+    // 猜想成立。
+    _install_interrupt_handler(n, 0x1000, interrupt_handler);
     return ;
 }

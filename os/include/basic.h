@@ -23,4 +23,17 @@ void write_port_byte(u16 port_number, u8 data);
 从指定端口中读出8位数据，并作为返回值返回 */
 u8 read_port_byte(u16 port_number);
 
+/* TODO:
+取得段寄存器的值*/
+
+
+/*
+触发中断 */
+void trigger_interrupt_int40();
+
+
+/*
+中断返回 */
+void return_from_interrupt();
+
 #endif
