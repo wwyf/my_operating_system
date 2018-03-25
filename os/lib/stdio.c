@@ -52,7 +52,7 @@ void putc(char c){
 
 void puti(u32 n){
     int len = 0;
-    int num[10];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
+    int num[INT_LENGTH];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
     while (n != 0){
         num[len] = n % 10;
         n = n / 10;
@@ -74,20 +74,36 @@ void puts(char * str, int size){
 }
 
 
+
 void sprintf(char * dest , char * format, ...){
     int arg_num = 0;
     int src_index = 0;
     int des_index = 0;
-    int* arg_addr = &format;
+    int* arg_addr = &format+1; // 边长参数第一个参数的地址。
     while (format[src_index] != 0){
         if (format[src_index] == '%'){
             src_index++;
-            arg_num++;
             switch(format[src_index]){
-                case 'c':
-                    dest[des_index++] =*(arg_addr+arg_num);
+                case 'c':{
+                    dest[des_index++] =*(arg_addr + arg_num++);
                     src_index++;
                     break;
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+                    int len = 0; 
+                    int num[INT_LENGTH];
+                    while (n != 0){
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+                        dest[des_index++] = num[i]+'0';
+                    }
+                    src_index++;
+                    break;
+                }
                 default :
                     src_index++;
                     break;
@@ -101,6 +117,10 @@ void sprintf(char * dest , char * format, ...){
                         dest[des_index++] = 0x0a;
                         src_index++;
                         break;
+                    case 'r':
+                        dest[des_index++] = 0x0d;
+                        src_index++;
+                        break;
                     default:
                     src_index++;
                         break;
@@ -111,4 +131,5 @@ void sprintf(char * dest , char * format, ...){
             dest[des_index++] = format[src_index++];
         }
     }
+    dest[des_index] = 0;
 }

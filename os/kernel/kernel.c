@@ -23,7 +23,10 @@ int main(){
 
     set_cursor(160);
     char test[10];
-    sprintf(test, "test%ctest\n", 'a');
+    sprintf(test, "%c%c%c %c  %c %c\n", 'a','b','c','d','e','f');
+    puts(test, 10);
+    set_cursor(80);
+    sprintf(test, "%d", 123456789);
     puts(test, 10);
 
     // int a = get_cursor();
