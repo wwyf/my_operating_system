@@ -77,8 +77,8 @@ void puts(char * str, int size){
 
 void sprintf(char * dest , char * format, ...){
     int arg_num = 0;
-    int src_index = 0;
-    int des_index = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
     int* arg_addr = &format+1; // 边长参数第一个参数的地址。
     while (format[src_index] != 0){
         if (format[src_index] == '%'){
@@ -104,12 +104,23 @@ void sprintf(char * dest , char * format, ...){
                     src_index++;
                     break;
                 }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+                    //TODO: 先写一个strlen（）
+                    u32 str_len = strlen(str);
+                    u32 i = 0;
+                    while (i < str_len){
+                        dest[des_index++] = str[i++];
+                    }
+                    src_index++;
+                    break;
+                }
                 default :
                     src_index++;
                     break;
             }
         }
-        else if (format[src_index] == '\\') {// TODO:
+        else if (format[src_index] == '\\') {
             switch(format[src_index]){
                 src_index++;
                 switch(format[src_index]){
@@ -132,4 +143,5 @@ void sprintf(char * dest , char * format, ...){
         }
     }
     dest[des_index] = 0;
+    return ;
 }

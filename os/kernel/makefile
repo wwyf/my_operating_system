@@ -12,7 +12,7 @@ KERNEL_C=kernel.c
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(objects) stdio.o basic.o  kernel.o
+all : $(objects) stdio.o basic.o  kernel.o string.o
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -23,8 +23,11 @@ basic.o: $(LIB_ASM)
 kernel.o: $(KERNEL_C)
 	gcc $(C_FLAGS) -o kernel.o $(KERNEL_C)
 
-$(objects): stdio.o  basic.o  kernel.o
-	ld $(LINK_FLAGS) -o kernel.bin  kernel.o  basic.o  stdio.o
+string.o : ../lib/string.c
+	gcc $(C_FLAGS) -o string.o ../lib/string.c
+
+$(objects): stdio.o  basic.o  kernel.o string.o
+	ld $(LINK_FLAGS) -o kernel.bin  kernel.o  basic.o  stdio.o  string.o
 	objdump $(OBJDUMP_FLAGS) -D kernel.bin > kernel.objdump
 
 
