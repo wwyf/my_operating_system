@@ -10,5 +10,6 @@ typedef short s16;
 typedef char s8;
 
 #define INT_LENGTH 15
+#define BUFF 100
 
 #endif

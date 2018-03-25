@@ -145,3 +145,10 @@ void sprintf(char * dest , char * format, ...){
     dest[des_index] = 0;
     return ;
 }
+
+
+
+void printf(char * format, ...){
+    char buf[BUFF_LENGTH];
+    sprintf(buf, &format, ...);
+}
