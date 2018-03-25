@@ -27,6 +27,9 @@ int main(){
 
     // set_cursor(400);
     printf("%csaf%ssdfs%dasdf\n\r%csadf%ssf%d123\n\r", 'r',"test", 12344, 'c', "!!test!!", 999986);
+
+    
+
     while (1){}
     return 0;
 }

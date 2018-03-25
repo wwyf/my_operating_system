@@ -28,19 +28,31 @@ void puti(u32 n);
 在光标处输出字符串 */
 void puts(char * str, int size);
 
-/* 
+/* tested
 必须保证字符串有足够空间，格式化字符串，放到第一个参数所指的地址处,字符串后需加0
 暂时支持%d %c,  \n , \r */
 void sprintf(char * , char * format , ...);
 
-/*
+/* tested
 将可变参数转变为 va_list a
-va_list 实际上是一个参数数组*/
+va_list 实际上是一个参数数组
+缓冲区大小定义在type.h中 */
 void vprintf(char * format, va_list a);
 
-/* 将字符串输出到屏幕上 */
+/* tested
+将字符串输出到屏幕上 */
 void printf(char * format, ...);
 
+/* TODO:
+从键盘缓冲区获取一个键盘输入 */
+
+
+/* TODO:
+与键盘进行端口交互，获取键盘输入 */
+void check_keyboard();
+
+/* TODO:
+从键盘缓冲区获得输入，并写到相应的地址处。
 // void scanf(char *, ...);
 
 #endif

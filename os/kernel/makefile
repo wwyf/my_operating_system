@@ -12,7 +12,7 @@ KERNEL_C=kernel.c
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(objects) stdio.o basic.o  kernel.o string.o
+all : $(objects) stdio.o basic.o  kernel.o string.o interrupt.o keyboard.o
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -26,8 +26,14 @@ kernel.o: $(KERNEL_C)
 string.o : ../lib/string.c
 	gcc $(C_FLAGS) -o string.o ../lib/string.c
 
-$(objects): stdio.o  basic.o  kernel.o string.o
-	ld $(LINK_FLAGS) -o kernel.bin  kernel.o  basic.o  stdio.o  string.o
+interrupt.o : ../lib/interrupt.c
+	gcc $(C_FLAGS) -o interrupt.o ../lib/interrupt.c
+
+keyboard.o : ../lib/keyboard.c
+	gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.c
+
+$(objects): stdio.o  basic.o  kernel.o string.o interrupt.o
+	ld $(LINK_FLAGS) -o kernel.bin  kernel.o  basic.o  stdio.o  string.o interrupt.o keyboard.o
 	objdump $(OBJDUMP_FLAGS) -D kernel.bin > kernel.objdump
 
 
