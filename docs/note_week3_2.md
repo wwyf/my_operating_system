@@ -104,6 +104,17 @@ bash:
 1. 段选择子
     1. 《从实模式到保护模式》P197 ![](https://i.loli.net/2018/03/24/5ab5be3e427c9.png)
 
+### 8259A
+
+如何对它编程，才能够让LDT与各中断对应上
+
+http://blog.chinaunix.net/uid-387104-id-1744110.html
+https://www.cnblogs.com/ningskyer/articles/6482093.html
+
 ### 一个问题：
 
 call时，地址会push进栈中，这个时候是如何进栈的？是高字节先进吗，还是低字节先进？
+
+### 文件系统
+
+看书吧
