@@ -24,12 +24,13 @@ void putc(char c);
 在光标处输出整数 */
 void puti(u32 n);
 
-/*
-在光标处输出字符串,字符串以0结尾 */
+/* tested
+在光标处输出字符串 */
 void puts(char * str, int size);
 
-/* 格式化字符串，放到第一个参数所指的地址处,字符串后需加0 */
-// void sprintf(char * , char * format , ...);
+/* 
+必须保证字符串有足够空间，格式化字符串，放到第一个参数所指的地址处,字符串后需加0 */
+void sprintf(char * , char * format , ...);
 
 /* 将字符串输出到屏幕上 */
 // void printf(char *, ...);

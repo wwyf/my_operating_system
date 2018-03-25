@@ -55,6 +55,7 @@ write_memory_word:
     push ax
     push bx
     push dx
+    push ds
     ;enter
 
     mov bx, [ebp+8] ; 地址低16位，作为偏移量
@@ -65,6 +66,7 @@ write_memory_word:
     mov [ds:bx], dx
 
     ;laeve
+    pop ds
     pop dx
     pop bx
     pop ax
@@ -80,6 +82,7 @@ write_memory_byte:
     push ax
     push bx
     push dx
+    push ds
     ;enter
 
     mov bx, [ebp+8] ; 地址低16位，作为偏移量
@@ -90,6 +93,7 @@ write_memory_byte:
     mov [ds:bx], dl
 
     ;laeve
+    pop ds
     pop dx
     pop bx
     pop ax
@@ -107,6 +111,7 @@ read_memory_word:
     push ax
     push bx
     push dx
+    push ds
     ;enter
 
     mov bx, [ebp+8] ; 地址低16位，作为偏移量
@@ -116,6 +121,7 @@ read_memory_word:
     mov ax, [ds:bx]
 
     ;laeve
+    pop ds
     pop dx
     pop bx
     pop ax

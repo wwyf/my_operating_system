@@ -72,3 +72,43 @@ void puts(char * str, int size){
     }
     return ;
 }
+
+
+void sprintf(char * dest , char * format, ...){
+    int arg_num = 0;
+    int src_index = 0;
+    int des_index = 0;
+    int* arg_addr = &format;
+    while (format[src_index] != 0){
+        if (format[src_index] == '%'){
+            src_index++;
+            arg_num++;
+            switch(format[src_index]){
+                case 'c':
+                    dest[des_index++] =*(arg_addr+arg_num);
+                    src_index++;
+                    break;
+                default :
+                    src_index++;
+                    break;
+            }
+        }
+        else if (format[src_index] == '\\') {// TODO:
+            switch(format[src_index]){
+                src_index++;
+                switch(format[src_index]){
+                    case 'n':
+                        dest[des_index++] = 0x0a;
+                        src_index++;
+                        break;
+                    default:
+                    src_index++;
+                        break;
+                }
+            }
+        }
+        else {
+            dest[des_index++] = format[src_index++];
+        }
+    }
+}

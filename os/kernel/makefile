@@ -5,8 +5,9 @@ LIB=../lib
 
 C_FLAGS=-c -m16 -ffreestanding -O
 NASM_FLAGS=-f elf32
-LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
-OBJDUMP_FLAGS= -m i8086 -b binary 
+# LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
+LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
+OBJDUMP_FLAGS= -m i8086 -b binary
 KERNEL_C=kernel.c
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
