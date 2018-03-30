@@ -52,6 +52,24 @@ void putc(char c){
     return ;
 }
 
+void _putc(char c){
+    u16 cursor_index = get_cursor();
+    u16 row = cursor_index / 80;
+    u16 col = cursor_index % 80;
+    switch (c) {
+        case '\n':
+            set_cursor((row+1)*80+col); // 回车，移到下一行
+            break;
+        case '\r':
+            set_cursor(row*80);    // 移到本行开头处
+            break;
+        default:
+            _put_char(c, cursor_index);
+            break;
+    }
+    return ;
+}
+
 void puti(u32 n){
     int len = 0;
     int num[INT_LENGTH];  // 临时存放各位数，从低位放到高位，之后倒序输出即可

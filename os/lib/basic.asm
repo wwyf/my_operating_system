@@ -8,6 +8,7 @@ global read_memory_word
 global check_keyboard
 global get_keyboard
 global clean_screen
+global roll_screen
 
 [bits 16]
 
@@ -169,4 +170,26 @@ clean_screen:
     pop cx
     pop bx
     pop ax
-    ret
+    retl
+
+roll_screen:
+
+    push ax
+    push bx
+    push cx
+    push dx
+
+    mov ah,0x06
+    mov al,1
+    mov ch,0
+    mov cl,0
+    mov dh,24
+    mov dl,79
+    mov bh,0x10
+    int 0x10
+
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    retl

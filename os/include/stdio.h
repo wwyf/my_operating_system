@@ -19,6 +19,7 @@ u16 get_cursor();
 若光标已经处于行末，则自动进行回车换行
 若光标已经处于屏幕末端最后一个字符，则进行滚屏 TODO:没有实现滚屏 */
 void putc(char c);
+void _putc(char c);// 不改变光标
 
 /* tested
 在光标处输出整数 */

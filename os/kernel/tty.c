@@ -24,6 +24,7 @@ int main(){
             create_a_line();
             new_line_flag = 0;
         }
+        putc(' ');
         set_cursor(80*command_line_row + message_length);
         puts(input_buf, command_line_cursor);
 
@@ -43,10 +44,14 @@ int main(){
             }
             else if (ascii_code == 13){
                 new_line_flag = 1;
+                parser();
             }
             else if (ascii_code == 8){
                 if(command_line_cursor){
                     input_buf[--command_line_cursor] = 0;
+                    // 将光标设置为前一个位置，方便删除
+                    int cur_cursor = get_cursor();
+                    set_cursor(cur_cursor-1);
                 }
             }
             int a = get_cursor();
@@ -60,6 +65,10 @@ int main(){
 }
 
 
+void parser(){
+    return ;
+}
+
 // 转移光标到命令行下一行,更新缓冲区，并且打印信息
 void create_a_line(){
     char message[30] = "walker@walker-pc ~ $ \0";
@@ -68,6 +77,10 @@ void create_a_line(){
     }
     message_length = strlen(message);
     command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
+    if (command_line_row > 24){
+        roll_screen();
+        command_line_row--;
+    }
     command_line_cursor = 0;
     set_cursor(command_line_row * 80);
     printf("%s", message);
