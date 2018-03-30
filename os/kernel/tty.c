@@ -6,12 +6,12 @@
 
 #define MAX_BUF 100
 
-u8 display_start; // 显存区域开头
-u8 display_end; // 显存区域末尾
+// u8 display_start; // 显存区域开头
+// u8 display_end; // 显存区域末尾
 int command_line_row = -1; // 命令行当前所在行号
-u8 new_line_flag = 1;
-u8 message_length = 0;
-u16 command_line_cursor = 0; // 光标在输入区的偏移量
+int new_line_flag = 1;
+int message_length = 0;
+int command_line_cursor = 0; // 光标在输入区的偏移量
 char input_buf[MAX_BUF]; // 输入缓存区
 
 
@@ -24,7 +24,9 @@ int main(){
             create_a_line();
             new_line_flag = 0;
         }
-        putc(' ');
+
+        putc(' ');// 用来删除光标处的文字，与输入退格的时候光标-1配合使用
+
         set_cursor(80*command_line_row + message_length);
         puts(input_buf, command_line_cursor);
 
@@ -66,6 +68,7 @@ int main(){
 
 
 void parser(){
+
     return ;
 }
 
@@ -78,11 +81,12 @@ void create_a_line(){
     message_length = strlen(message);
     command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
     if (command_line_row > 24){
-        roll_screen();
+        scroll_screen();
         command_line_row--;
     }
     command_line_cursor = 0;
     set_cursor(command_line_row * 80);
+    // printf("%d", command_line_row);
     printf("%s", message);
 }
 

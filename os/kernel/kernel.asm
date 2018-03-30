@@ -19,13 +19,13 @@ _start:
 ; 将cs,ds,es,ss置为0x1000
 ; 将sp置为0x2000(相当于.com程序末尾)
 run_com_user_program:
-    mov ax, 0x5000
+    mov ax, 0x3000
     mov ds, ax
     mov es, ax
     mov ss, ax
     mov ax, 0x2000
     mov sp, ax
-    jmp 0x5000:0x0000
+    jmp 0x3000:0x0000
     
 ;-----------------------------------------------------------
 ; [内核态]加载.com简单用户程序
@@ -40,10 +40,10 @@ load_com_user_program:
     push es
 
     ; ax 已经准备好，不能修改
-	mov bx,0x5000               ;段地址 ; 存放数据的内存基地址
+	mov bx,0x3000               ;段地址 ; 存放数据的内存基地址
 	mov es,bx                ;设置段地址（不能直接mov es,段地址）
 	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
-    mov cl, 18
+    mov cl, 10
     call ReadSector
 
     pop es

@@ -8,7 +8,7 @@ global read_memory_word
 global check_keyboard
 global get_keyboard
 global clean_screen
-global roll_screen
+global scroll_screen
 
 [bits 16]
 
@@ -172,7 +172,7 @@ clean_screen:
     pop ax
     retl
 
-roll_screen:
+scroll_screen:
 
     push ax
     push bx

@@ -37,4 +37,8 @@ u16 get_keyboard();
 清屏 */
 void clean_screen();
 
+/* 
+向下滚屏 */
+void scroll_screen();
+
 #endif
