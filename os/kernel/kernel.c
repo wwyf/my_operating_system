@@ -1,22 +1,21 @@
-#include "../include/type.h"
-#include "../include/basic.h"
-#include "../include/stdio.h"
-#include "../include/string.h"
-#include "../include/interrupt.h"
-
-void my_int40();
+// #include "../include/type.h"
+// #include "../include/basic.h"
+// #include "../include/stdio.h"
+// #include "../include/string.h"
+// #include "../include/interrupt.h"
 
 int main(){
     // set_cursor(10);
     // write_port_byte(0x3d4, 0x0e);
-    install_interrupt_handler(0x40, my_int40);
-    trigger_interrupt_int40();
+    // install_interrupt_handler(0x40, my_int40);
+    // trigger_interrupt_int40();
+    // __asm__("int $0x40");
     
     // set_cursor(0);
     // for (int i = 0; i < 2000; i++)
     //     putc(' ');
-    // char test[10];
 
+    // char test[10];
     // set_cursor(80);
     // sprintf(test, "%d", 123456789);
     // puts(test, 10);
@@ -42,10 +41,8 @@ int main(){
 }
 
 
-void my_int40(){
-{
-    set_cursor(1920);
-    printf("test success!");
-}
-    return_from_interrupt();
-}
+// void my_int40(){
+//     set_cursor(1920);
+//     printf("test success!");
+//     return_from_interrupt();
+// }

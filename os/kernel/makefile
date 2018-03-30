@@ -26,11 +26,14 @@ kernel.o: $(KERNEL_C)
 string.o : ../lib/string.c
 	gcc $(C_FLAGS) -o string.o ../lib/string.c
 
-interrupt.o : ../lib/interrupt.c
+interrupt.o : ../lib/interrupt.asm
 	nasm $(NASM_FLAGS) -o interrupt.o ../lib/interrupt.asm
 
 keyboard.o : ../lib/keyboard.c
-	gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.c
+	gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.
+
+tty.o : tty.c
+	gcc $(C_FLAGS) -o tty.o tty.c
 
 $(TARGET): $(OBJECTS)
 	ld $(LINK_FLAGS) -o kernel.bin $(OBJECTS)

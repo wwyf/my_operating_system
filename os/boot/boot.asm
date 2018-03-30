@@ -2,9 +2,8 @@
 ; org  7c00h		; BIOS将把引导扇区加载到0:7C00h处，并开始执行
 %include "../include/macro.inc"
 section my_mbr vstart=0x7c00
-
 Start:
-	mov eax, cs	       ; 置其他段寄存器值与CS相同
+	mov ax, cs	       ; 置其他段寄存器值与CS相同
 	mov ds, ax	       ; 数据段
 	mov es, ax		 ; 置ES=DS
     ; 显示字符串
@@ -25,7 +24,7 @@ LoadnEx:
 	mov al,18                 ;扇区数
 	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
 	mov dh,0                 ;磁头号 ; 起始编号为0
-	mov ch,1                 ;柱面号 ; 起始编号为0
+	mov ch,2                 ;柱面号 ; 起始编号为0
 	mov cl,1                 ;起始扇区号 ; 起始编号为1
 	int 13H ;                调用读磁盘BIOS的13h功能
 	; 系统内核已加载到指定内存区域中

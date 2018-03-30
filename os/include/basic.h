@@ -27,13 +27,4 @@ u8 read_port_byte(u16 port_number);
 取得段寄存器的值*/
 
 
-/*
-触发中断 */
-void trigger_interrupt_int40();
-
-
-/*
-中断返回 */
-void return_from_interrupt();
-
 #endif

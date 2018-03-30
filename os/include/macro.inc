@@ -1,7 +1,10 @@
-loader_code_segment equ 0800h
-loader_code_entry equ 0000h
-kernel_code_segment equ 1000h
-kernel_code_entry equ 0000h
+loader_code_segment equ 0x0800
+loader_code_entry equ 0x0000
+kernel_code_segment equ 0x1000
+kernel_code_entry equ 0x0000
+
+fsystem_code_segment equ 0x0100
+fsystem_code_entry equ 0x0000 
 
 core_header_data_segment equ 1000h
 
