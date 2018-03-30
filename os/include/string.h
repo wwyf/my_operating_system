@@ -8,6 +8,10 @@ size_t strlen(char * str);
 
 /* TODO:
 复制字符串 */
+void strcpy(char * dest, char * src);
+
+/* TODO:
+复制字符串 */
 void strncpy(char * dest, char * src, u32 size);
 
 /* TODO:

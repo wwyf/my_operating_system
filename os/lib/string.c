@@ -7,3 +7,23 @@ size_t strlen(char * str){
     }
     return len;
 }
+
+void strncpy(char * dest, char * src, u32 size){
+    for (int i = 0; i < size; i++){
+        dest[i] = src[i];
+    }
+    dest[size] = '\0';
+}
+
+void strcmp(char * lhs, char * rhs){
+    int lhs_len = strlen(lhs);
+    int rhs_len = strlen(rhs);
+    if (lhs_len != rhs_len){
+        return 1;
+    }
+    for (int i = 0; i < lhs_len; i++){
+        if (lhs[i] != rhs[i])
+            return 1;
+    }
+    return 0;
+}

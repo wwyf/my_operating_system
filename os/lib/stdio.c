@@ -6,6 +6,7 @@ void _put_char(char c, u16 cursor_index){
     int _address = 0xb8000;
     int _offset = cursor_index * 2;
     write_memory_byte(_address+_offset, c);
+    write_memory_byte(_address+_offset+1, 0x1f);
     return ;
 }
 
@@ -239,4 +240,53 @@ void install_interrupt_handler(u8 n, void (*interrupt_handler)()){
     // 猜想成立。
     _install_interrupt_handler(n, 0x1000, interrupt_handler);
     return ;
+}
+
+
+
+int isalpha (int ch){
+    if ('a' <= ch && ch <= 'z')
+        return 1;
+    if ('A' <= ch && ch <= 'Z')
+        return 1;
+    return 0;
+}
+int isdigit (int ch){
+    if ('0' <= ch && ch <= '9')
+        return 1;
+    return 0;
+}
+
+int isalnum (int ch){
+    if ( isalpha(ch) || isdigit(ch) ){
+        return 1;
+    }
+    return 0;
+}
+int ispunct (int ch){
+    char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+    for (int i = 0; i < 33; i++){
+        if (ch == punct[i])
+            return 1;
+    }
+    return 0;
+}
+int isblank (int ch){
+    if (ch == ' ')
+        return 1;
+    return 0;
+}
+int isprint (int ch){
+    if (isalpha(ch) || isdigit(ch) || isalnum(ch) || ispunct(ch)){
+        return 1;
+    }
+    return 0;
+}
+int iscntrl (int ch){
+    //he control characters are the characters with the codes 0x00-0x1F and 0x7F.
+    if (0 <= ch && ch <= 0x1f)
+        return 1;
+    if (ch == 0x7f)
+        return 1;
+    return 0;
 }

@@ -26,5 +26,15 @@ u8 read_port_byte(u16 port_number);
 /* TODO:
 取得段寄存器的值*/
 
+/* 
+检测键盘缓冲区，若有输入则返回1，若没有输入则返回0 */
+u16 check_keyboard();
+/* 
+读入键盘缓冲区 */
+u16 get_keyboard();
+
+/* 
+清屏 */
+void clean_screen();
 
 #endif

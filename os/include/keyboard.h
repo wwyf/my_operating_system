@@ -4,8 +4,7 @@
 #include "../include/type.h"
 #include "../include/basic.h"
 
-/*
-just a placeholder */
-void check_keyboard();
 
+/* 
+将键盘缓冲区内的数据拿出来， */
 #endif

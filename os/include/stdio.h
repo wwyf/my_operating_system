@@ -49,17 +49,25 @@ void printf(char * format, ...);
 void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset);
 
 /* tested
-将指定的中断修改为自定义的中断，并使用函数指针设置中断处理例程的地址 */
+定义一个 */
 void install_interrupt_handler(u8 n, void (*interrupt_handler)());
 
+
+/* 
+判断一个字符是否是数字 */
+
+int isprint (int ch);
+int ispunct (int ch);
+int isalnum (int ch);
+int isalpha (int ch);
+int isblank (int ch);
+int iscntrl (int ch);
+int isdigit (int ch);
 
 /* TODO:
 从键盘缓冲区获取一个键盘输入 */
 
 
-/* TODO:
-与键盘进行端口交互，获取键盘输入 */
-void check_keyboard();
 
 /* TODO:
 从键盘缓冲区获得输入，并写到相应的地址处。*/

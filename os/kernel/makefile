@@ -2,17 +2,18 @@
 TARGET = kernel.bin
 include = ../include
 LIB=../lib
-OBJECTS=stdio.o  basic.o  kernel.o string.o interrupt.o keyboard.o
+OBJECTS= stdio.o  basic.o  string.o interrupt.o  main.o
 C_FLAGS=-c -m16 -ffreestanding -O0
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
 OBJDUMP_FLAGS= -m i8086 -b binary
-KERNEL_C=kernel.c
+KERNEL_C=main.c
+KERNEL_ASM=kernel.asm
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(TARGET) $(OBJECTS)
+all : $(TARGET) $(OBJECTS) tty.bin kernel.bin
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -20,8 +21,11 @@ stdio.o : $(LIB_C)
 basic.o: $(LIB_ASM)
 	nasm $(NASM_FLAGS) -o basic.o $(LIB_ASM) 
 
-kernel.o: $(KERNEL_C)
-	gcc $(C_FLAGS) -o kernel.o $(KERNEL_C)
+main.o: $(KERNEL_C)
+	gcc $(C_FLAGS) -o main.o $(KERNEL_C)
+
+kernel.o: $(KERNEL_ASM)
+	nasm $(NASM_FLAGS) -o kernel.o $(KERNEL_ASM)
 
 string.o : ../lib/string.c
 	gcc $(C_FLAGS) -o string.o ../lib/string.c
@@ -29,14 +33,15 @@ string.o : ../lib/string.c
 interrupt.o : ../lib/interrupt.asm
 	nasm $(NASM_FLAGS) -o interrupt.o ../lib/interrupt.asm
 
-keyboard.o : ../lib/keyboard.c
-	gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.
+# keyboard.o : ../lib/keyboard.c
+	# gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.
 
-tty.o : tty.c
+tty.bin : tty.c
 	gcc $(C_FLAGS) -o tty.o tty.c
+	ld $(LINK_FLAGS) -o tty.bin tty.o $(OBJECTS)
 
-$(TARGET): $(OBJECTS)
-	ld $(LINK_FLAGS) -o kernel.bin $(OBJECTS)
+$(TARGET): $(OBJECTS) kernel.o
+	ld $(LINK_FLAGS) -o kernel.bin kernel.o $(OBJECTS)
 	objdump $(OBJDUMP_FLAGS) -D kernel.bin > kernel.objdump
 
 

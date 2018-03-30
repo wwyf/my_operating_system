@@ -5,7 +5,9 @@ global read_port_byte
 global write_memory_word
 global write_memory_byte
 global read_memory_word
-
+global check_keyboard
+global get_keyboard
+global clean_screen
 
 [bits 16]
 
@@ -129,3 +131,42 @@ read_memory_word:
     mov esp, ebp
     pop ebp
     retl
+
+check_keyboard:
+    mov ah, 0x01
+    int 0x16
+    ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
+    jz .have_key
+    mov ax, 0
+    jmp .check_keyboard_return
+ .have_key:
+    mov ax, 1
+ .check_keyboard_return:
+    retl
+
+
+get_keyboard:
+    mov ah, 0x00
+    int 0x16
+    retl
+
+clean_screen:
+    push ax
+    push bx
+    push cx
+    push dx
+
+    mov ah,0x06
+    mov al,0   ;清窗口
+    mov ch,0   ;左上角的行号
+    mov cl,0   ;左上角的列号
+    mov dh,24  ;右下角的行号
+    mov dl,79  ;右下角的行号
+    mov bh,0x17;属性为蓝底白字
+    int 0x10
+
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
