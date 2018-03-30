@@ -17,6 +17,8 @@ char input_buf[MAX_BUF]; // 输入缓存区
 
 int main(){
     int keyboard_flag = 0;
+    new_line_flag = 1;
+    command_line_row = -1;
     clean_screen();
     while (1){
         // 使用缓冲区数据更新
