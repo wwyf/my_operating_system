@@ -27,3 +27,11 @@ int strcmp(char * lhs, char * rhs){
     }
     return 0;
 }
+
+int strncmp(char * lhs, char * rhs, int size){
+    for (int i = 0; i < size; i++){
+        if (lhs[i] != rhs[i])
+            return 1;
+    }
+    return 0;
+}

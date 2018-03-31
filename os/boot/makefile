@@ -2,10 +2,14 @@
 objects = boot
 include = ../include
 
-all : $(objects).bin
+all : $(objects).bin  root.bin
 
 $(objects).bin : $(objects).asm $(include)/macro.inc
 	nasm -f bin -o $(objects).bin -l $(objects).list $(objects).asm
+
+root.bin : root.asm
+	nasm -f bin -o root.bin  root.asm
+
 
 .PHONY : clean
 clean :

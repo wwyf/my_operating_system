@@ -18,6 +18,10 @@ void strncpy(char * dest, char * src, u32 size);
 字符串比较 */
 int strcmp(char * lhs, char * rhs);
 
+/*
+字符串比较 */
+int strncmp(char * lhs, char * rhs, int size);
+
 /* TODO:
 字符串拼接*/
 void strncat(char * dest, char * src, u32 size);

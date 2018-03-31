@@ -5,9 +5,9 @@ BOOT = boot
 KERNEL = kernel
 USER = user
 
-everthing : $(objects) $(BOOT)/boot.bin $(KERNEL)/kernel.bin $(USER)/user_test.bin
+everthing : $(objects) $(BOOT)/boot.bin $(BOOT)/root.bin $(KERNEL)/kernel.bin $(USER)/user_test.bin
 
-$(BOOT)/boot.bin:
+$(BOOT)/boot.bin  $(BOOT)/root.bin :
 	cd boot && make
 	cd ..
 
@@ -19,9 +19,10 @@ $(USER)/user_test.bin:
 	cd user && make
 	cd ..
 
-$(objects) : $(BOOT)/boot.bin $(KERNEL)/kernel.bin $(USER)/user_test.bin $(include)/macro.inc
+$(objects) : $(BOOT)/boot.bin $(BOOT)/root.bin $(KERNEL)/kernel.bin $(USER)/user_test.bin $(include)/macro.inc
 	dd if=/dev/zero of=a.img ibs=512 count=150  conv=notrunc
 	dd if=$(BOOT)/boot.bin of=a.img ibs=512 count=1 conv=notrunc
+	dd if=$(BOOT)/root.bin of=a.img ibs=512 count=1 conv=notrunc seek=37
 	# dd if=$(LOADER)/gdt.bin of=a.img ibs=512 count=18 conv=notrunc seek=35
 	# dd if=$(LOADER)/loader.bin of=a.img ibs=512 count=18 conv=notrunc seek=36
 	dd if=$(KERNEL)/kernel.bin of=a.img ibs=512 count=18 conv=notrunc seek=72
