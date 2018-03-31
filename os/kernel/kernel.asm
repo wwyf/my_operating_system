@@ -11,6 +11,7 @@ extern tty
 _start:
     call install_int40
     call dword cstart
+start_tty:
     call dword tty
     mov ax, 0x02
     int 0x40
@@ -31,8 +32,7 @@ run_com_user_program:
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov ax, 0x2000
-    mov sp, ax
+    mov sp, 0x5000
     jmp 0x3000:0x0000
     
 ;-----------------------------------------------------------
@@ -128,10 +128,31 @@ install_int40:
 ; 使用ax索引中断
 ; 每一个项是16位+16位 
 new_int40:
-    mov bl, al
+
+    cmp ah, 0x4c
+    je .return_kernel
+
+    mov bl, ah
+    xor ax, ax
     mov al, 0x2
     mul bl
     mov si, ax
     mov bx, system_call
     call dword [bx + si] ; 注意这个call是32位的。
+    iret
+
+ .return_kernel:
+    pop cx
+    pop cx
+    pop cx
+
+    mov ax, 0x1000
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov sp, 0x2000
+
+    push cx
+    push 0x1000
+    push start_tty
     iret
