@@ -1,90 +1,107 @@
 
-kernel/kernel.o:     file format elf32-i386
+kernel/main.o:     file format elf32-i386
 
 
 Disassembly of section .text:
 
-00000000 <_start>:
-   0:	e8 fe ff             	call   1 <_start+0x1>
-   3:	b8 02 00             	mov    $0x2,%ax
-   6:	cd 40                	int    $0x40
-   8:	eb fe                	jmp    8 <_start+0x8>
-   a:	b8 5a 00             	mov    $0x5a,%ax
-   d:	e8 15 00             	call   25 <load_com_user_program>
-  10:	eb 00                	jmp    12 <run_com_user_program>
+00000000 <test_system_call>:
+   0:	66 83 ec 18          	sub    $0x18,%esp
+   4:	66 68 00 00 00 00    	pushl  $0x0
+   a:	66 e8 fc ff ff ff    	calll  c <test_system_call+0xc>
+  10:	66 83 c4 1c          	add    $0x1c,%esp
+  14:	66 c3                	retl   
 
-00000012 <run_com_user_program>:
-  12:	b8 00 30             	mov    $0x3000,%ax
-  15:	8e d8                	mov    %ax,%ds
-  17:	8e c0                	mov    %ax,%es
-  19:	8e d0                	mov    %ax,%ss
-  1b:	b8 00 20             	mov    $0x2000,%ax
-  1e:	89 c4                	mov    %ax,%sp
-  20:	ea 00 00 00 30       	ljmp   $0x3000,$0x0
+00000016 <cstart>:
+  16:	66 83 ec 14          	sub    $0x14,%esp
+  1a:	66 68 00 00 00 00    	pushl  $0x0
+  20:	66 6a 02             	pushl  $0x2
+  23:	66 e8 fc ff ff ff    	calll  25 <cstart+0xf>
+  29:	66 b8 00 00 00 00    	mov    $0x0,%eax
+  2f:	66 83 c4 1c          	add    $0x1c,%esp
+  33:	66 c3                	retl   
 
-00000025 <load_com_user_program>:
-  25:	50                   	push   %ax
-  26:	53                   	push   %bx
-  27:	51                   	push   %cx
-  28:	52                   	push   %dx
-  29:	06                   	push   %es
-  2a:	bb 00 30             	mov    $0x3000,%bx
-  2d:	8e c3                	mov    %bx,%es
-  2f:	bb 00 00             	mov    $0x0,%bx
-  32:	b1 0a                	mov    $0xa,%cl
-  34:	e8 06 00             	call   3d <ReadSector>
-  37:	07                   	pop    %es
-  38:	5a                   	pop    %dx
-  39:	59                   	pop    %cx
-  3a:	5b                   	pop    %bx
-  3b:	58                   	pop    %ax
-  3c:	c3                   	ret    
+Disassembly of section .rodata.str1.1:
 
-0000003d <ReadSector>:
-  3d:	55                   	push   %bp
-  3e:	89 e5                	mov    %sp,%bp
-  40:	83 ec 02             	sub    $0x2,%sp
-  43:	88 4e fe             	mov    %cl,-0x2(%bp)
-  46:	53                   	push   %bx
-  47:	b3 12                	mov    $0x12,%bl
-  49:	f6 f3                	div    %bl
-  4b:	fe c4                	inc    %ah
-  4d:	88 e1                	mov    %ah,%cl
-  4f:	88 c6                	mov    %al,%dh
-  51:	d0 e8                	shr    %al
-  53:	88 c5                	mov    %al,%ch
-  55:	80 e6 01             	and    $0x1,%dh
-  58:	5b                   	pop    %bx
-  59:	b2 00                	mov    $0x0,%dl
+00000000 <.rodata.str1.1>:
+   0:	31 32                	xor    %si,(%bp,%si)
+   2:	33 34                	xor    (%si),%si
+   4:	32 31                	xor    (%bx,%di),%dh
+   6:	34 33                	xor    $0x33,%al
+   8:	31 32                	xor    %si,(%bp,%si)
+   a:	34 31                	xor    $0x31,%al
+   c:	32 33                	xor    (%bp,%di),%dh
+   e:	34 32                	xor    $0x32,%al
+  10:	31 33                	xor    %si,(%bp,%di)
+  12:	34 31                	xor    $0x31,%al
+  14:	32 00                	xor    (%bx,%si),%al
 
-0000005b <ReadSector.GoOnReading>:
-  5b:	b4 02                	mov    $0x2,%ah
-  5d:	8a 46 fe             	mov    -0x2(%bp),%al
-  60:	cd 13                	int    $0x13
-  62:	72 f7                	jb     5b <ReadSector.GoOnReading>
-  64:	83 c4 02             	add    $0x2,%sp
-  67:	5d                   	pop    %bp
-  68:	c3                   	ret    
+Disassembly of section .comment:
 
-00000069 <install_int40>:
-  69:	50                   	push   %ax
-  6a:	53                   	push   %bx
-  6b:	1e                   	push   %ds
-  6c:	b8 00 00             	mov    $0x0,%ax
-  6f:	8e d8                	mov    %ax,%ds
-  71:	8c c8                	mov    %cs,%ax
-  73:	c7 06 00 01 80 00    	movw   $0x80,0x100
-  79:	a3 02 01             	mov    %ax,0x102
-  7c:	1f                   	pop    %ds
-  7d:	5b                   	pop    %bx
-  7e:	58                   	pop    %ax
-  7f:	c3                   	ret    
+00000000 <.comment>:
+   0:	00 47 43             	add    %al,0x43(%bx)
+   3:	43                   	inc    %bx
+   4:	3a 20                	cmp    (%bx,%si),%ah
+   6:	28 55 62             	sub    %dl,0x62(%di)
+   9:	75 6e                	jne    79 <cstart+0x63>
+   b:	74 75                	je     82 <cstart+0x6c>
+   d:	20 35                	and    %dh,(%di)
+   f:	2e 34 2e             	cs xor $0x2e,%al
+  12:	30 2d                	xor    %ch,(%di)
+  14:	36 75 62             	ss jne 79 <cstart+0x63>
+  17:	75 6e                	jne    87 <cstart+0x71>
+  19:	74 75                	je     90 <cstart+0x7a>
+  1b:	31 7e 31             	xor    %di,0x31(%bp)
+  1e:	36 2e 30 34          	ss xor %dh,%cs:(%si)
+  22:	2e 39 29             	cmp    %bp,%cs:(%bx,%di)
+  25:	20 35                	and    %dh,(%di)
+  27:	2e 34 2e             	cs xor $0x2e,%al
+  2a:	30 20                	xor    %ah,(%bx,%si)
+  2c:	32 30                	xor    (%bx,%si),%dh
+  2e:	31 36 30 36          	xor    %si,0x3630
+  32:	30 39                	xor    %bh,(%bx,%di)
+	...
 
-00000080 <new_int40>:
-  80:	88 c3                	mov    %al,%bl
-  82:	b0 08                	mov    $0x8,%al
-  84:	f6 e3                	mul    %bl
-  86:	89 c6                	mov    %ax,%si
-  88:	bb 00 00             	mov    $0x0,%bx
-  8b:	66 ff 18             	lcalll *(%bx,%si)
-  8e:	cf                   	iret   
+Disassembly of section .eh_frame:
+
+00000000 <.eh_frame>:
+   0:	14 00                	adc    $0x0,%al
+   2:	00 00                	add    %al,(%bx,%si)
+   4:	00 00                	add    %al,(%bx,%si)
+   6:	00 00                	add    %al,(%bx,%si)
+   8:	01 7a 52             	add    %di,0x52(%bp,%si)
+   b:	00 01                	add    %al,(%bx,%di)
+   d:	7c 08                	jl     17 <.eh_frame+0x17>
+   f:	01 1b                	add    %bx,(%bp,%di)
+  11:	0c 04                	or     $0x4,%al
+  13:	04 88                	add    $0x88,%al
+  15:	01 00                	add    %ax,(%bx,%si)
+  17:	00 18                	add    %bl,(%bx,%si)
+  19:	00 00                	add    %al,(%bx,%si)
+  1b:	00 1c                	add    %bl,(%si)
+  1d:	00 00                	add    %al,(%bx,%si)
+  1f:	00 00                	add    %al,(%bx,%si)
+  21:	00 00                	add    %al,(%bx,%si)
+  23:	00 16 00 00          	add    %dl,0x0
+  27:	00 00                	add    %al,(%bx,%si)
+  29:	44                   	inc    %sp
+  2a:	0e                   	push   %cs
+  2b:	1c 46                	sbb    $0x46,%al
+  2d:	0e                   	push   %cs
+  2e:	20 4a 0e             	and    %cl,0xe(%bp,%si)
+  31:	04 00                	add    $0x0,%al
+  33:	00 1c                	add    %bl,(%si)
+  35:	00 00                	add    %al,(%bx,%si)
+  37:	00 38                	add    %bh,(%bx,%si)
+  39:	00 00                	add    %al,(%bx,%si)
+  3b:	00 16 00 00          	add    %dl,0x0
+  3f:	00 1f                	add    %bl,(%bx)
+  41:	00 00                	add    %al,(%bx,%si)
+  43:	00 00                	add    %al,(%bx,%si)
+  45:	44                   	inc    %sp
+  46:	0e                   	push   %cs
+  47:	18 46 0e             	sbb    %al,0xe(%bp)
+  4a:	1c 43                	sbb    $0x43,%al
+  4c:	0e                   	push   %cs
+  4d:	20 50 0e             	and    %dl,0xe(%bx,%si)
+  50:	04 00                	add    $0x0,%al
+	...

@@ -2,7 +2,7 @@
 TARGET = kernel.bin
 include = ../include
 LIB=../lib
-OBJECTS= stdio.o  basic.o  string.o system_call.o  main.o
+OBJECTS= stdio.o  basic.o  string.o system_call.o  main.o tty.o
 C_FLAGS=-c -m16 -ffreestanding -Og
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
@@ -13,7 +13,7 @@ KERNEL_ASM=kernel.asm
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(TARGET) $(OBJECTS) tty.bin kernel.bin
+all : $(TARGET) $(OBJECTS) kernel.bin
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -36,9 +36,8 @@ system_call.o : ../lib/system_call.c
 # keyboard.o : ../lib/keyboard.c
 	# gcc $(C_FLAGS) -o keyboard.o ../lib/keyboard.
 
-tty.bin : tty.c
+tty.o : tty.c
 	gcc $(C_FLAGS) -o tty.o tty.c
-	ld $(LINK_FLAGS) -o tty.bin tty.o $(OBJECTS)
 
 $(TARGET): $(OBJECTS) kernel.o
 	ld $(LINK_FLAGS) -o kernel.bin kernel.o $(OBJECTS)

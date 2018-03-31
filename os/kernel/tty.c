@@ -14,7 +14,7 @@ int command_line_cursor = 0; // 光标在输入区的偏移量
 char input_buf[MAX_BUF]; // 输入缓存区
 
 
-int main(){
+void tty(){
     int keyboard_flag = 0;
     new_line_flag = 1;
     command_line_row = -1;

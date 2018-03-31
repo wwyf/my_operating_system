@@ -45,8 +45,3 @@ user4_bound_y_right equ 78
     db 66h
     ret
 %endmacro
-
-%macro calll 1
-    db 66h
-    call %1
-%endmacro

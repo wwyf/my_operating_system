@@ -25,7 +25,7 @@ $(objects) : $(BOOT)/boot.bin $(KERNEL)/kernel.bin $(USER)/user.bin $(include)/m
 	# dd if=$(LOADER)/gdt.bin of=a.img ibs=512 count=18 conv=notrunc seek=35
 	# dd if=$(LOADER)/loader.bin of=a.img ibs=512 count=18 conv=notrunc seek=36
 	dd if=$(KERNEL)/kernel.bin of=a.img ibs=512 count=10 conv=notrunc seek=72
-	dd if=$(KERNEL)/tty.bin of=a.img ibs=512 count=18 conv=notrunc seek=90
+	# dd if=$(KERNEL)/tty.bin of=a.img ibs=512 count=18 conv=notrunc seek=90
 
 runq:
 	qemu-system-i386.exe -fda a.img

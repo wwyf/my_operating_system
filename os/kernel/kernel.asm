@@ -5,11 +5,13 @@
 %include "../include/macro.inc"
 extern system_call
 extern cstart
+extern tty
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
     call install_int40
-    call cstart
+    call dword cstart
+    call dword tty
     mov ax, 0x02
     int 0x40
     jmp $
