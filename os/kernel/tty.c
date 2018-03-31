@@ -20,6 +20,8 @@ void tty(){
     command_line_row = -1;
     clean_screen();
     while (1){
+        __asm__("mov $0x02, %ax");
+        __asm__("int $0x40");
         // 使用缓冲区数据更新
         if (new_line_flag){
             create_a_line();

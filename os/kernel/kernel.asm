@@ -133,5 +133,5 @@ new_int40:
     mul bl
     mov si, ax
     mov bx, system_call
-    calll near [bx + si] ; 注意这个call是32位的。
+    call dword [bx + si] ; 注意这个call是32位的。
     iret
