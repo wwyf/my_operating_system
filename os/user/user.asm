@@ -1,5 +1,5 @@
 %include "../include/macro.inc"
-section my_user2_program_header vstart=0x50000
+; section stone vstart=0x50000
     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
 start:
@@ -18,10 +18,6 @@ start:
 	mov cx, user2_MessageLength  ; CX = 串长（=9）
 	mov bp, user2_Message		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
-
-user2_Message:
-    db 'Enter q to return system menu!                                                 '
-user2_MessageLength equ ($-user2_Message)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 loop1:
@@ -45,6 +41,7 @@ check_keyboard:
 
     cmp al, 'q' ; 如果键入q则退出
     jnz check_keyboard
+	mov ax, 0x4c00
 	int 40h
 clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
       xor ax,ax                 ; 计算显存地址
@@ -146,4 +143,8 @@ datadef:
     y    dw user2_bound_y_left+1
     y_direct dw 1
     char db 2
+
+user2_Message:
+    db 'Enter q to return system menu!                                                 '
+user2_MessageLength equ ($-user2_Message)
 
