@@ -103,11 +103,10 @@ void parser(){
 
     // 完成分词，开始进行执行
 
-    // TODO:detect a bug 一旦恢复，就会出现问题。
-    // if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
-    //     // 运行一个用户程序。
-    //     __asm__("jmp $0x5000,$0x0000");
-    // }
+    if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
+        // 运行一个用户程序。
+        __asm__("jmp $0x5000,$0x0000");
+    }
     return ;
 }
 

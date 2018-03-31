@@ -65,7 +65,7 @@ new_int40:
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov sp, 0x2000
+    mov sp, 0x5000
 
     push cx
     push 0x1000
