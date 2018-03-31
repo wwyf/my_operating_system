@@ -45,8 +45,5 @@ void scroll_screen();
 读取整个扇区到指定内存地址处 */
 void read_sector(u16 head, u16 cylinder, u16 sector,  u16 segment, u16 offset);
 
-/* 
-读取指定逻辑扇区号的扇区到指定内存地址处 */
-void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset);
 
 #endif

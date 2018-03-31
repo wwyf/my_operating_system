@@ -54,19 +54,19 @@ LoadnEx:
 	mov cl,1                 ;起始扇区号 ; 起始编号为1
 	int 13H ;                调用读磁盘BIOS的13h功能
 	; 系统内核已加载到指定内存区域中	
-LoadnEx2:
-     ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
-	mov ax,user_program_segment ;段地址 ; 存放数据的内存基地址
-	mov es,ax                ;设置段地址（不能直接mov es,段地址）
-	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
-	mov ah,2                 ; 功能号
-	mov al,18                ;扇区数
-	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
-	mov dh,1                 ;磁头号 ; 起始编号为0
-	mov ch,2                 ;柱面号 ; 起始编号为0
-	mov cl,1                 ;起始扇区号 ; 起始编号为1
-	int 13H ;                调用读磁盘BIOS的13h功能
-	; 系统内核已加载到指定内存区域中
+; LoadnEx2:
+;      ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
+; 	mov ax,user_program_segment ;段地址 ; 存放数据的内存基地址
+; 	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+; 	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
+; 	mov ah,2                 ; 功能号
+; 	mov al,18                ;扇区数
+; 	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
+; 	mov dh,1                 ;磁头号 ; 起始编号为0
+; 	mov ch,2                 ;柱面号 ; 起始编号为0
+; 	mov cl,1                 ;起始扇区号 ; 起始编号为1
+; 	int 13H ;                调用读磁盘BIOS的13h功能
+; 	; 系统内核已加载到指定内存区域中
 
 ; 转入系统内核
 inkernel:

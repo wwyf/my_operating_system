@@ -11,6 +11,7 @@ void test_system_call();
 
 int cstart(){
     install_system_call(2, test_system_call);
+    read_n_sector(90,10,0x5000,0);
     return 0;
 }
 

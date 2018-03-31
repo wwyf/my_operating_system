@@ -9,6 +9,7 @@ global check_keyboard
 global get_keyboard
 global clean_screen
 global scroll_screen
+global read_sector
 
 [bits 16]
 
@@ -211,7 +212,7 @@ get_random:
     mov ah, 0h
     add ax, 114 ; 加上白色背景色
     pop bx
-    ret
+    retl
 
 ;------------------------------------------------------------
 ;----------------------------------------------------------------------------
@@ -221,24 +222,26 @@ get_random:
 ; 作用:
 ;    从第 ax 个 Sector 开始, 将 cl 个 Sector 读入 es:bx 中
 ;    从0开始算
-;                       20      16     ebp + 12      ebp + 8      ebp + 4
+;                       +8      12     ebp + 16      ebp + 20      ebp + 24
 ; void read_sector(u16 磁头, u16 柱面, u16 扇区号,  u16 segment, u16 offset)
 read_sector:
+    push ebp
+    mov ebp, esp
     push ax
     push bx
     push cx
     push dx
     push es
      ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
-	mov ax,[ebp+8]  ;段地址 ; 存放数据的内存基地址
+	mov ax,[ebp+20]  ;段地址 ; 存放数据的内存基地址
 	mov es,ax                ;设置段地址（不能直接mov es,段地址）
-	mov bx,[ebp+4] ;偏移地址; 存放数据的内存偏移地址
+	mov bx,[ebp+24] ;偏移地址; 存放数据的内存偏移地址
 	mov ah,2                 ; 功能号
 	mov al,1                ;扇区数
 	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
-	mov dh,[ebp+20]                 ;磁头号 ; 起始编号为0
-	mov ch,[ebp+16]                 ;柱面号 ; 起始编号为0
-	mov cl,[ebp+12]                 ;起始扇区号 ; 起始编号为1
+	mov dh,[ebp+8]                 ;磁头号 ; 起始编号为0
+	mov ch,[ebp+12]                 ;柱面号 ; 起始编号为0
+	mov cl,[ebp+16]                 ;起始扇区号 ; 起始编号为1
 	int 13H ;                调用读磁盘BIOS的13h功能
 
     pop es
@@ -246,4 +249,6 @@ read_sector:
     pop cx
     pop bx
     pop ax
+    mov esp, ebp
+    pop ebp
     retl

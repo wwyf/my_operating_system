@@ -315,5 +315,12 @@ int iscntrl (int ch){
 /* 
 读取指定逻辑扇区号的扇区到指定内存地址处 */
 void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
+    for (int i = 0; i < number; i++){
+        int sector = (sector_code+i) % 18+1;
+        int mid = (sector_code+i) / 18;
+        int cylinder = mid >> 1;
+        int head = mid & 1;
+        read_sector(head, cylinder,sector,segment, offset + i*512);
+    }
     return ;
 }
