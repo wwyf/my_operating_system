@@ -1,3 +1,5 @@
+ROOTENTCNT equ 64
+
 loader_code_segment equ 0x0800
 loader_code_entry equ 0x0000
 kernel_code_segment equ 0x1000
@@ -39,6 +41,6 @@ user4_bound_y_left equ 40
 user4_bound_y_right equ 78 
 
 %macro retl 0
-    db 66h
+    db 0x66
     ret
 %endmacro

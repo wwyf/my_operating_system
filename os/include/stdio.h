@@ -65,13 +65,9 @@ int isblank (int ch);
 int iscntrl (int ch);
 int isdigit (int ch);
 
-/* TODO:
-从键盘缓冲区获取一个键盘输入 */
 
-
-
-/* TODO:
-从键盘缓冲区获得输入，并写到相应的地址处。*/
-// void scanf(char *, ...);
+/* 
+读取指定逻辑扇区号的扇区到指定内存地址处 */
+void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset);
 
 #endif

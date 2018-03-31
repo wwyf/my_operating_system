@@ -308,3 +308,12 @@ int iscntrl (int ch){
         return 1;
     return 0;
 }
+
+
+
+
+/* 
+读取指定逻辑扇区号的扇区到指定内存地址处 */
+void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
+    return ;
+}
