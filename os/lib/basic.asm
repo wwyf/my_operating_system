@@ -193,3 +193,22 @@ scroll_screen:
     pop bx
     pop ax
     retl
+
+;--------------------------------------------------------------
+; 取得随机数，结果保存在ax中
+; 会修改ax！！作为返回值！！
+get_random:
+    push bx
+
+    mov ax, 00h
+    out 43h, al
+    in al, 40h
+
+    mov bl, 8 ; 除以8，得到范围为0-7的随机数
+    div bl
+
+    mov al, ah
+    mov ah, 0h
+    add ax, 114 ; 加上白色背景色
+    pop bx
+    ret
