@@ -309,11 +309,10 @@ int iscntrl (int ch){
     return 0;
 }
 
-
-
-
 /* 
-读取指定逻辑扇区号的扇区到指定内存地址处 */
+读取指定逻辑扇区号的扇区到指定内存地址处
+注意一次最多写一个段，也就是64k 最多读128个扇区。
+够用了够用了 */
 void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
     for (int i = 0; i < number; i++){
         int sector = (sector_code+i) % 18+1;
