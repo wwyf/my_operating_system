@@ -16,4 +16,18 @@ typedef char ** va_list ;
 
 #define MAX_SYSTEM_CALL 256
 
+#define MSG_SEGMENT 0x0100
+#define MSG_SEND 0x0000
+#define MSG_RECV 0x5000
+
+typedef struct{
+    u8 opcode;
+    u16 number;
+    u32 space1;
+    u32 space2;
+    u32 space3;
+    u32 space4;
+    u32 space5;
+}Message;
+
 #endif

@@ -14,17 +14,14 @@ void test_system_call();
 int cstart(){
     install_system_call(2, test_system_call);
     read_n_sector(37,1,0x1000,root);// 加载用户程序到指定地址处。
+    read_n_sector(1,1,0x0100,0x0000);// 读取fat表到指定地址处。
     clean_screen();
     set_cursor(0);
-    puts(&root[0],10);
-    putc(root[0].file_name1);
-    putc(root[0].file_name2);
-    puti(root[0].cluster_number);
-    putc(root[1].file_name2);
-    puti(root[1].cluster_number);
-    putc(root[2].file_name3);
-    putc(root[2].file_name4);
-    puti(root[2].cluster_number);
+
+    u16 ptr;
+    read_memory(0x0100,0x0000, 1, &ptr);
+    puti(ptr);
+
     while (1){}
     return 0;
 }
@@ -35,3 +32,9 @@ void test_system_call(){
     printf("test custom system call!!! ");
     set_cursor(origin);
 }
+
+// void load_bin_file_by_name(){
+//     Message msg;
+
+//     char * file_name = (char *)
+// }

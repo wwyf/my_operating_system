@@ -323,3 +323,13 @@ void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
     }
     return ;
 }
+
+
+/* 
+读取内存中指定地址起n字节的内容到指定指针处 */
+void read_memory(u16 segment, u16 offset, u16 byte_size, u16 * ptr){
+    int addr = (segment << 4) + offset;
+    for (int i = 0; i < byte_size; i++){
+        *(ptr+i) = read_memory_word(addr);
+    }
+}

@@ -113,7 +113,7 @@ write_memory_byte:
 read_memory_word:
     push ebp
     mov ebp, esp
-    push ax
+    ; push ax
     push bx
     push dx
     push ds
@@ -129,7 +129,7 @@ read_memory_word:
     pop ds
     pop dx
     pop bx
-    pop ax
+    ; pop ax
     mov esp, ebp
     pop ebp
     retl

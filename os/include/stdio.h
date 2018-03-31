@@ -70,4 +70,8 @@ int isdigit (int ch);
 读取指定逻辑扇区号的扇区到指定内存地址处 */
 void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset);
 
+/* 
+读取内存中指定地址起n字节的内容到指定指针处 */
+void read_memory(u16 segment, u16 offset, u16 word_size, u16 * ptr);
+
 #endif
