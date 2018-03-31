@@ -1,5 +1,3 @@
-section my_user1_program_header vstart=0x10000
-
 code_start:
 	; 初始化用户程序段地址
     mov ax, cs
@@ -40,4 +38,4 @@ user_message:
     db 0x0d
     db 0x0a
     db '   Enter q to return system menu!'
-user_mssageLength equ ($-user_message)
+user_messageLength equ ($-user_message)

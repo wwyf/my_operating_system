@@ -16,10 +16,7 @@ core_stack_segment_header_offset equ 0x30
 core_stack_length equ 256
 core_entry_header_offset equ 0x32
 
-user1_program_address equ 0x2000
-user2_program_address equ 0x3000
-user3_program_address equ 0x4000
-user4_program_address equ 0x5000
+user_program_segment equ 0x5000
 
 user1_bound_x_up equ 1 
 user1_bound_x_down equ 12

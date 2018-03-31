@@ -16,7 +16,7 @@ void strncpy(char * dest, char * src, u32 size);
 
 /* TODO:
 字符串比较 */
-void strcmp(char * lhs, char * rhs);
+int strcmp(char * lhs, char * rhs);
 
 /* TODO:
 字符串拼接*/

@@ -5,6 +5,8 @@
 
 #define MAX_BUF 100
 
+void create_a_line();
+void parser();
 // u8 display_start; // 显存区域开头
 // u8 display_end; // 显存区域末尾
 int command_line_row = -1; // 命令行当前所在行号
@@ -69,7 +71,7 @@ void tty(){
         }
         keyboard_flag = 0;
     }
-    return 0;
+    return ;
 }
 
 
@@ -78,10 +80,11 @@ void parser(){
     int input_start = 0;
     int input_end = 0;
     int arguments_num = 0;
+    printf("into parser");
     // 使用空格作为分隔符，将输入缓冲区的内容分割成几个参数分别存进arguments数组中
     while (input_end < command_line_cursor){
         if(input_buf[input_end] == ' '){
-            if (input_start == input_end{ // 如果并没有参数，那么继续
+            if (input_start == input_end){ // 如果并没有参数，那么继续
                 input_start++;
                 input_end++;
                 continue;
@@ -100,9 +103,11 @@ void parser(){
 
     // 完成分词，开始进行执行
 
-    if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
-        // 运行一个用户程序。
-    }
+    // TODO:detect a bug 一旦恢复，就会出现问题。
+    // if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
+    //     // 运行一个用户程序。
+    //     __asm__("jmp $0x5000,$0x0000");
+    // }
     return ;
 }
 

@@ -163,7 +163,7 @@ clean_screen:
     mov cl,0   ;左上角的列号
     mov dh,24  ;右下角的行号
     mov dl,79  ;右下角的行号
-    mov bh,0x17;属性为蓝底白字
+    mov bh,0x1F;属性为蓝底白字
     int 0x10
 
     pop dx

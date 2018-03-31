@@ -45,13 +45,13 @@ void vprintf(char * format, va_list a);
 void printf(char * format, ...);
 
 
-/* tested
-将指定的中断修改为自定义的中断，并设置中断处理例程的段地址和偏移量 */
-void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset);
+// /* tested
+// 将指定的中断修改为自定义的中断，并设置中断处理例程的段地址和偏移量 */
+// void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset);
 
-/* tested
-定义一个 */
-void install_interrupt_handler(u8 n, void (*interrupt_handler)());
+// /* tested
+// 定义一个 */
+// void install_interrupt_handler(u8 n, void (*interrupt_handler)());
 
 
 /* 

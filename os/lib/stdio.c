@@ -246,19 +246,19 @@ void printf(char * format, ...){
 }
 
 
-void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset){
-    write_memory_word(n*4, entry_offset);
-    write_memory_word(n*4+2, segment_address);
-    return ;
-}
+// void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset){
+//     write_memory_word(n*4, entry_offset);
+//     write_memory_word(n*4+2, segment_address);
+//     return ;
+// }
 
 
-void install_interrupt_handler(u8 n, void (*interrupt_handler)()){
-    // 猜想：TODO: 函数指针是代码段的偏移量，也就是eip
-    // 猜想成立。
-    _install_interrupt_handler(n, 0x1000, interrupt_handler);
-    return ;
-}
+// void install_interrupt_handler(u8 n, void (*interrupt_handler)()){
+//     // 猜想：TODO: 函数指针是代码段的偏移量，也就是eip
+//     // 猜想成立。
+//     _install_interrupt_handler(n, 0x1000, interrupt_handler);
+//     return ;
+// }
 
 
 
@@ -282,7 +282,7 @@ int isalnum (int ch){
     return 0;
 }
 int ispunct (int ch){
-    char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+    char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     for (int i = 0; i < 33; i++){
         if (ch == punct[i])
             return 1;
@@ -295,7 +295,7 @@ int isblank (int ch){
     return 0;
 }
 int isprint (int ch){
-    if (isalpha(ch) || isdigit(ch) || isalnum(ch) || ispunct(ch)){
+    if (isalpha(ch) || isdigit(ch) || isalnum(ch) || ispunct(ch) || isblank(ch)){
         return 1;
     }
     return 0;

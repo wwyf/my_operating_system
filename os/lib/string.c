@@ -15,7 +15,7 @@ void strncpy(char * dest, char * src, u32 size){
     dest[size] = '\0';
 }
 
-void strcmp(char * lhs, char * rhs){
+int strcmp(char * lhs, char * rhs){
     int lhs_len = strlen(lhs);
     int rhs_len = strlen(rhs);
     if (lhs_len != rhs_len){

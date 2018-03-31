@@ -2,6 +2,7 @@
 #include "../include/basic.h"
 #include "../include/stdio.h"
 #include "../include/string.h"
+#include "../include/system_call.h"
 
 
 u16 system_call[MAX_SYSTEM_CALL];
