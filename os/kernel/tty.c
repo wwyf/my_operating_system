@@ -2,7 +2,6 @@
 #include "../include/basic.h"
 #include "../include/stdio.h"
 #include "../include/string.h"
-#include "../include/interrupt.h"
 
 #define MAX_BUF 100
 

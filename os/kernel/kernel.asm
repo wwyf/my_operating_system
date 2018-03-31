@@ -4,10 +4,11 @@
 ; 加载到内存 0x1000处
 %include "../include/macro.inc"
 extern system_call
+extern cstart
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
-    
+    call cstart
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。
     mov ax, 90
     call load_com_user_program

@@ -2,7 +2,6 @@
 #include "../include/basic.h"
 #include "../include/stdio.h"
 #include "../include/string.h"
-#include "../include/interrupt.h"
 
 #define MAX_SYSTEM_CALL 256
 
@@ -23,7 +22,7 @@ int cstart(){
 
     
 
-    while (1) {}
+    // while (1) {}
 
     return 0;
 }
