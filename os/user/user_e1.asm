@@ -1,4 +1,4 @@
-section my_user1_program_header vstart=0x10000
+; section my_user1_program_header vstart=0x10000
 ;NASM 汇编
 ;nasm this.asm -o hello_os
     Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
@@ -10,6 +10,10 @@ section my_user1_program_header vstart=0x10000
     color equ 10
 
 start:
+	mov ax, cs
+	mov ds, ax
+	mov es, ax
+	mov ss, ax
 	mov ax,0B800h				; 文本窗口显存起始地址
 	mov gs,ax					; GS = B800h
     call clean_screen
@@ -45,6 +49,7 @@ check_keyboard_d:
 check_keyboard_q:
 	cmp al, 'q'
 	jnz check_keyboard
+	mov ax, 0x4c00
 	int 40h
 	jmp check_keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -314,6 +319,7 @@ return_point:
 
     cmp al, 'q' ; 如果键入q则退出
     jnz return_point
+    mov ax, 4c00h
 	int 40h
 	ret
 

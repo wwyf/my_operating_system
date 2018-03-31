@@ -1,14 +1,15 @@
 # 生成boot.bin 引导器，将加载器加载并转交控制权
-objects = user_test.bin
+TEST_BIN = user_test.bin
+TEST_ASM = user_e1.asm
 include = ../include
 
-all : $(objects)
+all : $(TEST_BIN)
 
-$(objects) : user_test.asm $(include)/macro.inc
-	nasm -f bin -o user_test.bin  user_test.asm
+$(TEST_BIN) : $(TEST_ASM) $(include)/macro.inc
+	nasm -f bin -o $(TEST_BIN)  $(TEST_ASM)
 
 .PHONY : clean
 clean :
-	-rm $(objects).bin
+	-rm $(TEST_BIN)
 	-rm *.list
 	-rm *.objdump
