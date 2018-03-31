@@ -3,13 +3,13 @@
 #include "../include/stdio.h"
 #include "../include/string.h"
 
-#define MAX_SYSTEM_CALL 256
 
-u32 system_call[MAX_SYSTEM_CALL];
+u16 system_call[MAX_SYSTEM_CALL];
+
+void test_system_call();
 
 int cstart(){
-
-
+    install_system_call(2, test_system_call);
     // set_cursor(0);
     // for (int i = 0; i < 2000; i++)
     //     putc(' ');
@@ -19,10 +19,11 @@ int cstart(){
     // __asm__(".byte 0x66");
     // __asm__(".byte 0x67");
     // __asm__("int $0x40");
-
-    
-
     // while (1) {}
 
     return 0;
+}
+
+void test_system_call(){
+    printf("123421431241234213412");
 }

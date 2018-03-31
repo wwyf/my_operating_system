@@ -14,4 +14,6 @@ typedef char ** va_list ;
 #define INT_LENGTH 15
 #define BUF_LENGTH 1024
 
+#define MAX_SYSTEM_CALL 256
+
 #endif

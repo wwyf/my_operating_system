@@ -8,7 +8,11 @@ extern cstart
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
+    call install_int40
     call cstart
+    mov ax, 0x02
+    int 0x40
+    jmp $
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。
     mov ax, 90
     call load_com_user_program
@@ -123,9 +127,9 @@ install_int40:
 ; 每一个项是16位+16位 
 new_int40:
     mov bl, al
-    mov al, 0x8
+    mov al, 0x2
     mul bl
     mov si, ax
     mov bx, system_call
-    call [bx + si]
-    ret
+    calll near [bx + si] ; 注意这个call是32位的。
+    iret
