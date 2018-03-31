@@ -57,10 +57,11 @@ void tty(){
                     set_cursor(cur_cursor-1);
                 }
             }
-            // else if (ascii_code == 'q'){
-            //     __asm__("mov $0x4c00, %ax");
-            //     __asm__("int $0x40");
-            // }
+            else if (ascii_code == 27){
+                __asm__("mov $0x4c00, %ax");
+                __asm__("int $0x40");
+                // printf("test!!esc!!");
+            }
             int a = get_cursor();
             set_cursor(1900);
             printf("%d %d %d", ascii_code, scan_code, a);
@@ -73,6 +74,35 @@ void tty(){
 
 
 void parser(){
+    char arguments[10][10];
+    int input_start = 0;
+    int input_end = 0;
+    int arguments_num = 0;
+    // 使用空格作为分隔符，将输入缓冲区的内容分割成几个参数分别存进arguments数组中
+    while (input_end < command_line_cursor){
+        if(input_buf[input_end] == ' '){
+            if (input_start == input_end{ // 如果并没有参数，那么继续
+                input_start++;
+                input_end++;
+                continue;
+            }
+            else {// 如果有参数，并且已经读到末尾了，那就复制到相应的区域
+                strncpy(arguments[arguments_num], input_buf+input_start, input_end-input_start);
+                input_end++;
+                input_start = input_end;
+            }
+        }
+        else {// 有参数，还没有读到末尾
+            input_end++;
+            continue;
+        }
+    }
+
+    // 完成分词，开始进行执行
+
+    if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
+        // 运行一个用户程序。
+    }
     return ;
 }
 
