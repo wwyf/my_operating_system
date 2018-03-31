@@ -16,6 +16,7 @@ int cstart(){
     read_n_sector(37,1,0x1000,root);// 加载用户程序到指定地址处。
     clean_screen();
     set_cursor(0);
+    puts(&root[0],10);
     putc(root[0].file_name1);
     putc(root[0].file_name2);
     puti(root[0].cluster_number);
