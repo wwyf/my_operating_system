@@ -4,7 +4,9 @@
 #include "../include/string.h"
 #include "../include/interrupt.h"
 
-void my_int40();
+#define MAX_SYSTEM_CALL 256
+
+u32 system_call[MAX_SYSTEM_CALL];
 
 int cstart(){
 

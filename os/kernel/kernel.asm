@@ -3,6 +3,7 @@
 ; 软盘第2-5个扇区中
 ; 加载到内存 0x1000处
 %include "../include/macro.inc"
+extern system_call
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
@@ -94,4 +95,36 @@ ReadSector:
     jc    .GoOnReading        ; 如果读取错误 CF 会被置为 1, 这时就不停地读, 直到正确为止
     add    sp, 2
     pop    bp
+    ret
+
+;###################################################################################
+;--------------------------------内部过程-------------------------------------------
+; 安装40号中断，用于用户程序返回内核
+install_int40:
+    push ax
+    push bx
+    push ds
+
+    ; 安装 int 40 主要代码
+    mov ax, 0
+    mov ds, ax
+    mov ax, cs
+    mov word [0x40*4], new_int40
+    mov word [0x40*4+2], ax
+    
+    pop ds
+    pop bx
+    pop ax
+    ret
+
+; 这是新的int40，用于调用系统调用
+; 使用ax索引中断
+; 每一个项是16位+16位 
+new_int40:
+    mov bl, al
+    mov al, 0x8
+    mul bl
+    mov si, ax
+    mov bx, system_call
+    call [bx + si]
     ret
