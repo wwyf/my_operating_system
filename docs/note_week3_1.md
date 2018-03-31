@@ -226,6 +226,7 @@ A20地址线：修改了寻址空间
 ## 对0x66,0x67前缀的了解
 
 https://wiki.osdev.org/X86-64_Instruction_Encoding
+http://blog.csdn.net/longintchar/article/details/50602851
 
 终于知道了CPU是如何分辨16位指令还是32位指令了。
 
