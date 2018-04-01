@@ -46,6 +46,10 @@ new_int40:
 
     cmp ah, 0x4c
     je .return_kernel
+    ;TODO:
+    ; 保存用户栈指针
+    ; 将栈切换到内核栈
+    ; 将用户栈保存到内核栈中
 
     mov bl, ah
     xor ax, ax
@@ -54,6 +58,8 @@ new_int40:
     mov si, ax
     mov bx, system_call
     call dword [bx + si] ; 注意这个call是32位的。
+    ;TODO:
+    ; 从内核栈恢复到用户栈
     iret
 
  .return_kernel:

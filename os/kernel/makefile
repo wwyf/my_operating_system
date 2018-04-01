@@ -2,13 +2,13 @@
 TARGET = kernel.bin
 include = ../include
 LIB=../lib
-OBJECTS= stdio.o  basic.o  string.o system_call.o  main.o tty.o
+OBJECTS= stdio.o  basic.o  string.o system_call.o  start.o tty.o
 C_FLAGS=-c -m16 -ffreestanding -Og
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
 OBJDUMP_FLAGS= -m i8086 -b binary
-KERNEL_C=main.c
+KERNEL_C=start.c
 KERNEL_ASM=kernel.asm
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
@@ -21,8 +21,8 @@ stdio.o : $(LIB_C)
 basic.o: $(LIB_ASM)
 	nasm $(NASM_FLAGS) -o basic.o $(LIB_ASM) 
 
-main.o: $(KERNEL_C)
-	gcc $(C_FLAGS) -o main.o $(KERNEL_C)
+start.o: $(KERNEL_C)
+	gcc $(C_FLAGS) -o start.o $(KERNEL_C)
 
 kernel.o: $(KERNEL_ASM)
 	nasm $(NASM_FLAGS) -o kernel.o $(KERNEL_ASM)
