@@ -7,6 +7,7 @@ global write_memory_byte
 global read_memory_word
 global check_keyboard
 global get_keyboard
+global get_random
 global clean_screen
 global scroll_screen
 global read_sector

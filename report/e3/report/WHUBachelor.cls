@@ -140,6 +140,11 @@
 \RequirePackage{url}
 \RequirePackage{enumerate}
 \RequirePackage{booktabs}
+% \RequirePackage{identfirst}
+% \setlength {\ parindent }{2em}
+% 段间距
+\addtolength{\parskip}{4pt}
+
 %%----------------------- Theorems -----------------------------------
 \theoremstyle{plain}
 \theoremheaderfont{\heiti}

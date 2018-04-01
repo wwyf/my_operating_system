@@ -34,6 +34,10 @@ u16 check_keyboard();
 u16 get_keyboard();
 
 /* 
+从系统时钟中获取随机数 */
+u16 get_random();
+
+/* 
 清屏 */
 void clean_screen();
 

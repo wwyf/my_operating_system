@@ -4,6 +4,7 @@
 extern system_call
 extern cstart
 extern tty
+extern get_random
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
@@ -76,3 +77,114 @@ new_int40:
     push 0x1000
     push start_tty
     iret
+
+
+;--------------------------安装8号中断----------------------------
+; install_int8:
+;     push ax
+;     push ds
+;     push es
+
+;     mov al,34h   ; 设控制字值 
+;     out 43h,al   ; 写控制字到控制字寄存器 
+;     mov ax,0ffffh ; 中断时间设置
+;     out 40h,al   ; 写计数器 0 的低字节 
+;     mov al,ah    ; AL=AH 
+;     out 40h,al   ; 写计数器 0 的高字节
+ 
+;     mov ax, 0
+;     mov ds, ax
+;     mov ax, cs
+;     mov word [4*8+2], ax ; 设置段地址为cs
+;     mov word [4*8], new_int8 ; 设置偏移地址为子过程所在位置
+
+;     ; mov ax, 0b800h
+;     ; mov es, ax
+;     ; mov ax, 0730h
+;     ; mov [es:0x00], ax
+
+;     pop es
+;     pop ds
+;     pop ax
+;     ret
+; ;------------------------------------------------------------------------------
+; new_int8:
+;     push es
+;     push ax
+;     push bx
+;     push cx
+;     push dx
+;     push bp
+
+;     ; 设置段地址
+;     mov ax, 0b800h
+;     mov es, ax
+; ; for i = 24:1
+;     ; [es:160*i] = [es:160*(i-1)]
+    
+;     ; 计算左下角所在地址，并取出左下角的字符
+;     mov cx, 24
+;     mov al, 160
+;     mul cl
+;     mov bp, ax
+;     mov dl, byte [es:bp] ; [es:160*24]
+;     ; 向下平移
+;     sub bp, 160            ;[es:160*23]
+;     ; 将当前行的字符移到下一行
+; scroll_bound_loop_1:
+;     mov al, byte [es:bp]
+;     mov byte [es:bp+160], al
+;     call get_random
+;     mov byte [es:bp+161], al
+;     sub bp, 160
+;     loop scroll_bound_loop_1
+
+;     ; 将第一行的1-79的字符移到0-78
+;     mov cx, 79
+;     mov bp, 2
+; scroll_bound_loop_2:
+;     mov al, byte [es:bp]
+;     mov byte [es:bp-2], al
+;     call get_random
+;     mov byte [es:bp-1], al
+;     inc bp
+;     inc bp
+;     loop scroll_bound_loop_2
+
+;     mov bp, 158+160
+;     mov cx, 24
+; scroll_bound_loop_3:
+;     mov al, byte [es:bp]
+;     mov byte [es:bp-160], al
+;     call get_random
+;     mov byte [es:bp-159], al
+;     add bp, 160
+;     loop scroll_bound_loop_3
+
+;     sub bp, 160
+;     sub bp, 2
+;     mov cx, 78
+; scroll_bound_loop_4:
+;     mov al, byte [es:bp]
+;     mov byte [es:bp+2], al
+;     call get_random
+;     mov byte [es:bp+3], al
+;     sub bp, 2
+;     loop scroll_bound_loop_4
+
+;     add bp, 2
+;     mov byte [es:bp], dl
+;     call get_random
+;     mov byte [es:bp+1], al
+
+; 	mov al,20h			; AL = EOI
+; 	out 20h,al			; 发送EOI到主8529A
+; 	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
+    
+    ; pop bp
+    ; pop dx
+    ; pop cx
+    ; pop bx
+    ; pop ax
+    ; pop es
+    ; iret
