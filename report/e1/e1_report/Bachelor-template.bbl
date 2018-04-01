@@ -1,0 +1,26 @@
+\begin{thebibliography}{1}
+
+\bibitem{noauthor_boot_nodate}
+从boot读取软盘扇区中的汇编 - {CSDN博客}.
+
+\bibitem{wiki:int13}
+W.~contributors.
+\newblock Int 13h --- wikipedia{,} the free encyclopedia, 2017.
+\newblock [Online; accessed 11-March-2018].
+
+\bibitem{wiki:mainbootrecord}
+W.~contributors.
+\newblock 主引导记录 --- 维基百科{,} 自由的百科全书, 2018.
+\newblock [Online; accessed 11-March-2018].
+
+\bibitem{于渊2009orange}
+于渊.
+\newblock {\em Orange'S: 一个操作系统的实现}.
+\newblock 电子工业出版社, 2009.
+
+\bibitem{2013x86汇编语言从实模式到保护模式}
+李忠.
+\newblock {\em x86汇编语言从实模式到保护模式}.
+\newblock 电子工业出版社, 2013.
+
+\end{thebibliography}

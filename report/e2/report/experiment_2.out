@@ -1,0 +1,31 @@
+\BOOKMARK [0][-]{title.0}{封面}{}% 1
+\BOOKMARK [0][-]{toc.0}{目录}{}% 2
+\BOOKMARK [0][-]{chapter.1}{实验目的及要求}{}% 3
+\BOOKMARK [1][-]{section.1.1}{实验目的}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{实验要求}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{实验方案}{}% 6
+\BOOKMARK [1][-]{section.2.1}{实验工具和环境}{chapter.2}% 7
+\BOOKMARK [2][-]{subsection.2.1.1}{此步骤曾经遇到的问题}{section.2.1}% 8
+\BOOKMARK [1][-]{section.2.2}{程序功能说明及大致思路阐述}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.1}{程序大致思路阐述}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.2}{程序功能说明}{section.2.2}% 11
+\BOOKMARK [1][-]{section.2.3}{代码实现1-"my_mbr.asm"}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.4}{代码实现2-"my_core.asm"}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.4.1}{内核首部}{section.2.4}% 14
+\BOOKMARK [2][-]{subsection.2.4.2}{内核代码段-公用例程段}{section.2.4}% 15
+\BOOKMARK [2][-]{subsection.2.4.3}{内核代码段-自定义中断}{section.2.4}% 16
+\BOOKMARK [3][-]{subsubsection.2.4.3.1}{int 40h 的安装}{subsection.2.4.3}% 17
+\BOOKMARK [3][-]{subsubsection.2.4.3.2}{int 40h 的执行}{subsection.2.4.3}% 18
+\BOOKMARK [2][-]{subsection.2.4.4}{内核代码段-内核入口及程序返回点}{section.2.4}% 19
+\BOOKMARK [2][-]{subsection.2.4.5}{内核数据段及栈段}{section.2.4}% 20
+\BOOKMARK [1][-]{section.2.5}{代码实现3-"my_user_program_1.asm"}{chapter.2}% 21
+\BOOKMARK [2][-]{subsection.2.5.1}{弹跳的代码}{section.2.5}% 22
+\BOOKMARK [2][-]{subsection.2.5.2}{显式使用int40h中断返回操作系统}{section.2.5}% 23
+\BOOKMARK [0][-]{chapter.3}{实验结果}{}% 24
+\BOOKMARK [1][-]{section.3.1}{系统内核主菜单}{chapter.3}% 25
+\BOOKMARK [1][-]{section.3.2}{执行用户程序并返回到系统内核}{chapter.3}% 26
+\BOOKMARK [0][-]{chapter.4}{实验总结}{}% 27
+\BOOKMARK [0][-]{appendix.A}{运行汇编文件的脚本}{}% 28
+\BOOKMARK [0][-]{appendix.B}{内核代码段入口}{}% 29
+\BOOKMARK [0][-]{appendix.C}{中断int 40h 的安装与执行}{}% 30
+\BOOKMARK [0][-]{appendix.D}{笑脸弹跳的代码}{}% 31

@@ -1,0 +1,13 @@
+FreeDOS 8h1 Mini Disk Image
+Contributed by HJ <inzanekaoz@yahoo.com>
+Thu, 14 Nov 2002 15:39:25 -0800 (PST)
+
+This archive contains a 10meg bootable hard disk image with FreeDOS 8h1
+installed, and a bochsrc.txt configuration file to help you get started.
+
+Please note that in order to start Bochs you also need a ROM BIOS image
+and a VGA BIOS image.  These are not included because they quickly go
+out of date.  The bochsrc.txt uses an environment variable $BXSHARE to
+locate the BIOS files.  So you can either set BXSHARE to point to the
+directory that has recent BIOS images, or edit bochsrc to use paths that
+are appropriate to your system.

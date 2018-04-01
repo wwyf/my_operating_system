@@ -1,0 +1,29 @@
+\contentsline {chapter}{\numberline {\zihao {-2}1\hspace {.3em}}实验目的及要求}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}实验目的}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}实验要求}{1}{section.1.2}
+\contentsline {chapter}{\numberline {\zihao {-2}2\hspace {.3em}}实验方案}{2}{chapter.2}
+\contentsline {section}{\numberline {2.1}实验工具和环境}{2}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}此步骤曾经遇到的问题}{2}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}程序功能说明及大致思路阐述}{3}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}程序大致思路阐述}{4}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}程序功能说明}{4}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}代码实现1-"my\_mbr.asm"}{4}{section.2.3}
+\contentsline {section}{\numberline {2.4}代码实现2-"my\_core.asm"}{5}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}内核首部}{5}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}内核代码段-公用例程段}{6}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}内核代码段-自定义中断}{6}{subsection.2.4.3}
+\contentsline {subsubsection}{\numberline {2.4.3.1}int 40h 的安装}{7}{subsubsection.2.4.3.1}
+\contentsline {subsubsection}{\numberline {2.4.3.2}int 40h 的执行}{7}{subsubsection.2.4.3.2}
+\contentsline {subsection}{\numberline {2.4.4}内核代码段-内核入口及程序返回点}{8}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.5}内核数据段及栈段}{8}{subsection.2.4.5}
+\contentsline {section}{\numberline {2.5}代码实现3-"my\_user\_program\_1.asm"}{9}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}弹跳的代码}{9}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}显式使用int40h中断返回操作系统}{11}{subsection.2.5.2}
+\contentsline {chapter}{\numberline {\zihao {-2}3\hspace {.3em}}实验结果}{12}{chapter.3}
+\contentsline {section}{\numberline {3.1}系统内核主菜单}{12}{section.3.1}
+\contentsline {section}{\numberline {3.2}执行用户程序并返回到系统内核}{13}{section.3.2}
+\contentsline {chapter}{\numberline {\zihao {-2}4\hspace {.3em}}实验总结}{14}{chapter.4}
+\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}运行汇编文件的脚本}{17}{appendix.A}
+\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}内核代码段入口}{19}{appendix.B}
+\contentsline {chapter}{\numberline {附录 C\hspace {.3em}}中断int 40h 的安装与执行}{22}{appendix.C}
+\contentsline {chapter}{\numberline {附录 D\hspace {.3em}}笑脸弹跳的代码}{24}{appendix.D}

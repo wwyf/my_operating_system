@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{hit_plane}
+【汇编语言】纯汇编语言编写打飞机小游戏 - {CSDN博客}.
+
+\bibitem{read_sector}
+软盘结构(磁头号和起始扇区的计算方法) - {CSDN博客}.
+
+\bibitem{于渊2009orange}
+于渊.
+\newblock {\em Orange'S: 一个操作系统的实现}.
+\newblock 电子工业出版社, 2009.
+
+\bibitem{2013x86汇编语言从实模式到保护模式}
+李忠.
+\newblock {\em x86汇编语言从实模式到保护模式}.
+\newblock 电子工业出版社, 2013.
+
+\end{thebibliography}
