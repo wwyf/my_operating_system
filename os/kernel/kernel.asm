@@ -13,7 +13,7 @@ _start:
     call dword cstart
 start_tty:
     call dword tty
-    mov ax, 0x02
+    mov ah, 0x02
     int 0x40
     jmp $
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。

@@ -1,7 +1,9 @@
 #ifndef _STDIO_H_
 #define _STDIO_H_
 
+
 #include "type.h"
+#define EXTERN extern
 
 /* tested
 在指定位置显示字符 */

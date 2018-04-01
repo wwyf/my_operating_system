@@ -2,7 +2,7 @@
 TARGET = kernel.bin
 include = ../include
 LIB=../lib
-OBJECTS= stdio.o  basic.o  string.o system_call.o  start.o tty.o fsystem.o
+OBJECTS= stdio.o  basic.o  string.o system_call.o  start.o tty.o fsystem.o global.o
 C_FLAGS=-c -m16 -ffreestanding -Og
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
@@ -35,6 +35,9 @@ system_call.o : ../lib/system_call.c
 
 fsystem.o : ../lib/fsystem.c
 	gcc $(C_FLAGS) -o fsystem.o ../lib/fsystem.c
+
+global.o : ../lib/global.c
+	gcc $(C_FLAGS) -o global.o ../lib/global.c
 
 
 # keyboard.o : ../lib/keyboard.c
