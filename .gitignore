@@ -3,6 +3,7 @@
 *.com
 *.o
 *.objdump
+*.list
 bochsout.txt
 
 ## Core latex/pdflatex auxiliary files:
