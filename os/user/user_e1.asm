@@ -1,6 +1,7 @@
 ; section my_user1_program_header vstart=0x10000
 ;NASM 汇编
 ;nasm this.asm -o hello_os
+org 0x2000
     Dn_Rt equ 1                  ;D-Down,U-Up,R-right,L-Left
     Up_Rt equ 2                  ;
     Up_Lt equ 3                  ;

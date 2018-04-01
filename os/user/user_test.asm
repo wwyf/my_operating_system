@@ -1,10 +1,11 @@
+org 0x2000
 code_start:
 	; 初始化用户程序段地址
     mov ax, cs
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov sp, 0x7FF
+    mov sp, 0x200
 
 	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
 	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
