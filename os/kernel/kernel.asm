@@ -1,7 +1,5 @@
 ; 内核程序
-; 在mbr中已经写好了内核在软盘和在内存中的位置
-; 软盘第2-5个扇区中
-; 加载到内存 0x1000处
+; 加载到内存 0x10000处
 %include "../include/macro.inc"
 extern system_call
 extern cstart

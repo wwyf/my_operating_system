@@ -55,7 +55,7 @@ dw 0x0000
 dw 55
 dw 56
 dw 57
-dw 58
+dw 0xFFFF
 dw 0xFFFF
 dw 0x0000
 dw 0x0000
