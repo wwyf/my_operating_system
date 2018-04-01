@@ -37,9 +37,13 @@ void putc(char c){
     u16 cursor_index = get_cursor();
     u16 row = cursor_index / 80;
     u16 col = cursor_index % 80;
+    if (cursor_index >= 2000){
+        scroll_screen();
+        cursor_index = 1920;
+    }
     switch (c) {
         case '\n':
-            set_cursor((row+1)*80+col); // 回车，移到下一行
+            set_cursor((row+1)*80); // 回车，移到下一行
             break;
         case '\r':
             set_cursor(row*80);    // 移到本行开头处
