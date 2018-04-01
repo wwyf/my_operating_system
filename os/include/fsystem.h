@@ -24,10 +24,19 @@ typedef struct{
 }FileDescriptor;
 
 
+/* 
+初始化文件系统 
+将文件描述符写进root数组中 
+并且计算各文件使用扇区情况 */
+void init_fsystem();
 
 /* 
-加载文件 到指定地址 */
+加载文件 到指定地址， 返回程序字节数 */
 u16 fs_load_by_name(char * file_name, void (*program)());
+
+/* 
+获取文件占用内存大小 */
+u16 fs_get_file_size(char * file_name);
 
 /* 
 打印文件信息表 */
@@ -43,7 +52,7 @@ void fs_show_floppy_infomation();
 
 /* 
 根据起始簇号，加载簇到指定地址。
-返回值？？ */
+返回值 字节数 */
 u16 _fs_load_by_sector_code(u16 first_sector_code, void (*program)() );
 
 /* 
