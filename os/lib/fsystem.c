@@ -55,8 +55,14 @@ u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
 }
 
 void _fs_show_file_by_descriptor_number(u16 index){
-    printf("%s\t%d\t%d\n\r", (char *)&root[index], root[index].cluster_code, 
-        _fs_get_file_size_by_cluster_code(root[index].cluster_code));
+    int cluster_code = root[index].cluster_code;
+    printf("%s   | %d byte |", (char *)&root[index],
+                             _fs_get_file_size_by_cluster_code(cluster_code));
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+        printf("-%d", cluster_code);
+        cluster_code = FAT_table[cluster_code];
+    }
+    printf("-|\n\r");
     return ;
 }
 
@@ -90,6 +96,8 @@ u16 fs_get_file_size(char * file_name){
 }
 
 void fs_show_root_file_table(){
+    printf("%s   | %s | %s\n\r", "file name ", "file size", "cluster");
+    printf("------------------------------------\n\r");
     int file_number = 3;// TODO:文件数量需要设置！
     for(int i = 0; i < file_number; i++){
         _fs_show_file_by_descriptor_number(i);

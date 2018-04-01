@@ -19,8 +19,8 @@ int cstart(){
     init_fsystem();
 
     fs_show_root_file_table();
-    fs_show_file_by_name("u_test.bin");
-    puti(fs_get_file_size("u_test.bin"));
+    // fs_show_file_by_name("u_test.bin");
+    // puti(fs_get_file_size("u_test.bin"));
 
     // 分配内存时需要注意！
     // *my_program = 0x2000;
