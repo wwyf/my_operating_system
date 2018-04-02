@@ -6,6 +6,7 @@ extern cstart
 extern tty
 extern get_random
 extern move_name
+extern my_infomation
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
@@ -85,8 +86,12 @@ new_int40:
 ;--------------------------安装8号中断----------------------------
 install_int8:
     push ax
+    push bx
+    push cx
+    push dx
     push ds
     push es
+    push bp
 
     mov al,34h   ; 设控制字值 
     out 43h,al   ; 写控制字到控制字寄存器 
@@ -105,9 +110,12 @@ install_int8:
     ; mov es, ax
     ; mov ax, 0730h
     ; mov [es:0x00], ax
-
+    pop bp
     pop es
     pop ds
+    pop dx
+    pop cx
+    pop bx
     pop ax
     ret
 ;------------------------------------------------------------------------------
@@ -127,65 +135,6 @@ new_int8:
     mov ax, 0b800h
     mov ds, ax
     call dword move_name
-    
-    ; mov byte [es:0x00], '@'
-; for i = 24:1
-    ; [es:160*i] = [es:160*(i-1)]
-    
-;     ; 计算左下角所在地址，并取出左下角的字符
-;     mov cx, 24
-;     mov al, 160
-;     mul cl
-;     mov bp, ax
-;     mov dl, byte [es:bp] ; [es:160*24]
-;     ; 向下平移
-;     sub bp, 160            ;[es:160*23]
-;     ; 将当前行的字符移到下一行
-; scroll_bound_loop_1:
-;     mov al, byte [es:bp]
-;     mov byte [es:bp+160], al
-;     call get_random
-;     mov byte [es:bp+161], al
-;     sub bp, 160
-;     loop scroll_bound_loop_1
-
-;     ; 将第一行的1-79的字符移到0-78
-;     mov cx, 79
-;     mov bp, 2
-; scroll_bound_loop_2:
-;     mov al, byte [es:bp]
-;     mov byte [es:bp-2], al
-;     call get_random
-;     mov byte [es:bp-1], al
-;     inc bp
-;     inc bp
-;     loop scroll_bound_loop_2
-;
-;     mov bp, 158+160
-;     mov cx, 24
-; scroll_bound_loop_3:
-;     mov al, byte [es:bp]
-;     mov byte [es:bp-160], al
-;     call get_random
-;     mov byte [es:bp-159], al
-;     add bp, 160
-;     loop scroll_bound_loop_3
-;
-;     sub bp, 160
-;     sub bp, 2
-;     mov cx, 78
-; scroll_bound_loop_4:
-;     mov al, byte [es:bp]
-;     mov byte [es:bp+2], al
-;     call get_random
-;     mov byte [es:bp+3], al
-;     sub bp, 2
-;     loop scroll_bound_loop_4
-
-;     add bp, 2
-;     mov byte [es:bp], dl
-;     call get_random
-;     mov byte [es:bp+1], al
 
 	mov al,20h			; AL = EOI
 	out 20h,al			; 发送EOI到主8529A

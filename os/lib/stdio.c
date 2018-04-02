@@ -37,9 +37,9 @@ void putc(char c){
     u16 cursor_index = get_cursor();
     u16 row = cursor_index / 80;
     u16 col = cursor_index % 80;
-    if (cursor_index >= 2000){
+    if (cursor_index >= 1920){
         scroll_screen();
-        cursor_index = 1920;
+        cursor_index = 1840;
     }
     switch (c) {
         case '\n':
@@ -69,6 +69,7 @@ void _putc(char c){
             break;
         default:
             _put_char(c, cursor_index);
+            // set_cursor(cursor_index+1);
             break;
     }
     return ;

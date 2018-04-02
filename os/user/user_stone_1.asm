@@ -1,5 +1,5 @@
 %include "../include/macro.inc"
-org 0x2000
+org 0x4000
 ; section stone vstart=0x50000
     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度

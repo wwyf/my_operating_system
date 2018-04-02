@@ -22,8 +22,8 @@ void tty(){
     command_line_row = -1;
     clean_screen();
     set_cursor(1974);
-    printf(" wang yong feng 16337237 ");
     set_cursor(0);
+    print_my_name();
     while (1){
         // 使用缓冲区数据更新
         if (new_line_flag){
@@ -31,10 +31,10 @@ void tty(){
             new_line_flag = 0;
         }
 
-        if(command_line_row == 24 && message_length + command_line_cursor > 80){
+        if(command_line_row == 23 && message_length + command_line_cursor > 80){
             scroll_screen();
             command_line_row--;
-            set_cursor(1920);
+            set_cursor(1840);
         }
         putc(' ');// 用来删除光标处的文字，与输入退格的时候光标-1配合使用
 
@@ -119,7 +119,7 @@ void parser(){
         // 先从软盘中加载一个指定程序到内存处，然后开始执行。
         // 考虑维护一个空闲空间的指针，然后每加载一个程序，如果可行的话。
         void (**my_program)();
-        *my_program = 0x2000;
+        *my_program = 0x4000;
         fs_load_by_name(arguments[1],*my_program);
         (*my_program)();
     }
@@ -144,7 +144,7 @@ void create_a_line(){
     }
     message_length = strlen(message);
     command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
-    while(command_line_row > 24){
+    while(command_line_row > 23){
         scroll_screen();
         command_line_row--;
     }

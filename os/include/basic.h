@@ -49,5 +49,9 @@ void scroll_screen();
 读取整个扇区到指定内存地址处 */
 void read_sector(u16 head, u16 cylinder, u16 sector,  u16 segment, u16 offset);
 
+/* 
+打印我的名字 */
+void print_name();
+
 
 #endif

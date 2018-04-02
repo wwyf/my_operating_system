@@ -11,6 +11,8 @@ global get_random
 global clean_screen
 global scroll_screen
 global read_sector
+global print_my_name
+extern my_infomation
 
 [bits 16]
 
@@ -163,7 +165,7 @@ clean_screen:
     mov al,0   ;清窗口
     mov ch,0   ;左上角的行号
     mov cl,0   ;左上角的列号
-    mov dh,24  ;右下角的行号
+    mov dh,23  ;右下角的行号
     mov dl,79  ;右下角的行号
     mov bh,0x1F;属性为蓝底白字
     int 0x10
@@ -185,7 +187,7 @@ scroll_screen:
     mov al,1
     mov ch,0
     mov cl,0
-    mov dh,24
+    mov dh,23
     mov dl,79
     mov bh,0x10
     int 0x10
@@ -253,3 +255,34 @@ read_sector:
     mov esp, ebp
     pop ebp
     retl
+
+print_my_name:
+    push ax
+    push bx
+    push cx
+    push dx
+    push ds
+    push es
+    push bp
+
+    mov ax, 01000h
+    mov es, ax
+    mov ax, my_infomation                       ; es:bp指向要显示的字符串  
+    mov bp, ax  
+    mov ah, 0x13                          ; ah为0x13,调用13号中断  
+    mov al, 0                             ; al为0,不移动光标，字符串中没有属性内容  
+    mov bh, 0                             ; 第0页显示  
+    mov bl, 0x0F                          ; 闪烁白色背景，红色加亮前景  
+    mov cx, 20                    ; 字符串长度  
+    mov dh, 24                             ; dh=0, dl=0, 即第0行,第0列  
+    mov dl, 1                             ; dh=0, dl=0, 即第0行,第0列  
+    int 10h                               ; 调用10H中断
+
+    pop bp
+    pop es
+    pop ds
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
