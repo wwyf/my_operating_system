@@ -1,6 +1,6 @@
 #include "../include/type.h"
 
-char my_infomation[20] = "wang yong feng 16337237";
+char my_infomation[30] = "wang yong feng 16337237";
 
 void move_name(){
     u16 *text_line = 1920*2;

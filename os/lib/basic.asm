@@ -273,7 +273,7 @@ print_my_name:
     mov al, 0                             ; al为0,不移动光标，字符串中没有属性内容  
     mov bh, 0                             ; 第0页显示  
     mov bl, 0x0F                          ; 闪烁白色背景，红色加亮前景  
-    mov cx, 20                    ; 字符串长度  
+    mov cx, 25                    ; 字符串长度  
     mov dh, 24                             ; dh=0, dl=0, 即第0行,第0列  
     mov dl, 1                             ; dh=0, dl=0, 即第0行,第0列  
     int 10h                               ; 调用10H中断
