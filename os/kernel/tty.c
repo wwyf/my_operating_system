@@ -21,6 +21,9 @@ void tty(){
     new_line_flag = 1;
     command_line_row = -1;
     clean_screen();
+    set_cursor(1974);
+    printf(" wang yong feng 16337237 ");
+    set_cursor(0);
     while (1){
         // 使用缓冲区数据更新
         if (new_line_flag){
