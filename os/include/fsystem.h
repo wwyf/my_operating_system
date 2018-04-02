@@ -24,7 +24,7 @@ typedef struct{
 }FileDescriptor;
 
 
-/* 
+/* tested
 初始化文件系统 
 将文件描述符写进root数组中 
 并且计算各文件使用扇区情况 */

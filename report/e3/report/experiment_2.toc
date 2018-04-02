@@ -1,0 +1,46 @@
+\contentsline {chapter}{\numberline {\zihao {-2}1\hspace {.3em}}实验目的及要求}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}实验目的}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}实验要求}{1}{section.1.2}
+\contentsline {chapter}{\numberline {\zihao {-2}2\hspace {.3em}}实验方案}{2}{chapter.2}
+\contentsline {section}{\numberline {2.1}实验工具和环境}{2}{section.2.1}
+\contentsline {section}{\numberline {2.2}相关基础原理-gcc与nasm的混合编程}{3}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}32位与16位汇编代码的理解}{3}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}实践中的验证}{4}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}gcc和nasm产生可执行文件的可连接性}{5}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}gcc和nasm下c与汇编混合编程的方法}{6}{subsection.2.2.4}
+\contentsline {section}{\numberline {2.3}程序功能说明及大致思路阐述}{6}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}程序大致思路阐述}{6}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}程序功能说明}{6}{subsection.2.3.2}
+\contentsline {section}{\numberline {2.4}代码框架的设计}{7}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}库文件说明}{7}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}命令行终端的实现}{7}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}命令行终端与文件系统的交互}{8}{subsection.2.4.3}
+\contentsline {chapter}{\numberline {\zihao {-2}3\hspace {.3em}}实验难点及亮点}{9}{chapter.3}
+\contentsline {section}{\numberline {3.1}文件系统模块的实现}{9}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}总体原理概述}{9}{subsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.1}所需文件}{9}{subsubsection.3.1.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.2}文件系统实现功能}{9}{subsubsection.3.1.1.2}
+\contentsline {subsection}{\numberline {3.1.2}实现细节}{10}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.2.1}软盘的抽象}{10}{subsubsection.3.1.2.1}
+\contentsline {subsubsection}{\numberline {3.1.2.2}read\_n\_sector函数的实现}{11}{subsubsection.3.1.2.2}
+\contentsline {subsubsection}{\numberline {3.1.2.3}加载指定文件所需函数的实现}{11}{subsubsection.3.1.2.3}
+\contentsline {section}{\numberline {3.2}可自定制的中断系统-系统调用前奏}{12}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}功能及原理说明}{12}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}实现原理}{13}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}原理清晰,结构合理的gcc-nasm编译工具链}{13}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}各文件夹的作用}{13}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}编译工作的进行}{13}{subsection.3.3.2}
+\contentsline {chapter}{\numberline {\zihao {-2}4\hspace {.3em}}曾经遇到的问题}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}读端口的函数没有返回值}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}无法正常的获取光标位置}{15}{section.4.2}
+\contentsline {section}{\numberline {4.3}printf函数的实现}{16}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}对段寄存器在C程序中起的作用的理解}{16}{subsection.4.3.1}
+\contentsline {section}{\numberline {4.4}在实现文件系统前遇见的bug}{16}{section.4.4}
+\contentsline {chapter}{\numberline {\zihao {-2}5\hspace {.3em}}实验结果}{19}{chapter.5}
+\contentsline {section}{\numberline {5.1}命令行终端的测试}{19}{section.5.1}
+\contentsline {section}{\numberline {5.2}自定义系统调用的测试}{20}{section.5.2}
+\contentsline {section}{\numberline {5.3}文件系统的测试}{20}{section.5.3}
+\contentsline {chapter}{\numberline {\zihao {-2}6\hspace {.3em}}实验总结}{21}{chapter.6}
+\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}文件的组织}{24}{appendix.A}
+\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}int 40h 的实现}{26}{appendix.B}
+\contentsline {chapter}{\numberline {附录 C\hspace {.3em}}笑脸弹跳的代码}{27}{appendix.C}

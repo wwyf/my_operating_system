@@ -99,11 +99,9 @@
   \label{tab:tools}
 \end{table}
 
-\section{相关基础原理}
+\section{相关基础原理-gcc与nasm的混合编程}
 
-\subsection{gcc与nasm的混合编程}
-
-\subsubsection{32位与16位汇编代码的理解}
+\subsection{32位与16位汇编代码的理解}
 
 在gcc和nasm结合实现混编的过程中，其实遇到了不少的问题。但我认为，一个最大的问题在于对\textbf{32位汇编代码},\textbf{16位汇编代码}的区别的理解，与CPU在16位实模式下读取操作数，地址的方式的理解。
 
@@ -123,7 +121,7 @@
 
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=11cm]{"./figure/wiki_prefix.png"}
+  \includegraphics[width=12cm]{"./figure/wiki_prefix.png"}
   \caption{处理器在不同的模式下对指令的处理方式}
   \label{fig:wiki-prefix}
 \end{figure}
@@ -133,7 +131,7 @@
 
 从这幅图中，可以看到，处理器处理指令的方式主要有两个因素来决定，一个是处理器当前所处模式，另一个是指令前缀的使用。\textbf{我们当前仍然处于16位实模式下，因此在没有任何前缀的情况下，处理器对指令的处理方式都是以16位的方式来进行处理的，而执行前若有0x66,0x67前缀，就意味着处理器在遇到这一条指令的时候，会使用32位的寄存器和操作数，或者处理指令中32位的地址。}
 
-\subsubsection{实践中的验证}
+\subsection{实践中的验证}
 
 之所以需要讲清楚32位汇编代码的共同点和差异点，是因为我们必须理解gcc生成的32位汇编代码与nasm产生的16位汇编代码之间的关系,同时认清CPU如何识别gcc生成的32位汇编代码，在理解的基础上，我们才能够有底气的使用这些工具给我们提供的各种功能，实现C与汇编交叉编译。
 
@@ -181,7 +179,7 @@ gcc 在使用 -m16 选项编译后，他能够生成16位实模式下兼容的32
   \item nasm与gcc产生的汇编代码，在相互调用的时候可能会产生问题，问题主要在c的call是push32位地址，而nasm的ret是取16位地址。一来一回就会产生问题。
 \end{itemize}
 
-\subsubsection{gcc和nasm产生可执行文件的可连接性}
+\subsection{gcc和nasm产生可执行文件的可连接性}
 
 上面证实了指令的可运行性，这里在确认一下两种可执行文件的可连接性。
 
@@ -203,7 +201,7 @@ gcc 在使用 -m16 选项编译后，他能够生成16位实模式下兼容的32
 
 至此，C与汇编混合编程完成。
 
-\subsubsection{gcc和nasm下c与汇编混合编程的方法}
+\subsection{gcc和nasm下c与汇编混合编程的方法}
 
 在证实指令的运行性和可连接性后，对两个不同的编译器产生的有一点点相互不兼容的地方，我们做以下妥协，保证代码的正确运行。
 
@@ -221,7 +219,7 @@ gcc 在使用 -m16 选项编译后，他能够生成16位实模式下兼容的32
 
   \item gcc生成汇编代码的过程中，可能会生成用到段寄存器的指令（如从数据段获取数据）。这里我们需要了解gcc一般会默认cs，ss，ds，es等段寄存器都是一致的。因此在跳入C代码段的时候，要确保段寄存器的一致性。
 
-  \item gcc遵循C调用约定（TODO:WIKI)，因此关于参数传递以及返回值的规范需要汇编代码遵守。
+  \item gcc遵循C调用约定，因此关于参数传递以及返回值的规范需要汇编代码遵守。
   
 \end{itemize}
 
@@ -244,35 +242,380 @@ TODO:对程序功能需要进一步完善。
   \item \textbf{按下1。}
 \end{enumerate}
 
-\section{代码框架及依赖}
+\section{代码框架的设计}
 
-TODO:想画一幅图，展现代码文件之间的依赖。
+\subsection{库文件说明}
 
-TODO:好好想一下怎么说明代码的组织方式。
+为了能够在C中更有效的操作硬件，同时保证更有效率的开发，我实现了以下库函数作为内核需要调用的头文件。对于一些无法使用C语言实现的功能，如端口的读写，我使用汇编语言实现了一些函数，将端口读写封装成一个个C语言直接可用的函数，而对bios中断的使用也是类似，在basic.asm中实现了对一些bios中断的直接调用，那么在C中，就可以对这些硬件操作进行进一步的封装（主要在stdio.c中实现），实现一些对开发者友好的接口，从而加快开发操作系统的效率。
+
+\begin{table}[htp]
+  \caption{库文件说明}
+  \centering
+  \rowcolors{1}{White}{Lavender}
+  \begin{tabular}{lp{11cm}}
+    \toprule
+    头文件名 & 功能说明 \\
+    \midrule
+    basic.asm & 实现一些只能通过汇编实现的接口函数 \\
+    stdio.c & 存放处理I/O的函数（如printf) \\
+    system\_call.c & 用于存放各项系统调用（暂时只写了安装系统中断） \\
+    string.c & 用于字符串的处理，包括比较和复制等函数 \\
+    global.c & 存放全局变量（目前有系统调用表） \\
+    fsystem.c & 存放负责处理文件的函数 \\
+    \bottomrule
+    \hiderowcolors
+  \end{tabular}
+  \label{tab:library}
+\end{table}
+
+\subsection{命令行终端的实现}
+
+命令行终端主要在tty.c中实现，该份代码的主要编写思路为：
+\begin{itemize}
+  \item 使用终端内的全局变量，作为输入缓冲区，显示位置，光标偏移量。每输入一个字符，根据缓冲区的内容以及其他变量刷新显示内容。
+  \item 终端建立一个事件循环，一旦有字符键入，check\_keyboard()函数返回的值会让终端知道有字符键入，触发终端对这个事件的发生产生响应。
+  \item 使用get\_keyboard()函数返回的值，判断键盘输入内容，从而进行对应事件的响应，如键入enter，会触发命令行的执行，键入可打印字符，会触发输入缓冲区的显示刷新。
+  \item 一旦进入解析器，解析器会读取输入缓冲区的内容，进行分词，然后根据相应的参数调用对应的过程。
+\end{itemize}
+
+
+
+\subsection{命令行终端与文件系统的交互}
+
+\begin{itemize}
+  \item 运行程序的过程
+  新建一个函数指针的指针，并且指明这个函数处在0x2000这个偏移量中，然后使用文件系统将相应的文件加载到对应地址，最后调用该函数实现跳转。
+  \begin{lstlisting}[language=c]
+   if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
+    void (**my_program)();
+    *my_program = 0x2000;
+    fs_load_by_name(arguments[1],*my_program);
+    (*my_program)();
+  }
+  \end{lstlisting}
+  \item 打印文件列表及信息，只需要直接调用文件系统提供的接口就行了。
+  \begin{lstlisting}[language=c]
+  if(!strcmp(arguments[0],"ls") && arguments_num == 1){
+      printf("\n\n");
+      fs_show_root_file_table();
+  }
+  \end{lstlisting}
+\end{itemize}
+
+\chapter{实验难点及亮点}
+
+在完成本次实验的过程中，在下面的功能中花了比较长的时间,而且是在原有实验要求上所没有的，有一些即使在这一次实验中没有完全用上，也能够在之后的实验中继续用于完善操作系统。
+
+\section{文件系统模块的实现}
+
+在这一个操作系统中，文件系统模块主要由“fsystem.h”和“fsystem.c”来实现。
+对于文件系统中所需要的读写格式，我在“fat.asm”和“root.asm”中进行编码然后写进硬盘中。
+
+\subsection{总体原理概述}
+
+\subsubsection{所需文件}
+
+\begin{table}[htp]
+  \caption{文件系统相关文件说明}
+  \centering
+  \rowcolors{1}{White}{Lavender}
+  \begin{tabular}{lp{11cm}}
+    \toprule
+    文件名 & 功能说明 \\
+    \midrule
+    ./boot/fat.asm & 硬编码fat表，写入到软盘的第二个扇区 \\
+    ./boot/root.asm & 硬编码根目录表，写入到软盘的第37个扇区 \\
+    ./include/fsystem.h & 文件系统头文件，包含了文件系统操作的各类函数的声明 \\
+    ./lib/fsystem.c & 文件系统代码文件，包含了文件系统操作的函数的实现 \\
+    \bottomrule
+    \hiderowcolors
+  \end{tabular}
+  \label{tab:library}
+\end{table}
+
+\subsubsection{文件系统实现功能}
+
+\begin{enumerate}
+  \item 向文件系统传入文件名尝试进行加载，加载成功的状态由返回的错误码来判断。
+  \item 向文件系统传入文件名读取文件信息
+  \item 向文件系统请求打印根目录文件信息
+\end{enumerate}
+
+\subsection{实现细节}
+
+\subsubsection{软盘的抽象}
+
+目前文件系统的实现中，唯一依赖的一个底层函数是定义在basic.c中的read\_sector()函数，这个函数是int13h中断的再包装。文件系统其余的函数只要涉及到软盘到内存的I/O操作，都需要用到这一个函数。基于这一个函数，在int 13h已有的抽象下，进一步将软盘抽象，从而只通过逻辑扇区号和扇区数量就可以直接加载对应的扇区。
+
+基于以上的封装，我实现了以下函数，从而将软盘进一步抽象，从而能够通过文件名直接访问。
+
+\begin{table}[htp]
+  \caption{文件系统相关函数说明}
+  \centering
+  \rowcolors{1}{White}{Lavender}
+  \begin{tabular}{lp{11cm}}
+    \toprule
+    函数声明及相关功能 \\
+    \midrule
+    u16 \_fs\_find\_descriptor\_number\_by\_name(char * file\_name);  \\
+    内部过程：使用文件名，找到对应文件描述符的索引。 \\
+    u16 \_fs\_find\_cluster\_code\_by\_name(char * file\_name); \\
+    内部过程：使用文件名，找到该文件的簇号 \\
+    u16 \_fs\_get\_file\_size\_by\_cluster\_code(u16 cluster\_code);  \\
+    内部过程：从簇号，找到这一整个文件占用的空间大小 \\
+    void \_fs\_show\_file\_by\_descriptor\_number(u16);  \\
+    内部过程：使用文件描述符的索引，展示该文件信息 \\
+    u16 \_fs\_load\_by\_cluster\_code(u16 first\_cluster\_code, void (*program)() );  \\
+    内部过程：使用簇号，加载fat表中的一系列扇区到指定的地址处。 \\
+    u16 fs\_load\_by\_name(char * file\_name, void (*program)());  \\
+    对外过程：使用文件名，加载对应文件到指定地址处，返回错误码判断是否加载成功。 \\
+    u16 fs\_get\_file\_size(char * file\_name);  \\
+    对外过程：使用文件名获取文件大小（为之后分配内存做准备） \\
+    void fs\_show\_file\_by\_name(char * file\_name);  \\
+    对外过程：使用文件名，展示对应文件信息 \\
+    void fs\_show\_root\_file\_table();  \\
+    对外过程：打印文件目录表 \\
+    \bottomrule
+    \hiderowcolors
+  \end{tabular}
+  \label{tab:library}
+\end{table}
+
+\subsubsection{read\_n\_sector函数的实现}
+
+这个函数作为文件系统与bios中断之间极其重要的抽象层，将需要磁头号，柱面号，扇区号访问的软盘，抽象成只通过从0开始的逻辑扇区号来访问，将软盘转变成一个像是数组的连续存储介质。同时，该函数还能够将指定数量扇区的内容加载到指定的地址中，从而完美封装了int 13h中断。以下是代码实现。
+
+\begin{lstlisting}[language=c] 
+/* tested
+读取指定逻辑扇区号的扇区到指定内存地址处
+注意一次最多写一个段，也就是64k 最多读128个扇区。*/
+void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
+    for (int i = 0; i < number; i++){
+        int sector = (sector_code+i) % 18+1;
+        int mid = (sector_code+i) / 18;
+        int cylinder = mid >> 1;
+        int head = mid & 1;
+        read_sector(head, cylinder,sector,segment, offset + i*512);
+    }
+    return ;
+}
+\end{lstlisting}
+
+\subsubsection{加载指定文件所需函数的实现}
+
+为了实现通过文件名就可以加载指定文件到指定地址，我实现了两个子函数。
+
+\begin{enumerate}
+  \item 文件名->簇号
+  \begin{lstlisting}[language=c] 
+    u16 _fs_find_cluster_code_by_name(char * file_name){
+      int index = _fs_find_descriptor_number_by_name(file_name);// 实现从文件名找到对应的文件描述符索引
+      if (index != -1) // 若索引存在
+          return root[index].cluster_code;
+      return 0;
+  }
+  \end{lstlisting}
+  \item 加载从指定簇号开始的一系列扇区（由fat表确定簇数量）到指定函数指针处。
+  \begin{lstlisting}[language=c] 
+  u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
+      int size = 0;
+      while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+          size += 512*cluster2sector;
+          int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
+          read_n_sector(sector_number, cluster2sector, 0x1000, program);
+          program = program+cluster2sector*512;
+          cluster_code = FAT_table[cluster_code];
+      }
+      return size;
+  }
+  \end{lstlisting}
+\end{enumerate}
+
+
+\section{可自定制的中断系统-系统调用前奏}
+
+总是看到dos能够通过下面代码所示的方式调用系统调用，在这里我自己也尝试了一些这样调用中断的实现。
+\begin{lstlisting}[language={[x86masm]Assembler}]
+  mov ax, 4c00h
+  int 80h
+\end{lstlisting}
+
+\subsection{功能及原理说明}
+
+这里我实现了这样的一个中断，内核可以在程序中以如下代码的方式安装中断：
+\begin{lstlisting}[language=c]
+  void test_system_call();
+  int cstart(){
+      install_system_call(2, test_system_call);
+      // 将指定的函数安装到2号系统调用中
+  }
+  void test_system_call(){
+      int origin = get_cursor();
+      set_cursor(1800);
+      printf("test custom system call!!! ");
+      set_cursor(origin);
+  }
+\end{lstlisting}
+
+然后在汇编中，我便可以用下面的方式直接调用我之前安装的系统调用测试函数！
+
+\begin{lstlisting}[language={[x86masm]Assembler}]
+  mov ax, 0x0200h
+  int 40h
+\end{lstlisting}
+
+\subsection{实现原理}
+
+在内核中，我维护着一个数组“系统调用表”，该数组存储着不同的系统调用的地址，在C语言中安装中断，就是将对应函数指针的内容，写到相应数字索引的系统调用表中。
+
+而我自己的int 40h中断，则是先读入ah寄存器的内容，计算该系统调用的系统调用号的索引，然后在系统调用表中找到对应的表项并且call过去，运行完指定函数之后回来恢复现场，继续执行下面的代码。
+
+同时，该中断也可通过功能号4c，实现子程序的返回，可返回到命令行终端模式。
+
+详情可见\autoref{code:int_40h}
+
+\section{原理清晰,结构合理的gcc-nasm编译工具链}
+
+本次项目，重新组织了代码文件，对各个模块的整理，可见\autoref{code:organization}。
+
+\subsection{各文件夹的作用}
+
+\autoref{tab:folder}描述了各个文件夹的作用
+
+\begin{table}[htp]
+  \caption{文件夹的说明}
+  \centering
+  \rowcolors{1}{White}{Lavender}
+  \begin{tabular}{lp{11cm}}
+    \toprule
+    文件夹名称 & 文件夹用途 \\
+    \midrule
+    boot & 里面包含了引导扇区的汇编代码，以及需要硬编码到软盘的文件系统相关数据 \\
+    kernel & 里面包含了内核代码及命令行终端的实现 \\
+    include & 这里是库文件的头文件，主要用作各种函数的引用 \\
+    lib & 里面有各个库文件的定义，需要和用到这些函数的文件一起编译 \\
+    user & 里面存放了各个用户程序 \\
+    \bottomrule
+    \hiderowcolors
+  \end{tabular}
+  \label{tab:folder}
+\end{table}
+
+\subsection{编译工作的进行}
+
+在os文件夹下具有一个主makefile文件，这个文件先进入到各个子文件夹进行building，构建各个模块的二进制文件，再回到这个主makefile文件进行将二进制文件写入到软盘的工作，并且集成了各个工具的使用，直接打开虚拟机查看结果。
+
+\chapter{曾经遇到的问题}
+
+\section{读端口的函数没有返回值}
+
+在C调用约定中，有一条这样的约定：返回值使用ax寄存器返回。在实现读端口数值的时候，我犯了这样一个愚蠢的错误，在保存寄存器的时候误把ax作为一个被调用者保存寄存器保存起来，导致返回值无法传递到调用者，代码如下所示：
+
+\begin{lstlisting}[language={[x86masm]Assembler}] 
+  ; tested 从8位端口读出8位的值
+  ; u8 read_port_byte(u16 port_number);
+  read_port_byte:
+  push ebp
+  mov ebp, esp
+  push dx
+  push ax ; !!!不能保存ax寄存器的值，要作为返回值传递给调用者
+  ;enter
+  mov dx, [ebp+8]  ; 取第一个参数  端口号
+  in  al, dx
+  ;laeve
+  pop ax ; !!!
+  pop dx
+  mov esp, ebp
+  pop ebp
+  retl
+\end{lstlisting}
+
+相同的错误在其他地方也出现过多次，就不再赘述。
+
+\section{无法正常的获取光标位置}
+
+在获取光标位置的函数中，无法获取光标的位置。主要的原因是以下代码出现错误，导致光标索引计算错误！
+
+\begin{lstlisting}[language={[x86masm]Assembler}] 
+  cursor_index = cursor_index << 8 + low_eight;
+\end{lstlisting}
+事实上，+号的优先级比移位高，我需要加一个括号，像下面一样才能正常运行。
+\begin{lstlisting}[language={[x86masm]Assembler}] 
+  cursor_index = (cursor_index << 8) + low_eight;
+\end{lstlisting}
+
+\section{printf函数的实现}
+
+在实现printf函数的过程中，经历了内存被神秘改写的奇特bug，经过细细调试，定位这样的问题：栈指针初始化的不合理，导致栈段与代码段重合。
+
+在开发的时候会有开发日志记录自己在开发过程中遇到的问题，下面从这个bug的解决中摘录一部分。\autoref{fig:printf_bug}
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=18cm]{"./figure/printf_bug.png"}
+  \caption{printf函数-开发日志摘录}
+  \label{fig:printf_bug}
+\end{figure}
+
+\section{对段寄存器在C程序中起的作用的理解}
+
+\begin{lstlisting}[language=c]
+  char * a = 0xa8000;
+  *a = 'a';
+\end{lstlisting}
+  
+  这一段很简单的代码，可以直接操控显存。
+  为什么不是B8000呢，因为我的ds被初始化为0x1000了。
+  这也是段寄存器在c语言中起作用的典型例子，之前一直没搞清楚c语言中段寄存器如何起作用。
+  在使用bochs调试的时候，通过反汇编，看到了这条语句在寻址过程中对指针的使用。
+  
+\section{在实现文件系统前遇见的bug}
+
+在运行的时候，发现如果我注释掉一段代码，就会让程序正常运行，如果我恢复那一段代码，程序就会进入一种不正常的运行状态，一些应该显示的信息没有显示出来。后来发现，是内核的大小超出了加载的扇区数量，这也是后来我想做文件系统的动机之一。
+
+\autoref{fig:user_bug}摘录自开发日志。
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=17cm]{"./figure/user_bug.png"}
+  \caption{user用户程序-开发日志摘录}
+  \label{fig:user_bug}
+\end{figure}
+
 
 \chapter{实验结果}
 
-\section{系统内核主菜单}
+
+
+
+\section{命令行终端的测试}
 
 TODO:功能的展示。
 本程序经nasm，gcc编译后在qemu虚拟机下运行的效果可见\autoref{fig:main_screen}与\autoref{fig:main_screen2}，其中\autoref{fig:main_screen2}中的边框可以逆时钟旋转同时随机地改变颜色。
 \begin{figure}[htp]
   \centering
   \begin{minipage}[t]{0.5\linewidth} 
-  \centering
+    \centering
   \includegraphics[width=10cm]{"./figure/main_screen.png"}
   \caption{命令行终端的主界面}
   \label{fig:main_screen}
-  \end{minipage}
+\end{minipage}
 
   \begin{minipage}[t]{0.5\linewidth} 
   \centering
   \includegraphics[width=10cm]{"./figure/main_screen.png"}
   \caption{自定义引导程序按下D后的界面}
   \label{fig:main_screen2}
-  \end{minipage}
+\end{minipage}
 \end{figure}
 
+\section{自定义系统调用的测试}
+
+TODO:
+
+\section{文件系统的测试}
+
+TODO:
 
 \chapter{实验总结}
 
@@ -280,7 +623,17 @@ TODO:功能的展示。
 
 在实验前期，我对c与汇编混合编程的概念并不了解。在一开始接触到混合编程的时候，甚至是想了半天为什么要使用c语言和汇编混合编程，还想了很久需要使用C语言做什么事情，紧接着，对C语言中隐藏的细节再进行了很多的思考，以想明白如何使用c语言替换汇编的代码。
 
-C语言，可以说是已经很贴近硬件底层的语言了，可是直到我将C语言与汇编语言结合起来使用，我才更进一步的认识到C语言对内存的操控，
+C语言，可以说是已经很贴近硬件底层的语言了，可是直到我将C语言与汇编语言结合起来使用，我才更进一步的认识到C语言对内存的操控能力。在C中，我可以对地址进行直接的操作，使用指针的方式，修改特定位置的内存的数据。同时，通过修改函数指针，我们甚至可以修改ip，从而达到在汇编中与call一致的效果。
+
+但同时，C语言也对我们隐藏了很多硬件的细节，也正是这些细节，让我在一开始觉得C语言的行为有一些不可控的因素。其中一个很重要的点就是寄存器的使用，在C中，我们不会也不能对寄存器进行直接的操作，我们创建的所有变量要么是编译器决定使用寄存器，要么是使用用户的栈空间申请一些临时变量，这一切的细节，都由编译器来完成，而我们无需关心具体寄存器还是栈，我们只需要关心数据的处理与使用就可以了。从这个角度上来讲，使用C语言也更能让我们在硬件的众多细节中脱身而出，让我们有更多的精力去关注代码中的逻辑与功能。
+
+C语言对我们隐藏的另一个细节是段寄存器的使用。C语言中，无论我们怎么写代码，其实都是默认在一个段中，而显然编译器也是这么认为的。编译器会直接拿C语言汇编出来之后的汇编地址放到代码中需要地址的地方，然后在访问的时候按照处理器的规则，加上ds或者cs去访问。
+
+对段寄存器细节的隐藏，一方面是解脱了一些细节的纠缠，但另一方面，却让我的代码的组织变得有些困难。我当然可以整个操作系统只使用一个段，这样子就可以实现所有函数，无论是C还是汇编都可以自由的跳转，我甚至可以直接将绝对地址写进函数指针中，然后就可以实现类似call的功能去执行它。但我想让内存安排得更合理一些，我希望用户程序能和内核程序运行在不同的段中，而且用户程序还无需关心自己需要加载的内存地址。但这样的话，一方面，C中无法实现段间的跳转，我暂时还只能通过在C中内嵌汇编，显式调用中断来返回，另一方面，当用户程序要调用系统调用需要传递消息的时候，不在一个段中的两个程序我无法通过一个指针直接传递消息，这样一来，分段之后，每个程序似乎都只能让自己变成孤立的一个程序，而无法和其他程序还有操作系统进行交互。直到要交报告了，这个问题现在也没有解决好。
+
+这一次实验中，我还实现了一个类似于系统调用的中断系统，可以通过简单的在内核中通过传递函数指针的方式安装一个自定义中断处理启程，然后就可以使用int指令调用刚刚自己写的中断处理例程，但是写好之后，暂时还没怎么用到内核中来，不过提前想好系统的架构，希望能够为未来的实验做好准备吧。
+
+同时，在这一次实验，想到要实现一个表来存储用户的程序存放安排，又想到之后的实验四需要实现文件系统，对文件系统有过简单的了解后，想到文件系统里面内置的表格已经可以让我实现读取用户程序的存放安排了，于是干脆也顺便吧文件系统给实现了。
 
 %%%============================================================================================================%%%
 
@@ -314,307 +667,93 @@ C语言，可以说是已经很贴近硬件底层的语言了，可是直到我�
 %%%-------------- 附录. 不需要可以删除.-----------
 \appendix
 
-\chapter{运行汇编文件的脚本}
-\label{code:my_shell}
-这是我为了方便，在win10平台下的bash终端编写的shell脚本。前面编译环节，能够保证一旦发生编译错误，就停止运行，不打开虚拟机。
-\begin{lstlisting}
-  nasm.exe -f bin my_mbr.asm -l my_mbr.list -o my_mbr.bin    || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_core.asm -l my_core.list -o my_core.bin   || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_user_program_1.asm -l my_user_program_1.list -o my_user_program_1.bin   || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_user_program_2.asm -l my_user_program_2.list -o my_user_program_2.bin   || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_user_program_3.asm -l my_user_program_3.list -o my_user_program_3.bin   || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_user_program_4.asm -l my_user_program_4.list -o my_user_program_4.bin   || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_user_program_l.asm -l my_user_program_l.list -o my_user_program_l.bin   || { echo "nasm complied failed"; exit 1; }
-  nasm.exe -f bin my_user_program_t.asm -l my_user_program_t.list -o my_user_program_t.bin   || { echo "nasm complied failed"; exit 1; }
-  dd if=/dev/zero of=a.img ibs=512 count=100 conv=notrunc
-  dd if=my_mbr.bin of=a.img ibs=512 count=1 conv=notrunc
-  dd if=my_core.bin of=a.img ibs=512 count=10 conv=notrunc seek=1
-  dd if=my_user_program_1.bin of=a.img ibs=512 count=10 conv=notrunc seek=18
-  dd if=my_user_program_2.bin of=a.img ibs=512 count=10 conv=notrunc seek=36
-  dd if=my_user_program_3.bin of=a.img ibs=512 count=10 conv=notrunc seek=54
-  dd if=my_user_program_4.bin of=a.img ibs=512 count=10 conv=notrunc seek=72
-  dd if=my_user_program_l.bin of=a.img ibs=512 count=10 conv=notrunc seek=90
-  dd if=my_user_program_t.bin of=a.img ibs=512 count=10 conv=notrunc seek=108
-  
-  case $1 in
-  b)
-  bochs.exe -q
-  ;;  
-  q)
-  qemu-system-i386.exe -fda a.img
-  ;;  
-  d)
-  bochsdbg.exe -q  
-  ;;  
-  *)
-  echo "Usage: $name [b|q|d]"  
-  exit 1  
-  ;;  
-  esac
-  
-  rm *.bin
-  rm *.list
-  rm bochsout.txt
-\end{lstlisting}
-
-\chapter{内核代码段入口}
-
-\label{code:my_core_entry}
+\chapter{文件的组织}
+\label{code:organization}
 \begin{lstlisting}[language={[x86masm]Assembler}] 
-  code_start:
-  ; 先进行清屏
-call clean_screen
-  ; 初始化内核段地址
-  ; 此时ds指向header
-  ; cs 指向正确的位置。
-  mov ax, ds
-  mov es, ax
-  ; es 指向header
-  mov ax, [stack_segment]
-  mov ss, ax
-  mov sp, stack_end
-  mov ax, [data_segment]
-  mov ds, ax
-
-  ; 安装中断
-  ; 安装40号中断，用于返回
-  call install_int40
-  call install_int8
-  ; 内核已加载完成，按enter继续
-  call display_core_massage
-
-
-
-check_key_board_load_core:
-  mov ah, 01h
-  int 16h
-  ; 不断查询键盘缓冲区的状况
-  ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
-  jz check_key_board_load_core
-  ; 有字符输入
-  mov ah, 00h
-  int 16h
-
-  cmp al, 0x0d
-  jnz check_key_board_load_core
-  
-check_key_board_load_core_end:
-
-
-;----------------------------内核功能入口---------
-core_start:
-  call clean_screen
-  call show_welcome_screen
-; 这里放的是内核加载器，负责加载在其他扇区的程序。
-check_key_board_load_feature:
-  mov ah, 01h
-  int 16h
-  ; 不断查询键盘缓冲区的状况
-  ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
-  jz check_key_board_load_feature
-  ; 有字符输入,从al中读取键盘输入
-  mov ah, 00h
-  int 16h
-
-check_key_board_load_feature_1:
-  cmp al, '1' 
-  jnz check_key_board_load_feature_2
-  mov ax, 18 
-  jmp run_com
-check_key_board_load_feature_2:
-  cmp al, '2' 
-  jnz check_key_board_load_feature_3
-  mov ax, 36
-  jmp run_com
-check_key_board_load_feature_3:
-  cmp al, '3' 
-  jnz check_key_board_load_feature_4
-  mov ax, 54
-  jmp run_com
-check_key_board_load_feature_4:
-  cmp al, '4' 
-  jnz check_key_board_load_feature_l
-  mov ax, 72
-  jmp run_com
-check_key_board_load_feature_l:
-  cmp al, 'l' 
-  jnz check_key_board_load_feature_t
-  mov ax, 90
-  jmp run_com
-check_key_board_load_feature_t:
-  cmp al, 't' 
-  jnz check_key_board_load_feature
-  mov ax, 108
-  jmp run_com
-  jmp check_key_board_load_feature
-
-; 根据al里面的值加载对应的用户程序
-run_com:
-  call load_com_user_program
-  jmp run_com_user_program
-
-;###############################################
-;------------------------------常用过程---------
-; 运行用户com程序前运行
-; 效果：
-; 将cs,ds,es,ss置为0x1000
-; 将sp置为0x0400(相当于.com程序末尾)
-run_com_user_program:
-  call clean_screen
-  mov ax, 0x1000
-  mov ds, ax
-  mov es, ax
-  mov ss, ax
-  mov ax, 0x0400
-  mov sp, ax
-  jmp 0x1000:0x0000
-;-------------------------------------------
+├── boot
+│   ├── boot.asm
+│   ├── fat.asm
+│   ├── makefile
+│   └── root.asm
+├── include
+│   ├── basic.h
+│   ├── fsystem.h
+│   ├── global.h
+│   ├── macro.inc
+│   ├── stdio.h
+│   ├── string.h
+│   ├── system_call.h
+│   └── type.h
+├── kernel
+│   ├── kernel.asm
+│   ├── kernel_old.asm
+│   ├── makefile
+│   ├── start.c
+│   ├── t.lds
+│   └── tty.c
+├── lib
+│   ├── basic.asm
+│   ├── fsystem.c
+│   ├── global.c
+│   ├── stdio.c
+│   ├── string.c
+│   └── system_call.c
+├── user
+│   ├── makefile
+│   ├── user_e1.asm
+│   ├── user_stone_1.asm
+│   └── user_test.asm
+├── a.img
+├── bochsrc.bxrc
+├── makefile
+└── readme.md
 \end{lstlisting}
 
+\chapter{int 40h 的实现}
 
-
-
-\chapter{中断int 40h 的安装与执行}
-
-\label{code:int40h}
-\begin{lstlisting}[language={[x86masm]Assembler}]
-  ; 安装40号中断，用于用户程序返回内核
-  install_int40:
-      push ax
-      push bx
-      push ds
+\label{code:int_40h}
+\begin{lstlisting}[language={[x86masm]Assembler}] 
+  ; 这是新的int40，用于调用系统调用
+  ; 使用ax索引中断
+  ; 每一个项是16位+16位 
+  new_int40:
   
-      ; 安装 int 40 主要代码
-      mov ax, 0
-      mov ds, ax
-      mov ax, cs
-      mov word [0x40*4], int40_for_return 
-      mov word [0x40*4+2], ax
-      
-      pop ds
-      pop bx
-      pop ax
-      ret
+      cmp ah, 0x4c
+      je .return_kernel
+      mov bl, ah
+      xor ax, ax
+      mov al, 0x2
+      mul bl
+      mov si, ax
+      mov bx, system_call
+      call dword [bx + si] ; 注意这个call是32位的。
+      iret
   
-  ; 40号中断的功能是将控制权从用户程序转到内核
-  ; 务必要设计好0x40号中断，设计成与CPU状态无关，不依赖段寄存器的值
-  ; 因为无论段寄存器是何值，都有可能会运行这条程序
-  ; 执行中断的时候会将地址还有符号寄存器存到堆栈中
-  ; 考虑先将堆栈中的东西pop出来，然后转移堆栈到内核栈，
-  ; 修改各段指针后，再push内核的cs和指令偏移地址，通过iret回到内核
-  int40_for_return:
+   .return_kernel:
+      pop cx
+      pop cx
+      pop cx
   
-      ; 在用户栈中
-      pop ax ; pop 原调用中断的偏移地址
-      pop ax ; pop 原调用中断的段地址
-      pop bx ; pop 用户的标志寄存器
-  
-      ; 修改段寄存器：ds, ss, es
-      mov ax, core_header_data_segment
+      mov ax, 0x1000
       mov ds, ax
       mov es, ax
-      mov ax, word [core_stack_segment_header_offset]
       mov ss, ax
-      mov sp, core_stack_length
+      mov sp, 0x5000
   
-      ; 保证栈为内核状态
-      push bx ; push 标志寄存器 可能要修改
-      push word [core_code_segment_header_offset]
-      push word [core_entry_header_offset]
-  
-      ; 设置数据段寄存器
-      mov ax, [core_data_segment_header_offset]
-      mov ds, ax
-  
-      ; 可以运行任何在内核态的程序啦
-      call clean_screen
-  
-      iret ; 成功回到内核
+      push cx
+      push 0x1000
+      push start_tty
+      iret
   
 \end{lstlisting}
+
+
 
 \chapter{笑脸弹跳的代码}
 
 \label{code:jump}
 \begin{lstlisting}[language={[x86masm]Assembler}]
-  loop1:
-	dec word[count]			; 递减计数变量
-	jnz loop1					; >0：跳转;
-	mov word[count],delay
-	dec word[dcount]			; 递减计数变量
-      jnz loop1
-	mov word[count],delay
-	mov word[dcount],ddelay
-
-check_keyboard:
-    mov ah, 01h
-    int 16h
-    ; 不断查询键盘缓冲区的状况
-    ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
-    jz clean_current_char
-    ; 有字符输入,从al中读取键盘输入
-    mov ah, 00h
-    int 16h
-
-    cmp al, 'q' ; 如果键入q则退出
-    jnz check_keyboard
-	int 40h
-clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
-      xor ax,ax                 ; 计算显存地址
-      mov ax,word[x]
-	mov bx,80
-	mul bx
-	add ax,word[y]
-	mov bx,2
-	mul bx
-	mov bx,ax
-	mov ah,07h				
-	mov al,20h		
-	mov [gs:bx],ax  		;  显示字符的ASCII码值
-
-check_x:
-    mov ax, user1_bound_x_up
-    cmp word [x], ax
-    jz toggle_x_direct
-    mov ax, user1_bound_x_down
-    cmp word [x], ax
-    jz toggle_x_direct
-    jmp check_y
-toggle_x_direct:
-    mov ax, 0
-    sub ax, word [x_direct]
-    mov word [x_direct], ax
-check_y:
-    mov ax, user1_bound_y_left
-    cmp word [y], ax
-    jz toggle_y_direct
-    mov ax, user1_bound_y_right
-    cmp word [y], ax
-    jz toggle_y_direct
-    jmp char_move
-toggle_y_direct:    
-    mov ax, 0
-    sub ax, word [y_direct]
-    mov word [y_direct], ax
-
-char_move:
-    mov ax, word [x_direct]
-    add word [x], ax
-    mov ax, word [y_direct]
-    add word [y], ax
-show:	
-    xor ax,ax                 ; 计算显存地址
-    mov ax,word[x]
-	mov bx,80
-	mul bx
-	add ax,word[y]
-	mov bx,2
-	mul bx
-	mov bx,ax
-	mov ah,bh				;  0000：黑底、1111：亮白字（默认值为07h）
-	mov al,byte[char]			;  AL = 显示字符值（默认值为20h=空格符）
-	mov [gs:bx],ax  		;  显示字符的ASCII码值
-	jmp loop1
+ 
 \end{lstlisting}
 
 

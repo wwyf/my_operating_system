@@ -35,7 +35,7 @@ write_port_byte:
     retl
 
 
-;[未测试] 从8位端口读出8位的值
+;tested 从8位端口读出8位的值
 ; u8 read_port_byte(u16 port_number);
 read_port_byte:
     push ebp
