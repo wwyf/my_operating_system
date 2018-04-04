@@ -52,6 +52,7 @@ check_keyboard_q:
 	jnz check_keyboard
 	mov ax, 0x4c00
 	int 40h
+	; ret
 	jmp check_keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; si:x

@@ -131,6 +131,13 @@ void parser(){
         printf("\n\n");
         reboot();
     }
+    else if(!strcmp(arguments[0],"help") && arguments_num == 1){
+        printf("\n\n");
+        printf("ls        : show the file in the root folder.\n");
+        printf("run [name]: run the file in the root folder.\n");
+        printf("help      : show the help message.\n");
+        printf("reboot    : reboot the machine.\n");
+    }
     else {
         printf("\n%s : command not found! \n", input_buf);
     }

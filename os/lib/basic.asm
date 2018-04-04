@@ -298,5 +298,4 @@ reboot:
     mov dl,79  ;右下角的行号
     mov bh,0x1F;属性为蓝底白字
     int 0x10
-
     int 19h
