@@ -3,7 +3,7 @@ TARGET = kernel.bin
 include = ../include
 LIB=../lib
 OBJECTS= stdio.o  basic.o  string.o system_call.o  start.o tty.o fsystem.o global.o style.o
-C_FLAGS=-c -m16 -ffreestanding -Og
+C_FLAGS=-c -m16 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
@@ -50,6 +50,7 @@ tty.o : tty.c
 
 $(TARGET): $(OBJECTS) kernel.o
 	ld $(LINK_FLAGS) -o kernel.bin kernel.o $(OBJECTS)
+	ld -Ttext 0x00000 -m elf_i386 -T t.lds -o kernel.debug kernel.o $(OBJECTS)
 	objdump $(OBJDUMP_FLAGS) -D kernel.bin > kernel.objdump
 
 
