@@ -231,15 +231,13 @@ gcc 在使用 -m16 选项编译后，他能够生成16位实模式下兼容的32
 \begin{enumerate}
   \item 一开机，处于软盘第一个扇区的引导程序加载第72-89个扇区，作为系统内核，并将控制权转交给系统内核。
   \item 系统内核刚开始运行，经过一系列初始化工作（如安装中断，加载fat表，根目录表），跳转到tty例程（即用户终端。
-  \item 进入到命令行中断，系统管理员可以在这里执行一系列指令 TODO:
+  \item 进入到命令行中断，系统管理员可以在这里执行一系列指令,如ls, run, help, reboot
+  \item ls 命令：展示根目录下的文件
+  \item run 命令: 加载指定的文件并执行
+  \item help 命令：显示帮助信息
+  \item reboot 命令：重启
 \end{enumerate}
 
-\subsection{程序功能说明}
-TODO:对程序功能需要进一步完善。
-本程序（完整程序代码见附件）实现了以下功能（主界面可见\autoref{fig:main_screen}）。
-\begin{enumerate}
-  \item \textbf{按下1。}
-\end{enumerate}
 
 \section{代码框架的设计}
 
@@ -584,13 +582,12 @@ void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
 
 \chapter{实验结果}
 
-
-
-
 \section{命令行终端的测试}
 
-TODO:功能的展示。
-本程序经nasm，gcc编译后在qemu虚拟机下运行的效果可见\autoref{fig:main_screen}与\autoref{fig:main_screen2}，其中\autoref{fig:main_screen2}中的边框可以逆时钟旋转同时随机地改变颜色。
+本程序经nasm，gcc编译后在qemu虚拟机下运行的效果可见\autoref{fig:main_screen}与\autoref{fig:main_screen_help}，其中\autoref{fig:main_screen}中底部的名字可以自动滚动。
+
+同时，在ls命令中展示的文件名可以直接加载并运行。如\autoref{fig:test_run}与\autoref{fig:test_run_u_e1}
+,通过按q，可以回到终端。
 \begin{figure}[htp]
   \centering
   \begin{minipage}[t]{0.5\linewidth} 
@@ -602,19 +599,72 @@ TODO:功能的展示。
 
   \begin{minipage}[t]{0.5\linewidth} 
   \centering
-  \includegraphics[width=10cm]{"./figure/main_screen.png"}
-  \caption{自定义引导程序按下D后的界面}
-  \label{fig:main_screen2}
+  \includegraphics[width=10cm]{"./figure/main_screen_help.png"}
+  \caption{运行ls及help命令后的主界面}
+  \label{fig:main_screen_help}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[htp]
+  \centering
+  \begin{minipage}[t]{0.5\linewidth} 
+    \centering
+  \includegraphics[width=10cm]{"./figure/test_run.png"}
+  \caption{run命令的调用}
+  \label{fig:test_run}
+\end{minipage}
+
+  \begin{minipage}[t]{0.5\linewidth} 
+  \centering
+  \includegraphics[width=10cm]{"./figure/test_run_u_e1.png"}
+  \caption{运行run命令后成功进入用户程序}
+  \label{fig:test_run_u_e1}
 \end{minipage}
 \end{figure}
 
 \section{自定义系统调用的测试}
 
-TODO:
+将start.c中的代码修改为安装2号系统调用。
 
-\section{文件系统的测试}
+\begin{lstlisting}[language=c]
+  void test_system_call();
+  int cstart(){
+      install_system_call(2, test_system_call);
+      // 将指定的函数安装到2号系统调用中
+  }
+\end{lstlisting}
 
-TODO:
+其中test\_system\_call函数定义如下所示，该函数会显示一个字符串“test custom system call"：
+
+\begin{lstlisting}[language=c]
+  void test_system_call(){
+    int origin = get_cursor();
+    set_cursor(1800);
+    printf("test custom system call!!! ");
+    set_cursor(origin);
+}
+\end{lstlisting}
+
+然后在内核主程序中，调用2号系统调用。
+
+\begin{lstlisting}[language={[x86masm]Assembler}]
+_start:
+  call install_int40
+  call install_int8
+  call dword cstart
+  mov ah, 0x02
+  int 0x40
+  jmp $
+\end{lstlisting}
+
+在命令行中执行make all，重新编译调用虚拟机，我们看到以下的结果,除去在初始化过程中输出的其他信息，在屏幕上还出现了2号中断显示的字符串，表明成功调用2号中断。
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=13cm]{"./figure/test_system_call.png"}
+  \caption{测试2号系统调用，运行截图}
+  \label{fig:test-system_call}
+\end{figure}
 
 \chapter{实验总结}
 
@@ -748,12 +798,6 @@ C语言对我们隐藏的另一个细节是段寄存器的使用。C语言中，
 
 
 
-\chapter{笑脸弹跳的代码}
-
-\label{code:jump}
-\begin{lstlisting}[language={[x86masm]Assembler}]
- 
-\end{lstlisting}
 
 
 \cleardoublepage
