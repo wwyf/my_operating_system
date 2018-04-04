@@ -21,3 +21,14 @@ https://www.cnblogs.com/ningskyer/articles/6482093.html
         1. pop 寄存器，段寄存器，取得ss,sp
     1. 【用户程序栈】使用在进程表中的信息，mov 修改ss,sp
         1. iret 从栈中取得flag，segment，offset，去往下一个进程
+
+### debug 新技能 get
+
+做法
+1. gcc编译的时候加-g
+2. 连接生成文件的时候，再连接生成另一个可执行文件（去掉参数 --oformat binary)
+3. 对这个可执行文件进行“objdump -S -m i8086 your_file_name"
+
+得到下面的结果[debug反汇编文件](./../os/test.debug)
+
+![](https://i.loli.net/2018/04/05/5ac513f051500.png)
