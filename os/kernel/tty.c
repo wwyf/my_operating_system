@@ -127,6 +127,10 @@ void parser(){
         printf("\n\n");
         fs_show_root_file_table();
     }
+    else if(!strcmp(arguments[0],"reboot") && arguments_num == 1){
+        printf("\n\n");
+        reboot();
+    }
     else {
         printf("\n%s : command not found! \n", input_buf);
     }

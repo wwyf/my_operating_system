@@ -13,6 +13,7 @@ global scroll_screen
 global read_sector
 global print_my_name
 extern my_infomation
+global reboot
 
 [bits 16]
 
@@ -286,3 +287,16 @@ print_my_name:
     pop bx
     pop ax
     ret
+
+reboot:
+
+    mov ah,0x06
+    mov al,0   ;清窗口
+    mov ch,0   ;左上角的行号
+    mov cl,0   ;左上角的列号
+    mov dh,24  ;右下角的行号
+    mov dl,79  ;右下角的行号
+    mov bh,0x1F;属性为蓝底白字
+    int 0x10
+
+    int 19h
