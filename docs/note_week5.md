@@ -27,7 +27,10 @@ https://www.cnblogs.com/ningskyer/articles/6482093.html
 做法
 1. gcc编译的时候加-g
 2. 连接生成文件的时候，再连接生成另一个可执行文件（去掉参数 --oformat binary)
-3. 对这个可执行文件进行“objdump -S -m i8086 your_file_name"
+3. 对这个可执行文件进行“objdump -Sl -m i8086 your_file_name"
+
+> -S 能够显示C语言
+> -l 能够根据调试信息加上行号信息
 
 得到下面的结果[debug反汇编文件](./../os/test.debug)
 

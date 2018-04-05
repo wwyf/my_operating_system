@@ -7,13 +7,13 @@ C_FLAGS=-c -m16 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
 # LINK_FLAGS=-Ttext 0x10000 -m elf_i386 -T t.lds --oformat binary
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
-OBJDUMP_FLAGS= -m i8086 -b binary
+OBJDUMP_FLAGS= -m i8086 -Sl
 KERNEL_C=start.c
 KERNEL_ASM=kernel.asm
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(TARGET) $(OBJECTS) kernel.bin
+all : $(TARGET) $(OBJECTS) kernel.bin kernel.objdump
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -48,10 +48,12 @@ style.o : ../lib/style.c
 tty.o : tty.c
 	gcc $(C_FLAGS) -o tty.o tty.c
 
-$(TARGET): $(OBJECTS) kernel.o
+$(TARGET) kernel.debug: $(OBJECTS) kernel.o
 	ld $(LINK_FLAGS) -o kernel.bin kernel.o $(OBJECTS)
 	ld -Ttext 0x00000 -m elf_i386 -T t.lds -o kernel.debug kernel.o $(OBJECTS)
-	objdump $(OBJDUMP_FLAGS) -D kernel.bin > kernel.objdump
+
+kernel.objdump:kernel.debug
+	objdump $(OBJDUMP_FLAGS) kernel.debug > kernel.dump
 
 
 

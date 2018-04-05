@@ -1,0 +1,3256 @@
+
+kernel.debug:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+_start():
+       0:	e8 17 00             	call   1a <install_int40>
+       3:	e8 59 00             	call   5f <install_int8>
+       6:	66 e8 58 0d 00 00    	calll  d64 <cstart>
+
+0000000c <start_tty>:
+start_tty():
+       c:	66 e8 c7 10 00 00    	calll  10d9 <tty>
+      12:	b4 02                	mov    $0x2,%ah
+      14:	cd 40                	int    $0x40
+      16:	eb fe                	jmp    16 <user3_bound_x_up+0x9>
+      18:	eb fe                	jmp    18 <user3_bound_x_down+0x1>
+
+0000001a <install_int40>:
+install_int40():
+      1a:	50                   	push   %ax
+      1b:	53                   	push   %bx
+      1c:	1e                   	push   %ds
+      1d:	b8 00 00             	mov    $0x0,%ax
+      20:	8e d8                	mov    %ax,%ds
+      22:	8c c8                	mov    %cs,%ax
+      24:	c7 06 00 01 31 00    	movw   $0x31,0x100
+      2a:	a3 02 01             	mov    %ax,0x102
+      2d:	1f                   	pop    %ds
+      2e:	5b                   	pop    %bx
+      2f:	58                   	pop    %ax
+      30:	c3                   	ret    
+
+00000031 <new_int40>:
+new_int40():
+      31:	80 fc 4c             	cmp    $0x4c,%ah
+      34:	74 11                	je     47 <new_int40.return_kernel>
+      36:	88 e3                	mov    %ah,%bl
+      38:	31 c0                	xor    %ax,%ax
+      3a:	b0 02                	mov    $0x2,%al
+      3c:	f6 e3                	mul    %bl
+      3e:	89 c6                	mov    %ax,%si
+      40:	bb 20 28             	mov    $0x2820,%bx
+      43:	66 ff 10             	calll  *(%bx,%si)
+      46:	cf                   	iret   
+
+00000047 <new_int40.return_kernel>:
+new_int40.return_kernel():
+      47:	59                   	pop    %cx
+      48:	59                   	pop    %cx
+      49:	59                   	pop    %cx
+      4a:	b8 00 10             	mov    $0x1000,%ax
+      4d:	8e d8                	mov    %ax,%ds
+      4f:	8e c0                	mov    %ax,%es
+      51:	8e d0                	mov    %ax,%ss
+      53:	bc 00 50             	mov    $0x5000,%sp
+      56:	51                   	push   %cx
+      57:	68 00 10             	push   $0x1000
+      5a:	68 0c 00             	push   $0xc
+      5d:	fb                   	sti    
+      5e:	cf                   	iret   
+
+0000005f <install_int8>:
+install_int8():
+      5f:	50                   	push   %ax
+      60:	53                   	push   %bx
+      61:	51                   	push   %cx
+      62:	52                   	push   %dx
+      63:	1e                   	push   %ds
+      64:	06                   	push   %es
+      65:	55                   	push   %bp
+      66:	b0 34                	mov    $0x34,%al
+      68:	e6 43                	out    %al,$0x43
+      6a:	b8 ff ff             	mov    $0xffff,%ax
+      6d:	e6 40                	out    %al,$0x40
+      6f:	88 e0                	mov    %ah,%al
+      71:	e6 40                	out    %al,$0x40
+      73:	b8 00 00             	mov    $0x0,%ax
+      76:	8e d8                	mov    %ax,%ds
+      78:	8c c8                	mov    %cs,%ax
+      7a:	a3 22 00             	mov    %ax,0x22
+      7d:	c7 06 20 00 8b 00    	movw   $0x8b,0x20
+      83:	5d                   	pop    %bp
+      84:	07                   	pop    %es
+      85:	1f                   	pop    %ds
+      86:	5a                   	pop    %dx
+      87:	59                   	pop    %cx
+      88:	5b                   	pop    %bx
+      89:	58                   	pop    %ax
+      8a:	c3                   	ret    
+
+0000008b <new_int8>:
+new_int8():
+      8b:	06                   	push   %es
+      8c:	50                   	push   %ax
+      8d:	53                   	push   %bx
+      8e:	51                   	push   %cx
+      8f:	52                   	push   %dx
+      90:	55                   	push   %bp
+      91:	1e                   	push   %ds
+      92:	b8 00 b8             	mov    $0xb800,%ax
+      95:	8e d8                	mov    %ax,%ds
+      97:	66 e8 37 15 00 00    	calll  15d4 <move_name>
+      9d:	b0 20                	mov    $0x20,%al
+      9f:	e6 20                	out    %al,$0x20
+      a1:	e6 a0                	out    %al,$0xa0
+      a3:	1f                   	pop    %ds
+      a4:	5d                   	pop    %bp
+      a5:	5a                   	pop    %dx
+      a6:	59                   	pop    %cx
+      a7:	5b                   	pop    %bx
+      a8:	58                   	pop    %ax
+      a9:	07                   	pop    %es
+      aa:	fb                   	sti    
+      ab:	cf                   	iret   
+
+000000ac <_put_char>:
+_put_char():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:5
+#include "../include/basic.h"
+#include "../include/type.h"
+#include "../include/string.h"
+
+void _put_char(char c, u16 cursor_index){
+      ac:	66 53                	push   %ebx
+      ae:	66 83 ec 10          	sub    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:7
+    int _address = 0xb8000;
+    int _offset = cursor_index * 2;
+      b2:	67 66 0f b7 5c 24 1c 	movzwl 0x1c(%esp),%ebx
+      b9:	66 01 db             	add    %ebx,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:8
+    write_memory_byte(_address+_offset, c);
+      bc:	67 66 8d 83 00 80 0b 	lea    0xb8000(%ebx),%eax
+      c3:	00 
+      c4:	67 66 0f b6 54 24 18 	movzbl 0x18(%esp),%edx
+      cb:	66 52                	push   %edx
+      cd:	66 50                	push   %eax
+      cf:	66 e8 0f 0a 00 00    	calll  ae4 <write_memory_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:9
+    write_memory_byte(_address+_offset+1, 0x1f);
+      d5:	66 81 c3 01 80 0b 00 	add    $0xb8001,%ebx
+      dc:	66 83 c4 08          	add    $0x8,%esp
+      e0:	66 6a 1f             	pushl  $0x1f
+      e3:	66 53                	push   %ebx
+      e5:	66 e8 f9 09 00 00    	calll  ae4 <write_memory_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:11
+    return ;
+}
+      eb:	66 83 c4 18          	add    $0x18,%esp
+      ef:	66 5b                	pop    %ebx
+      f1:	66 c3                	retl   
+
+000000f3 <set_cursor>:
+set_cursor():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:13
+
+void set_cursor(u16 cursor_index){
+      f3:	66 56                	push   %esi
+      f5:	66 53                	push   %ebx
+      f7:	66 83 ec 0c          	sub    $0xc,%esp
+      fb:	67 66 8b 5c 24 18    	mov    0x18(%esp),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:16
+    // short cursor_index = 80 * row + column;     // 计算光标寄存器的值
+    u8 low_eight = cursor_index; // 取低八位，高位被截断
+    u8 high_eight = cursor_index >> 8; // 取高八位
+     101:	66 89 d8             	mov    %ebx,%eax
+     104:	c1 e8 08             	shr    $0x8,%ax
+     107:	66 89 c6             	mov    %eax,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:17
+    write_port_byte(0x3d4,0x0e);// 指定索引寄存器为光标寄存器的高八位
+     10a:	66 6a 0e             	pushl  $0xe
+     10d:	66 68 d4 03 00 00    	pushl  $0x3d4
+     113:	66 e8 77 09 00 00    	calll  a90 <write_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:18
+    write_port_byte(0x3d5, high_eight);// 将光标索引高八位写入端口
+     119:	66 83 c4 08          	add    $0x8,%esp
+     11d:	66 89 f0             	mov    %esi,%eax
+     120:	66 0f b6 f0          	movzbl %al,%esi
+     124:	66 56                	push   %esi
+     126:	66 68 d5 03 00 00    	pushl  $0x3d5
+     12c:	66 e8 5e 09 00 00    	calll  a90 <write_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:19
+    write_port_byte(0x3d4,0x0f);// 指定索引寄存器为光标寄存器的低八位
+     132:	66 83 c4 08          	add    $0x8,%esp
+     136:	66 6a 0f             	pushl  $0xf
+     139:	66 68 d4 03 00 00    	pushl  $0x3d4
+     13f:	66 e8 4b 09 00 00    	calll  a90 <write_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:20
+    write_port_byte(0x3d5, low_eight);// 将光标索引低八位写入端口
+     145:	66 83 c4 08          	add    $0x8,%esp
+     149:	66 0f b6 db          	movzbl %bl,%ebx
+     14d:	66 53                	push   %ebx
+     14f:	66 68 d5 03 00 00    	pushl  $0x3d5
+     155:	66 e8 35 09 00 00    	calll  a90 <write_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:22
+    return ;
+}
+     15b:	66 83 c4 14          	add    $0x14,%esp
+     15f:	66 5b                	pop    %ebx
+     161:	66 5e                	pop    %esi
+     163:	66 c3                	retl   
+
+00000165 <get_cursor>:
+get_cursor():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:24
+
+u16 get_cursor(){
+     165:	66 53                	push   %ebx
+     167:	66 83 ec 10          	sub    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:27
+    u8 low_eight = 0, high_eight = 0;
+    u16 cursor_index = 0;
+    write_port_byte(0x3d4,0x0e);// 指定索引寄存器为光标寄存器的高八位
+     16b:	66 6a 0e             	pushl  $0xe
+     16e:	66 68 d4 03 00 00    	pushl  $0x3d4
+     174:	66 e8 16 09 00 00    	calll  a90 <write_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:28
+    high_eight = read_port_byte(0x3d5);// 将光标索引高八位写入端口
+     17a:	67 66 c7 04 24 d5 03 	movl   $0x3d5,(%esp)
+     181:	00 00 
+     183:	66 e8 20 09 00 00    	calll  aa9 <read_port_byte>
+     189:	66 89 c3             	mov    %eax,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:29
+    write_port_byte(0x3d4,0x0f);// 指定索引寄存器为光标寄存器的低八位
+     18c:	66 83 c4 08          	add    $0x8,%esp
+     190:	66 6a 0f             	pushl  $0xf
+     193:	66 68 d4 03 00 00    	pushl  $0x3d4
+     199:	66 e8 f1 08 00 00    	calll  a90 <write_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:30
+    low_eight = read_port_byte(0x3d5);// 将光标索引低八位写入端口
+     19f:	67 66 c7 04 24 d5 03 	movl   $0x3d5,(%esp)
+     1a6:	00 00 
+     1a8:	66 e8 fb 08 00 00    	calll  aa9 <read_port_byte>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:32
+    cursor_index = high_eight;
+    cursor_index = (cursor_index << 8) + low_eight;
+     1ae:	66 c1 e3 08          	shl    $0x8,%ebx
+     1b2:	66 0f b6 c0          	movzbl %al,%eax
+     1b6:	66 01 d8             	add    %ebx,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:34
+    return cursor_index;
+}
+     1b9:	66 83 c4 18          	add    $0x18,%esp
+     1bd:	66 5b                	pop    %ebx
+     1bf:	66 c3                	retl   
+
+000001c1 <putc>:
+putc():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:36
+
+void putc(char c){
+     1c1:	66 57                	push   %edi
+     1c3:	66 56                	push   %esi
+     1c5:	66 53                	push   %ebx
+     1c7:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:37
+    u16 cursor_index = get_cursor();
+     1cd:	66 e8 92 ff ff ff    	calll  165 <get_cursor>
+     1d3:	66 89 c6             	mov    %eax,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:38
+    u16 row = cursor_index / 80;
+     1d6:	66 0f b7 d8          	movzwl %ax,%ebx
+     1da:	66 69 db cd cc 00 00 	imul   $0xcccd,%ebx,%ebx
+     1e1:	66 c1 eb 10          	shr    $0x10,%ebx
+     1e5:	c1 eb 06             	shr    $0x6,%bx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:40
+    u16 col = cursor_index % 80;
+    if (cursor_index >= 1920){
+     1e8:	3d 7f 07             	cmp    $0x77f,%ax
+     1eb:	76 0c                	jbe    1f9 <putc+0x38>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:41
+        scroll_screen();
+     1ed:	66 e8 6b 09 00 00    	calll  b5e <scroll_screen>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:42
+        cursor_index = 1840;
+     1f3:	66 be 30 07 00 00    	mov    $0x730,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:44
+    }
+    switch (c) {
+     1f9:	66 89 f8             	mov    %edi,%eax
+     1fc:	3c 0a                	cmp    $0xa,%al
+     1fe:	74 06                	je     206 <putc+0x45>
+     200:	3c 0d                	cmp    $0xd,%al
+     202:	74 25                	je     229 <putc+0x68>
+     204:	eb 45                	jmp    24b <putc+0x8a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:46
+        case '\n':
+            set_cursor((row+1)*80); // 回车，移到下一行
+     206:	66 83 ec 0c          	sub    $0xc,%esp
+     20a:	67 66 8d 5c 9b 05    	lea    0x5(%ebx,%ebx,4),%ebx
+     210:	66 89 d8             	mov    %ebx,%eax
+     213:	66 c1 e0 04          	shl    $0x4,%eax
+     217:	66 0f b7 c0          	movzwl %ax,%eax
+     21b:	66 50                	push   %eax
+     21d:	66 e8 d0 fe ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:47
+            break;
+     223:	66 83 c4 10          	add    $0x10,%esp
+     227:	eb 52                	jmp    27b <putc+0xba>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:49
+        case '\r':
+            set_cursor(row*80);    // 移到本行开头处
+     229:	66 83 ec 0c          	sub    $0xc,%esp
+     22d:	67 66 8d 1c 9b       	lea    (%ebx,%ebx,4),%ebx
+     232:	66 89 d8             	mov    %ebx,%eax
+     235:	66 c1 e0 04          	shl    $0x4,%eax
+     239:	66 0f b7 c0          	movzwl %ax,%eax
+     23d:	66 50                	push   %eax
+     23f:	66 e8 ae fe ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:50
+            break;
+     245:	66 83 c4 10          	add    $0x10,%esp
+     249:	eb 30                	jmp    27b <putc+0xba>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:52
+        default:
+            _put_char(c, cursor_index);
+     24b:	66 83 ec 08          	sub    $0x8,%esp
+     24f:	66 0f b7 c6          	movzwl %si,%eax
+     253:	66 50                	push   %eax
+     255:	66 89 f8             	mov    %edi,%eax
+     258:	66 0f be f8          	movsbl %al,%edi
+     25c:	66 57                	push   %edi
+     25e:	66 e8 48 fe ff ff    	calll  ac <_put_char>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:53
+            set_cursor(cursor_index+1);
+     264:	66 83 c6 01          	add    $0x1,%esi
+     268:	66 0f b7 f6          	movzwl %si,%esi
+     26c:	67 66 89 34 24       	mov    %esi,(%esp)
+     271:	66 e8 7c fe ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:54
+            break;
+     277:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:57
+    }
+    return ;
+}
+     27b:	66 5b                	pop    %ebx
+     27d:	66 5e                	pop    %esi
+     27f:	66 5f                	pop    %edi
+     281:	66 c3                	retl   
+
+00000283 <_putc>:
+_putc():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:59
+
+void _putc(char c){
+     283:	66 56                	push   %esi
+     285:	66 53                	push   %ebx
+     287:	66 83 ec 04          	sub    $0x4,%esp
+     28b:	67 66 8b 5c 24 10    	mov    0x10(%esp),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:60
+    u16 cursor_index = get_cursor();
+     291:	66 e8 ce fe ff ff    	calll  165 <get_cursor>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:61
+    u16 row = cursor_index / 80;
+     297:	66 0f b7 d0          	movzwl %ax,%edx
+     29b:	66 69 d2 cd cc 00 00 	imul   $0xcccd,%edx,%edx
+     2a2:	66 c1 ea 10          	shr    $0x10,%edx
+     2a6:	c1 ea 06             	shr    $0x6,%dx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:62
+    u16 col = cursor_index % 80;
+     2a9:	67 66 8d 34 92       	lea    (%edx,%edx,4),%esi
+     2ae:	66 c1 e6 04          	shl    $0x4,%esi
+     2b2:	66 89 f1             	mov    %esi,%ecx
+     2b5:	66 89 c6             	mov    %eax,%esi
+     2b8:	66 29 ce             	sub    %ecx,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:63
+    switch (c) {
+     2bb:	80 fb 0a             	cmp    $0xa,%bl
+     2be:	74 07                	je     2c7 <_putc+0x44>
+     2c0:	80 fb 0d             	cmp    $0xd,%bl
+     2c3:	74 2b                	je     2f0 <_putc+0x6d>
+     2c5:	eb 4b                	jmp    312 <_putc+0x8f>
+     2c7:	66 89 f1             	mov    %esi,%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:65
+        case '\n':
+            set_cursor((row+1)*80+col); // 回车，移到下一行
+     2ca:	66 83 ec 0c          	sub    $0xc,%esp
+     2ce:	67 66 8d 54 92 05    	lea    0x5(%edx,%edx,4),%edx
+     2d4:	66 89 d0             	mov    %edx,%eax
+     2d7:	66 c1 e0 04          	shl    $0x4,%eax
+     2db:	66 01 c1             	add    %eax,%ecx
+     2de:	66 0f b7 c9          	movzwl %cx,%ecx
+     2e2:	66 51                	push   %ecx
+     2e4:	66 e8 09 fe ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:66
+            break;
+     2ea:	66 83 c4 10          	add    $0x10,%esp
+     2ee:	eb 3c                	jmp    32c <_putc+0xa9>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:68
+        case '\r':
+            set_cursor(row*80);    // 移到本行开头处
+     2f0:	66 83 ec 0c          	sub    $0xc,%esp
+     2f4:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
+     2f9:	66 89 d0             	mov    %edx,%eax
+     2fc:	66 c1 e0 04          	shl    $0x4,%eax
+     300:	66 0f b7 c0          	movzwl %ax,%eax
+     304:	66 50                	push   %eax
+     306:	66 e8 e7 fd ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:69
+            break;
+     30c:	66 83 c4 10          	add    $0x10,%esp
+     310:	eb 1a                	jmp    32c <_putc+0xa9>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:71
+        default:
+            _put_char(c, cursor_index);
+     312:	66 83 ec 08          	sub    $0x8,%esp
+     316:	66 0f b7 c0          	movzwl %ax,%eax
+     31a:	66 50                	push   %eax
+     31c:	66 0f be db          	movsbl %bl,%ebx
+     320:	66 53                	push   %ebx
+     322:	66 e8 84 fd ff ff    	calll  ac <_put_char>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:73
+            // set_cursor(cursor_index+1);
+            break;
+     328:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:76
+    }
+    return ;
+}
+     32c:	66 83 c4 04          	add    $0x4,%esp
+     330:	66 5b                	pop    %ebx
+     332:	66 5e                	pop    %esi
+     334:	66 c3                	retl   
+
+00000336 <puti>:
+puti():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:78
+
+void puti(u32 n){
+     336:	66 56                	push   %esi
+     338:	66 53                	push   %ebx
+     33a:	66 83 ec 44          	sub    $0x44,%esp
+     33e:	67 66 8b 4c 24 50    	mov    0x50(%esp),%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:79
+    int len = 0;
+     344:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:81
+    int num[INT_LENGTH];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
+    while (n != 0){
+     34a:	eb 2d                	jmp    379 <puti+0x43>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:82
+        num[len] = n % 10;
+     34c:	66 ba cd cc cc cc    	mov    $0xcccccccd,%edx
+     352:	66 89 c8             	mov    %ecx,%eax
+     355:	66 f7 e2             	mul    %edx
+     358:	66 c1 ea 03          	shr    $0x3,%edx
+     35c:	66 89 d6             	mov    %edx,%esi
+     35f:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
+     364:	67 66 8d 04 12       	lea    (%edx,%edx,1),%eax
+     369:	66 29 c1             	sub    %eax,%ecx
+     36c:	67 66 89 4c 9c 04    	mov    %ecx,0x4(%esp,%ebx,4)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:83
+        n = n / 10;
+     372:	66 89 f1             	mov    %esi,%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:84
+        len++;
+     375:	66 83 c3 01          	add    $0x1,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:81
+}
+
+void puti(u32 n){
+    int len = 0;
+    int num[INT_LENGTH];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
+    while (n != 0){
+     379:	66 85 c9             	test   %ecx,%ecx
+     37c:	75 ce                	jne    34c <puti+0x16>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:86
+        num[len] = n % 10;
+        n = n / 10;
+        len++;
+    }
+    for (int i = len-1; i >= 0; i--){
+     37e:	66 83 eb 01          	sub    $0x1,%ebx
+     382:	eb 23                	jmp    3a7 <puti+0x71>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:87 (discriminator 3)
+        putc(num[i]+'0');
+     384:	66 83 ec 0c          	sub    $0xc,%esp
+     388:	67 66 0f b6 44 9c 10 	movzbl 0x10(%esp,%ebx,4),%eax
+     38f:	66 83 c0 30          	add    $0x30,%eax
+     393:	66 0f be c0          	movsbl %al,%eax
+     397:	66 50                	push   %eax
+     399:	66 e8 22 fe ff ff    	calll  1c1 <putc>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:86 (discriminator 3)
+    while (n != 0){
+        num[len] = n % 10;
+        n = n / 10;
+        len++;
+    }
+    for (int i = len-1; i >= 0; i--){
+     39f:	66 83 eb 01          	sub    $0x1,%ebx
+     3a3:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:86 (discriminator 1)
+     3a7:	66 85 db             	test   %ebx,%ebx
+     3aa:	79 d8                	jns    384 <puti+0x4e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:90
+        putc(num[i]+'0');
+    }
+    return ;
+}
+     3ac:	66 83 c4 44          	add    $0x44,%esp
+     3b0:	66 5b                	pop    %ebx
+     3b2:	66 5e                	pop    %esi
+     3b4:	66 c3                	retl   
+
+000003b6 <puts>:
+puts():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:92
+
+void puts(char * str, int size){
+     3b6:	66 57                	push   %edi
+     3b8:	66 56                	push   %esi
+     3ba:	66 53                	push   %ebx
+     3bc:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
+     3c2:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:93
+    int i = 0;
+     3c8:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:94
+    while (i < size){
+     3ce:	eb 1a                	jmp    3ea <puts+0x34>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:95
+        putc(str[i]);
+     3d0:	66 83 ec 0c          	sub    $0xc,%esp
+     3d4:	67 66 0f be 04 1f    	movsbl (%edi,%ebx,1),%eax
+     3da:	66 50                	push   %eax
+     3dc:	66 e8 df fd ff ff    	calll  1c1 <putc>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:96
+        i++;
+     3e2:	66 83 c3 01          	add    $0x1,%ebx
+     3e6:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:94
+    return ;
+}
+
+void puts(char * str, int size){
+    int i = 0;
+    while (i < size){
+     3ea:	66 39 f3             	cmp    %esi,%ebx
+     3ed:	7c e1                	jl     3d0 <puts+0x1a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:99
+        putc(str[i]);
+        i++;
+    }
+    return ;
+}
+     3ef:	66 5b                	pop    %ebx
+     3f1:	66 5e                	pop    %esi
+     3f3:	66 5f                	pop    %edi
+     3f5:	66 c3                	retl   
+
+000003f7 <sprintf>:
+sprintf():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:103
+
+
+
+void sprintf(char * dest , char * format, ...){
+     3f7:	66 55                	push   %ebp
+     3f9:	66 57                	push   %edi
+     3fb:	66 56                	push   %esi
+     3fd:	66 53                	push   %ebx
+     3ff:	66 83 ec 5c          	sub    $0x5c,%esp
+     403:	67 66 8b 6c 24 70    	mov    0x70(%esp),%ebp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:106
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+     409:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:105
+
+
+
+void sprintf(char * dest , char * format, ...){
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+     40f:	66 bf 00 00 00 00    	mov    $0x0,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:104
+}
+
+
+
+void sprintf(char * dest , char * format, ...){
+    int arg_num = 0;
+     415:	66 ba 00 00 00 00    	mov    $0x0,%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:108
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+    int* arg_addr = &format+1; // 边长参数第一个参数的地址。
+    while (format[src_index] != 0){
+     41b:	e9 33 01             	jmp    551 <sprintf+0x15a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:109
+        if (format[src_index] == '%'){
+     41e:	3c 25                	cmp    $0x25,%al
+     420:	0f 85 1b 01          	jne    53f <sprintf+0x148>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:111
+            src_index++;
+            switch(format[src_index]){
+     424:	67 66 0f b6 44 39 01 	movzbl 0x1(%ecx,%edi,1),%eax
+     42b:	3c 64                	cmp    $0x64,%al
+     42d:	74 28                	je     457 <sprintf+0x60>
+     42f:	3c 73                	cmp    $0x73,%al
+     431:	0f 84 b5 00          	je     4ea <sprintf+0xf3>
+     435:	3c 63                	cmp    $0x63,%al
+     437:	0f 85 fe 00          	jne    539 <sprintf+0x142>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:113
+                case 'c':{
+                    dest[des_index++] =*(arg_addr + arg_num++);
+     43b:	67 66 8b 44 94 78    	mov    0x78(%esp,%edx,4),%eax
+     441:	67 88 44 1d 00       	mov    %al,0x0(%ebp,%ebx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:114
+                    src_index++;
+     446:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:113
+    while (format[src_index] != 0){
+        if (format[src_index] == '%'){
+            src_index++;
+            switch(format[src_index]){
+                case 'c':{
+                    dest[des_index++] =*(arg_addr + arg_num++);
+     44a:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+     44f:	67 66 8d 52 01       	lea    0x1(%edx),%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:115
+                    src_index++;
+                    break;
+     454:	e9 fa 00             	jmp    551 <sprintf+0x15a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:118
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+     457:	67 66 8d 42 01       	lea    0x1(%edx),%eax
+     45c:	67 66 89 44 24 08    	mov    %eax,0x8(%esp)
+     462:	67 66 8b 4c 94 78    	mov    0x78(%esp,%edx,4),%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:119
+                    int len = 0; 
+     468:	66 be 00 00 00 00    	mov    $0x0,%esi
+     46e:	67 66 89 7c 24 0c    	mov    %edi,0xc(%esp)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:121
+                    int num[INT_LENGTH];
+                    while (n != 0){
+     474:	eb 37                	jmp    4ad <sprintf+0xb6>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:122
+                        num[len] = n % 10;
+     476:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
+     47c:	66 89 c8             	mov    %ecx,%eax
+     47f:	66 f7 ea             	imul   %edx
+     482:	66 c1 fa 02          	sar    $0x2,%edx
+     486:	66 89 c8             	mov    %ecx,%eax
+     489:	66 c1 f8 1f          	sar    $0x1f,%eax
+     48d:	66 29 c2             	sub    %eax,%edx
+     490:	66 89 d7             	mov    %edx,%edi
+     493:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
+     498:	67 66 8d 04 12       	lea    (%edx,%edx,1),%eax
+     49d:	66 29 c1             	sub    %eax,%ecx
+     4a0:	67 66 89 4c b4 14    	mov    %ecx,0x14(%esp,%esi,4)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:123
+                        n = n / 10;
+     4a6:	66 89 f9             	mov    %edi,%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:124
+                        len++;
+     4a9:	66 83 c6 01          	add    $0x1,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:121
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+                    int len = 0; 
+                    int num[INT_LENGTH];
+                    while (n != 0){
+     4ad:	66 85 c9             	test   %ecx,%ecx
+     4b0:	75 c4                	jne    476 <sprintf+0x7f>
+     4b2:	67 66 8b 7c 24 0c    	mov    0xc(%esp),%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:126
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+     4b8:	67 66 8d 46 ff       	lea    -0x1(%esi),%eax
+     4bd:	eb 1a                	jmp    4d9 <sprintf+0xe2>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:127 (discriminator 3)
+                        dest[des_index++] = num[i]+'0';
+     4bf:	67 66 0f b6 74 84 14 	movzbl 0x14(%esp,%eax,4),%esi
+     4c6:	67 66 8d 56 30       	lea    0x30(%esi),%edx
+     4cb:	67 88 54 1d 00       	mov    %dl,0x0(%ebp,%ebx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:126 (discriminator 3)
+                    while (n != 0){
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+     4d0:	66 83 e8 01          	sub    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:127 (discriminator 3)
+                        dest[des_index++] = num[i]+'0';
+     4d4:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:126 (discriminator 1)
+                    while (n != 0){
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+     4d9:	66 85 c0             	test   %eax,%eax
+     4dc:	79 e1                	jns    4bf <sprintf+0xc8>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:129
+                        dest[des_index++] = num[i]+'0';
+                    }
+                    src_index++;
+     4de:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:118
+                    dest[des_index++] =*(arg_addr + arg_num++);
+                    src_index++;
+                    break;
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+     4e2:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
+     4e8:	eb 67                	jmp    551 <sprintf+0x15a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:133
+                    }
+                    src_index++;
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+     4ea:	67 66 8d 42 01       	lea    0x1(%edx),%eax
+     4ef:	67 66 89 44 24 08    	mov    %eax,0x8(%esp)
+     4f5:	67 66 8b 74 94 78    	mov    0x78(%esp,%edx,4),%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:134
+                    u32 str_len = strlen(str);
+     4fb:	66 83 ec 0c          	sub    $0xc,%esp
+     4ff:	66 56                	push   %esi
+     501:	66 e8 f7 06 00 00    	calll  bfe <strlen>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:136
+                    u32 i = 0;
+                    while (i < str_len){
+     507:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:135
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+                    u32 str_len = strlen(str);
+                    u32 i = 0;
+     50b:	66 ba 00 00 00 00    	mov    $0x0,%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:136
+                    while (i < str_len){
+     511:	eb 15                	jmp    528 <sprintf+0x131>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:137
+                        dest[des_index++] = str[i++];
+     513:	67 66 0f b6 0c 16    	movzbl (%esi,%edx,1),%ecx
+     519:	67 88 4c 1d 00       	mov    %cl,0x0(%ebp,%ebx,1)
+     51e:	67 66 8d 52 01       	lea    0x1(%edx),%edx
+     523:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:136
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+                    u32 str_len = strlen(str);
+                    u32 i = 0;
+                    while (i < str_len){
+     528:	66 39 c2             	cmp    %eax,%edx
+     52b:	72 e6                	jb     513 <sprintf+0x11c>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:139
+                        dest[des_index++] = str[i++];
+                    }
+                    src_index++;
+     52d:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:133
+                    }
+                    src_index++;
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+     531:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:140
+                    u32 i = 0;
+                    while (i < str_len){
+                        dest[des_index++] = str[i++];
+                    }
+                    src_index++;
+                    break;
+     537:	eb 18                	jmp    551 <sprintf+0x15a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:143
+                }
+                default :
+                    src_index++;
+     539:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:144
+                    break;
+     53d:	eb 12                	jmp    551 <sprintf+0x15a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:147
+            }
+        }
+        else if (format[src_index] == '\\') {
+     53f:	3c 5c                	cmp    $0x5c,%al
+     541:	74 0e                	je     551 <sprintf+0x15a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:166
+                        break;
+                }
+            }
+        }
+        else {
+            dest[des_index++] = format[src_index++];
+     543:	66 83 c7 01          	add    $0x1,%edi
+     547:	67 88 44 1d 00       	mov    %al,0x0(%ebp,%ebx,1)
+     54c:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:108
+void sprintf(char * dest , char * format, ...){
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+    int* arg_addr = &format+1; // 边长参数第一个参数的地址。
+    while (format[src_index] != 0){
+     551:	67 66 8b 4c 24 74    	mov    0x74(%esp),%ecx
+     557:	67 66 0f b6 04 39    	movzbl (%ecx,%edi,1),%eax
+     55d:	84 c0                	test   %al,%al
+     55f:	0f 85 bb fe          	jne    41e <sprintf+0x27>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:169
+        }
+        else {
+            dest[des_index++] = format[src_index++];
+        }
+    }
+    dest[des_index] = 0;
+     563:	67 c6 44 1d 00 00    	movb   $0x0,0x0(%ebp,%ebx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:171
+    return ;
+}
+     569:	66 83 c4 5c          	add    $0x5c,%esp
+     56d:	66 5b                	pop    %ebx
+     56f:	66 5e                	pop    %esi
+     571:	66 5f                	pop    %edi
+     573:	66 5d                	pop    %ebp
+     575:	66 c3                	retl   
+
+00000577 <vprintf>:
+vprintf():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:174
+
+
+void vprintf(char * format, va_list va){
+     577:	66 55                	push   %ebp
+     579:	66 57                	push   %edi
+     57b:	66 56                	push   %esi
+     57d:	66 53                	push   %ebx
+     57f:	66 81 ec 5c 04 00 00 	sub    $0x45c,%esp
+     586:	67 66 8b ac 24 70 04 	mov    0x470(%esp),%ebp
+     58d:	00 00 
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:178
+    char buf[BUF_LENGTH];
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+     58f:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:177
+
+
+void vprintf(char * format, va_list va){
+    char buf[BUF_LENGTH];
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+     595:	66 bf 00 00 00 00    	mov    $0x0,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:176
+}
+
+
+void vprintf(char * format, va_list va){
+    char buf[BUF_LENGTH];
+    int arg_num = 0;
+     59b:	66 ba 00 00 00 00    	mov    $0x0,%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:180
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+    int* arg_addr = va; // 边长参数第一个参数的地址。
+    while (format[src_index] != 0){
+     5a1:	e9 4c 01             	jmp    6f0 <vprintf+0x179>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:181
+        if (format[src_index] == '%'){
+     5a4:	3c 25                	cmp    $0x25,%al
+     5a6:	0f 85 34 01          	jne    6de <vprintf+0x167>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:183
+            src_index++;
+            switch(format[src_index]){
+     5aa:	67 66 0f b6 44 3d 01 	movzbl 0x1(%ebp,%edi,1),%eax
+     5b1:	3c 64                	cmp    $0x64,%al
+     5b3:	74 30                	je     5e5 <vprintf+0x6e>
+     5b5:	3c 73                	cmp    $0x73,%al
+     5b7:	0f 84 c6 00          	je     681 <vprintf+0x10a>
+     5bb:	3c 63                	cmp    $0x63,%al
+     5bd:	0f 85 17 01          	jne    6d8 <vprintf+0x161>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:185
+                case 'c':{
+                    buf[des_index++] =*(arg_addr + arg_num++);
+     5c1:	67 66 8b 84 24 74 04 	mov    0x474(%esp),%eax
+     5c8:	00 00 
+     5ca:	67 66 8b 04 90       	mov    (%eax,%edx,4),%eax
+     5cf:	67 88 44 1c 50       	mov    %al,0x50(%esp,%ebx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:186
+                    src_index++;
+     5d4:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:185
+    while (format[src_index] != 0){
+        if (format[src_index] == '%'){
+            src_index++;
+            switch(format[src_index]){
+                case 'c':{
+                    buf[des_index++] =*(arg_addr + arg_num++);
+     5d8:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+     5dd:	67 66 8d 52 01       	lea    0x1(%edx),%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:187
+                    src_index++;
+                    break;
+     5e2:	e9 0b 01             	jmp    6f0 <vprintf+0x179>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:190
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+     5e5:	67 66 8d 42 01       	lea    0x1(%edx),%eax
+     5ea:	67 66 89 44 24 08    	mov    %eax,0x8(%esp)
+     5f0:	67 66 8b 84 24 74 04 	mov    0x474(%esp),%eax
+     5f7:	00 00 
+     5f9:	67 66 8b 34 90       	mov    (%eax,%edx,4),%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:191
+                    int len = 0; 
+     5fe:	66 b9 00 00 00 00    	mov    $0x0,%ecx
+     604:	67 66 89 7c 24 0c    	mov    %edi,0xc(%esp)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:193
+                    int num[INT_LENGTH];
+                    while (n != 0){
+     60a:	eb 3a                	jmp    646 <vprintf+0xcf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:194
+                        num[len] = n % 10;
+     60c:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
+     612:	66 89 f0             	mov    %esi,%eax
+     615:	66 f7 ea             	imul   %edx
+     618:	66 c1 fa 02          	sar    $0x2,%edx
+     61c:	66 89 f0             	mov    %esi,%eax
+     61f:	66 c1 f8 1f          	sar    $0x1f,%eax
+     623:	66 29 c2             	sub    %eax,%edx
+     626:	66 89 d7             	mov    %edx,%edi
+     629:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
+     62e:	67 66 8d 04 12       	lea    (%edx,%edx,1),%eax
+     633:	66 89 f2             	mov    %esi,%edx
+     636:	66 29 c2             	sub    %eax,%edx
+     639:	67 66 89 54 8c 14    	mov    %edx,0x14(%esp,%ecx,4)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:195
+                        n = n / 10;
+     63f:	66 89 fe             	mov    %edi,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:196
+                        len++;
+     642:	66 83 c1 01          	add    $0x1,%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:193
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+                    int len = 0; 
+                    int num[INT_LENGTH];
+                    while (n != 0){
+     646:	66 85 f6             	test   %esi,%esi
+     649:	75 c1                	jne    60c <vprintf+0x95>
+     64b:	67 66 8b 7c 24 0c    	mov    0xc(%esp),%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:198
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+     651:	66 83 e9 01          	sub    $0x1,%ecx
+     655:	eb 19                	jmp    670 <vprintf+0xf9>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:199 (discriminator 3)
+                        buf[des_index++] = num[i]+'0';
+     657:	67 66 0f b6 44 8c 14 	movzbl 0x14(%esp,%ecx,4),%eax
+     65e:	66 83 c0 30          	add    $0x30,%eax
+     662:	67 88 44 1c 50       	mov    %al,0x50(%esp,%ebx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:198 (discriminator 3)
+                    while (n != 0){
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+     667:	66 83 e9 01          	sub    $0x1,%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:199 (discriminator 3)
+                        buf[des_index++] = num[i]+'0';
+     66b:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:198 (discriminator 1)
+                    while (n != 0){
+                        num[len] = n % 10;
+                        n = n / 10;
+                        len++;
+                    }
+                    for (int i = len-1; i >= 0; i--){
+     670:	66 85 c9             	test   %ecx,%ecx
+     673:	79 e2                	jns    657 <vprintf+0xe0>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:201
+                        buf[des_index++] = num[i]+'0';
+                    }
+                    src_index++;
+     675:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:190
+                    buf[des_index++] =*(arg_addr + arg_num++);
+                    src_index++;
+                    break;
+                }
+                case 'd':{
+                    int n = *(arg_addr + arg_num++);
+     679:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
+     67f:	eb 6f                	jmp    6f0 <vprintf+0x179>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:205
+                    }
+                    src_index++;
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+     681:	67 66 8d 42 01       	lea    0x1(%edx),%eax
+     686:	67 66 89 44 24 08    	mov    %eax,0x8(%esp)
+     68c:	67 66 8b 84 24 74 04 	mov    0x474(%esp),%eax
+     693:	00 00 
+     695:	67 66 8b 34 90       	mov    (%eax,%edx,4),%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:206
+                    u32 str_len = strlen(str);
+     69a:	66 83 ec 0c          	sub    $0xc,%esp
+     69e:	66 56                	push   %esi
+     6a0:	66 e8 58 05 00 00    	calll  bfe <strlen>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:208
+                    u32 i = 0;
+                    while (i < str_len){
+     6a6:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:207
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+                    u32 str_len = strlen(str);
+                    u32 i = 0;
+     6aa:	66 ba 00 00 00 00    	mov    $0x0,%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:208
+                    while (i < str_len){
+     6b0:	eb 15                	jmp    6c7 <vprintf+0x150>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:209
+                        buf[des_index++] = str[i++];
+     6b2:	67 66 0f b6 0c 16    	movzbl (%esi,%edx,1),%ecx
+     6b8:	67 88 4c 1c 50       	mov    %cl,0x50(%esp,%ebx,1)
+     6bd:	67 66 8d 52 01       	lea    0x1(%edx),%edx
+     6c2:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:208
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+                    u32 str_len = strlen(str);
+                    u32 i = 0;
+                    while (i < str_len){
+     6c7:	66 39 c2             	cmp    %eax,%edx
+     6ca:	72 e6                	jb     6b2 <vprintf+0x13b>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:211
+                        buf[des_index++] = str[i++];
+                    }
+                    src_index++;
+     6cc:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:205
+                    }
+                    src_index++;
+                    break;
+                }
+                case 's':{
+                    char * str = *(arg_addr + arg_num++);
+     6d0:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:212
+                    u32 i = 0;
+                    while (i < str_len){
+                        buf[des_index++] = str[i++];
+                    }
+                    src_index++;
+                    break;
+     6d6:	eb 18                	jmp    6f0 <vprintf+0x179>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:215
+                }
+                default :
+                    src_index++;
+     6d8:	66 83 c7 02          	add    $0x2,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:216
+                    break;
+     6dc:	eb 12                	jmp    6f0 <vprintf+0x179>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:219
+            }
+        }
+        else if (format[src_index] == '\\') {
+     6de:	3c 5c                	cmp    $0x5c,%al
+     6e0:	74 0e                	je     6f0 <vprintf+0x179>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:238
+                        break;
+                }
+            }
+        }
+        else {
+            buf[des_index++] = format[src_index++];
+     6e2:	66 83 c7 01          	add    $0x1,%edi
+     6e6:	67 88 44 1c 50       	mov    %al,0x50(%esp,%ebx,1)
+     6eb:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:180
+    char buf[BUF_LENGTH];
+    int arg_num = 0;
+    int src_index = 0;   // 源字符串索引，总是指向未读的一位
+    int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
+    int* arg_addr = va; // 边长参数第一个参数的地址。
+    while (format[src_index] != 0){
+     6f0:	67 66 0f b6 44 3d 00 	movzbl 0x0(%ebp,%edi,1),%eax
+     6f7:	84 c0                	test   %al,%al
+     6f9:	0f 85 a7 fe          	jne    5a4 <vprintf+0x2d>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:241
+        }
+        else {
+            buf[des_index++] = format[src_index++];
+        }
+    }
+    buf[des_index] = 0;
+     6fd:	67 c6 44 1c 50 00    	movb   $0x0,0x50(%esp,%ebx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:242
+    for (int i = 0; i < des_index; i++){
+     703:	66 be 00 00 00 00    	mov    $0x0,%esi
+     709:	eb 1b                	jmp    726 <vprintf+0x1af>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:243 (discriminator 3)
+        putc(buf[i]);
+     70b:	66 83 ec 0c          	sub    $0xc,%esp
+     70f:	67 66 0f be 44 34 5c 	movsbl 0x5c(%esp,%esi,1),%eax
+     716:	66 50                	push   %eax
+     718:	66 e8 a3 fa ff ff    	calll  1c1 <putc>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:242 (discriminator 3)
+        else {
+            buf[des_index++] = format[src_index++];
+        }
+    }
+    buf[des_index] = 0;
+    for (int i = 0; i < des_index; i++){
+     71e:	66 83 c6 01          	add    $0x1,%esi
+     722:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:242 (discriminator 1)
+     726:	66 39 f3             	cmp    %esi,%ebx
+     729:	7f e0                	jg     70b <vprintf+0x194>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:246
+        putc(buf[i]);
+    }
+    return ;
+}
+     72b:	66 81 c4 5c 04 00 00 	add    $0x45c,%esp
+     732:	66 5b                	pop    %ebx
+     734:	66 5e                	pop    %esi
+     736:	66 5f                	pop    %edi
+     738:	66 5d                	pop    %ebp
+     73a:	66 c3                	retl   
+
+0000073c <printf>:
+printf():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:248
+
+void printf(char * format, ...){
+     73c:	66 83 ec 14          	sub    $0x14,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:249
+    vprintf(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
+     740:	67 66 8d 44 24 1c    	lea    0x1c(%esp),%eax
+     746:	66 50                	push   %eax
+     748:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+     74e:	66 e8 23 fe ff ff    	calll  577 <vprintf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:251
+    return ;
+}
+     754:	66 83 c4 1c          	add    $0x1c,%esp
+     758:	66 c3                	retl   
+
+0000075a <isalpha>:
+isalpha():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:270
+//     return ;
+// }
+
+
+
+int isalpha (int ch){
+     75a:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:271
+    if ('a' <= ch && ch <= 'z')
+     760:	67 66 8d 50 9f       	lea    -0x61(%eax),%edx
+     765:	66 83 fa 19          	cmp    $0x19,%edx
+     769:	76 12                	jbe    77d <isalpha+0x23>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:273
+        return 1;
+    if ('A' <= ch && ch <= 'Z')
+     76b:	66 83 e8 41          	sub    $0x41,%eax
+     76f:	66 83 f8 19          	cmp    $0x19,%eax
+     773:	77 10                	ja     785 <isalpha+0x2b>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:274
+        return 1;
+     775:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     77b:	66 c3                	retl   
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:272
+
+
+
+int isalpha (int ch){
+    if ('a' <= ch && ch <= 'z')
+        return 1;
+     77d:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     783:	66 c3                	retl   
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:275
+    if ('A' <= ch && ch <= 'Z')
+        return 1;
+    return 0;
+     785:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:276
+}
+     78b:	66 c3                	retl   
+
+0000078d <isdigit>:
+isdigit():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:278
+int isdigit (int ch){
+    if ('0' <= ch && ch <= '9')
+     78d:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
+     793:	66 83 e8 30          	sub    $0x30,%eax
+     797:	66 83 f8 09          	cmp    $0x9,%eax
+     79b:	77 08                	ja     7a5 <isdigit+0x18>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:279
+        return 1;
+     79d:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     7a3:	66 c3                	retl   
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:280
+    return 0;
+     7a5:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:281
+}
+     7ab:	66 c3                	retl   
+
+000007ad <isalnum>:
+isalnum():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:283
+
+int isalnum (int ch){
+     7ad:	66 53                	push   %ebx
+     7af:	67 66 8b 5c 24 08    	mov    0x8(%esp),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:284
+    if ( isalpha(ch) || isdigit(ch) ){
+     7b5:	66 53                	push   %ebx
+     7b7:	66 e8 9d ff ff ff    	calll  75a <isalpha>
+     7bd:	66 83 c4 04          	add    $0x4,%esp
+     7c1:	66 85 c0             	test   %eax,%eax
+     7c4:	75 13                	jne    7d9 <isalnum+0x2c>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:284 (discriminator 1)
+     7c6:	66 53                	push   %ebx
+     7c8:	66 e8 bf ff ff ff    	calll  78d <isdigit>
+     7ce:	66 83 c4 04          	add    $0x4,%esp
+     7d2:	66 85 c0             	test   %eax,%eax
+     7d5:	75 0a                	jne    7e1 <isalnum+0x34>
+     7d7:	eb 0e                	jmp    7e7 <isalnum+0x3a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:285
+        return 1;
+     7d9:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     7df:	eb 06                	jmp    7e7 <isalnum+0x3a>
+     7e1:	66 b8 01 00 00 00    	mov    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:288
+    }
+    return 0;
+}
+     7e7:	66 5b                	pop    %ebx
+     7e9:	66 c3                	retl   
+
+000007eb <ispunct>:
+ispunct():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:289
+int ispunct (int ch){
+     7eb:	66 83 ec 30          	sub    $0x30,%esp
+     7ef:	67 66 8b 4c 24 34    	mov    0x34(%esp),%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:290
+    char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+     7f5:	67 66 c7 44 24 0e 21 	movl   $0x24232221,0xe(%esp)
+     7fc:	22 23 24 
+     7ff:	67 66 c7 44 24 12 25 	movl   $0x28272625,0x12(%esp)
+     806:	26 27 28 
+     809:	67 66 c7 44 24 16 29 	movl   $0x2c2b2a29,0x16(%esp)
+     810:	2a 2b 2c 
+     813:	67 66 c7 44 24 1a 2d 	movl   $0x3a2f2e2d,0x1a(%esp)
+     81a:	2e 2f 3a 
+     81d:	67 66 c7 44 24 1e 3b 	movl   $0x3e3d3c3b,0x1e(%esp)
+     824:	3c 3d 3e 
+     827:	67 66 c7 44 24 22 3f 	movl   $0x5c5b403f,0x22(%esp)
+     82e:	40 5b 5c 
+     831:	67 66 c7 44 24 26 5d 	movl   $0x605f5e5d,0x26(%esp)
+     838:	5e 5f 60 
+     83b:	67 66 c7 44 24 2a 7b 	movl   $0x7e7d7c7b,0x2a(%esp)
+     842:	7c 7d 7e 
+     845:	67 c7 44 24 2e 00 00 	movw   $0x0,0x2e(%esp)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:291
+    for (int i = 0; i < 33; i++){
+     84c:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     852:	eb 10                	jmp    864 <loader_code_segment+0x64>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:292
+        if (ch == punct[i])
+     854:	67 66 0f be 54 04 0e 	movsbl 0xe(%esp,%eax,1),%edx
+     85b:	66 39 ca             	cmp    %ecx,%edx
+     85e:	74 12                	je     872 <loader_code_segment+0x72>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:291 (discriminator 2)
+    }
+    return 0;
+}
+int ispunct (int ch){
+    char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    for (int i = 0; i < 33; i++){
+     860:	66 83 c0 01          	add    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:291 (discriminator 1)
+     864:	66 83 f8 20          	cmp    $0x20,%eax
+     868:	7e ea                	jle    854 <loader_code_segment+0x54>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:295
+        if (ch == punct[i])
+            return 1;
+    }
+    return 0;
+     86a:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     870:	eb 06                	jmp    878 <loader_code_segment+0x78>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:293
+}
+int ispunct (int ch){
+    char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    for (int i = 0; i < 33; i++){
+        if (ch == punct[i])
+            return 1;
+     872:	66 b8 01 00 00 00    	mov    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:296
+    }
+    return 0;
+}
+     878:	66 83 c4 30          	add    $0x30,%esp
+     87c:	66 c3                	retl   
+
+0000087e <isblank>:
+isblank():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:298
+int isblank (int ch){
+    if (ch == ' ')
+     87e:	67 66 83 7c 24 04 20 	cmpl   $0x20,0x4(%esp)
+     885:	75 08                	jne    88f <isblank+0x11>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:299
+        return 1;
+     887:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     88d:	66 c3                	retl   
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:300
+    return 0;
+     88f:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:301
+}
+     895:	66 c3                	retl   
+
+00000897 <isprint>:
+isprint():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:302
+int isprint (int ch){
+     897:	66 53                	push   %ebx
+     899:	67 66 8b 5c 24 08    	mov    0x8(%esp),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:303
+    if (isalpha(ch) || isdigit(ch) || isalnum(ch) || ispunct(ch) || isblank(ch)){
+     89f:	66 53                	push   %ebx
+     8a1:	66 e8 b3 fe ff ff    	calll  75a <isalpha>
+     8a7:	66 83 c4 04          	add    $0x4,%esp
+     8ab:	66 85 c0             	test   %eax,%eax
+     8ae:	75 46                	jne    8f6 <isprint+0x5f>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:303 (discriminator 1)
+     8b0:	66 53                	push   %ebx
+     8b2:	66 e8 d5 fe ff ff    	calll  78d <isdigit>
+     8b8:	66 83 c4 04          	add    $0x4,%esp
+     8bc:	66 85 c0             	test   %eax,%eax
+     8bf:	75 3d                	jne    8fe <isprint+0x67>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:303 (discriminator 2)
+     8c1:	66 53                	push   %ebx
+     8c3:	66 e8 e4 fe ff ff    	calll  7ad <isalnum>
+     8c9:	66 83 c4 04          	add    $0x4,%esp
+     8cd:	66 85 c0             	test   %eax,%eax
+     8d0:	75 34                	jne    906 <isprint+0x6f>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:303 (discriminator 3)
+     8d2:	66 53                	push   %ebx
+     8d4:	66 e8 11 ff ff ff    	calll  7eb <ispunct>
+     8da:	66 83 c4 04          	add    $0x4,%esp
+     8de:	66 85 c0             	test   %eax,%eax
+     8e1:	75 2b                	jne    90e <isprint+0x77>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:303 (discriminator 4)
+     8e3:	66 53                	push   %ebx
+     8e5:	66 e8 93 ff ff ff    	calll  87e <isblank>
+     8eb:	66 83 c4 04          	add    $0x4,%esp
+     8ef:	66 85 c0             	test   %eax,%eax
+     8f2:	75 22                	jne    916 <isprint+0x7f>
+     8f4:	eb 26                	jmp    91c <isprint+0x85>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:304
+        return 1;
+     8f6:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     8fc:	eb 1e                	jmp    91c <isprint+0x85>
+     8fe:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     904:	eb 16                	jmp    91c <isprint+0x85>
+     906:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     90c:	eb 0e                	jmp    91c <isprint+0x85>
+     90e:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     914:	eb 06                	jmp    91c <isprint+0x85>
+     916:	66 b8 01 00 00 00    	mov    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:307
+    }
+    return 0;
+}
+     91c:	66 5b                	pop    %ebx
+     91e:	66 c3                	retl   
+
+00000920 <iscntrl>:
+iscntrl():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:308
+int iscntrl (int ch){
+     920:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:310
+    //he control characters are the characters with the codes 0x00-0x1F and 0x7F.
+    if (0 <= ch && ch <= 0x1f)
+     926:	66 83 f8 1f          	cmp    $0x1f,%eax
+     92a:	76 0e                	jbe    93a <iscntrl+0x1a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:312
+        return 1;
+    if (ch == 0x7f)
+     92c:	66 83 f8 7f          	cmp    $0x7f,%eax
+     930:	75 10                	jne    942 <iscntrl+0x22>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:313
+        return 1;
+     932:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     938:	66 c3                	retl   
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:311
+    return 0;
+}
+int iscntrl (int ch){
+    //he control characters are the characters with the codes 0x00-0x1F and 0x7F.
+    if (0 <= ch && ch <= 0x1f)
+        return 1;
+     93a:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     940:	66 c3                	retl   
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:314
+    if (ch == 0x7f)
+        return 1;
+    return 0;
+     942:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:315
+}
+     948:	66 c3                	retl   
+
+0000094a <read_n_sector>:
+read_n_sector():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:321
+
+/* tested
+读取指定逻辑扇区号的扇区到指定内存地址处
+注意一次最多写一个段，也就是64k 最多读128个扇区。
+够用了够用了 */
+void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
+     94a:	66 55                	push   %ebp
+     94c:	66 57                	push   %edi
+     94e:	66 56                	push   %esi
+     950:	66 53                	push   %ebx
+     952:	66 83 ec 1c          	sub    $0x1c,%esp
+     956:	67 66 0f b7 7c 24 30 	movzwl 0x30(%esp),%edi
+     95d:	67 66 0f b7 74 24 34 	movzwl 0x34(%esp),%esi
+     964:	67 66 0f b7 44 24 38 	movzwl 0x38(%esp),%eax
+     96b:	67 89 44 24 0c       	mov    %ax,0xc(%esp)
+     970:	67 66 0f b7 44 24 3c 	movzwl 0x3c(%esp),%eax
+     977:	67 89 44 24 0e       	mov    %ax,0xe(%esp)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:322
+    for (int i = 0; i < number; i++){
+     97c:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+     982:	eb 7d                	jmp    a01 <read_n_sector+0xb7>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:323 (discriminator 3)
+        int sector = (sector_code+i) % 18+1;
+     984:	66 0f b7 ef          	movzwl %di,%ebp
+     988:	66 01 dd             	add    %ebx,%ebp
+     98b:	66 ba 39 8e e3 38    	mov    $0x38e38e39,%edx
+     991:	66 89 e8             	mov    %ebp,%eax
+     994:	66 f7 ea             	imul   %edx
+     997:	66 c1 fa 02          	sar    $0x2,%edx
+     99b:	66 89 e8             	mov    %ebp,%eax
+     99e:	66 c1 f8 1f          	sar    $0x1f,%eax
+     9a2:	66 29 c2             	sub    %eax,%edx
+     9a5:	66 89 d1             	mov    %edx,%ecx
+     9a8:	67 66 8d 14 d2       	lea    (%edx,%edx,8),%edx
+     9ad:	67 66 8d 04 12       	lea    (%edx,%edx,1),%eax
+     9b2:	66 89 ea             	mov    %ebp,%edx
+     9b5:	66 29 c2             	sub    %eax,%edx
+     9b8:	66 83 c2 01          	add    $0x1,%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:325 (discriminator 3)
+        int mid = (sector_code+i) / 18;
+        int cylinder = mid >> 1;
+     9bc:	66 89 cd             	mov    %ecx,%ebp
+     9bf:	66 d1 fd             	sar    %ebp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:327 (discriminator 3)
+        int head = mid & 1;
+        read_sector(head, cylinder,sector,segment, offset + i*512);
+     9c2:	66 83 ec 0c          	sub    $0xc,%esp
+     9c6:	66 89 d8             	mov    %ebx,%eax
+     9c9:	66 c1 e0 09          	shl    $0x9,%eax
+     9cd:	67 03 44 24 1a       	add    0x1a(%esp),%ax
+     9d2:	66 0f b7 c0          	movzwl %ax,%eax
+     9d6:	66 50                	push   %eax
+     9d8:	67 66 0f b7 44 24 1c 	movzwl 0x1c(%esp),%eax
+     9df:	66 50                	push   %eax
+     9e1:	66 0f b7 d2          	movzwl %dx,%edx
+     9e5:	66 52                	push   %edx
+     9e7:	66 0f b7 ed          	movzwl %bp,%ebp
+     9eb:	66 55                	push   %ebp
+     9ed:	66 83 e1 01          	and    $0x1,%ecx
+     9f1:	66 51                	push   %ecx
+     9f3:	66 e8 95 01 00 00    	calll  b8e <read_sector>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:322 (discriminator 3)
+/* tested
+读取指定逻辑扇区号的扇区到指定内存地址处
+注意一次最多写一个段，也就是64k 最多读128个扇区。
+够用了够用了 */
+void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
+    for (int i = 0; i < number; i++){
+     9f9:	66 83 c3 01          	add    $0x1,%ebx
+     9fd:	66 83 c4 20          	add    $0x20,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:322 (discriminator 1)
+     a01:	66 0f b7 c6          	movzwl %si,%eax
+     a05:	66 39 c3             	cmp    %eax,%ebx
+     a08:	0f 8c 78 ff          	jl     984 <read_n_sector+0x3a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:330
+        int cylinder = mid >> 1;
+        int head = mid & 1;
+        read_sector(head, cylinder,sector,segment, offset + i*512);
+    }
+    return ;
+}
+     a0c:	66 83 c4 1c          	add    $0x1c,%esp
+     a10:	66 5b                	pop    %ebx
+     a12:	66 5e                	pop    %esi
+     a14:	66 5f                	pop    %edi
+     a16:	66 5d                	pop    %ebp
+     a18:	66 c3                	retl   
+
+00000a1a <read_memory>:
+read_memory():
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:335
+
+
+/* 
+读取内存中指定地址起n字节的内容到指定指针处 */
+void read_memory(u16 segment, u16 offset, u16 byte_size, u16 * ptr){
+     a1a:	66 55                	push   %ebp
+     a1c:	66 57                	push   %edi
+     a1e:	66 56                	push   %esi
+     a20:	66 53                	push   %ebx
+     a22:	66 83 ec 0c          	sub    $0xc,%esp
+     a26:	67 66 0f b7 6c 24 28 	movzwl 0x28(%esp),%ebp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:336
+    int addr = (segment << 4) + offset;
+     a2d:	67 66 0f b7 7c 24 20 	movzwl 0x20(%esp),%edi
+     a34:	66 c1 e7 04          	shl    $0x4,%edi
+     a38:	67 66 0f b7 44 24 24 	movzwl 0x24(%esp),%eax
+     a3f:	66 01 c7             	add    %eax,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:337
+    for (int i = 0; i < byte_size; i++){
+     a42:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+     a48:	eb 22                	jmp    a6c <read_memory+0x52>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:338 (discriminator 3)
+        *(ptr+i) = read_memory_word(addr);
+     a4a:	67 66 8b 44 24 2c    	mov    0x2c(%esp),%eax
+     a50:	67 66 8d 34 58       	lea    (%eax,%ebx,2),%esi
+     a55:	66 83 ec 0c          	sub    $0xc,%esp
+     a59:	66 57                	push   %edi
+     a5b:	66 e8 ab 00 00 00    	calll  b0c <read_memory_word>
+     a61:	67 89 06             	mov    %ax,(%esi)
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:337 (discriminator 3)
+
+/* 
+读取内存中指定地址起n字节的内容到指定指针处 */
+void read_memory(u16 segment, u16 offset, u16 byte_size, u16 * ptr){
+    int addr = (segment << 4) + offset;
+    for (int i = 0; i < byte_size; i++){
+     a64:	66 83 c3 01          	add    $0x1,%ebx
+     a68:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:337 (discriminator 1)
+     a6c:	66 0f b7 c5          	movzwl %bp,%eax
+     a70:	66 39 c3             	cmp    %eax,%ebx
+     a73:	7c d5                	jl     a4a <read_memory+0x30>
+/mnt/e/code/my_operating_system/os/kernel/../lib/stdio.c:340
+        *(ptr+i) = read_memory_word(addr);
+    }
+     a75:	66 83 c4 0c          	add    $0xc,%esp
+     a79:	66 5b                	pop    %ebx
+     a7b:	66 5e                	pop    %esi
+     a7d:	66 5f                	pop    %edi
+     a7f:	66 5d                	pop    %ebp
+     a81:	66 c3                	retl   
+     a83:	66 90                	xchg   %eax,%eax
+     a85:	66 90                	xchg   %eax,%eax
+     a87:	66 90                	xchg   %eax,%eax
+     a89:	66 90                	xchg   %eax,%eax
+     a8b:	66 90                	xchg   %eax,%eax
+     a8d:	66 90                	xchg   %eax,%eax
+     a8f:	90                   	nop
+
+00000a90 <write_port_byte>:
+write_port_byte():
+     a90:	66 55                	push   %ebp
+     a92:	66 89 e5             	mov    %esp,%ebp
+     a95:	50                   	push   %ax
+     a96:	52                   	push   %dx
+     a97:	67 8b 55 08          	mov    0x8(%ebp),%dx
+     a9b:	67 8a 45 0c          	mov    0xc(%ebp),%al
+     a9f:	ee                   	out    %al,(%dx)
+     aa0:	5a                   	pop    %dx
+     aa1:	58                   	pop    %ax
+     aa2:	66 89 ec             	mov    %ebp,%esp
+     aa5:	66 5d                	pop    %ebp
+     aa7:	66 c3                	retl   
+
+00000aa9 <read_port_byte>:
+read_port_byte():
+     aa9:	66 55                	push   %ebp
+     aab:	66 89 e5             	mov    %esp,%ebp
+     aae:	52                   	push   %dx
+     aaf:	67 8b 55 08          	mov    0x8(%ebp),%dx
+     ab3:	ec                   	in     (%dx),%al
+     ab4:	5a                   	pop    %dx
+     ab5:	66 89 ec             	mov    %ebp,%esp
+     ab8:	66 5d                	pop    %ebp
+     aba:	66 c3                	retl   
+
+00000abc <write_memory_word>:
+write_memory_word():
+     abc:	66 55                	push   %ebp
+     abe:	66 89 e5             	mov    %esp,%ebp
+     ac1:	50                   	push   %ax
+     ac2:	53                   	push   %bx
+     ac3:	52                   	push   %dx
+     ac4:	1e                   	push   %ds
+     ac5:	67 8b 5d 08          	mov    0x8(%ebp),%bx
+     ac9:	67 8b 45 0a          	mov    0xa(%ebp),%ax
+     acd:	c1 e0 0c             	shl    $0xc,%ax
+     ad0:	8e d8                	mov    %ax,%ds
+     ad2:	67 8b 55 0c          	mov    0xc(%ebp),%dx
+     ad6:	3e 89 17             	mov    %dx,%ds:(%bx)
+     ad9:	1f                   	pop    %ds
+     ada:	5a                   	pop    %dx
+     adb:	5b                   	pop    %bx
+     adc:	58                   	pop    %ax
+     add:	66 89 ec             	mov    %ebp,%esp
+     ae0:	66 5d                	pop    %ebp
+     ae2:	66 c3                	retl   
+
+00000ae4 <write_memory_byte>:
+write_memory_byte():
+     ae4:	66 55                	push   %ebp
+     ae6:	66 89 e5             	mov    %esp,%ebp
+     ae9:	50                   	push   %ax
+     aea:	53                   	push   %bx
+     aeb:	52                   	push   %dx
+     aec:	1e                   	push   %ds
+     aed:	67 8b 5d 08          	mov    0x8(%ebp),%bx
+     af1:	67 8b 45 0a          	mov    0xa(%ebp),%ax
+     af5:	c1 e0 0c             	shl    $0xc,%ax
+     af8:	8e d8                	mov    %ax,%ds
+     afa:	67 8a 55 0c          	mov    0xc(%ebp),%dl
+     afe:	3e 88 17             	mov    %dl,%ds:(%bx)
+     b01:	1f                   	pop    %ds
+     b02:	5a                   	pop    %dx
+     b03:	5b                   	pop    %bx
+     b04:	58                   	pop    %ax
+     b05:	66 89 ec             	mov    %ebp,%esp
+     b08:	66 5d                	pop    %ebp
+     b0a:	66 c3                	retl   
+
+00000b0c <read_memory_word>:
+read_memory_word():
+     b0c:	66 55                	push   %ebp
+     b0e:	66 89 e5             	mov    %esp,%ebp
+     b11:	53                   	push   %bx
+     b12:	52                   	push   %dx
+     b13:	1e                   	push   %ds
+     b14:	67 8b 5d 08          	mov    0x8(%ebp),%bx
+     b18:	67 8b 45 0a          	mov    0xa(%ebp),%ax
+     b1c:	c1 e0 0c             	shl    $0xc,%ax
+     b1f:	8e d8                	mov    %ax,%ds
+     b21:	3e 8b 07             	mov    %ds:(%bx),%ax
+     b24:	1f                   	pop    %ds
+     b25:	5a                   	pop    %dx
+     b26:	5b                   	pop    %bx
+     b27:	66 89 ec             	mov    %ebp,%esp
+     b2a:	66 5d                	pop    %ebp
+     b2c:	66 c3                	retl   
+
+00000b2e <check_keyboard>:
+check_keyboard():
+     b2e:	b4 01                	mov    $0x1,%ah
+     b30:	cd 16                	int    $0x16
+     b32:	74 05                	je     b39 <check_keyboard.have_key>
+     b34:	b8 00 00             	mov    $0x0,%ax
+     b37:	eb 03                	jmp    b3c <check_keyboard.check_keyboard_return>
+
+00000b39 <check_keyboard.have_key>:
+check_keyboard.have_key():
+     b39:	b8 01 00             	mov    $0x1,%ax
+
+00000b3c <check_keyboard.check_keyboard_return>:
+check_keyboard.check_keyboard_return():
+     b3c:	66 c3                	retl   
+
+00000b3e <get_keyboard>:
+get_keyboard():
+     b3e:	b4 00                	mov    $0x0,%ah
+     b40:	cd 16                	int    $0x16
+     b42:	66 c3                	retl   
+
+00000b44 <clean_screen>:
+clean_screen():
+     b44:	50                   	push   %ax
+     b45:	53                   	push   %bx
+     b46:	51                   	push   %cx
+     b47:	52                   	push   %dx
+     b48:	b4 06                	mov    $0x6,%ah
+     b4a:	b0 00                	mov    $0x0,%al
+     b4c:	b5 00                	mov    $0x0,%ch
+     b4e:	b1 00                	mov    $0x0,%cl
+     b50:	b6 17                	mov    $0x17,%dh
+     b52:	b2 4f                	mov    $0x4f,%dl
+     b54:	b7 1f                	mov    $0x1f,%bh
+     b56:	cd 10                	int    $0x10
+     b58:	5a                   	pop    %dx
+     b59:	59                   	pop    %cx
+     b5a:	5b                   	pop    %bx
+     b5b:	58                   	pop    %ax
+     b5c:	66 c3                	retl   
+
+00000b5e <scroll_screen>:
+scroll_screen():
+     b5e:	50                   	push   %ax
+     b5f:	53                   	push   %bx
+     b60:	51                   	push   %cx
+     b61:	52                   	push   %dx
+     b62:	b4 06                	mov    $0x6,%ah
+     b64:	b0 01                	mov    $0x1,%al
+     b66:	b5 00                	mov    $0x0,%ch
+     b68:	b1 00                	mov    $0x0,%cl
+     b6a:	b6 17                	mov    $0x17,%dh
+     b6c:	b2 4f                	mov    $0x4f,%dl
+     b6e:	b7 10                	mov    $0x10,%bh
+     b70:	cd 10                	int    $0x10
+     b72:	5a                   	pop    %dx
+     b73:	59                   	pop    %cx
+     b74:	5b                   	pop    %bx
+     b75:	58                   	pop    %ax
+     b76:	66 c3                	retl   
+
+00000b78 <get_random>:
+get_random():
+     b78:	53                   	push   %bx
+     b79:	b8 00 00             	mov    $0x0,%ax
+     b7c:	e6 43                	out    %al,$0x43
+     b7e:	e4 40                	in     $0x40,%al
+     b80:	b3 08                	mov    $0x8,%bl
+     b82:	f6 f3                	div    %bl
+     b84:	88 e0                	mov    %ah,%al
+     b86:	b4 00                	mov    $0x0,%ah
+     b88:	83 c0 72             	add    $0x72,%ax
+     b8b:	5b                   	pop    %bx
+     b8c:	66 c3                	retl   
+
+00000b8e <read_sector>:
+read_sector():
+     b8e:	66 55                	push   %ebp
+     b90:	66 89 e5             	mov    %esp,%ebp
+     b93:	50                   	push   %ax
+     b94:	53                   	push   %bx
+     b95:	51                   	push   %cx
+     b96:	52                   	push   %dx
+     b97:	06                   	push   %es
+     b98:	67 8b 45 14          	mov    0x14(%ebp),%ax
+     b9c:	8e c0                	mov    %ax,%es
+     b9e:	67 8b 5d 18          	mov    0x18(%ebp),%bx
+     ba2:	b4 02                	mov    $0x2,%ah
+     ba4:	b0 01                	mov    $0x1,%al
+     ba6:	b2 00                	mov    $0x0,%dl
+     ba8:	67 8a 75 08          	mov    0x8(%ebp),%dh
+     bac:	67 8a 6d 0c          	mov    0xc(%ebp),%ch
+     bb0:	67 8a 4d 10          	mov    0x10(%ebp),%cl
+     bb4:	cd 13                	int    $0x13
+     bb6:	07                   	pop    %es
+     bb7:	5a                   	pop    %dx
+     bb8:	59                   	pop    %cx
+     bb9:	5b                   	pop    %bx
+     bba:	58                   	pop    %ax
+     bbb:	66 89 ec             	mov    %ebp,%esp
+     bbe:	66 5d                	pop    %ebp
+     bc0:	66 c3                	retl   
+
+00000bc2 <print_my_name>:
+print_my_name():
+     bc2:	50                   	push   %ax
+     bc3:	53                   	push   %bx
+     bc4:	51                   	push   %cx
+     bc5:	52                   	push   %dx
+     bc6:	1e                   	push   %ds
+     bc7:	06                   	push   %es
+     bc8:	55                   	push   %bp
+     bc9:	b8 00 10             	mov    $0x1000,%ax
+     bcc:	8e c0                	mov    %ax,%es
+     bce:	b8 08 21             	mov    $0x2108,%ax
+     bd1:	89 c5                	mov    %ax,%bp
+     bd3:	b4 13                	mov    $0x13,%ah
+     bd5:	b0 00                	mov    $0x0,%al
+     bd7:	b7 00                	mov    $0x0,%bh
+     bd9:	b3 0f                	mov    $0xf,%bl
+     bdb:	b9 19 00             	mov    $0x19,%cx
+     bde:	b6 18                	mov    $0x18,%dh
+     be0:	b2 01                	mov    $0x1,%dl
+     be2:	cd 10                	int    $0x10
+     be4:	5d                   	pop    %bp
+     be5:	07                   	pop    %es
+     be6:	1f                   	pop    %ds
+     be7:	5a                   	pop    %dx
+     be8:	59                   	pop    %cx
+     be9:	5b                   	pop    %bx
+     bea:	58                   	pop    %ax
+     beb:	c3                   	ret    
+
+00000bec <reboot>:
+reboot():
+     bec:	b4 06                	mov    $0x6,%ah
+     bee:	b0 00                	mov    $0x0,%al
+     bf0:	b5 00                	mov    $0x0,%ch
+     bf2:	b1 00                	mov    $0x0,%cl
+     bf4:	b6 18                	mov    $0x18,%dh
+     bf6:	b2 4f                	mov    $0x4f,%dl
+     bf8:	b7 1f                	mov    $0x1f,%bh
+     bfa:	cd 10                	int    $0x10
+     bfc:	cd 19                	int    $0x19
+
+00000bfe <strlen>:
+strlen():
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:3
+#include "../include/type.h"
+
+size_t strlen(char * str){
+     bfe:	67 66 8b 54 24 04    	mov    0x4(%esp),%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:4
+    u32 len = 0;
+     c04:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:5
+    while (str[len] != 0){
+     c0a:	eb 04                	jmp    c10 <strlen+0x12>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:6
+        len++;
+     c0c:	66 83 c0 01          	add    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:5
+#include "../include/type.h"
+
+size_t strlen(char * str){
+    u32 len = 0;
+    while (str[len] != 0){
+     c10:	67 80 3c 02 00       	cmpb   $0x0,(%edx,%eax,1)
+     c15:	75 f5                	jne    c0c <strlen+0xe>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:9
+        len++;
+    }
+    return len;
+}
+     c17:	66 f3 c3             	repz retl 
+
+00000c1a <strncpy>:
+strncpy():
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:11
+
+void strncpy(char * dest, char * src, u32 size){
+     c1a:	66 56                	push   %esi
+     c1c:	66 53                	push   %ebx
+     c1e:	67 66 8b 5c 24 0c    	mov    0xc(%esp),%ebx
+     c24:	67 66 8b 74 24 10    	mov    0x10(%esp),%esi
+     c2a:	67 66 8b 4c 24 14    	mov    0x14(%esp),%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:12
+    for (int i = 0; i < size; i++){
+     c30:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     c36:	eb 0e                	jmp    c46 <strncpy+0x2c>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:13 (discriminator 3)
+        dest[i] = src[i];
+     c38:	67 66 0f b6 14 06    	movzbl (%esi,%eax,1),%edx
+     c3e:	67 88 14 03          	mov    %dl,(%ebx,%eax,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:12 (discriminator 3)
+    }
+    return len;
+}
+
+void strncpy(char * dest, char * src, u32 size){
+    for (int i = 0; i < size; i++){
+     c42:	66 83 c0 01          	add    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:12 (discriminator 1)
+     c46:	66 39 c8             	cmp    %ecx,%eax
+     c49:	72 ed                	jb     c38 <strncpy+0x1e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:15
+        dest[i] = src[i];
+    }
+    dest[size] = '\0';
+     c4b:	67 c6 04 0b 00       	movb   $0x0,(%ebx,%ecx,1)
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:16
+}
+     c50:	66 5b                	pop    %ebx
+     c52:	66 5e                	pop    %esi
+     c54:	66 c3                	retl   
+
+00000c56 <strcmp>:
+strcmp():
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:18
+
+int strcmp(char * lhs, char * rhs){
+     c56:	66 57                	push   %edi
+     c58:	66 56                	push   %esi
+     c5a:	66 53                	push   %ebx
+     c5c:	67 66 8b 74 24 10    	mov    0x10(%esp),%esi
+     c62:	67 66 8b 7c 24 14    	mov    0x14(%esp),%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:19
+    int lhs_len = strlen(lhs);
+     c68:	66 56                	push   %esi
+     c6a:	66 e8 8e ff ff ff    	calll  bfe <strlen>
+     c70:	66 89 c3             	mov    %eax,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:20
+    int rhs_len = strlen(rhs);
+     c73:	67 66 89 3c 24       	mov    %edi,(%esp)
+     c78:	66 e8 80 ff ff ff    	calll  bfe <strlen>
+     c7e:	66 83 c4 04          	add    $0x4,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:21
+    if (lhs_len != rhs_len){
+     c82:	66 39 c3             	cmp    %eax,%ebx
+     c85:	75 25                	jne    cac <strcmp+0x56>
+     c87:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     c8d:	eb 10                	jmp    c9f <strcmp+0x49>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:25
+        return 1;
+    }
+    for (int i = 0; i < lhs_len; i++){
+        if (lhs[i] != rhs[i])
+     c8f:	67 66 0f b6 14 07    	movzbl (%edi,%eax,1),%edx
+     c95:	67 38 14 06          	cmp    %dl,(%esi,%eax,1)
+     c99:	75 19                	jne    cb4 <strcmp+0x5e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:24 (discriminator 2)
+    int lhs_len = strlen(lhs);
+    int rhs_len = strlen(rhs);
+    if (lhs_len != rhs_len){
+        return 1;
+    }
+    for (int i = 0; i < lhs_len; i++){
+     c9b:	66 83 c0 01          	add    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:24 (discriminator 1)
+     c9f:	66 39 d8             	cmp    %ebx,%eax
+     ca2:	7c eb                	jl     c8f <strcmp+0x39>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:28
+        if (lhs[i] != rhs[i])
+            return 1;
+    }
+    return 0;
+     ca4:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     caa:	eb 0e                	jmp    cba <strcmp+0x64>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:22
+
+int strcmp(char * lhs, char * rhs){
+    int lhs_len = strlen(lhs);
+    int rhs_len = strlen(rhs);
+    if (lhs_len != rhs_len){
+        return 1;
+     cac:	66 b8 01 00 00 00    	mov    $0x1,%eax
+     cb2:	eb 06                	jmp    cba <strcmp+0x64>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:26
+    }
+    for (int i = 0; i < lhs_len; i++){
+        if (lhs[i] != rhs[i])
+            return 1;
+     cb4:	66 b8 01 00 00 00    	mov    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:29
+    }
+    return 0;
+}
+     cba:	66 5b                	pop    %ebx
+     cbc:	66 5e                	pop    %esi
+     cbe:	66 5f                	pop    %edi
+     cc0:	66 c3                	retl   
+
+00000cc2 <strncmp>:
+strncmp():
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:31
+
+int strncmp(char * lhs, char * rhs, int size){
+     cc2:	66 56                	push   %esi
+     cc4:	66 53                	push   %ebx
+     cc6:	67 66 8b 5c 24 0c    	mov    0xc(%esp),%ebx
+     ccc:	67 66 8b 4c 24 10    	mov    0x10(%esp),%ecx
+     cd2:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:32
+    for (int i = 0; i < size; i++){
+     cd8:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     cde:	eb 10                	jmp    cf0 <strncmp+0x2e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:33
+        if (lhs[i] != rhs[i])
+     ce0:	67 66 0f b6 14 01    	movzbl (%ecx,%eax,1),%edx
+     ce6:	67 38 14 03          	cmp    %dl,(%ebx,%eax,1)
+     cea:	75 11                	jne    cfd <strncmp+0x3b>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:32 (discriminator 2)
+    }
+    return 0;
+}
+
+int strncmp(char * lhs, char * rhs, int size){
+    for (int i = 0; i < size; i++){
+     cec:	66 83 c0 01          	add    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:32 (discriminator 1)
+     cf0:	66 39 f0             	cmp    %esi,%eax
+     cf3:	7c eb                	jl     ce0 <strncmp+0x1e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:36
+        if (lhs[i] != rhs[i])
+            return 1;
+    }
+    return 0;
+     cf5:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     cfb:	eb 06                	jmp    d03 <strncmp+0x41>
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:34
+}
+
+int strncmp(char * lhs, char * rhs, int size){
+    for (int i = 0; i < size; i++){
+        if (lhs[i] != rhs[i])
+            return 1;
+     cfd:	66 b8 01 00 00 00    	mov    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/string.c:37
+    }
+    return 0;
+     d03:	66 5b                	pop    %ebx
+     d05:	66 5e                	pop    %esi
+     d07:	66 c3                	retl   
+
+00000d09 <install_system_call>:
+install_system_call():
+/mnt/e/code/my_operating_system/os/kernel/../lib/system_call.c:6
+#include "../include/type.h"
+#include "../include/stdio.h"
+#include "../include/global.h"
+
+void install_system_call(int system_call_number, void (*function)() ){
+    system_call[system_call_number] = (u16) function;
+     d09:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
+     d0f:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
+     d15:	67 89 94 00 20 28 00 	mov    %dx,0x2820(%eax,%eax,1)
+     d1c:	00 
+     d1d:	66 c3                	retl   
+
+00000d1f <test_system_call>:
+test_system_call():
+/mnt/e/code/my_operating_system/os/kernel/start.c:29
+
+    // while (1){}
+    return 0;
+}
+
+void test_system_call(){
+     d1f:	66 53                	push   %ebx
+     d21:	66 83 ec 08          	sub    $0x8,%esp
+/mnt/e/code/my_operating_system/os/kernel/start.c:30
+    int origin = get_cursor();
+     d25:	66 e8 3a f4 ff ff    	calll  165 <get_cursor>
+     d2b:	66 89 c3             	mov    %eax,%ebx
+/mnt/e/code/my_operating_system/os/kernel/start.c:31
+    set_cursor(1800);
+     d2e:	66 83 ec 0c          	sub    $0xc,%esp
+     d32:	66 68 08 07 00 00    	pushl  $0x708
+     d38:	66 e8 b5 f3 ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/start.c:32
+    printf("test custom system call!!! ");
+     d3e:	67 66 c7 04 24 28 1e 	movl   $0x1e28,(%esp)
+     d45:	00 00 
+     d47:	66 e8 ef f9 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/start.c:33
+    set_cursor(origin);
+     d4d:	66 0f b7 db          	movzwl %bx,%ebx
+     d51:	67 66 89 1c 24       	mov    %ebx,(%esp)
+     d56:	66 e8 97 f3 ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/start.c:34
+}
+     d5c:	66 83 c4 18          	add    $0x18,%esp
+     d60:	66 5b                	pop    %ebx
+     d62:	66 c3                	retl   
+
+00000d64 <cstart>:
+cstart():
+/mnt/e/code/my_operating_system/os/kernel/start.c:12
+#include "../include/fsystem.h"
+
+void (**my_program)();
+void test_system_call();
+
+int cstart(){
+     d64:	66 83 ec 14          	sub    $0x14,%esp
+/mnt/e/code/my_operating_system/os/kernel/start.c:13
+    install_system_call(2, test_system_call);
+     d68:	66 68 1f 0d 00 00    	pushl  $0xd1f
+     d6e:	66 6a 02             	pushl  $0x2
+     d71:	66 e8 92 ff ff ff    	calll  d09 <install_system_call>
+/mnt/e/code/my_operating_system/os/kernel/start.c:14
+    clean_screen();
+     d77:	66 e8 c7 fd ff ff    	calll  b44 <clean_screen>
+/mnt/e/code/my_operating_system/os/kernel/start.c:15
+    set_cursor(0);
+     d7d:	67 66 c7 04 24 00 00 	movl   $0x0,(%esp)
+     d84:	00 00 
+     d86:	66 e8 67 f3 ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/start.c:16
+    init_fsystem();
+     d8c:	66 e8 0c 05 00 00    	calll  129e <init_fsystem>
+/mnt/e/code/my_operating_system/os/kernel/start.c:18
+
+    fs_show_root_file_table();
+     d92:	66 e8 af 07 00 00    	calll  1547 <fs_show_root_file_table>
+/mnt/e/code/my_operating_system/os/kernel/start.c:27
+    // fs_load_by_name("stone1.bin", *my_program);
+    // (*my_program)();
+
+    // while (1){}
+    return 0;
+}
+     d98:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     d9e:	66 83 c4 1c          	add    $0x1c,%esp
+     da2:	66 c3                	retl   
+
+00000da4 <parser>:
+parser():
+/mnt/e/code/my_operating_system/os/kernel/tty.c:89
+    }
+    return ;
+}
+
+
+void parser(){
+     da4:	66 56                	push   %esi
+     da6:	66 53                	push   %ebx
+     da8:	66 83 ec 74          	sub    $0x74,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:93
+    char arguments[10][10];
+    int input_start = 0;
+    int input_end = 0;
+    int arguments_num = 0;
+     dac:	66 be 00 00 00 00    	mov    $0x0,%esi
+/mnt/e/code/my_operating_system/os/kernel/tty.c:92
+
+
+void parser(){
+    char arguments[10][10];
+    int input_start = 0;
+    int input_end = 0;
+     db2:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:91
+}
+
+
+void parser(){
+    char arguments[10][10];
+    int input_start = 0;
+     db8:	66 ba 00 00 00 00    	mov    $0x0,%edx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:95
+    int input_end = 0;
+    int arguments_num = 0;
+    // 使用空格作为分隔符，将输入缓冲区的内容分割成几个参数分别存进arguments数组中
+    while (input_end <= command_line_cursor){
+     dbe:	eb 64                	jmp    e24 <parser+0x80>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:96
+        if(input_buf[input_end] == ' ' || input_buf[input_end] == '\0'){
+     dc0:	67 66 0f b6 83 60 21 	movzbl 0x2160(%ebx),%eax
+     dc7:	00 00 
+     dc9:	3c 20                	cmp    $0x20,%al
+     dcb:	0f 94 c1             	sete   %cl
+     dce:	84 c0                	test   %al,%al
+     dd0:	0f 94 c0             	sete   %al
+     dd3:	08 c1                	or     %al,%cl
+     dd5:	74 49                	je     e20 <parser+0x7c>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:97
+            if (input_start == input_end){ // 如果并没有参数，那么继续
+     dd7:	66 39 da             	cmp    %ebx,%edx
+     dda:	75 0a                	jne    de6 <parser+0x42>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:98
+                input_start++;
+     ddc:	66 83 c2 01          	add    $0x1,%edx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:99
+                input_end++;
+     de0:	66 83 c3 01          	add    $0x1,%ebx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:100
+                continue;
+     de4:	eb 3e                	jmp    e24 <parser+0x80>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:103
+            }
+            else {// 如果有参数，并且已经读到末尾了，那就复制到相应的区域
+                strncpy(arguments[arguments_num], input_buf+input_start, input_end-input_start);
+     de6:	66 89 d9             	mov    %ebx,%ecx
+     de9:	66 29 d1             	sub    %edx,%ecx
+     dec:	67 66 8d 04 b6       	lea    (%esi,%esi,4),%eax
+     df1:	67 66 8d 44 44 0c    	lea    0xc(%esp,%eax,2),%eax
+     df7:	66 83 ec 04          	sub    $0x4,%esp
+     dfb:	66 51                	push   %ecx
+     dfd:	66 81 c2 60 21 00 00 	add    $0x2160,%edx
+     e04:	66 52                	push   %edx
+     e06:	66 50                	push   %eax
+     e08:	66 e8 0c fe ff ff    	calll  c1a <strncpy>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:104
+                input_end++;
+     e0e:	67 66 8d 53 01       	lea    0x1(%ebx),%edx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:106
+                input_start = input_end;
+                arguments_num++;
+     e13:	66 83 c6 01          	add    $0x1,%esi
+     e17:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:104
+                input_end++;
+                continue;
+            }
+            else {// 如果有参数，并且已经读到末尾了，那就复制到相应的区域
+                strncpy(arguments[arguments_num], input_buf+input_start, input_end-input_start);
+                input_end++;
+     e1b:	66 89 d3             	mov    %edx,%ebx
+     e1e:	eb 04                	jmp    e24 <parser+0x80>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:110
+                input_start = input_end;
+                arguments_num++;
+            }
+        }
+        else {// 有参数，还没有读到末尾
+            input_end++;
+     e20:	66 83 c3 01          	add    $0x1,%ebx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:95
+    char arguments[10][10];
+    int input_start = 0;
+    int input_end = 0;
+    int arguments_num = 0;
+    // 使用空格作为分隔符，将输入缓冲区的内容分割成几个参数分别存进arguments数组中
+    while (input_end <= command_line_cursor){
+     e24:	66 3b 1e 40 21       	cmp    0x2140,%ebx
+     e29:	7e 95                	jle    dc0 <parser+0x1c>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:117
+        }
+    }
+
+    // 完成分词，开始进行解析。
+
+    if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
+     e2b:	66 83 ec 08          	sub    $0x8,%esp
+     e2f:	66 68 44 1e 00 00    	pushl  $0x1e44
+     e35:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     e3b:	66 50                	push   %eax
+     e3d:	66 e8 13 fe ff ff    	calll  c56 <strcmp>
+     e43:	66 83 c4 10          	add    $0x10,%esp
+     e47:	66 85 c0             	test   %eax,%eax
+     e4a:	75 31                	jne    e7d <parser+0xd9>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:122
+        // 运行一个用户程序。
+        // 先从软盘中加载一个指定程序到内存处，然后开始执行。
+        // 考虑维护一个空闲空间的指针，然后每加载一个程序，如果可行的话。
+        void (**my_program)();
+        *my_program = 0x4000;
+     e4c:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+     e52:	67 66 c7 03 00 40 00 	movl   $0x4000,(%ebx)
+     e59:	00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:123
+        fs_load_by_name(arguments[1],*my_program);
+     e5a:	66 83 ec 08          	sub    $0x8,%esp
+     e5e:	66 68 00 40 00 00    	pushl  $0x4000
+     e64:	67 66 8d 44 24 22    	lea    0x22(%esp),%eax
+     e6a:	66 50                	push   %eax
+     e6c:	66 e8 6f 06 00 00    	calll  14e1 <fs_load_by_name>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:124
+        (*my_program)();
+     e72:	67 66 ff 13          	calll  *(%ebx)
+     e76:	66 83 c4 10          	add    $0x10,%esp
+     e7a:	e9 1b 01             	jmp    f98 <parser+0x1f4>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:126
+    }
+    else if(!strcmp(arguments[0],"ls") && arguments_num == 1){
+     e7d:	66 83 ec 08          	sub    $0x8,%esp
+     e81:	66 68 48 1e 00 00    	pushl  $0x1e48
+     e87:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     e8d:	66 50                	push   %eax
+     e8f:	66 e8 c1 fd ff ff    	calll  c56 <strcmp>
+     e95:	66 83 c4 10          	add    $0x10,%esp
+     e99:	66 85 c0             	test   %eax,%eax
+     e9c:	75 23                	jne    ec1 <parser+0x11d>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:126 (discriminator 1)
+     e9e:	66 83 fe 01          	cmp    $0x1,%esi
+     ea2:	75 1d                	jne    ec1 <parser+0x11d>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:127
+        printf("\n\n");
+     ea4:	66 83 ec 0c          	sub    $0xc,%esp
+     ea8:	66 68 4b 1e 00 00    	pushl  $0x1e4b
+     eae:	66 e8 88 f8 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:128
+        fs_show_root_file_table();
+     eb4:	66 e8 8d 06 00 00    	calll  1547 <fs_show_root_file_table>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:126
+        void (**my_program)();
+        *my_program = 0x4000;
+        fs_load_by_name(arguments[1],*my_program);
+        (*my_program)();
+    }
+    else if(!strcmp(arguments[0],"ls") && arguments_num == 1){
+     eba:	66 83 c4 10          	add    $0x10,%esp
+     ebe:	e9 d7 00             	jmp    f98 <parser+0x1f4>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:130
+        printf("\n\n");
+        fs_show_root_file_table();
+    }
+    else if(!strcmp(arguments[0],"reboot") && arguments_num == 1){
+     ec1:	66 83 ec 08          	sub    $0x8,%esp
+     ec5:	66 68 4e 1e 00 00    	pushl  $0x1e4e
+     ecb:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     ed1:	66 50                	push   %eax
+     ed3:	66 e8 7d fd ff ff    	calll  c56 <strcmp>
+     ed9:	66 83 c4 10          	add    $0x10,%esp
+     edd:	66 85 c0             	test   %eax,%eax
+     ee0:	75 23                	jne    f05 <parser+0x161>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:130 (discriminator 1)
+     ee2:	66 83 fe 01          	cmp    $0x1,%esi
+     ee6:	75 1d                	jne    f05 <parser+0x161>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:131
+        printf("\n\n");
+     ee8:	66 83 ec 0c          	sub    $0xc,%esp
+     eec:	66 68 4b 1e 00 00    	pushl  $0x1e4b
+     ef2:	66 e8 44 f8 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:132
+        reboot();
+     ef8:	66 e8 ee fc ff ff    	calll  bec <reboot>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:130
+    }
+    else if(!strcmp(arguments[0],"ls") && arguments_num == 1){
+        printf("\n\n");
+        fs_show_root_file_table();
+    }
+    else if(!strcmp(arguments[0],"reboot") && arguments_num == 1){
+     efe:	66 83 c4 10          	add    $0x10,%esp
+     f02:	e9 93 00             	jmp    f98 <parser+0x1f4>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:134
+        printf("\n\n");
+        reboot();
+    }
+    else if(!strcmp(arguments[0],"help") && arguments_num == 1){
+     f05:	66 83 ec 08          	sub    $0x8,%esp
+     f09:	66 68 55 1e 00 00    	pushl  $0x1e55
+     f0f:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     f15:	66 50                	push   %eax
+     f17:	66 e8 39 fd ff ff    	calll  c56 <strcmp>
+     f1d:	66 83 c4 10          	add    $0x10,%esp
+     f21:	66 85 c0             	test   %eax,%eax
+     f24:	75 58                	jne    f7e <parser+0x1da>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:134 (discriminator 1)
+     f26:	66 83 fe 01          	cmp    $0x1,%esi
+     f2a:	75 52                	jne    f7e <parser+0x1da>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:135
+        printf("\n\n");
+     f2c:	66 83 ec 0c          	sub    $0xc,%esp
+     f30:	66 68 4b 1e 00 00    	pushl  $0x1e4b
+     f36:	66 e8 00 f8 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:136
+        printf("ls        : show the file in the root folder.\n");
+     f3c:	67 66 c7 04 24 c0 1e 	movl   $0x1ec0,(%esp)
+     f43:	00 00 
+     f45:	66 e8 f1 f7 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:137
+        printf("run [name]: run the file in the root folder.\n");
+     f4b:	67 66 c7 04 24 f0 1e 	movl   $0x1ef0,(%esp)
+     f52:	00 00 
+     f54:	66 e8 e2 f7 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:138
+        printf("help      : show the help message.\n");
+     f5a:	67 66 c7 04 24 20 1f 	movl   $0x1f20,(%esp)
+     f61:	00 00 
+     f63:	66 e8 d3 f7 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:139
+        printf("reboot    : reboot the machine.\n");
+     f69:	67 66 c7 04 24 44 1f 	movl   $0x1f44,(%esp)
+     f70:	00 00 
+     f72:	66 e8 c4 f7 ff ff    	calll  73c <printf>
+     f78:	66 83 c4 10          	add    $0x10,%esp
+     f7c:	eb 1a                	jmp    f98 <parser+0x1f4>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:142
+    }
+    else {
+        printf("\n%s : command not found! \n", input_buf);
+     f7e:	66 83 ec 08          	sub    $0x8,%esp
+     f82:	66 68 60 21 00 00    	pushl  $0x2160
+     f88:	66 68 5a 1e 00 00    	pushl  $0x1e5a
+     f8e:	66 e8 a8 f7 ff ff    	calll  73c <printf>
+     f94:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:144
+    }
+    int current_cursor = get_cursor();
+     f98:	66 e8 c7 f1 ff ff    	calll  165 <get_cursor>
+     f9e:	66 0f b7 c0          	movzwl %ax,%eax
+/mnt/e/code/my_operating_system/os/kernel/tty.c:145
+    command_line_row = (current_cursor / 80);
+     fa2:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
+     fa8:	66 f7 ea             	imul   %edx
+     fab:	66 c1 fa 05          	sar    $0x5,%edx
+     faf:	66 89 16 04 21       	mov    %edx,0x2104
+/mnt/e/code/my_operating_system/os/kernel/tty.c:148
+    // printf("arguments: %d|%s|%s|",arguments_num, arguments[0],arguments[1]);
+    return ;
+}
+     fb4:	66 83 c4 74          	add    $0x74,%esp
+     fb8:	66 5b                	pop    %ebx
+     fba:	66 5e                	pop    %esi
+     fbc:	66 c3                	retl   
+
+00000fbe <create_a_line>:
+create_a_line():
+/mnt/e/code/my_operating_system/os/kernel/tty.c:151
+
+// 转移光标到命令行下一行,更新缓冲区，并且打印信息
+void create_a_line(){
+     fbe:	66 83 ec 2c          	sub    $0x2c,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:152
+    char message[30] = "walker@walker-pc ~ $ \0";
+     fc2:	66 a1 90 1f          	mov    0x1f90,%eax
+     fc6:	67 66 89 44 24 02    	mov    %eax,0x2(%esp)
+     fcc:	66 a1 94 1f          	mov    0x1f94,%eax
+     fd0:	67 66 89 44 24 06    	mov    %eax,0x6(%esp)
+     fd6:	66 a1 98 1f          	mov    0x1f98,%eax
+     fda:	67 66 89 44 24 0a    	mov    %eax,0xa(%esp)
+     fe0:	66 a1 9c 1f          	mov    0x1f9c,%eax
+     fe4:	67 66 89 44 24 0e    	mov    %eax,0xe(%esp)
+     fea:	66 a1 a0 1f          	mov    0x1fa0,%eax
+     fee:	67 66 89 44 24 12    	mov    %eax,0x12(%esp)
+     ff4:	66 0f b7 06 a4 1f    	movzwl 0x1fa4,%eax
+     ffa:	67 89 44 24 16       	mov    %ax,0x16(%esp)
+     fff:	66 0f b6 06 a6 1f    	movzbl 0x1fa6,%eax
+    1005:	67 88 44 24 18       	mov    %al,0x18(%esp)
+    100a:	67 66 c7 44 24 19 00 	movl   $0x0,0x19(%esp)
+    1011:	00 00 00 
+    1014:	67 c7 44 24 1d 00 00 	movw   $0x0,0x1d(%esp)
+    101b:	67 c6 44 24 1f 00    	movb   $0x0,0x1f(%esp)
+/mnt/e/code/my_operating_system/os/kernel/tty.c:153
+    for (int i = 0; i < MAX_BUF; i++){
+    1021:	66 b8 00 00 00 00    	mov    $0x0,%eax
+    1027:	eb 0c                	jmp    1035 <core_header_data_segment+0x35>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:154 (discriminator 3)
+        input_buf[i] = 0;
+    1029:	67 c6 80 60 21 00 00 	movb   $0x0,0x2160(%eax)
+    1030:	00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:153 (discriminator 3)
+}
+
+// 转移光标到命令行下一行,更新缓冲区，并且打印信息
+void create_a_line(){
+    char message[30] = "walker@walker-pc ~ $ \0";
+    for (int i = 0; i < MAX_BUF; i++){
+    1031:	66 83 c0 01          	add    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/tty.c:153 (discriminator 1)
+    1035:	66 83 f8 63          	cmp    $0x63,%eax
+    1039:	7e ee                	jle    1029 <core_header_data_segment+0x29>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:156
+        input_buf[i] = 0;
+    }
+    message_length = strlen(message);
+    103b:	66 83 ec 0c          	sub    $0xc,%esp
+    103f:	67 66 8d 44 24 0e    	lea    0xe(%esp),%eax
+    1045:	66 50                	push   %eax
+    1047:	66 e8 b1 fb ff ff    	calll  bfe <strlen>
+    104d:	66 a3 44 21          	mov    %eax,0x2144
+/mnt/e/code/my_operating_system/os/kernel/tty.c:157
+    command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
+    1051:	66 03 06 40 21       	add    0x2140,%eax
+    1056:	66 89 c1             	mov    %eax,%ecx
+    1059:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
+    105f:	66 f7 ea             	imul   %edx
+    1062:	66 c1 fa 05          	sar    $0x5,%edx
+    1066:	66 c1 f9 1f          	sar    $0x1f,%ecx
+    106a:	66 29 ca             	sub    %ecx,%edx
+    106d:	66 89 d0             	mov    %edx,%eax
+    1070:	66 03 06 04 21       	add    0x2104,%eax
+    1075:	66 83 c0 01          	add    $0x1,%eax
+    1079:	66 a3 04 21          	mov    %eax,0x2104
+/mnt/e/code/my_operating_system/os/kernel/tty.c:158
+    while(command_line_row > 23){
+    107d:	66 83 c4 10          	add    $0x10,%esp
+    1081:	eb 0c                	jmp    108f <core_header_data_segment+0x8f>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:159
+        scroll_screen();
+    1083:	66 e8 d5 fa ff ff    	calll  b5e <scroll_screen>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:160
+        command_line_row--;
+    1089:	66 83 2e 04 21 01    	subl   $0x1,0x2104
+/mnt/e/code/my_operating_system/os/kernel/tty.c:158
+    for (int i = 0; i < MAX_BUF; i++){
+        input_buf[i] = 0;
+    }
+    message_length = strlen(message);
+    command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
+    while(command_line_row > 23){
+    108f:	66 a1 04 21          	mov    0x2104,%eax
+    1093:	66 83 f8 17          	cmp    $0x17,%eax
+    1097:	7f ea                	jg     1083 <core_header_data_segment+0x83>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:162
+        scroll_screen();
+        command_line_row--;
+    }
+    command_line_cursor = 0;
+    1099:	66 c7 06 40 21 00 00 	movl   $0x0,0x2140
+    10a0:	00 00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:163
+    set_cursor(command_line_row * 80);
+    10a2:	66 83 ec 0c          	sub    $0xc,%esp
+    10a6:	67 66 8d 04 80       	lea    (%eax,%eax,4),%eax
+    10ab:	66 c1 e0 04          	shl    $0x4,%eax
+    10af:	66 0f b7 d0          	movzwl %ax,%edx
+    10b3:	66 52                	push   %edx
+    10b5:	66 e8 38 f0 ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:165
+    // printf("%d", command_line_row);
+    printf("%s", message);
+    10bb:	66 83 c4 08          	add    $0x8,%esp
+    10bf:	67 66 8d 44 24 0a    	lea    0xa(%esp),%eax
+    10c5:	66 50                	push   %eax
+    10c7:	66 68 75 1e 00 00    	pushl  $0x1e75
+    10cd:	66 e8 69 f6 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:166
+}
+    10d3:	66 83 c4 3c          	add    $0x3c,%esp
+    10d7:	66 c3                	retl   
+
+000010d9 <tty>:
+tty():
+/mnt/e/code/my_operating_system/os/kernel/tty.c:19
+int message_length = 0;
+int command_line_cursor = 0; // 光标在输入区的偏移量
+char input_buf[MAX_BUF]; // 输入缓存区
+
+
+void tty(){
+    10d9:	66 56                	push   %esi
+    10db:	66 53                	push   %ebx
+    10dd:	66 83 ec 04          	sub    $0x4,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:21
+    int keyboard_flag = 0;
+    new_line_flag = 1;
+    10e1:	66 c7 06 00 21 01 00 	movl   $0x1,0x2100
+    10e8:	00 00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:22
+    command_line_row = -1;
+    10ea:	66 c7 06 04 21 ff ff 	movl   $0xffffffff,0x2104
+    10f1:	ff ff 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:23
+    clean_screen();
+    10f3:	66 e8 4b fa ff ff    	calll  b44 <clean_screen>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:24
+    set_cursor(1974);
+    10f9:	66 83 ec 0c          	sub    $0xc,%esp
+    10fd:	66 68 b6 07 00 00    	pushl  $0x7b6
+    1103:	66 e8 ea ef ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:25
+    set_cursor(0);
+    1109:	67 66 c7 04 24 00 00 	movl   $0x0,(%esp)
+    1110:	00 00 
+    1112:	66 e8 db ef ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:26
+    print_my_name();
+    1118:	66 e8 a4 fa ff ff    	calll  bc2 <print_my_name>
+    111e:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:29
+    while (1){
+        // 使用缓冲区数据更新
+        if (new_line_flag){
+    1122:	66 83 3e 00 21 00    	cmpl   $0x0,0x2100
+    1128:	74 0f                	je     1139 <tty+0x60>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:30
+            create_a_line();
+    112a:	66 e8 8e fe ff ff    	calll  fbe <create_a_line>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:31
+            new_line_flag = 0;
+    1130:	66 c7 06 00 21 00 00 	movl   $0x0,0x2100
+    1137:	00 00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:34
+        }
+
+        if(command_line_row == 23 && message_length + command_line_cursor > 80){
+    1139:	66 83 3e 04 21 17    	cmpl   $0x17,0x2104
+    113f:	75 2f                	jne    1170 <tty+0x97>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:34 (discriminator 1)
+    1141:	66 a1 40 21          	mov    0x2140,%eax
+    1145:	66 03 06 44 21       	add    0x2144,%eax
+    114a:	66 83 f8 50          	cmp    $0x50,%eax
+    114e:	7e 20                	jle    1170 <tty+0x97>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:35
+            scroll_screen();
+    1150:	66 e8 08 fa ff ff    	calll  b5e <scroll_screen>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:36
+            command_line_row--;
+    1156:	66 83 2e 04 21 01    	subl   $0x1,0x2104
+/mnt/e/code/my_operating_system/os/kernel/tty.c:37
+            set_cursor(1840);
+    115c:	66 83 ec 0c          	sub    $0xc,%esp
+    1160:	66 68 30 07 00 00    	pushl  $0x730
+    1166:	66 e8 87 ef ff ff    	calll  f3 <set_cursor>
+    116c:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:39
+        }
+        putc(' ');// 用来删除光标处的文字，与输入退格的时候光标-1配合使用
+    1170:	66 83 ec 0c          	sub    $0xc,%esp
+    1174:	66 6a 20             	pushl  $0x20
+    1177:	66 e8 44 f0 ff ff    	calll  1c1 <putc>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:42
+
+        // command_line_row = get_cursor() / 80;
+        set_cursor(80*command_line_row + message_length);
+    117d:	66 8b 16 04 21       	mov    0x2104,%edx
+    1182:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
+    1187:	66 89 d0             	mov    %edx,%eax
+    118a:	66 c1 e0 04          	shl    $0x4,%eax
+    118e:	03 06 44 21          	add    0x2144,%ax
+    1192:	66 0f b7 c0          	movzwl %ax,%eax
+    1196:	67 66 89 04 24       	mov    %eax,(%esp)
+    119b:	66 e8 52 ef ff ff    	calll  f3 <set_cursor>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:43
+        puts(input_buf, command_line_cursor);
+    11a1:	66 83 c4 08          	add    $0x8,%esp
+    11a5:	66 ff 36 40 21       	pushl  0x2140
+    11aa:	66 68 60 21 00 00    	pushl  $0x2160
+    11b0:	66 e8 00 f2 ff ff    	calll  3b6 <puts>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:46
+
+        // 更新完了 检测键盘
+        keyboard_flag = check_keyboard();
+    11b6:	66 e8 72 f9 ff ff    	calll  b2e <check_keyboard>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:49
+
+        // 如果返回1，则有输入，处理输入信息，否则继续循环。
+        if (keyboard_flag){
+    11bc:	66 83 c4 10          	add    $0x10,%esp
+    11c0:	85 c0                	test   %ax,%ax
+    11c2:	0f 84 5c ff          	je     1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:51
+            // 处理键盘事件
+            u16 keyboard_code =  get_keyboard();
+    11c6:	66 e8 72 f9 ff ff    	calll  b3e <get_keyboard>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:52
+            u8 ascii_code = keyboard_code;
+    11cc:	66 89 c3             	mov    %eax,%ebx
+/mnt/e/code/my_operating_system/os/kernel/tty.c:54
+            u8 scan_code = keyboard_code >> 8;
+            if (isprint(ascii_code)){
+    11cf:	66 83 ec 0c          	sub    $0xc,%esp
+    11d3:	66 0f b6 c0          	movzbl %al,%eax
+    11d7:	66 50                	push   %eax
+    11d9:	66 e8 b8 f6 ff ff    	calll  897 <isprint>
+    11df:	66 83 c4 10          	add    $0x10,%esp
+    11e3:	66 85 c0             	test   %eax,%eax
+    11e6:	74 20                	je     1208 <tty+0x12f>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:55
+                if (command_line_cursor <= MAX_BUF){
+    11e8:	66 a1 40 21          	mov    0x2140,%eax
+    11ec:	66 83 f8 64          	cmp    $0x64,%eax
+    11f0:	0f 8f 2e ff          	jg     1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:56
+                    input_buf[command_line_cursor++] = ascii_code;
+    11f4:	67 66 8d 50 01       	lea    0x1(%eax),%edx
+    11f9:	66 89 16 40 21       	mov    %edx,0x2140
+    11fe:	67 88 98 60 21 00 00 	mov    %bl,0x2160(%eax)
+    1205:	e9 1a ff             	jmp    1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:59
+                }
+            }
+            else if (ascii_code == 13){
+    1208:	80 fb 0d             	cmp    $0xd,%bl
+    120b:	75 1e                	jne    122b <tty+0x152>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:60
+                new_line_flag = 1;
+    120d:	66 c7 06 00 21 01 00 	movl   $0x1,0x2100
+    1214:	00 00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:61
+                input_buf[command_line_cursor] = '\0';
+    1216:	66 a1 40 21          	mov    0x2140,%eax
+    121a:	67 c6 80 60 21 00 00 	movb   $0x0,0x2160(%eax)
+    1221:	00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:62
+                parser();
+    1222:	66 e8 7c fb ff ff    	calll  da4 <parser>
+    1228:	e9 f7 fe             	jmp    1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:64
+            }
+            else if (ascii_code == 8){
+    122b:	80 fb 08             	cmp    $0x8,%bl
+    122e:	75 3e                	jne    126e <tty+0x195>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:65
+                if(command_line_cursor){
+    1230:	66 a1 40 21          	mov    0x2140,%eax
+    1234:	66 85 c0             	test   %eax,%eax
+    1237:	0f 84 e7 fe          	je     1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:66
+                    input_buf[--command_line_cursor] = 0;
+    123b:	67 66 8d 50 ff       	lea    -0x1(%eax),%edx
+    1240:	66 89 16 40 21       	mov    %edx,0x2140
+    1245:	67 c6 80 5f 21 00 00 	movb   $0x0,0x215f(%eax)
+    124c:	00 
+/mnt/e/code/my_operating_system/os/kernel/tty.c:68
+                    // 将光标设置为前一个位置，方便删除
+                    int cur_cursor = get_cursor();
+    124d:	66 e8 12 ef ff ff    	calll  165 <get_cursor>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:69
+                    set_cursor(cur_cursor-1);
+    1253:	66 83 ec 0c          	sub    $0xc,%esp
+    1257:	66 83 e8 01          	sub    $0x1,%eax
+    125b:	66 0f b7 c0          	movzwl %ax,%eax
+    125f:	66 50                	push   %eax
+    1261:	66 e8 8c ee ff ff    	calll  f3 <set_cursor>
+    1267:	66 83 c4 10          	add    $0x10,%esp
+    126b:	e9 b4 fe             	jmp    1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:72
+                }
+            }
+            else if (ascii_code == 27){
+    126e:	80 fb 1b             	cmp    $0x1b,%bl
+    1271:	0f 85 ad fe          	jne    1122 <tty+0x49>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:73
+                __asm__("mov $0x4c00, %ax");
+    1275:	b8 00 4c             	mov    $0x4c00,%ax
+/mnt/e/code/my_operating_system/os/kernel/tty.c:74
+                __asm__("int $0x40");
+    1278:	cd 40                	int    $0x40
+    127a:	e9 a5 fe             	jmp    1122 <tty+0x49>
+
+0000127d <tty_scroll_screen>:
+tty_scroll_screen():
+/mnt/e/code/my_operating_system/os/kernel/tty.c:169
+    // printf("%d", command_line_row);
+    printf("%s", message);
+}
+
+
+void tty_scroll_screen(){
+    127d:	66 83 ec 0c          	sub    $0xc,%esp
+/mnt/e/code/my_operating_system/os/kernel/tty.c:170
+    if (get_cursor()/80 > 24){
+    1281:	66 e8 de ee ff ff    	calll  165 <get_cursor>
+    1287:	3d cf 07             	cmp    $0x7cf,%ax
+    128a:	76 0c                	jbe    1298 <tty_scroll_screen+0x1b>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:171
+        scroll_screen();
+    128c:	66 e8 cc f8 ff ff    	calll  b5e <scroll_screen>
+/mnt/e/code/my_operating_system/os/kernel/tty.c:172
+        command_line_row--;
+    1292:	66 83 2e 04 21 01    	subl   $0x1,0x2104
+/mnt/e/code/my_operating_system/os/kernel/tty.c:175
+    }
+    return ;
+    1298:	66 83 c4 0c          	add    $0xc,%esp
+    129c:	66 c3                	retl   
+
+0000129e <init_fsystem>:
+init_fsystem():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:14
+FileDescriptor root[32];
+u16 root_sector;
+u16 first_cluster_by_sector;
+u16 cluster2sector;
+
+void init_fsystem(){
+    129e:	66 83 ec 0c          	sub    $0xc,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:15
+    cluster2sector = 1;
+    12a2:	c7 06 00 28 01 00    	movw   $0x1,0x2800
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:16
+    root_sector = 37;
+    12a8:	c7 06 e0 21 25 00    	movw   $0x25,0x21e0
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:17
+    first_cluster_by_sector = root_sector + 1;  
+    12ae:	c7 06 02 28 26 00    	movw   $0x26,0x2802
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:18
+    read_n_sector(root_sector,1, 0x1000, root);
+    12b4:	66 b8 00 24 00 00    	mov    $0x2400,%eax
+    12ba:	66 0f b7 c0          	movzwl %ax,%eax
+    12be:	66 50                	push   %eax
+    12c0:	66 68 00 10 00 00    	pushl  $0x1000
+    12c6:	66 6a 01             	pushl  $0x1
+    12c9:	66 6a 25             	pushl  $0x25
+    12cc:	66 e8 78 f6 ff ff    	calll  94a <read_n_sector>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:19
+    read_n_sector(1,1,0x1000, FAT_table);// 这个会覆盖掉root吗？
+    12d2:	66 b8 00 22 00 00    	mov    $0x2200,%eax
+    12d8:	66 0f b7 c0          	movzwl %ax,%eax
+    12dc:	66 50                	push   %eax
+    12de:	66 68 00 10 00 00    	pushl  $0x1000
+    12e4:	66 6a 01             	pushl  $0x1
+    12e7:	66 6a 01             	pushl  $0x1
+    12ea:	66 e8 5a f6 ff ff    	calll  94a <read_n_sector>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:26
+    // puti(FAT_table[0]);
+    // puti(root[0].cluster_number);
+    // puts(&root[0], 10);
+    // puts(&root[1], 10);
+    // puts(&root[2], 10);
+}
+    12f0:	66 83 c4 2c          	add    $0x2c,%esp
+    12f4:	66 c3                	retl   
+
+000012f6 <_fs_find_descriptor_number_by_name>:
+_fs_find_descriptor_number_by_name():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:28
+
+u16 _fs_find_descriptor_number_by_name(char * file_name){
+    12f6:	66 57                	push   %edi
+    12f8:	66 56                	push   %esi
+    12fa:	66 53                	push   %ebx
+    12fc:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:29
+    int file_name_length = strlen(file_name);
+    1302:	66 83 ec 0c          	sub    $0xc,%esp
+    1306:	66 57                	push   %edi
+    1308:	66 e8 f0 f8 ff ff    	calll  bfe <strlen>
+    130e:	66 89 c6             	mov    %eax,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:30
+    if (file_name_length >= 11) file_name_length = 11;
+    1311:	66 83 c4 10          	add    $0x10,%esp
+    1315:	66 83 f8 0a          	cmp    $0xa,%eax
+    1319:	7e 06                	jle    1321 <_fs_find_descriptor_number_by_name+0x2b>
+    131b:	66 be 0b 00 00 00    	mov    $0xb,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:32
+    // TODO:这里的10是文件数，需要使用常量代替
+    for (int i = 0; i < 10; i++){
+    1321:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+    1327:	eb 2f                	jmp    1358 <_fs_find_descriptor_number_by_name+0x62>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:33
+        if (!strncmp(&root[i], file_name, file_name_length)){
+    1329:	66 89 d8             	mov    %ebx,%eax
+    132c:	66 c1 e0 05          	shl    $0x5,%eax
+    1330:	66 05 00 24 00 00    	add    $0x2400,%eax
+    1336:	66 83 ec 04          	sub    $0x4,%esp
+    133a:	66 56                	push   %esi
+    133c:	66 57                	push   %edi
+    133e:	66 50                	push   %eax
+    1340:	66 e8 7c f9 ff ff    	calll  cc2 <strncmp>
+    1346:	66 83 c4 10          	add    $0x10,%esp
+    134a:	66 85 c0             	test   %eax,%eax
+    134d:	75 05                	jne    1354 <_fs_find_descriptor_number_by_name+0x5e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:34
+            return i;
+    134f:	66 89 d8             	mov    %ebx,%eax
+    1352:	eb 10                	jmp    1364 <_fs_find_descriptor_number_by_name+0x6e>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:32 (discriminator 2)
+
+u16 _fs_find_descriptor_number_by_name(char * file_name){
+    int file_name_length = strlen(file_name);
+    if (file_name_length >= 11) file_name_length = 11;
+    // TODO:这里的10是文件数，需要使用常量代替
+    for (int i = 0; i < 10; i++){
+    1354:	66 83 c3 01          	add    $0x1,%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:32 (discriminator 1)
+    1358:	66 83 fb 09          	cmp    $0x9,%ebx
+    135c:	7e cb                	jle    1329 <_fs_find_descriptor_number_by_name+0x33>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:37
+        if (!strncmp(&root[i], file_name, file_name_length)){
+            return i;
+        }
+    }
+    return -1;
+    135e:	66 b8 ff ff ff ff    	mov    $0xffffffff,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:38
+}
+    1364:	66 5b                	pop    %ebx
+    1366:	66 5e                	pop    %esi
+    1368:	66 5f                	pop    %edi
+    136a:	66 c3                	retl   
+
+0000136c <_fs_find_cluster_code_by_name>:
+_fs_find_cluster_code_by_name():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:40
+
+u16 _fs_find_cluster_code_by_name(char * file_name){
+    136c:	66 83 ec 18          	sub    $0x18,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:41
+    int index = _fs_find_descriptor_number_by_name(file_name);
+    1370:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    1376:	66 e8 7a ff ff ff    	calll  12f6 <_fs_find_descriptor_number_by_name>
+    137c:	66 0f b7 c0          	movzwl %ax,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:43
+    if (index != -1)
+        return root[index].cluster_code;
+    1380:	66 c1 e0 05          	shl    $0x5,%eax
+    1384:	67 66 0f b7 80 1a 24 	movzwl 0x241a(%eax),%eax
+    138b:	00 00 
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:45
+    return 0;
+}
+    138d:	66 83 c4 1c          	add    $0x1c,%esp
+    1391:	66 c3                	retl   
+
+00001393 <_fs_get_file_size_by_cluster_code>:
+_fs_get_file_size_by_cluster_code():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:47
+
+u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
+    1393:	67 66 0f b7 54 24 04 	movzwl 0x4(%esp),%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:48
+    int size = 0;
+    139a:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:49
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+    13a0:	eb 1b                	jmp    13bd <_fs_get_file_size_by_cluster_code+0x2a>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:50
+        size += 512*cluster2sector;
+    13a2:	66 0f b7 0e 00 28    	movzwl 0x2800,%ecx
+    13a8:	66 c1 e1 09          	shl    $0x9,%ecx
+    13ac:	66 01 c8             	add    %ecx,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:51
+        int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
+    13af:	66 0f b7 d2          	movzwl %dx,%edx
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:52
+        cluster_code = FAT_table[cluster_code];
+    13b3:	67 66 0f b7 94 12 00 	movzwl 0x2200(%edx,%edx,1),%edx
+    13ba:	22 00 00 
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:49
+    return 0;
+}
+
+u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
+    int size = 0;
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+    13bd:	67 66 8d 4a fe       	lea    -0x2(%edx),%ecx
+    13c2:	83 f9 ed             	cmp    $0xffed,%cx
+    13c5:	76 db                	jbe    13a2 <_fs_get_file_size_by_cluster_code+0xf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:55
+        size += 512*cluster2sector;
+        int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
+        cluster_code = FAT_table[cluster_code];
+    }
+    return size;
+}
+    13c7:	66 f3 c3             	repz retl 
+
+000013ca <_fs_show_file_by_descriptor_number>:
+_fs_show_file_by_descriptor_number():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:57
+
+void _fs_show_file_by_descriptor_number(u16 index){
+    13ca:	66 56                	push   %esi
+    13cc:	66 53                	push   %ebx
+    13ce:	66 83 ec 04          	sub    $0x4,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:58
+    int cluster_code = root[index].cluster_code;
+    13d2:	67 66 0f b7 74 24 10 	movzwl 0x10(%esp),%esi
+    13d9:	66 c1 e6 05          	shl    $0x5,%esi
+    13dd:	67 66 0f b7 9e 1a 24 	movzwl 0x241a(%esi),%ebx
+    13e4:	00 00 
+    13e6:	66 81 c6 00 24 00 00 	add    $0x2400,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:60
+    printf("%s   | %d byte |", (char *)&root[index],
+                             _fs_get_file_size_by_cluster_code(cluster_code));
+    13ed:	66 53                	push   %ebx
+    13ef:	66 e8 9e ff ff ff    	calll  1393 <_fs_get_file_size_by_cluster_code>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:59
+    return size;
+}
+
+void _fs_show_file_by_descriptor_number(u16 index){
+    int cluster_code = root[index].cluster_code;
+    printf("%s   | %d byte |", (char *)&root[index],
+    13f5:	66 0f b7 c0          	movzwl %ax,%eax
+    13f9:	66 50                	push   %eax
+    13fb:	66 56                	push   %esi
+    13fd:	66 68 78 1e 00 00    	pushl  $0x1e78
+    1403:	66 e8 33 f3 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:61
+                             _fs_get_file_size_by_cluster_code(cluster_code));
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+    1409:	66 83 c4 10          	add    $0x10,%esp
+    140d:	eb 20                	jmp    142f <_fs_show_file_by_descriptor_number+0x65>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:62
+        printf("-%d", cluster_code);
+    140f:	66 83 ec 08          	sub    $0x8,%esp
+    1413:	66 53                	push   %ebx
+    1415:	66 68 89 1e 00 00    	pushl  $0x1e89
+    141b:	66 e8 1b f3 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:63
+        cluster_code = FAT_table[cluster_code];
+    1421:	67 66 0f b7 9c 1b 00 	movzwl 0x2200(%ebx,%ebx,1),%ebx
+    1428:	22 00 00 
+    142b:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:61
+
+void _fs_show_file_by_descriptor_number(u16 index){
+    int cluster_code = root[index].cluster_code;
+    printf("%s   | %d byte |", (char *)&root[index],
+                             _fs_get_file_size_by_cluster_code(cluster_code));
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+    142f:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
+    1434:	66 3d ed ff 00 00    	cmp    $0xffed,%eax
+    143a:	76 d3                	jbe    140f <_fs_show_file_by_descriptor_number+0x45>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:65
+        printf("-%d", cluster_code);
+        cluster_code = FAT_table[cluster_code];
+    }
+    printf("-|\n");
+    143c:	66 83 ec 0c          	sub    $0xc,%esp
+    1440:	66 68 8d 1e 00 00    	pushl  $0x1e8d
+    1446:	66 e8 f0 f2 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:67
+    return ;
+}
+    144c:	66 83 c4 14          	add    $0x14,%esp
+    1450:	66 5b                	pop    %ebx
+    1452:	66 5e                	pop    %esi
+    1454:	66 c3                	retl   
+
+00001456 <_fs_load_by_cluster_code>:
+_fs_load_by_cluster_code():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:69
+
+u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
+    1456:	66 57                	push   %edi
+    1458:	66 56                	push   %esi
+    145a:	66 53                	push   %ebx
+    145c:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
+    1462:	67 66 0f b7 5c 24 10 	movzwl 0x10(%esp),%ebx
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:70
+    int size = 0;
+    1469:	66 bf 00 00 00 00    	mov    $0x0,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:71
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+    146f:	eb 5b                	jmp    14cc <_fs_load_by_cluster_code+0x76>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:72
+        size += 512*cluster2sector;
+    1471:	66 0f b7 16 00 28    	movzwl 0x2800,%edx
+    1477:	66 89 d0             	mov    %edx,%eax
+    147a:	66 c1 e0 09          	shl    $0x9,%eax
+    147e:	66 01 c7             	add    %eax,%edi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:73
+        int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
+    1481:	66 0f b7 0e 02 28    	movzwl 0x2802,%ecx
+    1487:	66 0f b7 db          	movzwl %bx,%ebx
+    148b:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
+    1490:	66 0f af c2          	imul   %edx,%eax
+    1494:	66 01 c8             	add    %ecx,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:74
+        read_n_sector(sector_number, cluster2sector, 0x1000, program);
+    1497:	66 0f b7 ce          	movzwl %si,%ecx
+    149b:	66 51                	push   %ecx
+    149d:	66 68 00 10 00 00    	pushl  $0x1000
+    14a3:	66 52                	push   %edx
+    14a5:	66 0f b7 c0          	movzwl %ax,%eax
+    14a9:	66 50                	push   %eax
+    14ab:	66 e8 99 f4 ff ff    	calll  94a <read_n_sector>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:75
+        program = program+cluster2sector*512;
+    14b1:	66 0f b7 06 00 28    	movzwl 0x2800,%eax
+    14b7:	66 c1 e0 09          	shl    $0x9,%eax
+    14bb:	66 01 c6             	add    %eax,%esi
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:76
+        cluster_code = FAT_table[cluster_code];
+    14be:	67 66 0f b7 9c 1b 00 	movzwl 0x2200(%ebx,%ebx,1),%ebx
+    14c5:	22 00 00 
+    14c8:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:71
+    return ;
+}
+
+u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
+    int size = 0;
+    while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
+    14cc:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
+    14d1:	83 f8 ed             	cmp    $0xffed,%ax
+    14d4:	76 9b                	jbe    1471 <_fs_load_by_cluster_code+0x1b>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:79
+        read_n_sector(sector_number, cluster2sector, 0x1000, program);
+        program = program+cluster2sector*512;
+        cluster_code = FAT_table[cluster_code];
+    }
+    return size;
+}
+    14d6:	66 89 f8             	mov    %edi,%eax
+    14d9:	66 5b                	pop    %ebx
+    14db:	66 5e                	pop    %esi
+    14dd:	66 5f                	pop    %edi
+    14df:	66 c3                	retl   
+
+000014e1 <fs_load_by_name>:
+fs_load_by_name():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:82
+
+
+u16 fs_load_by_name(char * file_name, void (*program)()){
+    14e1:	66 83 ec 18          	sub    $0x18,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:83
+    int cluster_code = _fs_find_cluster_code_by_name(file_name);
+    14e5:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    14eb:	66 e8 7b fe ff ff    	calll  136c <_fs_find_cluster_code_by_name>
+    14f1:	66 0f b7 c0          	movzwl %ax,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:84
+    if (cluster_code){
+    14f5:	66 83 c4 10          	add    $0x10,%esp
+    14f9:	66 85 c0             	test   %eax,%eax
+    14fc:	74 18                	je     1516 <fs_load_by_name+0x35>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:85
+        return _fs_load_by_cluster_code(cluster_code, program);
+    14fe:	66 83 ec 08          	sub    $0x8,%esp
+    1502:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    1508:	66 50                	push   %eax
+    150a:	66 e8 46 ff ff ff    	calll  1456 <_fs_load_by_cluster_code>
+    1510:	66 83 c4 10          	add    $0x10,%esp
+    1514:	eb 06                	jmp    151c <fs_load_by_name+0x3b>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:88
+    }
+    else {
+        return 0;
+    1516:	66 b8 00 00 00 00    	mov    $0x0,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:90
+    }
+}
+    151c:	66 83 c4 0c          	add    $0xc,%esp
+    1520:	66 c3                	retl   
+
+00001522 <fs_get_file_size>:
+fs_get_file_size():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:93
+
+
+u16 fs_get_file_size(char * file_name){
+    1522:	66 83 ec 18          	sub    $0x18,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:94
+    int cluster_code = _fs_find_cluster_code_by_name(file_name);
+    1526:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    152c:	66 e8 3a fe ff ff    	calll  136c <_fs_find_cluster_code_by_name>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:95
+    return _fs_get_file_size_by_cluster_code(cluster_code);
+    1532:	66 0f b7 c0          	movzwl %ax,%eax
+    1536:	67 66 89 04 24       	mov    %eax,(%esp)
+    153b:	66 e8 52 fe ff ff    	calll  1393 <_fs_get_file_size_by_cluster_code>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:96
+}
+    1541:	66 83 c4 1c          	add    $0x1c,%esp
+    1545:	66 c3                	retl   
+
+00001547 <fs_show_root_file_table>:
+fs_show_root_file_table():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:98
+
+void fs_show_root_file_table(){
+    1547:	66 53                	push   %ebx
+    1549:	66 83 ec 08          	sub    $0x8,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:99
+    printf("%s   | %s | %s\n", "file name ", "file size", "cluster");
+    154d:	66 68 91 1e 00 00    	pushl  $0x1e91
+    1553:	66 68 99 1e 00 00    	pushl  $0x1e99
+    1559:	66 68 a3 1e 00 00    	pushl  $0x1ea3
+    155f:	66 68 ae 1e 00 00    	pushl  $0x1eae
+    1565:	66 e8 d1 f1 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:100
+    printf("------------------------------------\n\r");
+    156b:	67 66 c7 04 24 68 1f 	movl   $0x1f68,(%esp)
+    1572:	00 00 
+    1574:	66 e8 c2 f1 ff ff    	calll  73c <printf>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:102
+    int file_number = 3;// TODO:文件数量需要设置！
+    for(int i = 0; i < file_number; i++){
+    157a:	66 83 c4 10          	add    $0x10,%esp
+    157e:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+    1584:	eb 18                	jmp    159e <fs_show_root_file_table+0x57>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:103 (discriminator 3)
+        _fs_show_file_by_descriptor_number(i);
+    1586:	66 83 ec 0c          	sub    $0xc,%esp
+    158a:	66 0f b7 c3          	movzwl %bx,%eax
+    158e:	66 50                	push   %eax
+    1590:	66 e8 34 fe ff ff    	calll  13ca <_fs_show_file_by_descriptor_number>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:102 (discriminator 3)
+
+void fs_show_root_file_table(){
+    printf("%s   | %s | %s\n", "file name ", "file size", "cluster");
+    printf("------------------------------------\n\r");
+    int file_number = 3;// TODO:文件数量需要设置！
+    for(int i = 0; i < file_number; i++){
+    1596:	66 83 c3 01          	add    $0x1,%ebx
+    159a:	66 83 c4 10          	add    $0x10,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:102 (discriminator 1)
+    159e:	66 83 fb 02          	cmp    $0x2,%ebx
+    15a2:	7e e2                	jle    1586 <fs_show_root_file_table+0x3f>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:106
+        _fs_show_file_by_descriptor_number(i);
+    }
+    return ;
+}
+    15a4:	66 83 c4 08          	add    $0x8,%esp
+    15a8:	66 5b                	pop    %ebx
+    15aa:	66 c3                	retl   
+
+000015ac <fs_show_file_by_name>:
+fs_show_file_by_name():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:108
+
+void fs_show_file_by_name(char * file_name){
+    15ac:	66 83 ec 18          	sub    $0x18,%esp
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:109
+    int descriptor_index = _fs_find_descriptor_number_by_name(file_name);
+    15b0:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    15b6:	66 e8 3a fd ff ff    	calll  12f6 <_fs_find_descriptor_number_by_name>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:110
+    _fs_show_file_by_descriptor_number(descriptor_index);
+    15bc:	66 0f b7 c0          	movzwl %ax,%eax
+    15c0:	67 66 89 04 24       	mov    %eax,(%esp)
+    15c5:	66 e8 ff fd ff ff    	calll  13ca <_fs_show_file_by_descriptor_number>
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:112
+    return ;
+}
+    15cb:	66 83 c4 1c          	add    $0x1c,%esp
+    15cf:	66 c3                	retl   
+
+000015d1 <fs_show_floppy_infomation>:
+fs_show_floppy_infomation():
+/mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:115
+
+
+void fs_show_floppy_infomation(){
+    15d1:	66 f3 c3             	repz retl 
+
+000015d4 <move_name>:
+move_name():
+/mnt/e/code/my_operating_system/os/kernel/../lib/style.c:9
+
+void move_name(){
+    u16 *text_line = 1920*2;
+    // text_line 0-79
+    // text_line[80]
+    u16 last_char = text_line[79];
+    15d4:	66 0f b7 0e 9e 0f    	movzwl 0xf9e,%ecx
+/mnt/e/code/my_operating_system/os/kernel/../lib/style.c:10
+    for (int i =78; i >= 0; i--){
+    15da:	66 b8 4e 00 00 00    	mov    $0x4e,%eax
+    15e0:	eb 16                	jmp    15f8 <move_name+0x24>
+/mnt/e/code/my_operating_system/os/kernel/../lib/style.c:11 (discriminator 3)
+        text_line[i+1] = text_line[i];
+    15e2:	67 66 0f b7 94 00 00 	movzwl 0xf00(%eax,%eax,1),%edx
+    15e9:	0f 00 00 
+    15ec:	67 89 94 00 02 0f 00 	mov    %dx,0xf02(%eax,%eax,1)
+    15f3:	00 
+/mnt/e/code/my_operating_system/os/kernel/../lib/style.c:10 (discriminator 3)
+void move_name(){
+    u16 *text_line = 1920*2;
+    // text_line 0-79
+    // text_line[80]
+    u16 last_char = text_line[79];
+    for (int i =78; i >= 0; i--){
+    15f4:	66 83 e8 01          	sub    $0x1,%eax
+/mnt/e/code/my_operating_system/os/kernel/../lib/style.c:10 (discriminator 1)
+    15f8:	66 85 c0             	test   %eax,%eax
+    15fb:	79 e5                	jns    15e2 <move_name+0xe>
+/mnt/e/code/my_operating_system/os/kernel/../lib/style.c:13
+        text_line[i+1] = text_line[i];
+    }
+    text_line[0] = last_char;
+    15fd:	89 0e 00 0f          	mov    %cx,0xf00
+    1601:	66 c3                	retl   
