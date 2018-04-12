@@ -122,12 +122,9 @@ install_int8:
 ;------------------------------------------------------------------------------
 new_int8:
     push es
-    push ax
-    push bx
-    push cx
-    push dx
-    push bp
     push ds
+    push ss
+    pusha
 
     ; mov ax, 0x00
     ; int 16h
@@ -140,12 +137,10 @@ new_int8:
 	mov al,20h			; AL = EOI
 	out 20h,al			; 发送EOI到主8529A
 	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
+
+    popa
+    pop ss
     pop ds
-    pop bp
-    pop dx
-    pop cx
-    pop bx
-    pop ax
     pop es
     sti
     iret
