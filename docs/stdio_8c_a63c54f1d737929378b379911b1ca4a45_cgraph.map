@@ -1,0 +1,12 @@
+<map id="printf" name="printf">
+<area shape="rect" id="node2" href="$stdio_8c.html#aa1eb54b83570e9a54c13e605e35eac14" title="vprintf" alt="" coords="104,56,163,83"/>
+<area shape="rect" id="node3" href="$string_8h.html#a1b466f2a1e360235424abfb1b426f648" title="strlen" alt="" coords="211,31,265,57"/>
+<area shape="rect" id="node4" href="$stdio_8c.html#acc0ee6e9643f83a5ab11722197fc25ec" title="putc" alt="" coords="215,81,261,108"/>
+<area shape="rect" id="node5" href="$stdio_8c.html#a321b6fd7a588cf8b65118d1cdd9409f3" title="get_cursor" alt="" coords="321,5,404,32"/>
+<area shape="rect" id="node8" href="$basic_8h.html#a84aa5d70fb7071886a0c2fc4d5380535" title="scroll_screen" alt="" coords="313,56,412,83"/>
+<area shape="rect" id="node9" href="$stdio_8c.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="321,107,404,133"/>
+<area shape="rect" id="node10" href="$stdio_8c.html#a9a8be2f89b180575b6161043f1fd78ff" title="_put_char" alt="" coords="323,157,402,184"/>
+<area shape="rect" id="node6" href="$basic_8h.html#aefb5aad9c0c6a619c34b515b299f1382" title="write_port_byte" alt="" coords="473,81,583,108"/>
+<area shape="rect" id="node7" href="$basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948" title="read_port_byte" alt="" coords="474,5,582,32"/>
+<area shape="rect" id="node11" href="$basic_8h.html#ae64d89b50cdcd8c1a7a639eaeec2d87e" title="write_memory_byte" alt="" coords="460,157,596,184"/>
+</map>

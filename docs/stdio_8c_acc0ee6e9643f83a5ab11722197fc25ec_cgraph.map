@@ -1,0 +1,9 @@
+<map id="putc" name="putc">
+<area shape="rect" id="node2" href="$stdio_8c.html#a321b6fd7a588cf8b65118d1cdd9409f3" title="get_cursor" alt="" coords="108,5,191,32"/>
+<area shape="rect" id="node5" href="$basic_8h.html#a84aa5d70fb7071886a0c2fc4d5380535" title="scroll_screen" alt="" coords="100,56,199,83"/>
+<area shape="rect" id="node6" href="$stdio_8c.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="108,107,191,133"/>
+<area shape="rect" id="node7" href="$stdio_8c.html#a9a8be2f89b180575b6161043f1fd78ff" title="_put_char" alt="" coords="110,157,189,184"/>
+<area shape="rect" id="node3" href="$basic_8h.html#aefb5aad9c0c6a619c34b515b299f1382" title="write_port_byte" alt="" coords="259,81,370,108"/>
+<area shape="rect" id="node4" href="$basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948" title="read_port_byte" alt="" coords="261,5,369,32"/>
+<area shape="rect" id="node8" href="$basic_8h.html#ae64d89b50cdcd8c1a7a639eaeec2d87e" title="write_memory_byte" alt="" coords="247,157,383,184"/>
+</map>

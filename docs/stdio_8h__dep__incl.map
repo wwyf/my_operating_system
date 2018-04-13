@@ -1,0 +1,6 @@
+<map id="os/include/stdio.h" name="os/include/stdio.h">
+<area shape="rect" id="node2" href="$start_8c.html" title="os/kernel/start.c" alt="" coords="5,80,121,107"/>
+<area shape="rect" id="node3" href="$tty_8c.html" title="os/kernel/tty.c" alt="" coords="145,80,251,107"/>
+<area shape="rect" id="node4" href="$fsystem_8c.html" title="os/lib/fsystem.c" alt="" coords="275,80,390,107"/>
+<area shape="rect" id="node5" href="$system__call_8c.html" title="os/lib/system_call.c" alt="" coords="414,80,553,107"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="init_fsystem" name="init_fsystem">
+<area shape="rect" id="node2" href="$stdio_8h.html#a2de87d8da4f464304a2071cc87cdeace" title="read_n_sector" alt="" coords="147,5,251,32"/>
+<area shape="rect" id="node3" href="$basic_8h.html#ae09053bb528e6283f6fa2998dfdf00ef" title="read_sector" alt="" coords="299,5,389,32"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="isprint" name="isprint">
+<area shape="rect" id="node2" href="$stdio_8c.html#a0353589609b4d18243a69068c9ceacb8" title="isalpha" alt="" coords="225,5,288,32"/>
+<area shape="rect" id="node3" href="$stdio_8c.html#a010c9829397dd0787f5653fd5273a88e" title="isdigit" alt="" coords="229,68,285,95"/>
+<area shape="rect" id="node4" href="$stdio_8c.html#a2473f8b1ac53521d1b67ec7f35e9200a" title="isalnum" alt="" coords="111,31,177,57"/>
+<area shape="rect" id="node5" href="$stdio_8c.html#a885fe2f5d131ffd06d6dd66d1bac6733" title="ispunct" alt="" coords="112,132,176,159"/>
+<area shape="rect" id="node6" href="$stdio_8c.html#a051cd5dcaeec8d94de4d09cba40c7bb1" title="isblank" alt="" coords="113,183,175,209"/>
+</map>

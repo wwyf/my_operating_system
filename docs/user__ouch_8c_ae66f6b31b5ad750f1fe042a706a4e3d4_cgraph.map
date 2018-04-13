@@ -1,0 +1,14 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$basic_8h.html#a7d5baf5910c68ba7970c81065b85d774" title="check_keyboard" alt="" coords="104,5,221,32"/>
+<area shape="rect" id="node3" href="$basic_8h.html#a07078b0c83b180d2945315e4fdda109b" title="get_keyboard" alt="" coords="113,56,213,83"/>
+<area shape="rect" id="node4" href="$basic_8h.html#a87b240724f48f8ae1a77f22ad9c165e9" title="get_random" alt="" coords="117,107,208,133"/>
+<area shape="rect" id="node5" href="$stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="277,132,360,159"/>
+<area shape="rect" id="node7" href="$stdio_8h.html#acc0ee6e9643f83a5ab11722197fc25ec" title="putc" alt="" coords="139,233,186,260"/>
+<area shape="rect" id="node6" href="$basic_8h.html#aefb5aad9c0c6a619c34b515b299f1382" title="write_port_byte" alt="" coords="429,183,539,209"/>
+<area shape="rect" id="node8" href="$stdio_8c.html#a321b6fd7a588cf8b65118d1cdd9409f3" title="get_cursor" alt="" coords="277,233,360,260"/>
+<area shape="rect" id="node10" href="$basic_8h.html#a84aa5d70fb7071886a0c2fc4d5380535" title="scroll_screen" alt="" coords="269,284,368,311"/>
+<area shape="rect" id="node11" href="$stdio_8c.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="277,183,360,209"/>
+<area shape="rect" id="node12" href="$stdio_8c.html#a9a8be2f89b180575b6161043f1fd78ff" title="_put_char" alt="" coords="279,335,358,361"/>
+<area shape="rect" id="node9" href="$basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948" title="read_port_byte" alt="" coords="430,233,538,260"/>
+<area shape="rect" id="node13" href="$basic_8h.html#ae64d89b50cdcd8c1a7a639eaeec2d87e" title="write_memory_byte" alt="" coords="416,335,552,361"/>
+</map>

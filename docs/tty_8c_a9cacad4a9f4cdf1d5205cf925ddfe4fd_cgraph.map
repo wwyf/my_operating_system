@@ -1,0 +1,6 @@
+<map id="tty_scroll_screen" name="tty_scroll_screen">
+<area shape="rect" id="node2" href="$stdio_8h.html#a321b6fd7a588cf8b65118d1cdd9409f3" title="get_cursor" alt="" coords="183,31,265,57"/>
+<area shape="rect" id="node5" href="$basic_8h.html#a84aa5d70fb7071886a0c2fc4d5380535" title="scroll_screen" alt="" coords="175,81,273,108"/>
+<area shape="rect" id="node3" href="$basic_8h.html#aefb5aad9c0c6a619c34b515b299f1382" title="write_port_byte" alt="" coords="321,5,432,32"/>
+<area shape="rect" id="node4" href="$basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948" title="read_port_byte" alt="" coords="323,56,431,83"/>
+</map>
