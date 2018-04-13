@@ -14,11 +14,10 @@ start:
 	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
 	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
 	mov dl, 2 		 ; 列号=0
-	mov dh, 3		       ; 行号=0
+	mov dh, 23		       ; 行号=0
 	mov cx, user3_MessageLength  ; CX = 串长（=9）
 	mov bp, user3_Message		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 loop1:
@@ -138,10 +137,11 @@ end:
 datadef:	
     count dw delay
     dcount dw ddelay
-    x    dw user3_bound_x_up+1
-    x_direct dw 1
-    y    dw user3_bound_y_left+1
-    y_direct dw 1
+    ; rdul db Dn_Rt         ; 向右下运动
+    x_direct    dw 1
+    x dw user3_bound_x_up+1
+    y_direct    dw 1
+    y dw user3_bound_y_left+1
     char db 2
 
 user3_Message:

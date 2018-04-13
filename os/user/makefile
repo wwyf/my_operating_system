@@ -3,7 +3,7 @@ TEST_BIN = user_test.bin
 TEST_ASM = user_test.asm
 include = ../include
 
-USER_BIN = user_test.bin user_e1.bin user_stone_1.bin
+USER_BIN = user_test.bin user_e1.bin user_stone_1.bin user_stone_2.bin user_stone_3.bin user_stone_4.bin
 
 all : $(USER_BIN)
 
@@ -15,6 +15,15 @@ user_e1.bin : user_e1.asm $(include)/macro.inc
 
 user_stone_1.bin : user_stone_1.asm $(include)/macro.inc
 	nasm -f bin -o user_stone_1.bin user_stone_1.asm
+
+user_stone_2.bin : user_stone_2.asm $(include)/macro.inc
+	nasm -f bin -o user_stone_2.bin user_stone_2.asm
+
+user_stone_3.bin : user_stone_3.asm $(include)/macro.inc
+	nasm -f bin -o user_stone_3.bin user_stone_3.asm
+
+user_stone_4.bin : user_stone_4.asm $(include)/macro.inc
+	nasm -f bin -o user_stone_4.bin user_stone_4.asm
 
 .PHONY : clean
 clean :

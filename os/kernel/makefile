@@ -13,7 +13,7 @@ KERNEL_ASM=kernel.asm
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(TARGET) $(OBJECTS) kernel.bin kernel.objdump
+all : $(TARGET) $(OBJECTS) kernel.bin kernel.objdump user_ouch.bin
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
@@ -23,6 +23,10 @@ basic.o: $(LIB_ASM)
 
 start.o: $(KERNEL_C)
 	gcc $(C_FLAGS) -o start.o $(KERNEL_C)
+
+user_ouch.bin: user_ouch.c
+	gcc $(C_FLAGS) -o user_ouch.o user_ouch.c
+	ld -Ttext 0x00 -m elf_i386 --oformat binary -o user_ouch.bin user_ouch.o $(OBJECTS)
 
 kernel.o: $(KERNEL_ASM)
 	nasm $(NASM_FLAGS) -o kernel.o $(KERNEL_ASM)

@@ -1,13 +1,11 @@
 %include "../include/macro.inc"
 org 0x4000
-; section stone vstart=0x50000
     delay equ 50000					; 计时器延迟计数,用于控制画框的速度
     ddelay equ 5					; 计时器延迟计数,用于控制画框的速度
 start:
 	;xor ax,ax					; AX = 0   程序加载到0000：100h才能正确执行
     mov ax,cs
-	mov ds,ax	
-	mov ss,ax				; DS = CS
+	mov ds,ax					; DS = CS
 	mov es,ax					; ES = CS
 	mov ax,0B800h				; 文本窗口显存起始地址
 	mov gs,ax					; GS = B800h
@@ -15,10 +13,10 @@ start:
 
 	mov ax, 1301h		 ; AH = 13h（功能号）、AL = 01h（光标置于串尾）
 	mov bx, 0007h		 ; 页号为0(BH = 0) 黑底白字(BL = 07h)
-	mov dl, 40 		 ; 列号=0
+	mov dl, 2 		 ; 列号=0
 	mov dh, 23		       ; 行号=0
-	mov cx, user2_MessageLength  ; CX = 串长（=9）
-	mov bp, user2_Message		 ; es:BP=当前串的偏移地址
+	mov cx, user4_MessageLength  ; CX = 串长（=9）
+	mov bp, user4_Message		 ; es:BP=当前串的偏移地址
 	int 10h			 ; BIOS的10h功能：显示一行字符
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -43,7 +41,6 @@ check_keyboard:
 
     cmp al, 'q' ; 如果键入q则退出
     jnz check_keyboard
-	mov ax, 0x4c00
 	int 40h
 clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字母显存
       xor ax,ax                 ; 计算显存地址
@@ -59,10 +56,10 @@ clean_current_char: ; 清除当前字母所占显存位置,准备画下一个字
 	mov [gs:bx],ax  		;  显示字符的ASCII码值
 
 check_x:
-    mov ax, user2_bound_x_up
+    mov ax, user4_bound_x_up
     cmp word [x], ax
     jz toggle_x_direct
-    mov ax, user2_bound_x_down
+    mov ax, user4_bound_x_down
     cmp word [x], ax
     jz toggle_x_direct
     jmp check_y
@@ -71,10 +68,10 @@ toggle_x_direct:
     sub ax, word [x_direct]
     mov word [x_direct], ax
 check_y:
-    mov ax, user2_bound_y_left
+    mov ax, user4_bound_y_left
     cmp word [y], ax
     jz toggle_y_direct
-    mov ax, user2_bound_y_right
+    mov ax, user4_bound_y_right
     cmp word [y], ax
     jz toggle_y_direct
     jmp char_move
@@ -140,15 +137,13 @@ end:
 datadef:	
     count dw delay
     dcount dw ddelay
-    x    dw user4_bound_x_up+1
-    x_direct dw 1
-    y    dw user4_bound_y_left+1
-    y_direct dw 1
+    ; rdul db Dn_Rt         ; 向右下运动
+    x_direct    dw 1
+    x dw user4_bound_x_up+1
+    y_direct    dw 1
+    y dw user4_bound_y_left+1
     char db 2
 
-user2_Message:
+user4_Message:
     db 'Enter q to return system menu!                                                 '
-user2_MessageLength equ ($-user2_Message)
-
-
-
+user4_MessageLength equ ($-user4_Message)
