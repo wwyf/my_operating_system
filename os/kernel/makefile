@@ -26,7 +26,7 @@ start.o: $(KERNEL_C)
 
 user_ouch.bin: user_ouch.c
 	gcc $(C_FLAGS) -o user_ouch.o user_ouch.c
-	ld -Ttext 0x00 -m elf_i386 --oformat binary -o user_ouch.bin user_ouch.o $(OBJECTS)
+	ld -Ttext 0x00 -m elf_i386 --oformat binary -o user_ouch.bin user_ouch.o basic.o stdio.o string.o
 
 kernel.o: $(KERNEL_ASM)
 	nasm $(NASM_FLAGS) -o kernel.o $(KERNEL_ASM)

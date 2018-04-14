@@ -1,6 +1,7 @@
 #include "../include/basic.h"
+#include "../include/stdio.h"
 
-int  main(){
+int  _start(){
     int is_hit = check_keyboard();
     while(1){
         // 不断检查， 直到有端盘输入才停止
