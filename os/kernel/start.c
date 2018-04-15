@@ -19,10 +19,10 @@ int cstart(){
     return 0;
 }
 
-void test_system_call(){
-    int origin = get_cursor();
-    set_cursor(1800);
-    printf("test custom system call!!! ");
-    set_cursor(origin);
-}
+// void test_system_call(){
+//     int origin = get_cursor();
+//     set_cursor(1800);
+//     printf("test custom system call!!! ");
+//     set_cursor(origin);
+// }
 
