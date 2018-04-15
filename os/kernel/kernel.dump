@@ -18,7 +18,7 @@ _start():
 start_tty():
       18:	b4 02                	mov    $0x2,%ah
       1a:	cd 40                	int    $0x40
-      1c:	66 e8 bb 11 00 00    	calll  11dd <tty>
+      1c:	66 e8 51 11 00 00    	calll  1173 <tty>
       22:	eb fe                	jmp    22 <start_tty+0xa>
       24:	eb fe                	jmp    24 <start_tty+0xc>
 
@@ -58,7 +58,7 @@ new_int40():
       52:	b0 02                	mov    $0x2,%al
       54:	f6 e3                	mul    %bl
       56:	89 c6                	mov    %ax,%si
-      58:	bb c0 2c             	mov    $0x2cc0,%bx
+      58:	bb 40 2c             	mov    $0x2c40,%bx
       5b:	66 ff 10             	calll  *(%bx,%si)
       5e:	cf                   	iret   
 
@@ -125,7 +125,7 @@ new_int8():
       b0:	16                   	push   %ss
       b1:	b8 00 b8             	mov    $0xb800,%ax
       b4:	8e d8                	mov    %ax,%ds
-      b6:	66 e8 36 16 00 00    	calll  16f2 <move_name>
+      b6:	66 e8 cc 15 00 00    	calll  1688 <move_name>
       bc:	b0 20                	mov    $0x20,%al
       be:	e6 20                	out    %al,$0x20
       c0:	e6 a0                	out    %al,$0xa0
@@ -1999,7 +1999,7 @@ print_my_name():
      c66:	55                   	push   %bp
      c67:	b8 00 10             	mov    $0x1000,%ax
      c6a:	8e c0                	mov    %ax,%es
-     c6c:	b8 a8 20             	mov    $0x20a8,%ax
+     c6c:	b8 40 20             	mov    $0x2040,%ax
      c6f:	89 c5                	mov    %ax,%bp
      c71:	b4 13                	mov    $0x13,%ah
      c73:	b0 00                	mov    $0x0,%al
@@ -2240,41 +2240,41 @@ void install_system_call(int system_call_number, void (*function)() ){
     system_call[system_call_number] = (u16) function;
      da7:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
      dad:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
-     db3:	67 89 94 00 c0 2c 00 	mov    %dx,0x2cc0(%eax,%eax,1)
+     db3:	67 89 94 00 40 2c 00 	mov    %dx,0x2c40(%eax,%eax,1)
      dba:	00 
      dbb:	66 c3                	retl   
 
 00000dbd <test_system_call>:
 test_system_call():
-/mnt/e/code/my_operating_system/os/kernel/start.c:35
-
-
+/mnt/e/code/my_operating_system/os/kernel/start.c:21
+    // install_system_call(2, test_system_call);
+    // while (1){}
     return 0;
 }
 
 void test_system_call(){
      dbd:	66 53                	push   %ebx
      dbf:	66 83 ec 08          	sub    $0x8,%esp
-/mnt/e/code/my_operating_system/os/kernel/start.c:36
+/mnt/e/code/my_operating_system/os/kernel/start.c:22
     int origin = get_cursor();
      dc3:	66 e8 ab f4 ff ff    	calll  274 <get_cursor>
      dc9:	66 89 c3             	mov    %eax,%ebx
-/mnt/e/code/my_operating_system/os/kernel/start.c:37
+/mnt/e/code/my_operating_system/os/kernel/start.c:23
     set_cursor(1800);
      dcc:	66 83 ec 0c          	sub    $0xc,%esp
      dd0:	66 68 08 07 00 00    	pushl  $0x708
      dd6:	66 e8 26 f4 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:38
+/mnt/e/code/my_operating_system/os/kernel/start.c:24
     printf("test custom system call!!! ");
-     ddc:	67 66 c7 04 24 10 1f 	movl   $0x1f10,(%esp)
+     ddc:	67 66 c7 04 24 a8 1e 	movl   $0x1ea8,(%esp)
      de3:	00 00 
      de5:	66 e8 60 fa ff ff    	calll  84b <printf>
-/mnt/e/code/my_operating_system/os/kernel/start.c:39
+/mnt/e/code/my_operating_system/os/kernel/start.c:25
     set_cursor(origin);
      deb:	66 0f b7 db          	movzwl %bx,%ebx
      def:	67 66 89 1c 24       	mov    %ebx,(%esp)
      df4:	66 e8 08 f4 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:40
+/mnt/e/code/my_operating_system/os/kernel/start.c:26
 }
      dfa:	66 83 c4 18          	add    $0x18,%esp
      dfe:	66 5b                	pop    %ebx
@@ -2292,70 +2292,30 @@ int cstart(){
      e02:	66 83 ec 0c          	sub    $0xc,%esp
 /mnt/e/code/my_operating_system/os/kernel/start.c:13
     init_fsystem();
-     e06:	66 e8 96 05 00 00    	calll  13a2 <init_fsystem>
+     e06:	66 e8 2c 05 00 00    	calll  1338 <init_fsystem>
 /mnt/e/code/my_operating_system/os/kernel/start.c:14
-    install_system_call(2, test_system_call);
-     e0c:	66 83 ec 08          	sub    $0x8,%esp
-     e10:	66 68 bd 0d 00 00    	pushl  $0xdbd
-     e16:	66 6a 02             	pushl  $0x2
-     e19:	66 e8 88 ff ff ff    	calll  da7 <install_system_call>
-/mnt/e/code/my_operating_system/os/kernel/start.c:15
     clean_screen();
-     e1f:	66 e8 bd fd ff ff    	calll  be2 <clean_screen>
+     e0c:	66 e8 d0 fd ff ff    	calll  be2 <clean_screen>
+/mnt/e/code/my_operating_system/os/kernel/start.c:15
+    set_cursor(0);
+     e12:	66 83 ec 0c          	sub    $0xc,%esp
+     e16:	66 6a 00             	pushl  $0x0
+     e19:	66 e8 e3 f3 ff ff    	calll  202 <set_cursor>
 /mnt/e/code/my_operating_system/os/kernel/start.c:16
-    set_cursor(0);
-     e25:	67 66 c7 04 24 00 00 	movl   $0x0,(%esp)
-     e2c:	00 00 
-     e2e:	66 e8 ce f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:18
-
-    a = get_cursor();
-     e34:	66 e8 3a f4 ff ff    	calll  274 <get_cursor>
-     e3a:	66 0f b7 c0          	movzwl %ax,%eax
-     e3e:	66 a3 ec 20          	mov    %eax,0x20ec
-/mnt/e/code/my_operating_system/os/kernel/start.c:20
-
-    set_cursor(0);
-     e42:	67 66 c7 04 24 00 00 	movl   $0x0,(%esp)
-     e49:	00 00 
-     e4b:	66 e8 b1 f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:21
-    set_cursor(1);
-     e51:	67 66 c7 04 24 01 00 	movl   $0x1,(%esp)
-     e58:	00 00 
-     e5a:	66 e8 a2 f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:22
-    set_cursor(2);
-     e60:	67 66 c7 04 24 02 00 	movl   $0x2,(%esp)
-     e67:	00 00 
-     e69:	66 e8 93 f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:23
-    set_cursor(3);
-     e6f:	67 66 c7 04 24 03 00 	movl   $0x3,(%esp)
-     e76:	00 00 
-     e78:	66 e8 84 f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:24
-    set_cursor(4);
-     e7e:	67 66 c7 04 24 04 00 	movl   $0x4,(%esp)
-     e85:	00 00 
-     e87:	66 e8 75 f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:25
-    set_cursor(345);
-     e8d:	67 66 c7 04 24 59 01 	movl   $0x159,(%esp)
-     e94:	00 00 
-     e96:	66 e8 66 f3 ff ff    	calll  202 <set_cursor>
-/mnt/e/code/my_operating_system/os/kernel/start.c:33
+    // install_system_call(2, test_system_call);
+     e1f:	66 83 c4 08          	add    $0x8,%esp
+     e23:	66 68 bd 0d 00 00    	pushl  $0xdbd
+     e29:	66 6a 02             	pushl  $0x2
+     e2c:	66 e8 75 ff ff ff    	calll  da7 <install_system_call>
+/mnt/e/code/my_operating_system/os/kernel/start.c:19
     // while (1){}
-
-
-
     return 0;
 }
-     e9c:	66 b8 00 00 00 00    	mov    $0x0,%eax
-     ea2:	66 83 c4 1c          	add    $0x1c,%esp
-     ea6:	66 c3                	retl   
+     e32:	66 b8 00 00 00 00    	mov    $0x0,%eax
+     e38:	66 83 c4 1c          	add    $0x1c,%esp
+     e3c:	66 c3                	retl   
 
-00000ea8 <parser>:
+00000e3e <parser>:
 parser():
 /mnt/e/code/my_operating_system/os/kernel/tty.c:89
     }
@@ -2364,15 +2324,15 @@ parser():
 
 
 void parser(){
-     ea8:	66 56                	push   %esi
-     eaa:	66 53                	push   %ebx
-     eac:	66 83 ec 74          	sub    $0x74,%esp
+     e3e:	66 56                	push   %esi
+     e40:	66 53                	push   %ebx
+     e42:	66 83 ec 74          	sub    $0x74,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:93
     char arguments[10][10];
     int input_start = 0;
     int input_end = 0;
     int arguments_num = 0;
-     eb0:	66 be 00 00 00 00    	mov    $0x0,%esi
+     e46:	66 be 00 00 00 00    	mov    $0x0,%esi
 /mnt/e/code/my_operating_system/os/kernel/tty.c:92
 
 
@@ -2380,7 +2340,7 @@ void parser(){
     char arguments[10][10];
     int input_start = 0;
     int input_end = 0;
-     eb6:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+     e4c:	66 bb 00 00 00 00    	mov    $0x0,%ebx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:91
 }
 
@@ -2388,58 +2348,58 @@ void parser(){
 void parser(){
     char arguments[10][10];
     int input_start = 0;
-     ebc:	66 ba 00 00 00 00    	mov    $0x0,%edx
+     e52:	66 ba 00 00 00 00    	mov    $0x0,%edx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:95
     int input_end = 0;
     int arguments_num = 0;
     // 使用空格作为分隔符，将输入缓冲区的内容分割成几个参数分别存进arguments数组中
     while (input_end <= command_line_cursor){
-     ec2:	eb 64                	jmp    f28 <parser+0x80>
+     e58:	eb 64                	jmp    ebe <parser+0x80>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:96
         if(input_buf[input_end] == ' ' || input_buf[input_end] == '\0'){
-     ec4:	67 66 0f b6 83 00 21 	movzbl 0x2100(%ebx),%eax
-     ecb:	00 00 
-     ecd:	3c 20                	cmp    $0x20,%al
-     ecf:	0f 94 c1             	sete   %cl
-     ed2:	84 c0                	test   %al,%al
-     ed4:	0f 94 c0             	sete   %al
-     ed7:	08 c1                	or     %al,%cl
-     ed9:	74 49                	je     f24 <parser+0x7c>
+     e5a:	67 66 0f b6 83 80 20 	movzbl 0x2080(%ebx),%eax
+     e61:	00 00 
+     e63:	3c 20                	cmp    $0x20,%al
+     e65:	0f 94 c1             	sete   %cl
+     e68:	84 c0                	test   %al,%al
+     e6a:	0f 94 c0             	sete   %al
+     e6d:	08 c1                	or     %al,%cl
+     e6f:	74 49                	je     eba <parser+0x7c>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:97
             if (input_start == input_end){ // 如果并没有参数，那么继续
-     edb:	66 39 da             	cmp    %ebx,%edx
-     ede:	75 0a                	jne    eea <parser+0x42>
+     e71:	66 39 da             	cmp    %ebx,%edx
+     e74:	75 0a                	jne    e80 <parser+0x42>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:98
                 input_start++;
-     ee0:	66 83 c2 01          	add    $0x1,%edx
+     e76:	66 83 c2 01          	add    $0x1,%edx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:99
                 input_end++;
-     ee4:	66 83 c3 01          	add    $0x1,%ebx
+     e7a:	66 83 c3 01          	add    $0x1,%ebx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:100
                 continue;
-     ee8:	eb 3e                	jmp    f28 <parser+0x80>
+     e7e:	eb 3e                	jmp    ebe <parser+0x80>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:103
             }
             else {// 如果有参数，并且已经读到末尾了，那就复制到相应的区域
                 strncpy(arguments[arguments_num], input_buf+input_start, input_end-input_start);
-     eea:	66 89 d9             	mov    %ebx,%ecx
-     eed:	66 29 d1             	sub    %edx,%ecx
-     ef0:	67 66 8d 04 b6       	lea    (%esi,%esi,4),%eax
-     ef5:	67 66 8d 44 44 0c    	lea    0xc(%esp,%eax,2),%eax
-     efb:	66 83 ec 04          	sub    $0x4,%esp
-     eff:	66 51                	push   %ecx
-     f01:	66 81 c2 00 21 00 00 	add    $0x2100,%edx
-     f08:	66 52                	push   %edx
-     f0a:	66 50                	push   %eax
-     f0c:	66 e8 a6 fd ff ff    	calll  cb8 <strncpy>
+     e80:	66 89 d9             	mov    %ebx,%ecx
+     e83:	66 29 d1             	sub    %edx,%ecx
+     e86:	67 66 8d 04 b6       	lea    (%esi,%esi,4),%eax
+     e8b:	67 66 8d 44 44 0c    	lea    0xc(%esp,%eax,2),%eax
+     e91:	66 83 ec 04          	sub    $0x4,%esp
+     e95:	66 51                	push   %ecx
+     e97:	66 81 c2 80 20 00 00 	add    $0x2080,%edx
+     e9e:	66 52                	push   %edx
+     ea0:	66 50                	push   %eax
+     ea2:	66 e8 10 fe ff ff    	calll  cb8 <strncpy>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:104
                 input_end++;
-     f12:	67 66 8d 53 01       	lea    0x1(%ebx),%edx
+     ea8:	67 66 8d 53 01       	lea    0x1(%ebx),%edx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:106
                 input_start = input_end;
                 arguments_num++;
-     f17:	66 83 c6 01          	add    $0x1,%esi
-     f1b:	66 83 c4 10          	add    $0x10,%esp
+     ead:	66 83 c6 01          	add    $0x1,%esi
+     eb1:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:104
                 input_end++;
                 continue;
@@ -2447,8 +2407,8 @@ void parser(){
             else {// 如果有参数，并且已经读到末尾了，那就复制到相应的区域
                 strncpy(arguments[arguments_num], input_buf+input_start, input_end-input_start);
                 input_end++;
-     f1f:	66 89 d3             	mov    %edx,%ebx
-     f22:	eb 04                	jmp    f28 <parser+0x80>
+     eb5:	66 89 d3             	mov    %edx,%ebx
+     eb8:	eb 04                	jmp    ebe <parser+0x80>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:110
                 input_start = input_end;
                 arguments_num++;
@@ -2456,7 +2416,7 @@ void parser(){
         }
         else {// 有参数，还没有读到末尾
             input_end++;
-     f24:	66 83 c3 01          	add    $0x1,%ebx
+     eba:	66 83 c3 01          	add    $0x1,%ebx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:95
     char arguments[10][10];
     int input_start = 0;
@@ -2464,8 +2424,8 @@ void parser(){
     int arguments_num = 0;
     // 使用空格作为分隔符，将输入缓冲区的内容分割成几个参数分别存进arguments数组中
     while (input_end <= command_line_cursor){
-     f28:	66 3b 1e e0 20       	cmp    0x20e0,%ebx
-     f2d:	7e 95                	jle    ec4 <parser+0x1c>
+     ebe:	66 3b 1e 60 20       	cmp    0x2060,%ebx
+     ec3:	7e 95                	jle    e5a <parser+0x1c>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:117
         }
     }
@@ -2473,57 +2433,57 @@ void parser(){
     // 完成分词，开始进行解析。
 
     if(!strcmp(arguments[0],"run")){// 如果返回0，就是相等了
-     f2f:	66 83 ec 08          	sub    $0x8,%esp
-     f33:	66 68 2c 1f 00 00    	pushl  $0x1f2c
-     f39:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
-     f3f:	66 50                	push   %eax
-     f41:	66 e8 ad fd ff ff    	calll  cf4 <strcmp>
-     f47:	66 83 c4 10          	add    $0x10,%esp
-     f4b:	66 85 c0             	test   %eax,%eax
-     f4e:	75 31                	jne    f81 <parser+0xd9>
+     ec5:	66 83 ec 08          	sub    $0x8,%esp
+     ec9:	66 68 c4 1e 00 00    	pushl  $0x1ec4
+     ecf:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     ed5:	66 50                	push   %eax
+     ed7:	66 e8 17 fe ff ff    	calll  cf4 <strcmp>
+     edd:	66 83 c4 10          	add    $0x10,%esp
+     ee1:	66 85 c0             	test   %eax,%eax
+     ee4:	75 31                	jne    f17 <parser+0xd9>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:122
         // 运行一个用户程序。
         // 先从软盘中加载一个指定程序到内存处，然后开始执行。
         // 考虑维护一个空闲空间的指针，然后每加载一个程序，如果可行的话。
         void (**my_program)();
         *my_program = 0x4000;
-     f50:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-     f56:	67 66 c7 03 00 40 00 	movl   $0x4000,(%ebx)
-     f5d:	00 
+     ee6:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+     eec:	67 66 c7 03 00 40 00 	movl   $0x4000,(%ebx)
+     ef3:	00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:123
         fs_load_by_name(arguments[1],*my_program);
-     f5e:	66 83 ec 08          	sub    $0x8,%esp
-     f62:	66 68 00 40 00 00    	pushl  $0x4000
-     f68:	67 66 8d 44 24 22    	lea    0x22(%esp),%eax
-     f6e:	66 50                	push   %eax
-     f70:	66 e8 89 06 00 00    	calll  15ff <fs_load_by_name>
+     ef4:	66 83 ec 08          	sub    $0x8,%esp
+     ef8:	66 68 00 40 00 00    	pushl  $0x4000
+     efe:	67 66 8d 44 24 22    	lea    0x22(%esp),%eax
+     f04:	66 50                	push   %eax
+     f06:	66 e8 89 06 00 00    	calll  1595 <fs_load_by_name>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:124
         (*my_program)();
-     f76:	67 66 ff 13          	calll  *(%ebx)
-     f7a:	66 83 c4 10          	add    $0x10,%esp
-     f7e:	e9 1b 01             	jmp    109c <core_header_data_segment+0x9c>
+     f0c:	67 66 ff 13          	calll  *(%ebx)
+     f10:	66 83 c4 10          	add    $0x10,%esp
+     f14:	e9 1b 01             	jmp    1032 <core_header_data_segment+0x32>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:126
     }
     else if(!strcmp(arguments[0],"ls") && arguments_num == 1){
-     f81:	66 83 ec 08          	sub    $0x8,%esp
-     f85:	66 68 30 1f 00 00    	pushl  $0x1f30
-     f8b:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
-     f91:	66 50                	push   %eax
-     f93:	66 e8 5b fd ff ff    	calll  cf4 <strcmp>
-     f99:	66 83 c4 10          	add    $0x10,%esp
-     f9d:	66 85 c0             	test   %eax,%eax
-     fa0:	75 23                	jne    fc5 <parser+0x11d>
+     f17:	66 83 ec 08          	sub    $0x8,%esp
+     f1b:	66 68 c8 1e 00 00    	pushl  $0x1ec8
+     f21:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     f27:	66 50                	push   %eax
+     f29:	66 e8 c5 fd ff ff    	calll  cf4 <strcmp>
+     f2f:	66 83 c4 10          	add    $0x10,%esp
+     f33:	66 85 c0             	test   %eax,%eax
+     f36:	75 23                	jne    f5b <parser+0x11d>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:126 (discriminator 1)
-     fa2:	66 83 fe 01          	cmp    $0x1,%esi
-     fa6:	75 1d                	jne    fc5 <parser+0x11d>
+     f38:	66 83 fe 01          	cmp    $0x1,%esi
+     f3c:	75 1d                	jne    f5b <parser+0x11d>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:127
         printf("\n\n");
-     fa8:	66 83 ec 0c          	sub    $0xc,%esp
-     fac:	66 68 33 1f 00 00    	pushl  $0x1f33
-     fb2:	66 e8 93 f8 ff ff    	calll  84b <printf>
+     f3e:	66 83 ec 0c          	sub    $0xc,%esp
+     f42:	66 68 cb 1e 00 00    	pushl  $0x1ecb
+     f48:	66 e8 fd f8 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:128
         fs_show_root_file_table();
-     fb8:	66 e8 a7 06 00 00    	calll  1665 <fs_show_root_file_table>
+     f4e:	66 e8 a7 06 00 00    	calll  15fb <fs_show_root_file_table>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:126
         void (**my_program)();
         *my_program = 0x4000;
@@ -2531,32 +2491,32 @@ void parser(){
         (*my_program)();
     }
     else if(!strcmp(arguments[0],"ls") && arguments_num == 1){
-     fbe:	66 83 c4 10          	add    $0x10,%esp
-     fc2:	e9 d7 00             	jmp    109c <core_header_data_segment+0x9c>
+     f54:	66 83 c4 10          	add    $0x10,%esp
+     f58:	e9 d7 00             	jmp    1032 <core_header_data_segment+0x32>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:130
         printf("\n\n");
         fs_show_root_file_table();
     }
     else if(!strcmp(arguments[0],"reboot") && arguments_num == 1){
-     fc5:	66 83 ec 08          	sub    $0x8,%esp
-     fc9:	66 68 36 1f 00 00    	pushl  $0x1f36
-     fcf:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
-     fd5:	66 50                	push   %eax
-     fd7:	66 e8 17 fd ff ff    	calll  cf4 <strcmp>
-     fdd:	66 83 c4 10          	add    $0x10,%esp
-     fe1:	66 85 c0             	test   %eax,%eax
-     fe4:	75 23                	jne    1009 <core_header_data_segment+0x9>
+     f5b:	66 83 ec 08          	sub    $0x8,%esp
+     f5f:	66 68 ce 1e 00 00    	pushl  $0x1ece
+     f65:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     f6b:	66 50                	push   %eax
+     f6d:	66 e8 81 fd ff ff    	calll  cf4 <strcmp>
+     f73:	66 83 c4 10          	add    $0x10,%esp
+     f77:	66 85 c0             	test   %eax,%eax
+     f7a:	75 23                	jne    f9f <parser+0x161>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:130 (discriminator 1)
-     fe6:	66 83 fe 01          	cmp    $0x1,%esi
-     fea:	75 1d                	jne    1009 <core_header_data_segment+0x9>
+     f7c:	66 83 fe 01          	cmp    $0x1,%esi
+     f80:	75 1d                	jne    f9f <parser+0x161>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:131
         printf("\n\n");
-     fec:	66 83 ec 0c          	sub    $0xc,%esp
-     ff0:	66 68 33 1f 00 00    	pushl  $0x1f33
-     ff6:	66 e8 4f f8 ff ff    	calll  84b <printf>
+     f82:	66 83 ec 0c          	sub    $0xc,%esp
+     f86:	66 68 cb 1e 00 00    	pushl  $0x1ecb
+     f8c:	66 e8 b9 f8 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:132
         reboot();
-     ffc:	66 e8 88 fc ff ff    	calll  c8a <reboot>
+     f92:	66 e8 f2 fc ff ff    	calll  c8a <reboot>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:130
     }
     else if(!strcmp(arguments[0],"ls") && arguments_num == 1){
@@ -2564,115 +2524,115 @@ void parser(){
         fs_show_root_file_table();
     }
     else if(!strcmp(arguments[0],"reboot") && arguments_num == 1){
-    1002:	66 83 c4 10          	add    $0x10,%esp
-    1006:	e9 93 00             	jmp    109c <core_header_data_segment+0x9c>
+     f98:	66 83 c4 10          	add    $0x10,%esp
+     f9c:	e9 93 00             	jmp    1032 <core_header_data_segment+0x32>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:134
         printf("\n\n");
         reboot();
     }
     else if(!strcmp(arguments[0],"help") && arguments_num == 1){
-    1009:	66 83 ec 08          	sub    $0x8,%esp
-    100d:	66 68 3d 1f 00 00    	pushl  $0x1f3d
-    1013:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
-    1019:	66 50                	push   %eax
-    101b:	66 e8 d3 fc ff ff    	calll  cf4 <strcmp>
-    1021:	66 83 c4 10          	add    $0x10,%esp
-    1025:	66 85 c0             	test   %eax,%eax
-    1028:	75 58                	jne    1082 <core_header_data_segment+0x82>
+     f9f:	66 83 ec 08          	sub    $0x8,%esp
+     fa3:	66 68 d5 1e 00 00    	pushl  $0x1ed5
+     fa9:	67 66 8d 44 24 18    	lea    0x18(%esp),%eax
+     faf:	66 50                	push   %eax
+     fb1:	66 e8 3d fd ff ff    	calll  cf4 <strcmp>
+     fb7:	66 83 c4 10          	add    $0x10,%esp
+     fbb:	66 85 c0             	test   %eax,%eax
+     fbe:	75 58                	jne    1018 <core_header_data_segment+0x18>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:134 (discriminator 1)
-    102a:	66 83 fe 01          	cmp    $0x1,%esi
-    102e:	75 52                	jne    1082 <core_header_data_segment+0x82>
+     fc0:	66 83 fe 01          	cmp    $0x1,%esi
+     fc4:	75 52                	jne    1018 <core_header_data_segment+0x18>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:135
         printf("\n\n");
-    1030:	66 83 ec 0c          	sub    $0xc,%esp
-    1034:	66 68 33 1f 00 00    	pushl  $0x1f33
-    103a:	66 e8 0b f8 ff ff    	calll  84b <printf>
+     fc6:	66 83 ec 0c          	sub    $0xc,%esp
+     fca:	66 68 cb 1e 00 00    	pushl  $0x1ecb
+     fd0:	66 e8 75 f8 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:136
         printf("ls        : show the file in the root folder.\n");
-    1040:	67 66 c7 04 24 b0 1f 	movl   $0x1fb0,(%esp)
-    1047:	00 00 
-    1049:	66 e8 fc f7 ff ff    	calll  84b <printf>
+     fd6:	67 66 c7 04 24 48 1f 	movl   $0x1f48,(%esp)
+     fdd:	00 00 
+     fdf:	66 e8 66 f8 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:137
         printf("run [name]: run the file in the root folder.\n");
-    104f:	67 66 c7 04 24 e0 1f 	movl   $0x1fe0,(%esp)
-    1056:	00 00 
-    1058:	66 e8 ed f7 ff ff    	calll  84b <printf>
+     fe5:	67 66 c7 04 24 78 1f 	movl   $0x1f78,(%esp)
+     fec:	00 00 
+     fee:	66 e8 57 f8 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:138
         printf("help      : show the help message.\n");
-    105e:	67 66 c7 04 24 10 20 	movl   $0x2010,(%esp)
-    1065:	00 00 
-    1067:	66 e8 de f7 ff ff    	calll  84b <printf>
+     ff4:	67 66 c7 04 24 a8 1f 	movl   $0x1fa8,(%esp)
+     ffb:	00 00 
+     ffd:	66 e8 48 f8 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:139
         printf("reboot    : reboot the machine.\n");
-    106d:	67 66 c7 04 24 34 20 	movl   $0x2034,(%esp)
-    1074:	00 00 
-    1076:	66 e8 cf f7 ff ff    	calll  84b <printf>
-    107c:	66 83 c4 10          	add    $0x10,%esp
-    1080:	eb 1a                	jmp    109c <core_header_data_segment+0x9c>
+    1003:	67 66 c7 04 24 cc 1f 	movl   $0x1fcc,(%esp)
+    100a:	00 00 
+    100c:	66 e8 39 f8 ff ff    	calll  84b <printf>
+    1012:	66 83 c4 10          	add    $0x10,%esp
+    1016:	eb 1a                	jmp    1032 <core_header_data_segment+0x32>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:142
     }
     else {
         printf("\n%s : command not found! \n", input_buf);
-    1082:	66 83 ec 08          	sub    $0x8,%esp
-    1086:	66 68 00 21 00 00    	pushl  $0x2100
-    108c:	66 68 42 1f 00 00    	pushl  $0x1f42
-    1092:	66 e8 b3 f7 ff ff    	calll  84b <printf>
-    1098:	66 83 c4 10          	add    $0x10,%esp
+    1018:	66 83 ec 08          	sub    $0x8,%esp
+    101c:	66 68 80 20 00 00    	pushl  $0x2080
+    1022:	66 68 da 1e 00 00    	pushl  $0x1eda
+    1028:	66 e8 1d f8 ff ff    	calll  84b <printf>
+    102e:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:144
     }
     int current_cursor = get_cursor();
-    109c:	66 e8 d2 f1 ff ff    	calll  274 <get_cursor>
-    10a2:	66 0f b7 c0          	movzwl %ax,%eax
+    1032:	66 e8 3c f2 ff ff    	calll  274 <get_cursor>
+    1038:	66 0f b7 c0          	movzwl %ax,%eax
 /mnt/e/code/my_operating_system/os/kernel/tty.c:145
     command_line_row = (current_cursor / 80);
-    10a6:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
-    10ac:	66 f7 ea             	imul   %edx
-    10af:	66 c1 fa 05          	sar    $0x5,%edx
-    10b3:	66 89 16 a4 20       	mov    %edx,0x20a4
+    103c:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
+    1042:	66 f7 ea             	imul   %edx
+    1045:	66 c1 fa 05          	sar    $0x5,%edx
+    1049:	66 89 16 3c 20       	mov    %edx,0x203c
 /mnt/e/code/my_operating_system/os/kernel/tty.c:148
     // printf("arguments: %d|%s|%s|",arguments_num, arguments[0],arguments[1]);
     return ;
 }
-    10b8:	66 83 c4 74          	add    $0x74,%esp
-    10bc:	66 5b                	pop    %ebx
-    10be:	66 5e                	pop    %esi
-    10c0:	66 c3                	retl   
+    104e:	66 83 c4 74          	add    $0x74,%esp
+    1052:	66 5b                	pop    %ebx
+    1054:	66 5e                	pop    %esi
+    1056:	66 c3                	retl   
 
-000010c2 <create_a_line>:
+00001058 <create_a_line>:
 create_a_line():
 /mnt/e/code/my_operating_system/os/kernel/tty.c:151
 
 // 转移光标到命令行下一行,更新缓冲区，并且打印信息
 void create_a_line(){
-    10c2:	66 83 ec 2c          	sub    $0x2c,%esp
+    1058:	66 83 ec 2c          	sub    $0x2c,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:152
     char message[30] = "walker@walker-pc ~ $ \0";
-    10c6:	66 a1 80 20          	mov    0x2080,%eax
-    10ca:	67 66 89 44 24 02    	mov    %eax,0x2(%esp)
-    10d0:	66 a1 84 20          	mov    0x2084,%eax
-    10d4:	67 66 89 44 24 06    	mov    %eax,0x6(%esp)
-    10da:	66 a1 88 20          	mov    0x2088,%eax
-    10de:	67 66 89 44 24 0a    	mov    %eax,0xa(%esp)
-    10e4:	66 a1 8c 20          	mov    0x208c,%eax
-    10e8:	67 66 89 44 24 0e    	mov    %eax,0xe(%esp)
-    10ee:	66 a1 90 20          	mov    0x2090,%eax
-    10f2:	67 66 89 44 24 12    	mov    %eax,0x12(%esp)
-    10f8:	66 0f b7 06 94 20    	movzwl 0x2094,%eax
-    10fe:	67 89 44 24 16       	mov    %ax,0x16(%esp)
-    1103:	66 0f b6 06 96 20    	movzbl 0x2096,%eax
-    1109:	67 88 44 24 18       	mov    %al,0x18(%esp)
-    110e:	67 66 c7 44 24 19 00 	movl   $0x0,0x19(%esp)
-    1115:	00 00 00 
-    1118:	67 c7 44 24 1d 00 00 	movw   $0x0,0x1d(%esp)
-    111f:	67 c6 44 24 1f 00    	movb   $0x0,0x1f(%esp)
+    105c:	66 a1 18 20          	mov    0x2018,%eax
+    1060:	67 66 89 44 24 02    	mov    %eax,0x2(%esp)
+    1066:	66 a1 1c 20          	mov    0x201c,%eax
+    106a:	67 66 89 44 24 06    	mov    %eax,0x6(%esp)
+    1070:	66 a1 20 20          	mov    0x2020,%eax
+    1074:	67 66 89 44 24 0a    	mov    %eax,0xa(%esp)
+    107a:	66 a1 24 20          	mov    0x2024,%eax
+    107e:	67 66 89 44 24 0e    	mov    %eax,0xe(%esp)
+    1084:	66 a1 28 20          	mov    0x2028,%eax
+    1088:	67 66 89 44 24 12    	mov    %eax,0x12(%esp)
+    108e:	66 0f b7 06 2c 20    	movzwl 0x202c,%eax
+    1094:	67 89 44 24 16       	mov    %ax,0x16(%esp)
+    1099:	66 0f b6 06 2e 20    	movzbl 0x202e,%eax
+    109f:	67 88 44 24 18       	mov    %al,0x18(%esp)
+    10a4:	67 66 c7 44 24 19 00 	movl   $0x0,0x19(%esp)
+    10ab:	00 00 00 
+    10ae:	67 c7 44 24 1d 00 00 	movw   $0x0,0x1d(%esp)
+    10b5:	67 c6 44 24 1f 00    	movb   $0x0,0x1f(%esp)
 /mnt/e/code/my_operating_system/os/kernel/tty.c:153
     for (int i = 0; i < MAX_BUF; i++){
-    1125:	66 b8 00 00 00 00    	mov    $0x0,%eax
-    112b:	eb 0c                	jmp    1139 <create_a_line+0x77>
+    10bb:	66 b8 00 00 00 00    	mov    $0x0,%eax
+    10c1:	eb 0c                	jmp    10cf <create_a_line+0x77>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:154 (discriminator 3)
         input_buf[i] = 0;
-    112d:	67 c6 80 00 21 00 00 	movb   $0x0,0x2100(%eax)
-    1134:	00 
+    10c3:	67 c6 80 80 20 00 00 	movb   $0x0,0x2080(%eax)
+    10ca:	00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:153 (discriminator 3)
 }
 
@@ -2680,42 +2640,42 @@ void create_a_line(){
 void create_a_line(){
     char message[30] = "walker@walker-pc ~ $ \0";
     for (int i = 0; i < MAX_BUF; i++){
-    1135:	66 83 c0 01          	add    $0x1,%eax
+    10cb:	66 83 c0 01          	add    $0x1,%eax
 /mnt/e/code/my_operating_system/os/kernel/tty.c:153 (discriminator 1)
-    1139:	66 83 f8 63          	cmp    $0x63,%eax
-    113d:	7e ee                	jle    112d <create_a_line+0x6b>
+    10cf:	66 83 f8 63          	cmp    $0x63,%eax
+    10d3:	7e ee                	jle    10c3 <create_a_line+0x6b>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:156
         input_buf[i] = 0;
     }
     message_length = strlen(message);
-    113f:	66 83 ec 0c          	sub    $0xc,%esp
-    1143:	67 66 8d 44 24 0e    	lea    0xe(%esp),%eax
-    1149:	66 50                	push   %eax
-    114b:	66 e8 4b fb ff ff    	calll  c9c <strlen>
-    1151:	66 a3 e4 20          	mov    %eax,0x20e4
+    10d5:	66 83 ec 0c          	sub    $0xc,%esp
+    10d9:	67 66 8d 44 24 0e    	lea    0xe(%esp),%eax
+    10df:	66 50                	push   %eax
+    10e1:	66 e8 b5 fb ff ff    	calll  c9c <strlen>
+    10e7:	66 a3 64 20          	mov    %eax,0x2064
 /mnt/e/code/my_operating_system/os/kernel/tty.c:157
     command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
-    1155:	66 03 06 e0 20       	add    0x20e0,%eax
-    115a:	66 89 c1             	mov    %eax,%ecx
-    115d:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
-    1163:	66 f7 ea             	imul   %edx
-    1166:	66 c1 fa 05          	sar    $0x5,%edx
-    116a:	66 c1 f9 1f          	sar    $0x1f,%ecx
-    116e:	66 29 ca             	sub    %ecx,%edx
-    1171:	66 89 d0             	mov    %edx,%eax
-    1174:	66 03 06 a4 20       	add    0x20a4,%eax
-    1179:	66 83 c0 01          	add    $0x1,%eax
-    117d:	66 a3 a4 20          	mov    %eax,0x20a4
+    10eb:	66 03 06 60 20       	add    0x2060,%eax
+    10f0:	66 89 c1             	mov    %eax,%ecx
+    10f3:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
+    10f9:	66 f7 ea             	imul   %edx
+    10fc:	66 c1 fa 05          	sar    $0x5,%edx
+    1100:	66 c1 f9 1f          	sar    $0x1f,%ecx
+    1104:	66 29 ca             	sub    %ecx,%edx
+    1107:	66 89 d0             	mov    %edx,%eax
+    110a:	66 03 06 3c 20       	add    0x203c,%eax
+    110f:	66 83 c0 01          	add    $0x1,%eax
+    1113:	66 a3 3c 20          	mov    %eax,0x203c
 /mnt/e/code/my_operating_system/os/kernel/tty.c:158
     while(command_line_row > 23){
-    1181:	66 83 c4 10          	add    $0x10,%esp
-    1185:	eb 0c                	jmp    1193 <create_a_line+0xd1>
+    1117:	66 83 c4 10          	add    $0x10,%esp
+    111b:	eb 0c                	jmp    1129 <create_a_line+0xd1>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:159
         scroll_screen();
-    1187:	66 e8 6f fa ff ff    	calll  bfc <scroll_screen>
+    111d:	66 e8 d9 fa ff ff    	calll  bfc <scroll_screen>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:160
         command_line_row--;
-    118d:	66 83 2e a4 20 01    	subl   $0x1,0x20a4
+    1123:	66 83 2e 3c 20 01    	subl   $0x1,0x203c
 /mnt/e/code/my_operating_system/os/kernel/tty.c:158
     for (int i = 0; i < MAX_BUF; i++){
         input_buf[i] = 0;
@@ -2723,38 +2683,38 @@ void create_a_line(){
     message_length = strlen(message);
     command_line_row = command_line_row + (command_line_cursor + message_length)/80 + 1;
     while(command_line_row > 23){
-    1193:	66 a1 a4 20          	mov    0x20a4,%eax
-    1197:	66 83 f8 17          	cmp    $0x17,%eax
-    119b:	7f ea                	jg     1187 <create_a_line+0xc5>
+    1129:	66 a1 3c 20          	mov    0x203c,%eax
+    112d:	66 83 f8 17          	cmp    $0x17,%eax
+    1131:	7f ea                	jg     111d <create_a_line+0xc5>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:162
         scroll_screen();
         command_line_row--;
     }
     command_line_cursor = 0;
-    119d:	66 c7 06 e0 20 00 00 	movl   $0x0,0x20e0
-    11a4:	00 00 
+    1133:	66 c7 06 60 20 00 00 	movl   $0x0,0x2060
+    113a:	00 00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:163
     set_cursor(command_line_row * 80);
-    11a6:	66 83 ec 0c          	sub    $0xc,%esp
-    11aa:	67 66 8d 04 80       	lea    (%eax,%eax,4),%eax
-    11af:	66 c1 e0 04          	shl    $0x4,%eax
-    11b3:	66 0f b7 d0          	movzwl %ax,%edx
-    11b7:	66 52                	push   %edx
-    11b9:	66 e8 43 f0 ff ff    	calll  202 <set_cursor>
+    113c:	66 83 ec 0c          	sub    $0xc,%esp
+    1140:	67 66 8d 04 80       	lea    (%eax,%eax,4),%eax
+    1145:	66 c1 e0 04          	shl    $0x4,%eax
+    1149:	66 0f b7 d0          	movzwl %ax,%edx
+    114d:	66 52                	push   %edx
+    114f:	66 e8 ad f0 ff ff    	calll  202 <set_cursor>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:165
     // printf("%d", command_line_row);
     printf("%s", message);
-    11bf:	66 83 c4 08          	add    $0x8,%esp
-    11c3:	67 66 8d 44 24 0a    	lea    0xa(%esp),%eax
-    11c9:	66 50                	push   %eax
-    11cb:	66 68 5d 1f 00 00    	pushl  $0x1f5d
-    11d1:	66 e8 74 f6 ff ff    	calll  84b <printf>
+    1155:	66 83 c4 08          	add    $0x8,%esp
+    1159:	67 66 8d 44 24 0a    	lea    0xa(%esp),%eax
+    115f:	66 50                	push   %eax
+    1161:	66 68 f5 1e 00 00    	pushl  $0x1ef5
+    1167:	66 e8 de f6 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:166
 }
-    11d7:	66 83 c4 3c          	add    $0x3c,%esp
-    11db:	66 c3                	retl   
+    116d:	66 83 c4 3c          	add    $0x3c,%esp
+    1171:	66 c3                	retl   
 
-000011dd <tty>:
+00001173 <tty>:
 tty():
 /mnt/e/code/my_operating_system/os/kernel/tty.c:19
 int message_length = 0;
@@ -2763,198 +2723,198 @@ char input_buf[MAX_BUF]; // 输入缓存区
 
 
 void tty(){
-    11dd:	66 56                	push   %esi
-    11df:	66 53                	push   %ebx
-    11e1:	66 83 ec 04          	sub    $0x4,%esp
+    1173:	66 56                	push   %esi
+    1175:	66 53                	push   %ebx
+    1177:	66 83 ec 04          	sub    $0x4,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:21
     int keyboard_flag = 0;
     new_line_flag = 1;
-    11e5:	66 c7 06 a0 20 01 00 	movl   $0x1,0x20a0
-    11ec:	00 00 
+    117b:	66 c7 06 38 20 01 00 	movl   $0x1,0x2038
+    1182:	00 00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:22
     command_line_row = -1;
-    11ee:	66 c7 06 a4 20 ff ff 	movl   $0xffffffff,0x20a4
-    11f5:	ff ff 
+    1184:	66 c7 06 3c 20 ff ff 	movl   $0xffffffff,0x203c
+    118b:	ff ff 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:23
     clean_screen();
-    11f7:	66 e8 e5 f9 ff ff    	calll  be2 <clean_screen>
+    118d:	66 e8 4f fa ff ff    	calll  be2 <clean_screen>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:24
     set_cursor(1974);
-    11fd:	66 83 ec 0c          	sub    $0xc,%esp
-    1201:	66 68 b6 07 00 00    	pushl  $0x7b6
-    1207:	66 e8 f5 ef ff ff    	calll  202 <set_cursor>
+    1193:	66 83 ec 0c          	sub    $0xc,%esp
+    1197:	66 68 b6 07 00 00    	pushl  $0x7b6
+    119d:	66 e8 5f f0 ff ff    	calll  202 <set_cursor>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:25
     set_cursor(0);
-    120d:	67 66 c7 04 24 00 00 	movl   $0x0,(%esp)
-    1214:	00 00 
-    1216:	66 e8 e6 ef ff ff    	calll  202 <set_cursor>
+    11a3:	67 66 c7 04 24 00 00 	movl   $0x0,(%esp)
+    11aa:	00 00 
+    11ac:	66 e8 50 f0 ff ff    	calll  202 <set_cursor>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:26
     print_my_name();
-    121c:	66 e8 3e fa ff ff    	calll  c60 <print_my_name>
-    1222:	66 83 c4 10          	add    $0x10,%esp
+    11b2:	66 e8 a8 fa ff ff    	calll  c60 <print_my_name>
+    11b8:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:29
     while (1){
         // 使用缓冲区数据更新
         if (new_line_flag){
-    1226:	66 83 3e a0 20 00    	cmpl   $0x0,0x20a0
-    122c:	74 0f                	je     123d <tty+0x60>
+    11bc:	66 83 3e 38 20 00    	cmpl   $0x0,0x2038
+    11c2:	74 0f                	je     11d3 <tty+0x60>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:30
             create_a_line();
-    122e:	66 e8 8e fe ff ff    	calll  10c2 <create_a_line>
+    11c4:	66 e8 8e fe ff ff    	calll  1058 <create_a_line>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:31
             new_line_flag = 0;
-    1234:	66 c7 06 a0 20 00 00 	movl   $0x0,0x20a0
-    123b:	00 00 
+    11ca:	66 c7 06 38 20 00 00 	movl   $0x0,0x2038
+    11d1:	00 00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:34
         }
 
         if(command_line_row == 23 && message_length + command_line_cursor > 80){
-    123d:	66 83 3e a4 20 17    	cmpl   $0x17,0x20a4
-    1243:	75 2f                	jne    1274 <tty+0x97>
+    11d3:	66 83 3e 3c 20 17    	cmpl   $0x17,0x203c
+    11d9:	75 2f                	jne    120a <tty+0x97>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:34 (discriminator 1)
-    1245:	66 a1 e0 20          	mov    0x20e0,%eax
-    1249:	66 03 06 e4 20       	add    0x20e4,%eax
-    124e:	66 83 f8 50          	cmp    $0x50,%eax
-    1252:	7e 20                	jle    1274 <tty+0x97>
+    11db:	66 a1 60 20          	mov    0x2060,%eax
+    11df:	66 03 06 64 20       	add    0x2064,%eax
+    11e4:	66 83 f8 50          	cmp    $0x50,%eax
+    11e8:	7e 20                	jle    120a <tty+0x97>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:35
             scroll_screen();
-    1254:	66 e8 a2 f9 ff ff    	calll  bfc <scroll_screen>
+    11ea:	66 e8 0c fa ff ff    	calll  bfc <scroll_screen>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:36
             command_line_row--;
-    125a:	66 83 2e a4 20 01    	subl   $0x1,0x20a4
+    11f0:	66 83 2e 3c 20 01    	subl   $0x1,0x203c
 /mnt/e/code/my_operating_system/os/kernel/tty.c:37
             set_cursor(1840);
-    1260:	66 83 ec 0c          	sub    $0xc,%esp
-    1264:	66 68 30 07 00 00    	pushl  $0x730
-    126a:	66 e8 92 ef ff ff    	calll  202 <set_cursor>
-    1270:	66 83 c4 10          	add    $0x10,%esp
+    11f6:	66 83 ec 0c          	sub    $0xc,%esp
+    11fa:	66 68 30 07 00 00    	pushl  $0x730
+    1200:	66 e8 fc ef ff ff    	calll  202 <set_cursor>
+    1206:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:39
         }
         putc(' ');// 用来删除光标处的文字，与输入退格的时候光标-1配合使用
-    1274:	66 83 ec 0c          	sub    $0xc,%esp
-    1278:	66 6a 20             	pushl  $0x20
-    127b:	66 e8 4f f0 ff ff    	calll  2d0 <putc>
+    120a:	66 83 ec 0c          	sub    $0xc,%esp
+    120e:	66 6a 20             	pushl  $0x20
+    1211:	66 e8 b9 f0 ff ff    	calll  2d0 <putc>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:42
 
         // command_line_row = get_cursor() / 80;
         set_cursor(80*command_line_row + message_length);
-    1281:	66 8b 16 a4 20       	mov    0x20a4,%edx
-    1286:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
-    128b:	66 89 d0             	mov    %edx,%eax
-    128e:	66 c1 e0 04          	shl    $0x4,%eax
-    1292:	03 06 e4 20          	add    0x20e4,%ax
-    1296:	66 0f b7 c0          	movzwl %ax,%eax
-    129a:	67 66 89 04 24       	mov    %eax,(%esp)
-    129f:	66 e8 5d ef ff ff    	calll  202 <set_cursor>
+    1217:	66 8b 16 3c 20       	mov    0x203c,%edx
+    121c:	67 66 8d 14 92       	lea    (%edx,%edx,4),%edx
+    1221:	66 89 d0             	mov    %edx,%eax
+    1224:	66 c1 e0 04          	shl    $0x4,%eax
+    1228:	03 06 64 20          	add    0x2064,%ax
+    122c:	66 0f b7 c0          	movzwl %ax,%eax
+    1230:	67 66 89 04 24       	mov    %eax,(%esp)
+    1235:	66 e8 c7 ef ff ff    	calll  202 <set_cursor>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:43
         puts(input_buf, command_line_cursor);
-    12a5:	66 83 c4 08          	add    $0x8,%esp
-    12a9:	66 ff 36 e0 20       	pushl  0x20e0
-    12ae:	66 68 00 21 00 00    	pushl  $0x2100
-    12b4:	66 e8 0b f2 ff ff    	calll  4c5 <puts>
+    123b:	66 83 c4 08          	add    $0x8,%esp
+    123f:	66 ff 36 60 20       	pushl  0x2060
+    1244:	66 68 80 20 00 00    	pushl  $0x2080
+    124a:	66 e8 75 f2 ff ff    	calll  4c5 <puts>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:46
 
         // 更新完了 检测键盘
         keyboard_flag = check_keyboard();
-    12ba:	66 e8 0c f9 ff ff    	calll  bcc <check_keyboard>
+    1250:	66 e8 76 f9 ff ff    	calll  bcc <check_keyboard>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:49
 
         // 如果返回1，则有输入，处理输入信息，否则继续循环。
         if (keyboard_flag){
-    12c0:	66 83 c4 10          	add    $0x10,%esp
-    12c4:	85 c0                	test   %ax,%ax
-    12c6:	0f 84 5c ff          	je     1226 <tty+0x49>
+    1256:	66 83 c4 10          	add    $0x10,%esp
+    125a:	85 c0                	test   %ax,%ax
+    125c:	0f 84 5c ff          	je     11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:51
             // 处理键盘事件
             u16 keyboard_code =  get_keyboard();
-    12ca:	66 e8 0c f9 ff ff    	calll  bdc <get_keyboard>
+    1260:	66 e8 76 f9 ff ff    	calll  bdc <get_keyboard>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:52
             u8 ascii_code = keyboard_code;
-    12d0:	66 89 c3             	mov    %eax,%ebx
+    1266:	66 89 c3             	mov    %eax,%ebx
 /mnt/e/code/my_operating_system/os/kernel/tty.c:54
             u8 scan_code = keyboard_code >> 8;
             if (isprint(ascii_code)){
-    12d3:	66 83 ec 0c          	sub    $0xc,%esp
-    12d7:	66 0f b6 c0          	movzbl %al,%eax
-    12db:	66 50                	push   %eax
-    12dd:	66 e8 c3 f6 ff ff    	calll  9a6 <isprint>
-    12e3:	66 83 c4 10          	add    $0x10,%esp
-    12e7:	66 85 c0             	test   %eax,%eax
-    12ea:	74 20                	je     130c <tty+0x12f>
+    1269:	66 83 ec 0c          	sub    $0xc,%esp
+    126d:	66 0f b6 c0          	movzbl %al,%eax
+    1271:	66 50                	push   %eax
+    1273:	66 e8 2d f7 ff ff    	calll  9a6 <isprint>
+    1279:	66 83 c4 10          	add    $0x10,%esp
+    127d:	66 85 c0             	test   %eax,%eax
+    1280:	74 20                	je     12a2 <tty+0x12f>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:55
                 if (command_line_cursor <= MAX_BUF){
-    12ec:	66 a1 e0 20          	mov    0x20e0,%eax
-    12f0:	66 83 f8 64          	cmp    $0x64,%eax
-    12f4:	0f 8f 2e ff          	jg     1226 <tty+0x49>
+    1282:	66 a1 60 20          	mov    0x2060,%eax
+    1286:	66 83 f8 64          	cmp    $0x64,%eax
+    128a:	0f 8f 2e ff          	jg     11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:56
                     input_buf[command_line_cursor++] = ascii_code;
-    12f8:	67 66 8d 50 01       	lea    0x1(%eax),%edx
-    12fd:	66 89 16 e0 20       	mov    %edx,0x20e0
-    1302:	67 88 98 00 21 00 00 	mov    %bl,0x2100(%eax)
-    1309:	e9 1a ff             	jmp    1226 <tty+0x49>
+    128e:	67 66 8d 50 01       	lea    0x1(%eax),%edx
+    1293:	66 89 16 60 20       	mov    %edx,0x2060
+    1298:	67 88 98 80 20 00 00 	mov    %bl,0x2080(%eax)
+    129f:	e9 1a ff             	jmp    11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:59
                 }
             }
             else if (ascii_code == 13){
-    130c:	80 fb 0d             	cmp    $0xd,%bl
-    130f:	75 1e                	jne    132f <tty+0x152>
+    12a2:	80 fb 0d             	cmp    $0xd,%bl
+    12a5:	75 1e                	jne    12c5 <tty+0x152>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:60
                 new_line_flag = 1;
-    1311:	66 c7 06 a0 20 01 00 	movl   $0x1,0x20a0
-    1318:	00 00 
+    12a7:	66 c7 06 38 20 01 00 	movl   $0x1,0x2038
+    12ae:	00 00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:61
                 input_buf[command_line_cursor] = '\0';
-    131a:	66 a1 e0 20          	mov    0x20e0,%eax
-    131e:	67 c6 80 00 21 00 00 	movb   $0x0,0x2100(%eax)
-    1325:	00 
+    12b0:	66 a1 60 20          	mov    0x2060,%eax
+    12b4:	67 c6 80 80 20 00 00 	movb   $0x0,0x2080(%eax)
+    12bb:	00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:62
                 parser();
-    1326:	66 e8 7c fb ff ff    	calll  ea8 <parser>
-    132c:	e9 f7 fe             	jmp    1226 <tty+0x49>
+    12bc:	66 e8 7c fb ff ff    	calll  e3e <parser>
+    12c2:	e9 f7 fe             	jmp    11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:64
             }
             else if (ascii_code == 8){
-    132f:	80 fb 08             	cmp    $0x8,%bl
-    1332:	75 3e                	jne    1372 <tty+0x195>
+    12c5:	80 fb 08             	cmp    $0x8,%bl
+    12c8:	75 3e                	jne    1308 <tty+0x195>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:65
                 if(command_line_cursor){
-    1334:	66 a1 e0 20          	mov    0x20e0,%eax
-    1338:	66 85 c0             	test   %eax,%eax
-    133b:	0f 84 e7 fe          	je     1226 <tty+0x49>
+    12ca:	66 a1 60 20          	mov    0x2060,%eax
+    12ce:	66 85 c0             	test   %eax,%eax
+    12d1:	0f 84 e7 fe          	je     11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:66
                     input_buf[--command_line_cursor] = 0;
-    133f:	67 66 8d 50 ff       	lea    -0x1(%eax),%edx
-    1344:	66 89 16 e0 20       	mov    %edx,0x20e0
-    1349:	67 c6 80 ff 20 00 00 	movb   $0x0,0x20ff(%eax)
-    1350:	00 
+    12d5:	67 66 8d 50 ff       	lea    -0x1(%eax),%edx
+    12da:	66 89 16 60 20       	mov    %edx,0x2060
+    12df:	67 c6 80 7f 20 00 00 	movb   $0x0,0x207f(%eax)
+    12e6:	00 
 /mnt/e/code/my_operating_system/os/kernel/tty.c:68
                     // 将光标设置为前一个位置，方便删除
                     int cur_cursor = get_cursor();
-    1351:	66 e8 1d ef ff ff    	calll  274 <get_cursor>
+    12e7:	66 e8 87 ef ff ff    	calll  274 <get_cursor>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:69
                     set_cursor(cur_cursor-1);
-    1357:	66 83 ec 0c          	sub    $0xc,%esp
-    135b:	66 83 e8 01          	sub    $0x1,%eax
-    135f:	66 0f b7 c0          	movzwl %ax,%eax
-    1363:	66 50                	push   %eax
-    1365:	66 e8 97 ee ff ff    	calll  202 <set_cursor>
-    136b:	66 83 c4 10          	add    $0x10,%esp
-    136f:	e9 b4 fe             	jmp    1226 <tty+0x49>
+    12ed:	66 83 ec 0c          	sub    $0xc,%esp
+    12f1:	66 83 e8 01          	sub    $0x1,%eax
+    12f5:	66 0f b7 c0          	movzwl %ax,%eax
+    12f9:	66 50                	push   %eax
+    12fb:	66 e8 01 ef ff ff    	calll  202 <set_cursor>
+    1301:	66 83 c4 10          	add    $0x10,%esp
+    1305:	e9 b4 fe             	jmp    11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:72
                 }
             }
             else if (ascii_code == 27){
-    1372:	80 fb 1b             	cmp    $0x1b,%bl
-    1375:	0f 85 ad fe          	jne    1226 <tty+0x49>
+    1308:	80 fb 1b             	cmp    $0x1b,%bl
+    130b:	0f 85 ad fe          	jne    11bc <tty+0x49>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:73
                 __asm__("mov $0x4c00, %ax");
-    1379:	b8 00 4c             	mov    $0x4c00,%ax
+    130f:	b8 00 4c             	mov    $0x4c00,%ax
 /mnt/e/code/my_operating_system/os/kernel/tty.c:74
                 __asm__("int $0x40");
-    137c:	cd 40                	int    $0x40
-    137e:	e9 a5 fe             	jmp    1226 <tty+0x49>
+    1312:	cd 40                	int    $0x40
+    1314:	e9 a5 fe             	jmp    11bc <tty+0x49>
 
-00001381 <tty_scroll_screen>:
+00001317 <tty_scroll_screen>:
 tty_scroll_screen():
 /mnt/e/code/my_operating_system/os/kernel/tty.c:169
     // printf("%d", command_line_row);
@@ -2963,25 +2923,25 @@ tty_scroll_screen():
 
 
 void tty_scroll_screen(){
-    1381:	66 83 ec 0c          	sub    $0xc,%esp
+    1317:	66 83 ec 0c          	sub    $0xc,%esp
 /mnt/e/code/my_operating_system/os/kernel/tty.c:170
     if (get_cursor()/80 > 24){
-    1385:	66 e8 e9 ee ff ff    	calll  274 <get_cursor>
-    138b:	3d cf 07             	cmp    $0x7cf,%ax
-    138e:	76 0c                	jbe    139c <tty_scroll_screen+0x1b>
+    131b:	66 e8 53 ef ff ff    	calll  274 <get_cursor>
+    1321:	3d cf 07             	cmp    $0x7cf,%ax
+    1324:	76 0c                	jbe    1332 <tty_scroll_screen+0x1b>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:171
         scroll_screen();
-    1390:	66 e8 66 f8 ff ff    	calll  bfc <scroll_screen>
+    1326:	66 e8 d0 f8 ff ff    	calll  bfc <scroll_screen>
 /mnt/e/code/my_operating_system/os/kernel/tty.c:172
         command_line_row--;
-    1396:	66 83 2e a4 20 01    	subl   $0x1,0x20a4
+    132c:	66 83 2e 3c 20 01    	subl   $0x1,0x203c
 /mnt/e/code/my_operating_system/os/kernel/tty.c:175
     }
     return ;
-    139c:	66 83 c4 0c          	add    $0xc,%esp
-    13a0:	66 c3                	retl   
+    1332:	66 83 c4 0c          	add    $0xc,%esp
+    1336:	66 c3                	retl   
 
-000013a2 <init_fsystem>:
+00001338 <init_fsystem>:
 init_fsystem():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:14
 FileDescriptor root[56];
@@ -2990,34 +2950,34 @@ u16 first_cluster_by_sector;
 u16 cluster2sector;
 
 void init_fsystem(){
-    13a2:	66 83 ec 0c          	sub    $0xc,%esp
+    1338:	66 83 ec 0c          	sub    $0xc,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:15
     cluster2sector = 1;
-    13a6:	c7 06 a0 2c 01 00    	movw   $0x1,0x2ca0
+    133c:	c7 06 20 2c 01 00    	movw   $0x1,0x2c20
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:16
     root_sector = 37;
-    13ac:	c7 06 80 21 25 00    	movw   $0x25,0x2180
+    1342:	c7 06 00 21 25 00    	movw   $0x25,0x2100
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:17
     first_cluster_by_sector = root_sector + 1;  
-    13b2:	c7 06 a2 2c 26 00    	movw   $0x26,0x2ca2
+    1348:	c7 06 22 2c 26 00    	movw   $0x26,0x2c22
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:18
     read_n_sector(root_sector,1, 0x1000, root);
-    13b8:	66 b8 a0 25 00 00    	mov    $0x25a0,%eax
-    13be:	66 0f b7 c0          	movzwl %ax,%eax
-    13c2:	66 50                	push   %eax
-    13c4:	66 68 00 10 00 00    	pushl  $0x1000
-    13ca:	66 6a 01             	pushl  $0x1
-    13cd:	66 6a 25             	pushl  $0x25
-    13d0:	66 e8 83 f6 ff ff    	calll  a59 <read_n_sector>
+    134e:	66 b8 20 25 00 00    	mov    $0x2520,%eax
+    1354:	66 0f b7 c0          	movzwl %ax,%eax
+    1358:	66 50                	push   %eax
+    135a:	66 68 00 10 00 00    	pushl  $0x1000
+    1360:	66 6a 01             	pushl  $0x1
+    1363:	66 6a 25             	pushl  $0x25
+    1366:	66 e8 ed f6 ff ff    	calll  a59 <read_n_sector>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:19
     read_n_sector(1,2,0x1000, FAT_table);// 这个会覆盖掉root吗？
-    13d6:	66 b8 a0 21 00 00    	mov    $0x21a0,%eax
-    13dc:	66 0f b7 c0          	movzwl %ax,%eax
-    13e0:	66 50                	push   %eax
-    13e2:	66 68 00 10 00 00    	pushl  $0x1000
-    13e8:	66 6a 02             	pushl  $0x2
-    13eb:	66 6a 01             	pushl  $0x1
-    13ee:	66 e8 65 f6 ff ff    	calll  a59 <read_n_sector>
+    136c:	66 b8 20 21 00 00    	mov    $0x2120,%eax
+    1372:	66 0f b7 c0          	movzwl %ax,%eax
+    1376:	66 50                	push   %eax
+    1378:	66 68 00 10 00 00    	pushl  $0x1000
+    137e:	66 6a 02             	pushl  $0x2
+    1381:	66 6a 01             	pushl  $0x1
+    1384:	66 e8 cf f6 ff ff    	calll  a59 <read_n_sector>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:27
     // puti(FAT_table[0]);
     // puti(root[0].cluster_number);
@@ -3025,52 +2985,52 @@ void init_fsystem(){
     // puts(&root[1], 10);
     // puts(&root[2], 10);
 }
-    13f4:	66 83 c4 2c          	add    $0x2c,%esp
-    13f8:	66 c3                	retl   
+    138a:	66 83 c4 2c          	add    $0x2c,%esp
+    138e:	66 c3                	retl   
 
-000013fa <_fs_find_descriptor_number_by_name>:
+00001390 <_fs_find_descriptor_number_by_name>:
 _fs_find_descriptor_number_by_name():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:29
 
 u16 _fs_find_descriptor_number_by_name(char * file_name){
-    13fa:	66 57                	push   %edi
-    13fc:	66 56                	push   %esi
-    13fe:	66 53                	push   %ebx
-    1400:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
+    1390:	66 57                	push   %edi
+    1392:	66 56                	push   %esi
+    1394:	66 53                	push   %ebx
+    1396:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:30
     int file_name_length = strlen(file_name);
-    1406:	66 83 ec 0c          	sub    $0xc,%esp
-    140a:	66 57                	push   %edi
-    140c:	66 e8 8a f8 ff ff    	calll  c9c <strlen>
-    1412:	66 89 c6             	mov    %eax,%esi
+    139c:	66 83 ec 0c          	sub    $0xc,%esp
+    13a0:	66 57                	push   %edi
+    13a2:	66 e8 f4 f8 ff ff    	calll  c9c <strlen>
+    13a8:	66 89 c6             	mov    %eax,%esi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:31
     if (file_name_length >= 11) file_name_length = 11;
-    1415:	66 83 c4 10          	add    $0x10,%esp
-    1419:	66 83 f8 0a          	cmp    $0xa,%eax
-    141d:	7e 06                	jle    1425 <_fs_find_descriptor_number_by_name+0x2b>
-    141f:	66 be 0b 00 00 00    	mov    $0xb,%esi
+    13ab:	66 83 c4 10          	add    $0x10,%esp
+    13af:	66 83 f8 0a          	cmp    $0xa,%eax
+    13b3:	7e 06                	jle    13bb <_fs_find_descriptor_number_by_name+0x2b>
+    13b5:	66 be 0b 00 00 00    	mov    $0xb,%esi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:33
     // TODO:这里的10是文件数，需要使用常量代替
     for (int i = 0; i < 10; i++){
-    1425:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-    142b:	eb 2f                	jmp    145c <_fs_find_descriptor_number_by_name+0x62>
+    13bb:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+    13c1:	eb 2f                	jmp    13f2 <_fs_find_descriptor_number_by_name+0x62>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:34
         if (!strncmp(&root[i], file_name, file_name_length)){
-    142d:	66 89 d8             	mov    %ebx,%eax
-    1430:	66 c1 e0 05          	shl    $0x5,%eax
-    1434:	66 05 a0 25 00 00    	add    $0x25a0,%eax
-    143a:	66 83 ec 04          	sub    $0x4,%esp
-    143e:	66 56                	push   %esi
-    1440:	66 57                	push   %edi
-    1442:	66 50                	push   %eax
-    1444:	66 e8 16 f9 ff ff    	calll  d60 <strncmp>
-    144a:	66 83 c4 10          	add    $0x10,%esp
-    144e:	66 85 c0             	test   %eax,%eax
-    1451:	75 05                	jne    1458 <_fs_find_descriptor_number_by_name+0x5e>
+    13c3:	66 89 d8             	mov    %ebx,%eax
+    13c6:	66 c1 e0 05          	shl    $0x5,%eax
+    13ca:	66 05 20 25 00 00    	add    $0x2520,%eax
+    13d0:	66 83 ec 04          	sub    $0x4,%esp
+    13d4:	66 56                	push   %esi
+    13d6:	66 57                	push   %edi
+    13d8:	66 50                	push   %eax
+    13da:	66 e8 80 f9 ff ff    	calll  d60 <strncmp>
+    13e0:	66 83 c4 10          	add    $0x10,%esp
+    13e4:	66 85 c0             	test   %eax,%eax
+    13e7:	75 05                	jne    13ee <_fs_find_descriptor_number_by_name+0x5e>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:35
             return i;
-    1453:	66 89 d8             	mov    %ebx,%eax
-    1456:	eb 10                	jmp    1468 <_fs_find_descriptor_number_by_name+0x6e>
+    13e9:	66 89 d8             	mov    %ebx,%eax
+    13ec:	eb 10                	jmp    13fe <_fs_find_descriptor_number_by_name+0x6e>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:33 (discriminator 2)
 
 u16 _fs_find_descriptor_number_by_name(char * file_name){
@@ -3078,71 +3038,71 @@ u16 _fs_find_descriptor_number_by_name(char * file_name){
     if (file_name_length >= 11) file_name_length = 11;
     // TODO:这里的10是文件数，需要使用常量代替
     for (int i = 0; i < 10; i++){
-    1458:	66 83 c3 01          	add    $0x1,%ebx
+    13ee:	66 83 c3 01          	add    $0x1,%ebx
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:33 (discriminator 1)
-    145c:	66 83 fb 09          	cmp    $0x9,%ebx
-    1460:	7e cb                	jle    142d <_fs_find_descriptor_number_by_name+0x33>
+    13f2:	66 83 fb 09          	cmp    $0x9,%ebx
+    13f6:	7e cb                	jle    13c3 <_fs_find_descriptor_number_by_name+0x33>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:38
         if (!strncmp(&root[i], file_name, file_name_length)){
             return i;
         }
     }
     return -1;
-    1462:	66 b8 ff ff ff ff    	mov    $0xffffffff,%eax
+    13f8:	66 b8 ff ff ff ff    	mov    $0xffffffff,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:39
 }
-    1468:	66 5b                	pop    %ebx
-    146a:	66 5e                	pop    %esi
-    146c:	66 5f                	pop    %edi
-    146e:	66 c3                	retl   
+    13fe:	66 5b                	pop    %ebx
+    1400:	66 5e                	pop    %esi
+    1402:	66 5f                	pop    %edi
+    1404:	66 c3                	retl   
 
-00001470 <_fs_find_cluster_code_by_name>:
+00001406 <_fs_find_cluster_code_by_name>:
 _fs_find_cluster_code_by_name():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:41
 
 u16 _fs_find_cluster_code_by_name(char * file_name){
-    1470:	66 83 ec 18          	sub    $0x18,%esp
+    1406:	66 83 ec 18          	sub    $0x18,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:42
     int index = _fs_find_descriptor_number_by_name(file_name);
-    1474:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
-    147a:	66 e8 7a ff ff ff    	calll  13fa <_fs_find_descriptor_number_by_name>
-    1480:	66 0f b7 c0          	movzwl %ax,%eax
+    140a:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    1410:	66 e8 7a ff ff ff    	calll  1390 <_fs_find_descriptor_number_by_name>
+    1416:	66 0f b7 c0          	movzwl %ax,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:44
     if (index != -1)
         return root[index].cluster_code;
-    1484:	66 c1 e0 05          	shl    $0x5,%eax
-    1488:	67 66 0f b7 80 ba 25 	movzwl 0x25ba(%eax),%eax
-    148f:	00 00 
+    141a:	66 c1 e0 05          	shl    $0x5,%eax
+    141e:	67 66 0f b7 80 3a 25 	movzwl 0x253a(%eax),%eax
+    1425:	00 00 
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:46
     return 0;
 }
-    1491:	66 83 c4 1c          	add    $0x1c,%esp
-    1495:	66 c3                	retl   
+    1427:	66 83 c4 1c          	add    $0x1c,%esp
+    142b:	66 c3                	retl   
 
-00001497 <_fs_get_file_size_by_cluster_code>:
+0000142d <_fs_get_file_size_by_cluster_code>:
 _fs_get_file_size_by_cluster_code():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:48
 
 u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
-    1497:	67 66 0f b7 54 24 04 	movzwl 0x4(%esp),%edx
+    142d:	67 66 0f b7 54 24 04 	movzwl 0x4(%esp),%edx
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:49
     int size = 0;
-    149e:	66 b8 00 00 00 00    	mov    $0x0,%eax
+    1434:	66 b8 00 00 00 00    	mov    $0x0,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:50
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
-    14a4:	eb 1b                	jmp    14c1 <_fs_get_file_size_by_cluster_code+0x2a>
+    143a:	eb 1b                	jmp    1457 <_fs_get_file_size_by_cluster_code+0x2a>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:51
         size += 512*cluster2sector;
-    14a6:	66 0f b7 0e a0 2c    	movzwl 0x2ca0,%ecx
-    14ac:	66 c1 e1 09          	shl    $0x9,%ecx
-    14b0:	66 01 c8             	add    %ecx,%eax
+    143c:	66 0f b7 0e 20 2c    	movzwl 0x2c20,%ecx
+    1442:	66 c1 e1 09          	shl    $0x9,%ecx
+    1446:	66 01 c8             	add    %ecx,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:52
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
-    14b3:	66 0f b7 d2          	movzwl %dx,%edx
+    1449:	66 0f b7 d2          	movzwl %dx,%edx
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:53
         cluster_code = FAT_table[cluster_code];
-    14b7:	67 66 0f b7 94 12 a0 	movzwl 0x21a0(%edx,%edx,1),%edx
-    14be:	21 00 00 
+    144d:	67 66 0f b7 94 12 20 	movzwl 0x2120(%edx,%edx,1),%edx
+    1454:	21 00 00 
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:50
     return 0;
 }
@@ -3150,9 +3110,9 @@ u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
 u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
     int size = 0;
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
-    14c1:	67 66 8d 4a fe       	lea    -0x2(%edx),%ecx
-    14c6:	83 f9 ed             	cmp    $0xffed,%cx
-    14c9:	76 db                	jbe    14a6 <_fs_get_file_size_by_cluster_code+0xf>
+    1457:	67 66 8d 4a fe       	lea    -0x2(%edx),%ecx
+    145c:	83 f9 ed             	cmp    $0xffed,%cx
+    145f:	76 db                	jbe    143c <_fs_get_file_size_by_cluster_code+0xf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:56
         size += 512*cluster2sector;
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
@@ -3160,36 +3120,36 @@ u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
     }
     return size;
 }
-    14cb:	66 f3 c3             	repz retl 
+    1461:	66 f3 c3             	repz retl 
 
-000014ce <_fs_show_file_by_descriptor_number>:
+00001464 <_fs_show_file_by_descriptor_number>:
 _fs_show_file_by_descriptor_number():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:58
 
 void _fs_show_file_by_descriptor_number(u16 index){
-    14ce:	66 56                	push   %esi
-    14d0:	66 53                	push   %ebx
-    14d2:	66 83 ec 08          	sub    $0x8,%esp
+    1464:	66 56                	push   %esi
+    1466:	66 53                	push   %ebx
+    1468:	66 83 ec 08          	sub    $0x8,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:59
     int cluster_code = root[index].cluster_code;
-    14d6:	67 66 0f b7 44 24 14 	movzwl 0x14(%esp),%eax
-    14dd:	66 89 c6             	mov    %eax,%esi
-    14e0:	66 c1 e6 05          	shl    $0x5,%esi
-    14e4:	67 66 0f b7 9e ba 25 	movzwl 0x25ba(%esi),%ebx
-    14eb:	00 00 
-    14ed:	66 81 c6 a0 25 00 00 	add    $0x25a0,%esi
+    146c:	67 66 0f b7 44 24 14 	movzwl 0x14(%esp),%eax
+    1473:	66 89 c6             	mov    %eax,%esi
+    1476:	66 c1 e6 05          	shl    $0x5,%esi
+    147a:	67 66 0f b7 9e 3a 25 	movzwl 0x253a(%esi),%ebx
+    1481:	00 00 
+    1483:	66 81 c6 20 25 00 00 	add    $0x2520,%esi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:60
     printf("%d, %d\n" , index,cluster_code);
-    14f4:	66 53                	push   %ebx
-    14f6:	66 50                	push   %eax
-    14f8:	66 68 60 1f 00 00    	pushl  $0x1f60
-    14fe:	66 e8 47 f3 ff ff    	calll  84b <printf>
+    148a:	66 53                	push   %ebx
+    148c:	66 50                	push   %eax
+    148e:	66 68 f8 1e 00 00    	pushl  $0x1ef8
+    1494:	66 e8 b1 f3 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:62
     printf("%s   | %d byte |", (char *)&root[index],
                              _fs_get_file_size_by_cluster_code(cluster_code));
-    1504:	67 66 89 1c 24       	mov    %ebx,(%esp)
-    1509:	66 e8 88 ff ff ff    	calll  1497 <_fs_get_file_size_by_cluster_code>
-    150f:	66 83 c4 0c          	add    $0xc,%esp
+    149a:	67 66 89 1c 24       	mov    %ebx,(%esp)
+    149f:	66 e8 88 ff ff ff    	calll  142d <_fs_get_file_size_by_cluster_code>
+    14a5:	66 83 c4 0c          	add    $0xc,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:61
 }
 
@@ -3197,27 +3157,27 @@ void _fs_show_file_by_descriptor_number(u16 index){
     int cluster_code = root[index].cluster_code;
     printf("%d, %d\n" , index,cluster_code);
     printf("%s   | %d byte |", (char *)&root[index],
-    1513:	66 0f b7 c0          	movzwl %ax,%eax
-    1517:	66 50                	push   %eax
-    1519:	66 56                	push   %esi
-    151b:	66 68 68 1f 00 00    	pushl  $0x1f68
-    1521:	66 e8 24 f3 ff ff    	calll  84b <printf>
+    14a9:	66 0f b7 c0          	movzwl %ax,%eax
+    14ad:	66 50                	push   %eax
+    14af:	66 56                	push   %esi
+    14b1:	66 68 00 1f 00 00    	pushl  $0x1f00
+    14b7:	66 e8 8e f3 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:63
                              _fs_get_file_size_by_cluster_code(cluster_code));
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
-    1527:	66 83 c4 10          	add    $0x10,%esp
-    152b:	eb 20                	jmp    154d <_fs_show_file_by_descriptor_number+0x7f>
+    14bd:	66 83 c4 10          	add    $0x10,%esp
+    14c1:	eb 20                	jmp    14e3 <_fs_show_file_by_descriptor_number+0x7f>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:64
         printf("-%d", cluster_code);
-    152d:	66 83 ec 08          	sub    $0x8,%esp
-    1531:	66 53                	push   %ebx
-    1533:	66 68 79 1f 00 00    	pushl  $0x1f79
-    1539:	66 e8 0c f3 ff ff    	calll  84b <printf>
+    14c3:	66 83 ec 08          	sub    $0x8,%esp
+    14c7:	66 53                	push   %ebx
+    14c9:	66 68 11 1f 00 00    	pushl  $0x1f11
+    14cf:	66 e8 76 f3 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:65
         cluster_code = FAT_table[cluster_code];
-    153f:	67 66 0f b7 9c 1b a0 	movzwl 0x21a0(%ebx,%ebx,1),%ebx
-    1546:	21 00 00 
-    1549:	66 83 c4 10          	add    $0x10,%esp
+    14d5:	67 66 0f b7 9c 1b 20 	movzwl 0x2120(%ebx,%ebx,1),%ebx
+    14dc:	21 00 00 
+    14df:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:63
 void _fs_show_file_by_descriptor_number(u16 index){
     int cluster_code = root[index].cluster_code;
@@ -3225,73 +3185,73 @@ void _fs_show_file_by_descriptor_number(u16 index){
     printf("%s   | %d byte |", (char *)&root[index],
                              _fs_get_file_size_by_cluster_code(cluster_code));
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
-    154d:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
-    1552:	66 3d ed ff 00 00    	cmp    $0xffed,%eax
-    1558:	76 d3                	jbe    152d <_fs_show_file_by_descriptor_number+0x5f>
+    14e3:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
+    14e8:	66 3d ed ff 00 00    	cmp    $0xffed,%eax
+    14ee:	76 d3                	jbe    14c3 <_fs_show_file_by_descriptor_number+0x5f>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:67
         printf("-%d", cluster_code);
         cluster_code = FAT_table[cluster_code];
     }
     printf("-|\n");
-    155a:	66 83 ec 0c          	sub    $0xc,%esp
-    155e:	66 68 7d 1f 00 00    	pushl  $0x1f7d
-    1564:	66 e8 e1 f2 ff ff    	calll  84b <printf>
+    14f0:	66 83 ec 0c          	sub    $0xc,%esp
+    14f4:	66 68 15 1f 00 00    	pushl  $0x1f15
+    14fa:	66 e8 4b f3 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:69
     return ;
 }
-    156a:	66 83 c4 14          	add    $0x14,%esp
-    156e:	66 5b                	pop    %ebx
-    1570:	66 5e                	pop    %esi
-    1572:	66 c3                	retl   
+    1500:	66 83 c4 14          	add    $0x14,%esp
+    1504:	66 5b                	pop    %ebx
+    1506:	66 5e                	pop    %esi
+    1508:	66 c3                	retl   
 
-00001574 <_fs_load_by_cluster_code>:
+0000150a <_fs_load_by_cluster_code>:
 _fs_load_by_cluster_code():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:71
 
 u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
-    1574:	66 57                	push   %edi
-    1576:	66 56                	push   %esi
-    1578:	66 53                	push   %ebx
-    157a:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
-    1580:	67 66 0f b7 5c 24 10 	movzwl 0x10(%esp),%ebx
+    150a:	66 57                	push   %edi
+    150c:	66 56                	push   %esi
+    150e:	66 53                	push   %ebx
+    1510:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
+    1516:	67 66 0f b7 5c 24 10 	movzwl 0x10(%esp),%ebx
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:72
     int size = 0;
-    1587:	66 bf 00 00 00 00    	mov    $0x0,%edi
+    151d:	66 bf 00 00 00 00    	mov    $0x0,%edi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:73
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
-    158d:	eb 5b                	jmp    15ea <_fs_load_by_cluster_code+0x76>
+    1523:	eb 5b                	jmp    1580 <_fs_load_by_cluster_code+0x76>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:74
         size += 512*cluster2sector;
-    158f:	66 0f b7 16 a0 2c    	movzwl 0x2ca0,%edx
-    1595:	66 89 d0             	mov    %edx,%eax
-    1598:	66 c1 e0 09          	shl    $0x9,%eax
-    159c:	66 01 c7             	add    %eax,%edi
+    1525:	66 0f b7 16 20 2c    	movzwl 0x2c20,%edx
+    152b:	66 89 d0             	mov    %edx,%eax
+    152e:	66 c1 e0 09          	shl    $0x9,%eax
+    1532:	66 01 c7             	add    %eax,%edi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:75
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
-    159f:	66 0f b7 0e a2 2c    	movzwl 0x2ca2,%ecx
-    15a5:	66 0f b7 db          	movzwl %bx,%ebx
-    15a9:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
-    15ae:	66 0f af c2          	imul   %edx,%eax
-    15b2:	66 01 c8             	add    %ecx,%eax
+    1535:	66 0f b7 0e 22 2c    	movzwl 0x2c22,%ecx
+    153b:	66 0f b7 db          	movzwl %bx,%ebx
+    153f:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
+    1544:	66 0f af c2          	imul   %edx,%eax
+    1548:	66 01 c8             	add    %ecx,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:76
         read_n_sector(sector_number, cluster2sector, 0x1000, program);
-    15b5:	66 0f b7 ce          	movzwl %si,%ecx
-    15b9:	66 51                	push   %ecx
-    15bb:	66 68 00 10 00 00    	pushl  $0x1000
-    15c1:	66 52                	push   %edx
-    15c3:	66 0f b7 c0          	movzwl %ax,%eax
-    15c7:	66 50                	push   %eax
-    15c9:	66 e8 8a f4 ff ff    	calll  a59 <read_n_sector>
+    154b:	66 0f b7 ce          	movzwl %si,%ecx
+    154f:	66 51                	push   %ecx
+    1551:	66 68 00 10 00 00    	pushl  $0x1000
+    1557:	66 52                	push   %edx
+    1559:	66 0f b7 c0          	movzwl %ax,%eax
+    155d:	66 50                	push   %eax
+    155f:	66 e8 f4 f4 ff ff    	calll  a59 <read_n_sector>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:77
         program = program+cluster2sector*512;
-    15cf:	66 0f b7 06 a0 2c    	movzwl 0x2ca0,%eax
-    15d5:	66 c1 e0 09          	shl    $0x9,%eax
-    15d9:	66 01 c6             	add    %eax,%esi
+    1565:	66 0f b7 06 20 2c    	movzwl 0x2c20,%eax
+    156b:	66 c1 e0 09          	shl    $0x9,%eax
+    156f:	66 01 c6             	add    %eax,%esi
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:78
         cluster_code = FAT_table[cluster_code];
-    15dc:	67 66 0f b7 9c 1b a0 	movzwl 0x21a0(%ebx,%ebx,1),%ebx
-    15e3:	21 00 00 
-    15e6:	66 83 c4 10          	add    $0x10,%esp
+    1572:	67 66 0f b7 9c 1b 20 	movzwl 0x2120(%ebx,%ebx,1),%ebx
+    1579:	21 00 00 
+    157c:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:73
     return ;
 }
@@ -3299,9 +3259,9 @@ u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
 u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
     int size = 0;
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
-    15ea:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
-    15ef:	83 f8 ed             	cmp    $0xffed,%ax
-    15f2:	76 9b                	jbe    158f <_fs_load_by_cluster_code+0x1b>
+    1580:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
+    1585:	83 f8 ed             	cmp    $0xffed,%ax
+    1588:	76 9b                	jbe    1525 <_fs_load_by_cluster_code+0x1b>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:81
         read_n_sector(sector_number, cluster2sector, 0x1000, program);
         program = program+cluster2sector*512;
@@ -3309,100 +3269,100 @@ u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
     }
     return size;
 }
-    15f4:	66 89 f8             	mov    %edi,%eax
-    15f7:	66 5b                	pop    %ebx
-    15f9:	66 5e                	pop    %esi
-    15fb:	66 5f                	pop    %edi
-    15fd:	66 c3                	retl   
+    158a:	66 89 f8             	mov    %edi,%eax
+    158d:	66 5b                	pop    %ebx
+    158f:	66 5e                	pop    %esi
+    1591:	66 5f                	pop    %edi
+    1593:	66 c3                	retl   
 
-000015ff <fs_load_by_name>:
+00001595 <fs_load_by_name>:
 fs_load_by_name():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:84
 
 
 u16 fs_load_by_name(char * file_name, void (*program)()){
-    15ff:	66 83 ec 18          	sub    $0x18,%esp
+    1595:	66 83 ec 18          	sub    $0x18,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:85
     int cluster_code = _fs_find_cluster_code_by_name(file_name);
-    1603:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
-    1609:	66 e8 61 fe ff ff    	calll  1470 <_fs_find_cluster_code_by_name>
-    160f:	66 0f b7 c0          	movzwl %ax,%eax
+    1599:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    159f:	66 e8 61 fe ff ff    	calll  1406 <_fs_find_cluster_code_by_name>
+    15a5:	66 0f b7 c0          	movzwl %ax,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:86
     if (cluster_code){
-    1613:	66 83 c4 10          	add    $0x10,%esp
-    1617:	66 85 c0             	test   %eax,%eax
-    161a:	74 18                	je     1634 <fs_load_by_name+0x35>
+    15a9:	66 83 c4 10          	add    $0x10,%esp
+    15ad:	66 85 c0             	test   %eax,%eax
+    15b0:	74 18                	je     15ca <fs_load_by_name+0x35>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:87
         return _fs_load_by_cluster_code(cluster_code, program);
-    161c:	66 83 ec 08          	sub    $0x8,%esp
-    1620:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
-    1626:	66 50                	push   %eax
-    1628:	66 e8 46 ff ff ff    	calll  1574 <_fs_load_by_cluster_code>
-    162e:	66 83 c4 10          	add    $0x10,%esp
-    1632:	eb 06                	jmp    163a <fs_load_by_name+0x3b>
+    15b2:	66 83 ec 08          	sub    $0x8,%esp
+    15b6:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    15bc:	66 50                	push   %eax
+    15be:	66 e8 46 ff ff ff    	calll  150a <_fs_load_by_cluster_code>
+    15c4:	66 83 c4 10          	add    $0x10,%esp
+    15c8:	eb 06                	jmp    15d0 <fs_load_by_name+0x3b>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:90
     }
     else {
         return 0;
-    1634:	66 b8 00 00 00 00    	mov    $0x0,%eax
+    15ca:	66 b8 00 00 00 00    	mov    $0x0,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:92
     }
 }
-    163a:	66 83 c4 0c          	add    $0xc,%esp
-    163e:	66 c3                	retl   
+    15d0:	66 83 c4 0c          	add    $0xc,%esp
+    15d4:	66 c3                	retl   
 
-00001640 <fs_get_file_size>:
+000015d6 <fs_get_file_size>:
 fs_get_file_size():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:95
 
 
 u16 fs_get_file_size(char * file_name){
-    1640:	66 83 ec 18          	sub    $0x18,%esp
+    15d6:	66 83 ec 18          	sub    $0x18,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:96
     int cluster_code = _fs_find_cluster_code_by_name(file_name);
-    1644:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
-    164a:	66 e8 20 fe ff ff    	calll  1470 <_fs_find_cluster_code_by_name>
+    15da:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    15e0:	66 e8 20 fe ff ff    	calll  1406 <_fs_find_cluster_code_by_name>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:97
     return _fs_get_file_size_by_cluster_code(cluster_code);
-    1650:	66 0f b7 c0          	movzwl %ax,%eax
-    1654:	67 66 89 04 24       	mov    %eax,(%esp)
-    1659:	66 e8 38 fe ff ff    	calll  1497 <_fs_get_file_size_by_cluster_code>
+    15e6:	66 0f b7 c0          	movzwl %ax,%eax
+    15ea:	67 66 89 04 24       	mov    %eax,(%esp)
+    15ef:	66 e8 38 fe ff ff    	calll  142d <_fs_get_file_size_by_cluster_code>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:98
 }
-    165f:	66 83 c4 1c          	add    $0x1c,%esp
-    1663:	66 c3                	retl   
+    15f5:	66 83 c4 1c          	add    $0x1c,%esp
+    15f9:	66 c3                	retl   
 
-00001665 <fs_show_root_file_table>:
+000015fb <fs_show_root_file_table>:
 fs_show_root_file_table():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:100
 
 void fs_show_root_file_table(){
-    1665:	66 53                	push   %ebx
-    1667:	66 83 ec 08          	sub    $0x8,%esp
+    15fb:	66 53                	push   %ebx
+    15fd:	66 83 ec 08          	sub    $0x8,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:101
     printf("%s   | %s | %s\n", "file name ", "file size", "cluster");
-    166b:	66 68 81 1f 00 00    	pushl  $0x1f81
-    1671:	66 68 89 1f 00 00    	pushl  $0x1f89
-    1677:	66 68 93 1f 00 00    	pushl  $0x1f93
-    167d:	66 68 9e 1f 00 00    	pushl  $0x1f9e
-    1683:	66 e8 c2 f1 ff ff    	calll  84b <printf>
+    1601:	66 68 19 1f 00 00    	pushl  $0x1f19
+    1607:	66 68 21 1f 00 00    	pushl  $0x1f21
+    160d:	66 68 2b 1f 00 00    	pushl  $0x1f2b
+    1613:	66 68 36 1f 00 00    	pushl  $0x1f36
+    1619:	66 e8 2c f2 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:102
     printf("------------------------------------\n\r");
-    1689:	67 66 c7 04 24 58 20 	movl   $0x2058,(%esp)
-    1690:	00 00 
-    1692:	66 e8 b3 f1 ff ff    	calll  84b <printf>
+    161f:	67 66 c7 04 24 f0 1f 	movl   $0x1ff0,(%esp)
+    1626:	00 00 
+    1628:	66 e8 1d f2 ff ff    	calll  84b <printf>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:104
     int file_number = 7;// TODO:文件数量需要设置！
     for(int i = 0; i < file_number; i++){
-    1698:	66 83 c4 10          	add    $0x10,%esp
-    169c:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-    16a2:	eb 18                	jmp    16bc <fs_show_root_file_table+0x57>
+    162e:	66 83 c4 10          	add    $0x10,%esp
+    1632:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+    1638:	eb 18                	jmp    1652 <fs_show_root_file_table+0x57>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:105 (discriminator 3)
         _fs_show_file_by_descriptor_number(i);
-    16a4:	66 83 ec 0c          	sub    $0xc,%esp
-    16a8:	66 0f b7 c3          	movzwl %bx,%eax
-    16ac:	66 50                	push   %eax
-    16ae:	66 e8 1a fe ff ff    	calll  14ce <_fs_show_file_by_descriptor_number>
+    163a:	66 83 ec 0c          	sub    $0xc,%esp
+    163e:	66 0f b7 c3          	movzwl %bx,%eax
+    1642:	66 50                	push   %eax
+    1644:	66 e8 1a fe ff ff    	calll  1464 <_fs_show_file_by_descriptor_number>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:104 (discriminator 3)
 
 void fs_show_root_file_table(){
@@ -3410,50 +3370,50 @@ void fs_show_root_file_table(){
     printf("------------------------------------\n\r");
     int file_number = 7;// TODO:文件数量需要设置！
     for(int i = 0; i < file_number; i++){
-    16b4:	66 83 c3 01          	add    $0x1,%ebx
-    16b8:	66 83 c4 10          	add    $0x10,%esp
+    164a:	66 83 c3 01          	add    $0x1,%ebx
+    164e:	66 83 c4 10          	add    $0x10,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:104 (discriminator 1)
-    16bc:	66 83 fb 06          	cmp    $0x6,%ebx
-    16c0:	7e e2                	jle    16a4 <fs_show_root_file_table+0x3f>
+    1652:	66 83 fb 06          	cmp    $0x6,%ebx
+    1656:	7e e2                	jle    163a <fs_show_root_file_table+0x3f>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:108
         _fs_show_file_by_descriptor_number(i);
     }
     return ;
 }
-    16c2:	66 83 c4 08          	add    $0x8,%esp
-    16c6:	66 5b                	pop    %ebx
-    16c8:	66 c3                	retl   
+    1658:	66 83 c4 08          	add    $0x8,%esp
+    165c:	66 5b                	pop    %ebx
+    165e:	66 c3                	retl   
 
-000016ca <fs_show_file_by_name>:
+00001660 <fs_show_file_by_name>:
 fs_show_file_by_name():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:110
 
 void fs_show_file_by_name(char * file_name){
-    16ca:	66 83 ec 18          	sub    $0x18,%esp
+    1660:	66 83 ec 18          	sub    $0x18,%esp
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:111
     int descriptor_index = _fs_find_descriptor_number_by_name(file_name);
-    16ce:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
-    16d4:	66 e8 20 fd ff ff    	calll  13fa <_fs_find_descriptor_number_by_name>
+    1664:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
+    166a:	66 e8 20 fd ff ff    	calll  1390 <_fs_find_descriptor_number_by_name>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:112
     _fs_show_file_by_descriptor_number(descriptor_index);
-    16da:	66 0f b7 c0          	movzwl %ax,%eax
-    16de:	67 66 89 04 24       	mov    %eax,(%esp)
-    16e3:	66 e8 e5 fd ff ff    	calll  14ce <_fs_show_file_by_descriptor_number>
+    1670:	66 0f b7 c0          	movzwl %ax,%eax
+    1674:	67 66 89 04 24       	mov    %eax,(%esp)
+    1679:	66 e8 e5 fd ff ff    	calll  1464 <_fs_show_file_by_descriptor_number>
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:114
     return ;
 }
-    16e9:	66 83 c4 1c          	add    $0x1c,%esp
-    16ed:	66 c3                	retl   
+    167f:	66 83 c4 1c          	add    $0x1c,%esp
+    1683:	66 c3                	retl   
 
-000016ef <fs_show_floppy_infomation>:
+00001685 <fs_show_floppy_infomation>:
 fs_show_floppy_infomation():
 /mnt/e/code/my_operating_system/os/kernel/../lib/fsystem.c:117
 
 
 void fs_show_floppy_infomation(){
-    16ef:	66 f3 c3             	repz retl 
+    1685:	66 f3 c3             	repz retl 
 
-000016f2 <move_name>:
+00001688 <move_name>:
 move_name():
 /mnt/e/code/my_operating_system/os/kernel/../lib/style.c:9
 
@@ -3462,17 +3422,17 @@ void move_name(){
     // text_line 0-79
     // text_line[80]
     u16 last_char = text_line[79];
-    16f2:	66 0f b7 0e 9e 0f    	movzwl 0xf9e,%ecx
+    1688:	66 0f b7 0e 9e 0f    	movzwl 0xf9e,%ecx
 /mnt/e/code/my_operating_system/os/kernel/../lib/style.c:10
     for (int i =78; i >= 0; i--){
-    16f8:	66 b8 4e 00 00 00    	mov    $0x4e,%eax
-    16fe:	eb 16                	jmp    1716 <move_name+0x24>
+    168e:	66 b8 4e 00 00 00    	mov    $0x4e,%eax
+    1694:	eb 16                	jmp    16ac <move_name+0x24>
 /mnt/e/code/my_operating_system/os/kernel/../lib/style.c:11 (discriminator 3)
         text_line[i+1] = text_line[i];
-    1700:	67 66 0f b7 94 00 00 	movzwl 0xf00(%eax,%eax,1),%edx
-    1707:	0f 00 00 
-    170a:	67 89 94 00 02 0f 00 	mov    %dx,0xf02(%eax,%eax,1)
-    1711:	00 
+    1696:	67 66 0f b7 94 00 00 	movzwl 0xf00(%eax,%eax,1),%edx
+    169d:	0f 00 00 
+    16a0:	67 89 94 00 02 0f 00 	mov    %dx,0xf02(%eax,%eax,1)
+    16a7:	00 
 /mnt/e/code/my_operating_system/os/kernel/../lib/style.c:10 (discriminator 3)
 void move_name(){
     u16 *text_line = 1920*2;
@@ -3480,13 +3440,13 @@ void move_name(){
     // text_line[80]
     u16 last_char = text_line[79];
     for (int i =78; i >= 0; i--){
-    1712:	66 83 e8 01          	sub    $0x1,%eax
+    16a8:	66 83 e8 01          	sub    $0x1,%eax
 /mnt/e/code/my_operating_system/os/kernel/../lib/style.c:10 (discriminator 1)
-    1716:	66 85 c0             	test   %eax,%eax
-    1719:	79 e5                	jns    1700 <move_name+0xe>
+    16ac:	66 85 c0             	test   %eax,%eax
+    16af:	79 e5                	jns    1696 <move_name+0xe>
 /mnt/e/code/my_operating_system/os/kernel/../lib/style.c:13
         text_line[i+1] = text_line[i];
     }
     text_line[0] = last_char;
-    171b:	89 0e 00 0f          	mov    %cx,0xf00
-    171f:	66 c3                	retl   
+    16b1:	89 0e 00 0f          	mov    %cx,0xf00
+    16b5:	66 c3                	retl   

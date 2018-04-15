@@ -11,24 +11,10 @@ void test_system_call();
 int a;
 int cstart(){
     init_fsystem();
-    install_system_call(2, test_system_call);
     clean_screen();
     set_cursor(0);
-
-    a = get_cursor();
-
-    set_cursor(0);
-    set_cursor(1);
-    set_cursor(2);
-    set_cursor(3);
-    set_cursor(4);
-    set_cursor(345);
-
-
+    // install_system_call(2, test_system_call);
     // while (1){}
-
-
-
     return 0;
 }
 
