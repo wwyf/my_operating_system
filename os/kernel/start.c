@@ -15,6 +15,7 @@ int cstart(){
     // 将光标设置为0 TODO:
     set_cursor(0);
     // install_system_call(2, test_system_call);
+    fs_load_by_name("test_a.bin", 0x5000);
     // while (1){}
     return 0;
 }
