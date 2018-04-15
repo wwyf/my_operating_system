@@ -17,10 +17,10 @@ int cstart(){
     set_cursor(0);
     // install_system_call(2, test_system_call);
     fs_load_by_name("test_a.bin", 0x2000, 0x0000);
-    fs_load_by_name("test_b.bin", 0x2500, 0x0000);
+    fs_load_by_name("test_b.bin", 0x3000, 0x0000);
     // while (1){}
     init_process(0, 0x2000);
-    init_process(1, 0x2500);
+    init_process(1, 0x3000);
     cur_process_index = 0;
     cur_process = &process_table[cur_process_index];
     return 0;

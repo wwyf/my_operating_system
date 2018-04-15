@@ -482,10 +482,10 @@ int cstart(){
      2dd:	66 68 06 18 00 00    	pushl  $0x1806
      2e3:	66 e8 c5 07 00 00    	calll  aae <fs_load_by_name>
 /mnt/e/code/my_operating_system/os/kernel/start.c:20
-    fs_load_by_name("test_b.bin", 0x2500, 0x0000);
+    fs_load_by_name("test_b.bin", 0x3000, 0x0000);
      2e9:	66 83 c4 0c          	add    $0xc,%esp
      2ed:	66 6a 00             	pushl  $0x0
-     2f0:	66 68 00 25 00 00    	pushl  $0x2500
+     2f0:	66 68 00 30 00 00    	pushl  $0x3000
      2f6:	66 68 11 18 00 00    	pushl  $0x1811
      2fc:	66 e8 ac 07 00 00    	calll  aae <fs_load_by_name>
 /mnt/e/code/my_operating_system/os/kernel/start.c:22
@@ -496,9 +496,9 @@ int cstart(){
      30c:	66 6a 00             	pushl  $0x0
      30f:	66 e8 e1 fe ff ff    	calll  1f6 <init_process>
 /mnt/e/code/my_operating_system/os/kernel/start.c:23
-    init_process(1, 0x2500);
+    init_process(1, 0x3000);
      315:	66 83 c4 08          	add    $0x8,%esp
-     319:	66 68 00 25 00 00    	pushl  $0x2500
+     319:	66 68 00 30 00 00    	pushl  $0x3000
      31f:	66 6a 01             	pushl  $0x1
      322:	66 e8 ce fe ff ff    	calll  1f6 <init_process>
 /mnt/e/code/my_operating_system/os/kernel/start.c:24
