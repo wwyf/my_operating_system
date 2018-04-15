@@ -13,8 +13,12 @@ KERNEL_RUN_TIME = ../include/kernel_run_time.a
 
 everthing : $(objects) $(BIN_FILES)
 
-$(KERNEL_RUN_TIME) $(C_RUN_TIME):
+$(C_RUN_TIME):
 	cd lib && make all
+	cd ..
+
+$(KERNEL_RUN_TIME):
+	cd service && make all
 	cd ..
 
 $(BOOT)/boot.bin  $(BOOT)/root.bin $(BOOT)/fat.bin :

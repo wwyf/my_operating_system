@@ -1017,7 +1017,7 @@ void tty_scroll_screen(){
 
 000006f7 <init_fsystem>:
 init_fsystem():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:14
+/mnt/e/code/my_operating_system/os/service/fsystem.c:14
 FileDescriptor root[56];
 u16 root_sector;
 u16 first_cluster_by_sector;
@@ -1025,16 +1025,16 @@ u16 cluster2sector;
 
 void init_fsystem(){
      6f7:	66 83 ec 0c          	sub    $0xc,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:15
+/mnt/e/code/my_operating_system/os/service/fsystem.c:15
     cluster2sector = 1;
      6fb:	c7 06 80 2b 01 00    	movw   $0x1,0x2b80
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:16
+/mnt/e/code/my_operating_system/os/service/fsystem.c:16
     root_sector = 37;
      701:	c7 06 60 20 25 00    	movw   $0x25,0x2060
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:17
+/mnt/e/code/my_operating_system/os/service/fsystem.c:17
     first_cluster_by_sector = root_sector + 1;  
      707:	c7 06 82 2b 26 00    	movw   $0x26,0x2b82
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:18
+/mnt/e/code/my_operating_system/os/service/fsystem.c:18
     read_n_sector(root_sector,1, 0x1000, root);
      70d:	66 b8 80 24 00 00    	mov    $0x2480,%eax
      713:	66 0f b7 c0          	movzwl %ax,%eax
@@ -1043,7 +1043,7 @@ void init_fsystem(){
      71f:	66 6a 01             	pushl  $0x1
      722:	66 6a 25             	pushl  $0x25
      725:	66 e8 ba 0b 00 00    	calll  12e5 <read_n_sector>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:19
+/mnt/e/code/my_operating_system/os/service/fsystem.c:19
     read_n_sector(1,2,0x1000, FAT_table);// 这个会覆盖掉root吗？
      72b:	66 b8 80 20 00 00    	mov    $0x2080,%eax
      731:	66 0f b7 c0          	movzwl %ax,%eax
@@ -1052,7 +1052,7 @@ void init_fsystem(){
      73d:	66 6a 02             	pushl  $0x2
      740:	66 6a 01             	pushl  $0x1
      743:	66 e8 9c 0b 00 00    	calll  12e5 <read_n_sector>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:27
+/mnt/e/code/my_operating_system/os/service/fsystem.c:27
     // puti(FAT_table[0]);
     // puti(root[0].cluster_number);
     // puts(&root[0], 10);
@@ -1064,31 +1064,31 @@ void init_fsystem(){
 
 0000074f <_fs_find_descriptor_number_by_name>:
 _fs_find_descriptor_number_by_name():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:29
+/mnt/e/code/my_operating_system/os/service/fsystem.c:29
 
 u16 _fs_find_descriptor_number_by_name(char * file_name){
      74f:	66 57                	push   %edi
      751:	66 56                	push   %esi
      753:	66 53                	push   %ebx
      755:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:30
+/mnt/e/code/my_operating_system/os/service/fsystem.c:30
     int file_name_length = strlen(file_name);
      75b:	66 83 ec 0c          	sub    $0xc,%esp
      75f:	66 57                	push   %edi
      761:	66 e8 c5 0d 00 00    	calll  152c <strlen>
      767:	66 89 c6             	mov    %eax,%esi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:31
+/mnt/e/code/my_operating_system/os/service/fsystem.c:31
     if (file_name_length >= 11) file_name_length = 11;
      76a:	66 83 c4 10          	add    $0x10,%esp
      76e:	66 83 f8 0a          	cmp    $0xa,%eax
      772:	7e 06                	jle    77a <_fs_find_descriptor_number_by_name+0x2b>
      774:	66 be 0b 00 00 00    	mov    $0xb,%esi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:33
+/mnt/e/code/my_operating_system/os/service/fsystem.c:33
     // TODO:这里的10是文件数，需要使用常量代替
     for (int i = 0; i < 10; i++){
      77a:	66 bb 00 00 00 00    	mov    $0x0,%ebx
      780:	eb 2f                	jmp    7b1 <_fs_find_descriptor_number_by_name+0x62>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:34
+/mnt/e/code/my_operating_system/os/service/fsystem.c:34
         if (!strncmp(&root[i], file_name, file_name_length)){
      782:	66 89 d8             	mov    %ebx,%eax
      785:	66 c1 e0 05          	shl    $0x5,%eax
@@ -1101,11 +1101,11 @@ u16 _fs_find_descriptor_number_by_name(char * file_name){
      79f:	66 83 c4 10          	add    $0x10,%esp
      7a3:	66 85 c0             	test   %eax,%eax
      7a6:	75 05                	jne    7ad <_fs_find_descriptor_number_by_name+0x5e>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:35
+/mnt/e/code/my_operating_system/os/service/fsystem.c:35
             return i;
      7a8:	66 89 d8             	mov    %ebx,%eax
      7ab:	eb 10                	jmp    7bd <_fs_find_descriptor_number_by_name+0x6e>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:33 (discriminator 2)
+/mnt/e/code/my_operating_system/os/service/fsystem.c:33 (discriminator 2)
 
 u16 _fs_find_descriptor_number_by_name(char * file_name){
     int file_name_length = strlen(file_name);
@@ -1113,17 +1113,17 @@ u16 _fs_find_descriptor_number_by_name(char * file_name){
     // TODO:这里的10是文件数，需要使用常量代替
     for (int i = 0; i < 10; i++){
      7ad:	66 83 c3 01          	add    $0x1,%ebx
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:33 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/fsystem.c:33 (discriminator 1)
      7b1:	66 83 fb 09          	cmp    $0x9,%ebx
      7b5:	7e cb                	jle    782 <_fs_find_descriptor_number_by_name+0x33>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:38
+/mnt/e/code/my_operating_system/os/service/fsystem.c:38
         if (!strncmp(&root[i], file_name, file_name_length)){
             return i;
         }
     }
     return -1;
      7b7:	66 b8 ff ff ff ff    	mov    $0xffffffff,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:39
+/mnt/e/code/my_operating_system/os/service/fsystem.c:39
 }
      7bd:	66 5b                	pop    %ebx
      7bf:	66 5e                	pop    %esi
@@ -1132,22 +1132,22 @@ u16 _fs_find_descriptor_number_by_name(char * file_name){
 
 000007c5 <_fs_find_cluster_code_by_name>:
 _fs_find_cluster_code_by_name():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:41
+/mnt/e/code/my_operating_system/os/service/fsystem.c:41
 
 u16 _fs_find_cluster_code_by_name(char * file_name){
      7c5:	66 83 ec 18          	sub    $0x18,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:42
+/mnt/e/code/my_operating_system/os/service/fsystem.c:42
     int index = _fs_find_descriptor_number_by_name(file_name);
      7c9:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
      7cf:	66 e8 7a ff ff ff    	calll  74f <_fs_find_descriptor_number_by_name>
      7d5:	66 0f b7 c0          	movzwl %ax,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:44
+/mnt/e/code/my_operating_system/os/service/fsystem.c:44
     if (index != -1)
         return root[index].cluster_code;
      7d9:	66 c1 e0 05          	shl    $0x5,%eax
      7dd:	67 66 0f b7 80 9a 24 	movzwl 0x249a(%eax),%eax
      7e4:	00 00 
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:46
+/mnt/e/code/my_operating_system/os/service/fsystem.c:46
     return 0;
 }
      7e6:	66 83 c4 1c          	add    $0x1c,%esp
@@ -1155,29 +1155,29 @@ u16 _fs_find_cluster_code_by_name(char * file_name){
 
 000007ec <_fs_get_file_size_by_cluster_code>:
 _fs_get_file_size_by_cluster_code():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:48
+/mnt/e/code/my_operating_system/os/service/fsystem.c:48
 
 u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
      7ec:	67 66 0f b7 54 24 04 	movzwl 0x4(%esp),%edx
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:49
+/mnt/e/code/my_operating_system/os/service/fsystem.c:49
     int size = 0;
      7f3:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:50
+/mnt/e/code/my_operating_system/os/service/fsystem.c:50
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
      7f9:	eb 1b                	jmp    816 <loader_code_segment+0x16>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:51
+/mnt/e/code/my_operating_system/os/service/fsystem.c:51
         size += 512*cluster2sector;
      7fb:	66 0f b7 0e 80 2b    	movzwl 0x2b80,%ecx
      801:	66 c1 e1 09          	shl    $0x9,%ecx
      805:	66 01 c8             	add    %ecx,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:52
+/mnt/e/code/my_operating_system/os/service/fsystem.c:52
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
      808:	66 0f b7 d2          	movzwl %dx,%edx
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:53
+/mnt/e/code/my_operating_system/os/service/fsystem.c:53
         cluster_code = FAT_table[cluster_code];
      80c:	67 66 0f b7 94 12 80 	movzwl 0x2080(%edx,%edx,1),%edx
      813:	20 00 00 
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:50
+/mnt/e/code/my_operating_system/os/service/fsystem.c:50
     return 0;
 }
 
@@ -1187,7 +1187,7 @@ u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
      816:	67 66 8d 4a fe       	lea    -0x2(%edx),%ecx
      81b:	83 f9 ed             	cmp    $0xffed,%cx
      81e:	76 db                	jbe    7fb <_fs_get_file_size_by_cluster_code+0xf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:56
+/mnt/e/code/my_operating_system/os/service/fsystem.c:56
         size += 512*cluster2sector;
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
         cluster_code = FAT_table[cluster_code];
@@ -1198,13 +1198,13 @@ u16 _fs_get_file_size_by_cluster_code(u16 cluster_code){
 
 00000823 <_fs_show_file_by_descriptor_number>:
 _fs_show_file_by_descriptor_number():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:58
+/mnt/e/code/my_operating_system/os/service/fsystem.c:58
 
 void _fs_show_file_by_descriptor_number(u16 index){
      823:	66 56                	push   %esi
      825:	66 53                	push   %ebx
      827:	66 83 ec 08          	sub    $0x8,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:59
+/mnt/e/code/my_operating_system/os/service/fsystem.c:59
     int cluster_code = root[index].cluster_code;
      82b:	67 66 0f b7 44 24 14 	movzwl 0x14(%esp),%eax
      832:	66 89 c6             	mov    %eax,%esi
@@ -1212,19 +1212,19 @@ void _fs_show_file_by_descriptor_number(u16 index){
      839:	67 66 0f b7 9e 9a 24 	movzwl 0x249a(%esi),%ebx
      840:	00 00 
      842:	66 81 c6 80 24 00 00 	add    $0x2480,%esi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:60
+/mnt/e/code/my_operating_system/os/service/fsystem.c:60
     printf("%d, %d\n" , index,cluster_code);
      849:	66 53                	push   %ebx
      84b:	66 50                	push   %eax
      84d:	66 68 a5 16 00 00    	pushl  $0x16a5
      853:	66 e8 7e 08 00 00    	calll  10d7 <printf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:62
+/mnt/e/code/my_operating_system/os/service/fsystem.c:62
     printf("%s   | %d byte |", (char *)&root[index],
                              _fs_get_file_size_by_cluster_code(cluster_code));
      859:	67 66 89 1c 24       	mov    %ebx,(%esp)
      85e:	66 e8 88 ff ff ff    	calll  7ec <_fs_get_file_size_by_cluster_code>
      864:	66 83 c4 0c          	add    $0xc,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:61
+/mnt/e/code/my_operating_system/os/service/fsystem.c:61
 }
 
 void _fs_show_file_by_descriptor_number(u16 index){
@@ -1236,23 +1236,23 @@ void _fs_show_file_by_descriptor_number(u16 index){
      86e:	66 56                	push   %esi
      870:	66 68 ad 16 00 00    	pushl  $0x16ad
      876:	66 e8 5b 08 00 00    	calll  10d7 <printf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:63
+/mnt/e/code/my_operating_system/os/service/fsystem.c:63
                              _fs_get_file_size_by_cluster_code(cluster_code));
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
      87c:	66 83 c4 10          	add    $0x10,%esp
      880:	eb 20                	jmp    8a2 <_fs_show_file_by_descriptor_number+0x7f>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:64
+/mnt/e/code/my_operating_system/os/service/fsystem.c:64
         printf("-%d", cluster_code);
      882:	66 83 ec 08          	sub    $0x8,%esp
      886:	66 53                	push   %ebx
      888:	66 68 be 16 00 00    	pushl  $0x16be
      88e:	66 e8 43 08 00 00    	calll  10d7 <printf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:65
+/mnt/e/code/my_operating_system/os/service/fsystem.c:65
         cluster_code = FAT_table[cluster_code];
      894:	67 66 0f b7 9c 1b 80 	movzwl 0x2080(%ebx,%ebx,1),%ebx
      89b:	20 00 00 
      89e:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:63
+/mnt/e/code/my_operating_system/os/service/fsystem.c:63
 void _fs_show_file_by_descriptor_number(u16 index){
     int cluster_code = root[index].cluster_code;
     printf("%d, %d\n" , index,cluster_code);
@@ -1262,7 +1262,7 @@ void _fs_show_file_by_descriptor_number(u16 index){
      8a2:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
      8a7:	66 3d ed ff 00 00    	cmp    $0xffed,%eax
      8ad:	76 d3                	jbe    882 <_fs_show_file_by_descriptor_number+0x5f>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:67
+/mnt/e/code/my_operating_system/os/service/fsystem.c:67
         printf("-%d", cluster_code);
         cluster_code = FAT_table[cluster_code];
     }
@@ -1270,7 +1270,7 @@ void _fs_show_file_by_descriptor_number(u16 index){
      8af:	66 83 ec 0c          	sub    $0xc,%esp
      8b3:	66 68 c2 16 00 00    	pushl  $0x16c2
      8b9:	66 e8 18 08 00 00    	calll  10d7 <printf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:69
+/mnt/e/code/my_operating_system/os/service/fsystem.c:69
     return ;
 }
      8bf:	66 83 c4 14          	add    $0x14,%esp
@@ -1280,7 +1280,7 @@ void _fs_show_file_by_descriptor_number(u16 index){
 
 000008c9 <_fs_load_by_cluster_code>:
 _fs_load_by_cluster_code():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:71
+/mnt/e/code/my_operating_system/os/service/fsystem.c:71
 
 u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
      8c9:	66 57                	push   %edi
@@ -1288,26 +1288,26 @@ u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
      8cd:	66 53                	push   %ebx
      8cf:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
      8d5:	67 66 0f b7 5c 24 10 	movzwl 0x10(%esp),%ebx
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:72
+/mnt/e/code/my_operating_system/os/service/fsystem.c:72
     int size = 0;
      8dc:	66 bf 00 00 00 00    	mov    $0x0,%edi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:73
+/mnt/e/code/my_operating_system/os/service/fsystem.c:73
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
      8e2:	eb 5b                	jmp    93f <_fs_load_by_cluster_code+0x76>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:74
+/mnt/e/code/my_operating_system/os/service/fsystem.c:74
         size += 512*cluster2sector;
      8e4:	66 0f b7 16 80 2b    	movzwl 0x2b80,%edx
      8ea:	66 89 d0             	mov    %edx,%eax
      8ed:	66 c1 e0 09          	shl    $0x9,%eax
      8f1:	66 01 c7             	add    %eax,%edi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:75
+/mnt/e/code/my_operating_system/os/service/fsystem.c:75
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
      8f4:	66 0f b7 0e 82 2b    	movzwl 0x2b82,%ecx
      8fa:	66 0f b7 db          	movzwl %bx,%ebx
      8fe:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
      903:	66 0f af c2          	imul   %edx,%eax
      907:	66 01 c8             	add    %ecx,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:76
+/mnt/e/code/my_operating_system/os/service/fsystem.c:76
         read_n_sector(sector_number, cluster2sector, 0x1000, program);
      90a:	66 0f b7 ce          	movzwl %si,%ecx
      90e:	66 51                	push   %ecx
@@ -1316,17 +1316,17 @@ u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
      918:	66 0f b7 c0          	movzwl %ax,%eax
      91c:	66 50                	push   %eax
      91e:	66 e8 c1 09 00 00    	calll  12e5 <read_n_sector>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:77
+/mnt/e/code/my_operating_system/os/service/fsystem.c:77
         program = program+cluster2sector*512;
      924:	66 0f b7 06 80 2b    	movzwl 0x2b80,%eax
      92a:	66 c1 e0 09          	shl    $0x9,%eax
      92e:	66 01 c6             	add    %eax,%esi
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:78
+/mnt/e/code/my_operating_system/os/service/fsystem.c:78
         cluster_code = FAT_table[cluster_code];
      931:	67 66 0f b7 9c 1b 80 	movzwl 0x2080(%ebx,%ebx,1),%ebx
      938:	20 00 00 
      93b:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:73
+/mnt/e/code/my_operating_system/os/service/fsystem.c:73
     return ;
 }
 
@@ -1336,7 +1336,7 @@ u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
      93f:	67 66 8d 43 fe       	lea    -0x2(%ebx),%eax
      944:	83 f8 ed             	cmp    $0xffed,%ax
      947:	76 9b                	jbe    8e4 <_fs_load_by_cluster_code+0x1b>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:81
+/mnt/e/code/my_operating_system/os/service/fsystem.c:81
         read_n_sector(sector_number, cluster2sector, 0x1000, program);
         program = program+cluster2sector*512;
         cluster_code = FAT_table[cluster_code];
@@ -1351,22 +1351,22 @@ u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
 
 00000954 <fs_load_by_name>:
 fs_load_by_name():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:84
+/mnt/e/code/my_operating_system/os/service/fsystem.c:84
 
 
 u16 fs_load_by_name(char * file_name, void (*program)()){
      954:	66 83 ec 18          	sub    $0x18,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:85
+/mnt/e/code/my_operating_system/os/service/fsystem.c:85
     int cluster_code = _fs_find_cluster_code_by_name(file_name);
      958:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
      95e:	66 e8 61 fe ff ff    	calll  7c5 <_fs_find_cluster_code_by_name>
      964:	66 0f b7 c0          	movzwl %ax,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:86
+/mnt/e/code/my_operating_system/os/service/fsystem.c:86
     if (cluster_code){
      968:	66 83 c4 10          	add    $0x10,%esp
      96c:	66 85 c0             	test   %eax,%eax
      96f:	74 18                	je     989 <fs_load_by_name+0x35>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:87
+/mnt/e/code/my_operating_system/os/service/fsystem.c:87
         return _fs_load_by_cluster_code(cluster_code, program);
      971:	66 83 ec 08          	sub    $0x8,%esp
      975:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
@@ -1374,12 +1374,12 @@ u16 fs_load_by_name(char * file_name, void (*program)()){
      97d:	66 e8 46 ff ff ff    	calll  8c9 <_fs_load_by_cluster_code>
      983:	66 83 c4 10          	add    $0x10,%esp
      987:	eb 06                	jmp    98f <fs_load_by_name+0x3b>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:90
+/mnt/e/code/my_operating_system/os/service/fsystem.c:90
     }
     else {
         return 0;
      989:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:92
+/mnt/e/code/my_operating_system/os/service/fsystem.c:92
     }
 }
      98f:	66 83 c4 0c          	add    $0xc,%esp
@@ -1387,57 +1387,57 @@ u16 fs_load_by_name(char * file_name, void (*program)()){
 
 00000995 <fs_get_file_size>:
 fs_get_file_size():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:95
+/mnt/e/code/my_operating_system/os/service/fsystem.c:95
 
 
 u16 fs_get_file_size(char * file_name){
      995:	66 83 ec 18          	sub    $0x18,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:96
+/mnt/e/code/my_operating_system/os/service/fsystem.c:96
     int cluster_code = _fs_find_cluster_code_by_name(file_name);
      999:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
      99f:	66 e8 20 fe ff ff    	calll  7c5 <_fs_find_cluster_code_by_name>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:97
+/mnt/e/code/my_operating_system/os/service/fsystem.c:97
     return _fs_get_file_size_by_cluster_code(cluster_code);
      9a5:	66 0f b7 c0          	movzwl %ax,%eax
      9a9:	67 66 89 04 24       	mov    %eax,(%esp)
      9ae:	66 e8 38 fe ff ff    	calll  7ec <_fs_get_file_size_by_cluster_code>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:98
+/mnt/e/code/my_operating_system/os/service/fsystem.c:98
 }
      9b4:	66 83 c4 1c          	add    $0x1c,%esp
      9b8:	66 c3                	retl   
 
 000009ba <fs_show_root_file_table>:
 fs_show_root_file_table():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:100
+/mnt/e/code/my_operating_system/os/service/fsystem.c:100
 
 void fs_show_root_file_table(){
      9ba:	66 53                	push   %ebx
      9bc:	66 83 ec 08          	sub    $0x8,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:101
+/mnt/e/code/my_operating_system/os/service/fsystem.c:101
     printf("%s   | %s | %s\n", "file name ", "file size", "cluster");
      9c0:	66 68 c6 16 00 00    	pushl  $0x16c6
      9c6:	66 68 ce 16 00 00    	pushl  $0x16ce
      9cc:	66 68 d8 16 00 00    	pushl  $0x16d8
      9d2:	66 68 e3 16 00 00    	pushl  $0x16e3
      9d8:	66 e8 f9 06 00 00    	calll  10d7 <printf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:102
+/mnt/e/code/my_operating_system/os/service/fsystem.c:102
     printf("------------------------------------\n\r");
      9de:	67 66 c7 04 24 50 1f 	movl   $0x1f50,(%esp)
      9e5:	00 00 
      9e7:	66 e8 ea 06 00 00    	calll  10d7 <printf>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:104
+/mnt/e/code/my_operating_system/os/service/fsystem.c:104
     int file_number = 9;// TODO:文件数量需要设置！
     for(int i = 0; i < file_number; i++){
      9ed:	66 83 c4 10          	add    $0x10,%esp
      9f1:	66 bb 00 00 00 00    	mov    $0x0,%ebx
      9f7:	eb 18                	jmp    a11 <fs_show_root_file_table+0x57>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:105 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/fsystem.c:105 (discriminator 3)
         _fs_show_file_by_descriptor_number(i);
      9f9:	66 83 ec 0c          	sub    $0xc,%esp
      9fd:	66 0f b7 c3          	movzwl %bx,%eax
      a01:	66 50                	push   %eax
      a03:	66 e8 1a fe ff ff    	calll  823 <_fs_show_file_by_descriptor_number>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:104 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/fsystem.c:104 (discriminator 3)
 
 void fs_show_root_file_table(){
     printf("%s   | %s | %s\n", "file name ", "file size", "cluster");
@@ -1446,10 +1446,10 @@ void fs_show_root_file_table(){
     for(int i = 0; i < file_number; i++){
      a09:	66 83 c3 01          	add    $0x1,%ebx
      a0d:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:104 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/fsystem.c:104 (discriminator 1)
      a11:	66 83 fb 08          	cmp    $0x8,%ebx
      a15:	7e e2                	jle    9f9 <fs_show_root_file_table+0x3f>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:108
+/mnt/e/code/my_operating_system/os/service/fsystem.c:108
         _fs_show_file_by_descriptor_number(i);
     }
     return ;
@@ -1460,20 +1460,20 @@ void fs_show_root_file_table(){
 
 00000a1f <fs_show_file_by_name>:
 fs_show_file_by_name():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:110
+/mnt/e/code/my_operating_system/os/service/fsystem.c:110
 
 void fs_show_file_by_name(char * file_name){
      a1f:	66 83 ec 18          	sub    $0x18,%esp
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:111
+/mnt/e/code/my_operating_system/os/service/fsystem.c:111
     int descriptor_index = _fs_find_descriptor_number_by_name(file_name);
      a23:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
      a29:	66 e8 20 fd ff ff    	calll  74f <_fs_find_descriptor_number_by_name>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:112
+/mnt/e/code/my_operating_system/os/service/fsystem.c:112
     _fs_show_file_by_descriptor_number(descriptor_index);
      a2f:	66 0f b7 c0          	movzwl %ax,%eax
      a33:	67 66 89 04 24       	mov    %eax,(%esp)
      a38:	66 e8 e5 fd ff ff    	calll  823 <_fs_show_file_by_descriptor_number>
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:114
+/mnt/e/code/my_operating_system/os/service/fsystem.c:114
     return ;
 }
      a3e:	66 83 c4 1c          	add    $0x1c,%esp
@@ -1481,7 +1481,7 @@ void fs_show_file_by_name(char * file_name){
 
 00000a44 <fs_show_floppy_infomation>:
 fs_show_floppy_infomation():
-/mnt/e/code/my_operating_system/os/lib/../lib/fsystem.c:117
+/mnt/e/code/my_operating_system/os/service/fsystem.c:117
 
 
 void fs_show_floppy_infomation(){
@@ -1489,7 +1489,7 @@ void fs_show_floppy_infomation(){
 
 00000a47 <_put_char>:
 _put_char():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:5
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:5
 #include "../include/basic.h"
 #include "../include/type.h"
 #include "../include/string.h"
@@ -1497,12 +1497,12 @@ _put_char():
 void _put_char(char c, u16 cursor_index){
      a47:	66 53                	push   %ebx
      a49:	66 83 ec 10          	sub    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:7
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:7
     int _address = 0xb8000;
     int _offset = cursor_index * 2;
      a4d:	67 66 0f b7 5c 24 1c 	movzwl 0x1c(%esp),%ebx
      a54:	66 01 db             	add    %ebx,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:8
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:8
     write_memory_byte(_address+_offset, c);
      a57:	67 66 8d 83 00 80 0b 	lea    0xb8000(%ebx),%eax
      a5e:	00 
@@ -1510,14 +1510,14 @@ void _put_char(char c, u16 cursor_index){
      a66:	66 52                	push   %edx
      a68:	66 50                	push   %eax
      a6a:	66 e8 9c 09 00 00    	calll  140c <write_memory_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:9
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:9
     write_memory_byte(_address+_offset+1, 0x1f);
      a70:	66 81 c3 01 80 0b 00 	add    $0xb8001,%ebx
      a77:	66 83 c4 08          	add    $0x8,%esp
      a7b:	66 6a 1f             	pushl  $0x1f
      a7e:	66 53                	push   %ebx
      a80:	66 e8 86 09 00 00    	calll  140c <write_memory_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:11
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:11
     return ;
 }
      a86:	66 83 c4 18          	add    $0x18,%esp
@@ -1526,26 +1526,26 @@ void _put_char(char c, u16 cursor_index){
 
 00000a8e <set_cursor>:
 set_cursor():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:13
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:13
 
 void set_cursor(u16 cursor_index){
      a8e:	66 56                	push   %esi
      a90:	66 53                	push   %ebx
      a92:	66 83 ec 0c          	sub    $0xc,%esp
      a96:	67 66 8b 5c 24 18    	mov    0x18(%esp),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:16
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:16
     // short cursor_index = 80 * row + column;     // 计算光标寄存器的值
     u8 low_eight = cursor_index; // 取低八位，高位被截断
     u8 high_eight = cursor_index >> 8; // 取高八位
      a9c:	66 89 d8             	mov    %ebx,%eax
      a9f:	c1 e8 08             	shr    $0x8,%ax
      aa2:	66 89 c6             	mov    %eax,%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:17
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:17
     write_port_byte(0x3d4,0x0e);// 指定索引寄存器为光标寄存器的高八位
      aa5:	66 6a 0e             	pushl  $0xe
      aa8:	66 68 d4 03 00 00    	pushl  $0x3d4
      aae:	66 e8 0c 09 00 00    	calll  13c0 <write_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:18
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:18
     write_port_byte(0x3d5, high_eight);// 将光标索引高八位写入端口
      ab4:	66 83 c4 08          	add    $0x8,%esp
      ab8:	66 89 f0             	mov    %esi,%eax
@@ -1553,20 +1553,20 @@ void set_cursor(u16 cursor_index){
      abf:	66 56                	push   %esi
      ac1:	66 68 d5 03 00 00    	pushl  $0x3d5
      ac7:	66 e8 f3 08 00 00    	calll  13c0 <write_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:19
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:19
     write_port_byte(0x3d4,0x0f);// 指定索引寄存器为光标寄存器的低八位
      acd:	66 83 c4 08          	add    $0x8,%esp
      ad1:	66 6a 0f             	pushl  $0xf
      ad4:	66 68 d4 03 00 00    	pushl  $0x3d4
      ada:	66 e8 e0 08 00 00    	calll  13c0 <write_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:20
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:20
     write_port_byte(0x3d5, low_eight);// 将光标索引低八位写入端口
      ae0:	66 83 c4 08          	add    $0x8,%esp
      ae4:	66 0f b6 db          	movzbl %bl,%ebx
      ae8:	66 53                	push   %ebx
      aea:	66 68 d5 03 00 00    	pushl  $0x3d5
      af0:	66 e8 ca 08 00 00    	calll  13c0 <write_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:22
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:22
     return ;
 }
      af6:	66 83 c4 14          	add    $0x14,%esp
@@ -1576,42 +1576,42 @@ void set_cursor(u16 cursor_index){
 
 00000b00 <get_cursor>:
 get_cursor():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:24
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:24
 
 u16 get_cursor(){
      b00:	66 53                	push   %ebx
      b02:	66 83 ec 10          	sub    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:27
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:27
     u8 low_eight = 0, high_eight = 0;
     u16 cursor_index = 0;
     write_port_byte(0x3d4,0x0e);// 指定索引寄存器为光标寄存器的高八位
      b06:	66 6a 0e             	pushl  $0xe
      b09:	66 68 d4 03 00 00    	pushl  $0x3d4
      b0f:	66 e8 ab 08 00 00    	calll  13c0 <write_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:28
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:28
     high_eight = read_port_byte(0x3d5);// 将光标索引高八位写入端口
      b15:	67 66 c7 04 24 d5 03 	movl   $0x3d5,(%esp)
      b1c:	00 00 
      b1e:	66 e8 c4 08 00 00    	calll  13e8 <read_port_byte>
      b24:	66 89 c3             	mov    %eax,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:29
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:29
     write_port_byte(0x3d4,0x0f);// 指定索引寄存器为光标寄存器的低八位
      b27:	66 83 c4 08          	add    $0x8,%esp
      b2b:	66 6a 0f             	pushl  $0xf
      b2e:	66 68 d4 03 00 00    	pushl  $0x3d4
      b34:	66 e8 86 08 00 00    	calll  13c0 <write_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:30
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:30
     low_eight = read_port_byte(0x3d5);// 将光标索引低八位写入端口
      b3a:	67 66 c7 04 24 d5 03 	movl   $0x3d5,(%esp)
      b41:	00 00 
      b43:	66 e8 9f 08 00 00    	calll  13e8 <read_port_byte>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:32
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:32
     cursor_index = high_eight;
     cursor_index = (cursor_index << 8) + low_eight;
      b49:	66 c1 e3 08          	shl    $0x8,%ebx
      b4d:	66 0f b6 c0          	movzbl %al,%eax
      b51:	66 01 d8             	add    %ebx,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:34
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:34
     return cursor_index;
 }
      b54:	66 83 c4 18          	add    $0x18,%esp
@@ -1620,35 +1620,35 @@ u16 get_cursor(){
 
 00000b5c <putc>:
 putc():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:36
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:36
 
 void putc(char c){
      b5c:	66 57                	push   %edi
      b5e:	66 56                	push   %esi
      b60:	66 53                	push   %ebx
      b62:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:37
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:37
     u16 cursor_index = get_cursor();
      b68:	66 e8 92 ff ff ff    	calll  b00 <get_cursor>
      b6e:	66 89 c6             	mov    %eax,%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:38
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:38
     u16 row = cursor_index / 80;
      b71:	66 0f b7 d8          	movzwl %ax,%ebx
      b75:	66 69 db cd cc 00 00 	imul   $0xcccd,%ebx,%ebx
      b7c:	66 c1 eb 10          	shr    $0x10,%ebx
      b80:	c1 eb 06             	shr    $0x6,%bx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:40
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:40
     u16 col = cursor_index % 80;
     if (cursor_index >= 1920){
      b83:	3d 7f 07             	cmp    $0x77f,%ax
      b86:	76 0c                	jbe    b94 <putc+0x38>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:41
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:41
         scroll_screen();
      b88:	66 e8 fe 08 00 00    	calll  148c <scroll_screen>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:42
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:42
         cursor_index = 1840;
      b8e:	66 be 30 07 00 00    	mov    $0x730,%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:44
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:44
     }
     switch (c) {
      b94:	66 89 f8             	mov    %edi,%eax
@@ -1657,7 +1657,7 @@ void putc(char c){
      b9b:	3c 0d                	cmp    $0xd,%al
      b9d:	74 25                	je     bc4 <putc+0x68>
      b9f:	eb 45                	jmp    be6 <putc+0x8a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:46
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:46
         case '\n':
             set_cursor((row+1)*80); // 回车，移到下一行
      ba1:	66 83 ec 0c          	sub    $0xc,%esp
@@ -1667,11 +1667,11 @@ void putc(char c){
      bb2:	66 0f b7 c0          	movzwl %ax,%eax
      bb6:	66 50                	push   %eax
      bb8:	66 e8 d0 fe ff ff    	calll  a8e <set_cursor>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:47
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:47
             break;
      bbe:	66 83 c4 10          	add    $0x10,%esp
      bc2:	eb 52                	jmp    c16 <putc+0xba>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:49
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:49
         case '\r':
             set_cursor(row*80);    // 移到本行开头处
      bc4:	66 83 ec 0c          	sub    $0xc,%esp
@@ -1681,11 +1681,11 @@ void putc(char c){
      bd4:	66 0f b7 c0          	movzwl %ax,%eax
      bd8:	66 50                	push   %eax
      bda:	66 e8 ae fe ff ff    	calll  a8e <set_cursor>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:50
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:50
             break;
      be0:	66 83 c4 10          	add    $0x10,%esp
      be4:	eb 30                	jmp    c16 <putc+0xba>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:52
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:52
         default:
             _put_char(c, cursor_index);
      be6:	66 83 ec 08          	sub    $0x8,%esp
@@ -1695,16 +1695,16 @@ void putc(char c){
      bf3:	66 0f be f8          	movsbl %al,%edi
      bf7:	66 57                	push   %edi
      bf9:	66 e8 48 fe ff ff    	calll  a47 <_put_char>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:53
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:53
             set_cursor(cursor_index+1);
      bff:	66 83 c6 01          	add    $0x1,%esi
      c03:	66 0f b7 f6          	movzwl %si,%esi
      c07:	67 66 89 34 24       	mov    %esi,(%esp)
      c0c:	66 e8 7c fe ff ff    	calll  a8e <set_cursor>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:54
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:54
             break;
      c12:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:57
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:57
     }
     return ;
 }
@@ -1715,30 +1715,30 @@ void putc(char c){
 
 00000c1e <_putc>:
 _putc():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:59
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:59
 
 void _putc(char c){
      c1e:	66 56                	push   %esi
      c20:	66 53                	push   %ebx
      c22:	66 83 ec 04          	sub    $0x4,%esp
      c26:	67 66 8b 5c 24 10    	mov    0x10(%esp),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:60
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:60
     u16 cursor_index = get_cursor();
      c2c:	66 e8 ce fe ff ff    	calll  b00 <get_cursor>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:61
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:61
     u16 row = cursor_index / 80;
      c32:	66 0f b7 d0          	movzwl %ax,%edx
      c36:	66 69 d2 cd cc 00 00 	imul   $0xcccd,%edx,%edx
      c3d:	66 c1 ea 10          	shr    $0x10,%edx
      c41:	c1 ea 06             	shr    $0x6,%dx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:62
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:62
     u16 col = cursor_index % 80;
      c44:	67 66 8d 34 92       	lea    (%edx,%edx,4),%esi
      c49:	66 c1 e6 04          	shl    $0x4,%esi
      c4d:	66 89 f1             	mov    %esi,%ecx
      c50:	66 89 c6             	mov    %eax,%esi
      c53:	66 29 ce             	sub    %ecx,%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:63
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:63
     switch (c) {
      c56:	80 fb 0a             	cmp    $0xa,%bl
      c59:	74 07                	je     c62 <_putc+0x44>
@@ -1746,7 +1746,7 @@ void _putc(char c){
      c5e:	74 2b                	je     c8b <_putc+0x6d>
      c60:	eb 4b                	jmp    cad <_putc+0x8f>
      c62:	66 89 f1             	mov    %esi,%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:65
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:65
         case '\n':
             set_cursor((row+1)*80+col); // 回车，移到下一行
      c65:	66 83 ec 0c          	sub    $0xc,%esp
@@ -1757,11 +1757,11 @@ void _putc(char c){
      c79:	66 0f b7 c9          	movzwl %cx,%ecx
      c7d:	66 51                	push   %ecx
      c7f:	66 e8 09 fe ff ff    	calll  a8e <set_cursor>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:66
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:66
             break;
      c85:	66 83 c4 10          	add    $0x10,%esp
      c89:	eb 3c                	jmp    cc7 <_putc+0xa9>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:68
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:68
         case '\r':
             set_cursor(row*80);    // 移到本行开头处
      c8b:	66 83 ec 0c          	sub    $0xc,%esp
@@ -1771,11 +1771,11 @@ void _putc(char c){
      c9b:	66 0f b7 c0          	movzwl %ax,%eax
      c9f:	66 50                	push   %eax
      ca1:	66 e8 e7 fd ff ff    	calll  a8e <set_cursor>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:69
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:69
             break;
      ca7:	66 83 c4 10          	add    $0x10,%esp
      cab:	eb 1a                	jmp    cc7 <_putc+0xa9>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:71
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:71
         default:
             _put_char(c, cursor_index);
      cad:	66 83 ec 08          	sub    $0x8,%esp
@@ -1784,11 +1784,11 @@ void _putc(char c){
      cb7:	66 0f be db          	movsbl %bl,%ebx
      cbb:	66 53                	push   %ebx
      cbd:	66 e8 84 fd ff ff    	calll  a47 <_put_char>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:73
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:73
             // set_cursor(cursor_index+1);
             break;
      cc3:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:76
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:76
     }
     return ;
 }
@@ -1799,21 +1799,21 @@ void _putc(char c){
 
 00000cd1 <puti>:
 puti():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:78
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:78
 
 void puti(u32 n){
      cd1:	66 56                	push   %esi
      cd3:	66 53                	push   %ebx
      cd5:	66 83 ec 44          	sub    $0x44,%esp
      cd9:	67 66 8b 4c 24 50    	mov    0x50(%esp),%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:79
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:79
     int len = 0;
      cdf:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:81
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:81
     int num[INT_LENGTH];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
     while (n != 0){
      ce5:	eb 2d                	jmp    d14 <puti+0x43>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:82
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:82
         num[len] = n % 10;
      ce7:	66 ba cd cc cc cc    	mov    $0xcccccccd,%edx
      ced:	66 89 c8             	mov    %ecx,%eax
@@ -1824,13 +1824,13 @@ void puti(u32 n){
      cff:	67 66 8d 04 12       	lea    (%edx,%edx,1),%eax
      d04:	66 29 c1             	sub    %eax,%ecx
      d07:	67 66 89 4c 9c 04    	mov    %ecx,0x4(%esp,%ebx,4)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:83
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:83
         n = n / 10;
      d0d:	66 89 f1             	mov    %esi,%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:84
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:84
         len++;
      d10:	66 83 c3 01          	add    $0x1,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:81
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:81
 }
 
 void puti(u32 n){
@@ -1839,7 +1839,7 @@ void puti(u32 n){
     while (n != 0){
      d14:	66 85 c9             	test   %ecx,%ecx
      d17:	75 ce                	jne    ce7 <puti+0x16>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:86
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:86
         num[len] = n % 10;
         n = n / 10;
         len++;
@@ -1847,7 +1847,7 @@ void puti(u32 n){
     for (int i = len-1; i >= 0; i--){
      d19:	66 83 eb 01          	sub    $0x1,%ebx
      d1d:	eb 23                	jmp    d42 <puti+0x71>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:87 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:87 (discriminator 3)
         putc(num[i]+'0');
      d1f:	66 83 ec 0c          	sub    $0xc,%esp
      d23:	67 66 0f b6 44 9c 10 	movzbl 0x10(%esp,%ebx,4),%eax
@@ -1855,7 +1855,7 @@ void puti(u32 n){
      d2e:	66 0f be c0          	movsbl %al,%eax
      d32:	66 50                	push   %eax
      d34:	66 e8 22 fe ff ff    	calll  b5c <putc>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:86 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:86 (discriminator 3)
     while (n != 0){
         num[len] = n % 10;
         n = n / 10;
@@ -1864,10 +1864,10 @@ void puti(u32 n){
     for (int i = len-1; i >= 0; i--){
      d3a:	66 83 eb 01          	sub    $0x1,%ebx
      d3e:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:86 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:86 (discriminator 1)
      d42:	66 85 db             	test   %ebx,%ebx
      d45:	79 d8                	jns    d1f <puti+0x4e>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:90
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:90
         putc(num[i]+'0');
     }
     return ;
@@ -1879,7 +1879,7 @@ void puti(u32 n){
 
 00000d51 <puts>:
 puts():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:92
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:92
 
 void puts(char * str, int size){
      d51:	66 57                	push   %edi
@@ -1887,23 +1887,23 @@ void puts(char * str, int size){
      d55:	66 53                	push   %ebx
      d57:	67 66 8b 7c 24 10    	mov    0x10(%esp),%edi
      d5d:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:93
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:93
     int i = 0;
      d63:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:94
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:94
     while (i < size){
      d69:	eb 1a                	jmp    d85 <puts+0x34>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:95
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:95
         putc(str[i]);
      d6b:	66 83 ec 0c          	sub    $0xc,%esp
      d6f:	67 66 0f be 04 1f    	movsbl (%edi,%ebx,1),%eax
      d75:	66 50                	push   %eax
      d77:	66 e8 df fd ff ff    	calll  b5c <putc>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:96
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:96
         i++;
      d7d:	66 83 c3 01          	add    $0x1,%ebx
      d81:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:94
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:94
     return ;
 }
 
@@ -1912,7 +1912,7 @@ void puts(char * str, int size){
     while (i < size){
      d85:	66 39 f3             	cmp    %esi,%ebx
      d88:	7c e1                	jl     d6b <puts+0x1a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:99
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:99
         putc(str[i]);
         i++;
     }
@@ -1925,7 +1925,7 @@ void puts(char * str, int size){
 
 00000d92 <sprintf>:
 sprintf():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:103
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:103
 
 
 
@@ -1936,12 +1936,12 @@ void sprintf(char * dest , char * format, ...){
      d98:	66 53                	push   %ebx
      d9a:	66 83 ec 5c          	sub    $0x5c,%esp
      d9e:	67 66 8b 6c 24 70    	mov    0x70(%esp),%ebp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:106
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:106
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
      da4:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:105
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:105
 
 
 
@@ -1949,7 +1949,7 @@ void sprintf(char * dest , char * format, ...){
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
      daa:	66 bf 00 00 00 00    	mov    $0x0,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:104
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:104
 }
 
 
@@ -1957,17 +1957,17 @@ void sprintf(char * dest , char * format, ...){
 void sprintf(char * dest , char * format, ...){
     int arg_num = 0;
      db0:	66 ba 00 00 00 00    	mov    $0x0,%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:108
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:108
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
     int* arg_addr = &format+1; // 边长参数第一个参数的地址。
     while (format[src_index] != 0){
      db6:	e9 33 01             	jmp    eec <sprintf+0x15a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:109
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:109
         if (format[src_index] == '%'){
      db9:	3c 25                	cmp    $0x25,%al
      dbb:	0f 85 1b 01          	jne    eda <sprintf+0x148>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:111
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:111
             src_index++;
             switch(format[src_index]){
      dbf:	67 66 0f b6 44 39 01 	movzbl 0x1(%ecx,%edi,1),%eax
@@ -1977,15 +1977,15 @@ void sprintf(char * dest , char * format, ...){
      dcc:	0f 84 b5 00          	je     e85 <sprintf+0xf3>
      dd0:	3c 63                	cmp    $0x63,%al
      dd2:	0f 85 fe 00          	jne    ed4 <sprintf+0x142>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:113
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:113
                 case 'c':{
                     dest[des_index++] =*(arg_addr + arg_num++);
      dd6:	67 66 8b 44 94 78    	mov    0x78(%esp,%edx,4),%eax
      ddc:	67 88 44 1d 00       	mov    %al,0x0(%ebp,%ebx,1)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:114
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:114
                     src_index++;
      de1:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:113
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:113
     while (format[src_index] != 0){
         if (format[src_index] == '%'){
             src_index++;
@@ -1994,26 +1994,26 @@ void sprintf(char * dest , char * format, ...){
                     dest[des_index++] =*(arg_addr + arg_num++);
      de5:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
      dea:	67 66 8d 52 01       	lea    0x1(%edx),%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:115
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:115
                     src_index++;
                     break;
      def:	e9 fa 00             	jmp    eec <sprintf+0x15a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:118
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:118
                 }
                 case 'd':{
                     int n = *(arg_addr + arg_num++);
      df2:	67 66 8d 42 01       	lea    0x1(%edx),%eax
      df7:	67 66 89 44 24 08    	mov    %eax,0x8(%esp)
      dfd:	67 66 8b 4c 94 78    	mov    0x78(%esp,%edx,4),%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:119
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:119
                     int len = 0; 
      e03:	66 be 00 00 00 00    	mov    $0x0,%esi
      e09:	67 66 89 7c 24 0c    	mov    %edi,0xc(%esp)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:121
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:121
                     int num[INT_LENGTH];
                     while (n != 0){
      e0f:	eb 37                	jmp    e48 <sprintf+0xb6>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:122
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:122
                         num[len] = n % 10;
      e11:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
      e17:	66 89 c8             	mov    %ecx,%eax
@@ -2027,13 +2027,13 @@ void sprintf(char * dest , char * format, ...){
      e33:	67 66 8d 04 12       	lea    (%edx,%edx,1),%eax
      e38:	66 29 c1             	sub    %eax,%ecx
      e3b:	67 66 89 4c b4 14    	mov    %ecx,0x14(%esp,%esi,4)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:123
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:123
                         n = n / 10;
      e41:	66 89 f9             	mov    %edi,%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:124
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:124
                         len++;
      e44:	66 83 c6 01          	add    $0x1,%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:121
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:121
                 }
                 case 'd':{
                     int n = *(arg_addr + arg_num++);
@@ -2043,7 +2043,7 @@ void sprintf(char * dest , char * format, ...){
      e48:	66 85 c9             	test   %ecx,%ecx
      e4b:	75 c4                	jne    e11 <sprintf+0x7f>
      e4d:	67 66 8b 7c 24 0c    	mov    0xc(%esp),%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:126
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:126
                         num[len] = n % 10;
                         n = n / 10;
                         len++;
@@ -2051,12 +2051,12 @@ void sprintf(char * dest , char * format, ...){
                     for (int i = len-1; i >= 0; i--){
      e53:	67 66 8d 46 ff       	lea    -0x1(%esi),%eax
      e58:	eb 1a                	jmp    e74 <sprintf+0xe2>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:127 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:127 (discriminator 3)
                         dest[des_index++] = num[i]+'0';
      e5a:	67 66 0f b6 74 84 14 	movzbl 0x14(%esp,%eax,4),%esi
      e61:	67 66 8d 56 30       	lea    0x30(%esi),%edx
      e66:	67 88 54 1d 00       	mov    %dl,0x0(%ebp,%ebx,1)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:126 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:126 (discriminator 3)
                     while (n != 0){
                         num[len] = n % 10;
                         n = n / 10;
@@ -2064,10 +2064,10 @@ void sprintf(char * dest , char * format, ...){
                     }
                     for (int i = len-1; i >= 0; i--){
      e6b:	66 83 e8 01          	sub    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:127 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:127 (discriminator 3)
                         dest[des_index++] = num[i]+'0';
      e6f:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:126 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:126 (discriminator 1)
                     while (n != 0){
                         num[len] = n % 10;
                         n = n / 10;
@@ -2076,12 +2076,12 @@ void sprintf(char * dest , char * format, ...){
                     for (int i = len-1; i >= 0; i--){
      e74:	66 85 c0             	test   %eax,%eax
      e77:	79 e1                	jns    e5a <sprintf+0xc8>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:129
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:129
                         dest[des_index++] = num[i]+'0';
                     }
                     src_index++;
      e79:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:118
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:118
                     dest[des_index++] =*(arg_addr + arg_num++);
                     src_index++;
                     break;
@@ -2090,7 +2090,7 @@ void sprintf(char * dest , char * format, ...){
                     int n = *(arg_addr + arg_num++);
      e7d:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
      e83:	eb 67                	jmp    eec <sprintf+0x15a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:133
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:133
                     }
                     src_index++;
                     break;
@@ -2100,16 +2100,16 @@ void sprintf(char * dest , char * format, ...){
      e85:	67 66 8d 42 01       	lea    0x1(%edx),%eax
      e8a:	67 66 89 44 24 08    	mov    %eax,0x8(%esp)
      e90:	67 66 8b 74 94 78    	mov    0x78(%esp,%edx,4),%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:134
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:134
                     u32 str_len = strlen(str);
      e96:	66 83 ec 0c          	sub    $0xc,%esp
      e9a:	66 56                	push   %esi
      e9c:	66 e8 8a 06 00 00    	calll  152c <strlen>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:136
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:136
                     u32 i = 0;
                     while (i < str_len){
      ea2:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:135
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:135
                     break;
                 }
                 case 's':{
@@ -2117,16 +2117,16 @@ void sprintf(char * dest , char * format, ...){
                     u32 str_len = strlen(str);
                     u32 i = 0;
      ea6:	66 ba 00 00 00 00    	mov    $0x0,%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:136
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:136
                     while (i < str_len){
      eac:	eb 15                	jmp    ec3 <sprintf+0x131>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:137
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:137
                         dest[des_index++] = str[i++];
      eae:	67 66 0f b6 0c 16    	movzbl (%esi,%edx,1),%ecx
      eb4:	67 88 4c 1d 00       	mov    %cl,0x0(%ebp,%ebx,1)
      eb9:	67 66 8d 52 01       	lea    0x1(%edx),%edx
      ebe:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:136
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:136
                 }
                 case 's':{
                     char * str = *(arg_addr + arg_num++);
@@ -2135,12 +2135,12 @@ void sprintf(char * dest , char * format, ...){
                     while (i < str_len){
      ec3:	66 39 c2             	cmp    %eax,%edx
      ec6:	72 e6                	jb     eae <sprintf+0x11c>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:139
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:139
                         dest[des_index++] = str[i++];
                     }
                     src_index++;
      ec8:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:133
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:133
                     }
                     src_index++;
                     break;
@@ -2148,7 +2148,7 @@ void sprintf(char * dest , char * format, ...){
                 case 's':{
                     char * str = *(arg_addr + arg_num++);
      ecc:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:140
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:140
                     u32 i = 0;
                     while (i < str_len){
                         dest[des_index++] = str[i++];
@@ -2156,21 +2156,21 @@ void sprintf(char * dest , char * format, ...){
                     src_index++;
                     break;
      ed2:	eb 18                	jmp    eec <sprintf+0x15a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:143
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:143
                 }
                 default :
                     src_index++;
      ed4:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:144
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:144
                     break;
      ed8:	eb 12                	jmp    eec <sprintf+0x15a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:147
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:147
             }
         }
         else if (format[src_index] == '\\') {
      eda:	3c 5c                	cmp    $0x5c,%al
      edc:	74 0e                	je     eec <sprintf+0x15a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:166
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:166
                         break;
                 }
             }
@@ -2180,7 +2180,7 @@ void sprintf(char * dest , char * format, ...){
      ede:	66 83 c7 01          	add    $0x1,%edi
      ee2:	67 88 44 1d 00       	mov    %al,0x0(%ebp,%ebx,1)
      ee7:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:108
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:108
 void sprintf(char * dest , char * format, ...){
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
@@ -2191,7 +2191,7 @@ void sprintf(char * dest , char * format, ...){
      ef2:	67 66 0f b6 04 39    	movzbl (%ecx,%edi,1),%eax
      ef8:	84 c0                	test   %al,%al
      efa:	0f 85 bb fe          	jne    db9 <sprintf+0x27>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:169
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:169
         }
         else {
             dest[des_index++] = format[src_index++];
@@ -2199,7 +2199,7 @@ void sprintf(char * dest , char * format, ...){
     }
     dest[des_index] = 0;
      efe:	67 c6 44 1d 00 00    	movb   $0x0,0x0(%ebp,%ebx,1)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:171
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:171
     return ;
 }
      f04:	66 83 c4 5c          	add    $0x5c,%esp
@@ -2211,7 +2211,7 @@ void sprintf(char * dest , char * format, ...){
 
 00000f12 <vprintf>:
 vprintf():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:174
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:174
 
 
 void vprintf(char * format, va_list va){
@@ -2222,13 +2222,13 @@ void vprintf(char * format, va_list va){
      f1a:	66 81 ec 5c 04 00 00 	sub    $0x45c,%esp
      f21:	67 66 8b ac 24 70 04 	mov    0x470(%esp),%ebp
      f28:	00 00 
-/mnt/e/code/my_operating_system/os/lib/stdio.c:178
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:178
     char buf[BUF_LENGTH];
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
      f2a:	66 bb 00 00 00 00    	mov    $0x0,%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:177
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:177
 
 
 void vprintf(char * format, va_list va){
@@ -2236,7 +2236,7 @@ void vprintf(char * format, va_list va){
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
      f30:	66 bf 00 00 00 00    	mov    $0x0,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:176
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:176
 }
 
 
@@ -2244,17 +2244,17 @@ void vprintf(char * format, va_list va){
     char buf[BUF_LENGTH];
     int arg_num = 0;
      f36:	66 ba 00 00 00 00    	mov    $0x0,%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:180
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:180
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
     int* arg_addr = va; // 边长参数第一个参数的地址。
     while (format[src_index] != 0){
      f3c:	e9 4c 01             	jmp    108b <core_header_data_segment+0x8b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:181
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:181
         if (format[src_index] == '%'){
      f3f:	3c 25                	cmp    $0x25,%al
      f41:	0f 85 34 01          	jne    1079 <core_header_data_segment+0x79>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:183
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:183
             src_index++;
             switch(format[src_index]){
      f45:	67 66 0f b6 44 3d 01 	movzbl 0x1(%ebp,%edi,1),%eax
@@ -2264,17 +2264,17 @@ void vprintf(char * format, va_list va){
      f52:	0f 84 c6 00          	je     101c <core_header_data_segment+0x1c>
      f56:	3c 63                	cmp    $0x63,%al
      f58:	0f 85 17 01          	jne    1073 <core_header_data_segment+0x73>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:185
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:185
                 case 'c':{
                     buf[des_index++] =*(arg_addr + arg_num++);
      f5c:	67 66 8b 84 24 74 04 	mov    0x474(%esp),%eax
      f63:	00 00 
      f65:	67 66 8b 04 90       	mov    (%eax,%edx,4),%eax
      f6a:	67 88 44 1c 50       	mov    %al,0x50(%esp,%ebx,1)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:186
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:186
                     src_index++;
      f6f:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:185
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:185
     while (format[src_index] != 0){
         if (format[src_index] == '%'){
             src_index++;
@@ -2283,11 +2283,11 @@ void vprintf(char * format, va_list va){
                     buf[des_index++] =*(arg_addr + arg_num++);
      f73:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
      f78:	67 66 8d 52 01       	lea    0x1(%edx),%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:187
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:187
                     src_index++;
                     break;
      f7d:	e9 0b 01             	jmp    108b <core_header_data_segment+0x8b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:190
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:190
                 }
                 case 'd':{
                     int n = *(arg_addr + arg_num++);
@@ -2296,15 +2296,15 @@ void vprintf(char * format, va_list va){
      f8b:	67 66 8b 84 24 74 04 	mov    0x474(%esp),%eax
      f92:	00 00 
      f94:	67 66 8b 34 90       	mov    (%eax,%edx,4),%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:191
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:191
                     int len = 0; 
      f99:	66 b9 00 00 00 00    	mov    $0x0,%ecx
      f9f:	67 66 89 7c 24 0c    	mov    %edi,0xc(%esp)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:193
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:193
                     int num[INT_LENGTH];
                     while (n != 0){
      fa5:	eb 3a                	jmp    fe1 <vprintf+0xcf>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:194
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:194
                         num[len] = n % 10;
      fa7:	66 ba 67 66 66 66    	mov    $0x66666667,%edx
      fad:	66 89 f0             	mov    %esi,%eax
@@ -2319,13 +2319,13 @@ void vprintf(char * format, va_list va){
      fce:	66 89 f2             	mov    %esi,%edx
      fd1:	66 29 c2             	sub    %eax,%edx
      fd4:	67 66 89 54 8c 14    	mov    %edx,0x14(%esp,%ecx,4)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:195
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:195
                         n = n / 10;
      fda:	66 89 fe             	mov    %edi,%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:196
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:196
                         len++;
      fdd:	66 83 c1 01          	add    $0x1,%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:193
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:193
                 }
                 case 'd':{
                     int n = *(arg_addr + arg_num++);
@@ -2335,7 +2335,7 @@ void vprintf(char * format, va_list va){
      fe1:	66 85 f6             	test   %esi,%esi
      fe4:	75 c1                	jne    fa7 <vprintf+0x95>
      fe6:	67 66 8b 7c 24 0c    	mov    0xc(%esp),%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:198
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:198
                         num[len] = n % 10;
                         n = n / 10;
                         len++;
@@ -2343,12 +2343,12 @@ void vprintf(char * format, va_list va){
                     for (int i = len-1; i >= 0; i--){
      fec:	66 83 e9 01          	sub    $0x1,%ecx
      ff0:	eb 19                	jmp    100b <core_header_data_segment+0xb>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:199 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:199 (discriminator 3)
                         buf[des_index++] = num[i]+'0';
      ff2:	67 66 0f b6 44 8c 14 	movzbl 0x14(%esp,%ecx,4),%eax
      ff9:	66 83 c0 30          	add    $0x30,%eax
      ffd:	67 88 44 1c 50       	mov    %al,0x50(%esp,%ebx,1)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:198 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:198 (discriminator 3)
                     while (n != 0){
                         num[len] = n % 10;
                         n = n / 10;
@@ -2356,10 +2356,10 @@ void vprintf(char * format, va_list va){
                     }
                     for (int i = len-1; i >= 0; i--){
     1002:	66 83 e9 01          	sub    $0x1,%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:199 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:199 (discriminator 3)
                         buf[des_index++] = num[i]+'0';
     1006:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:198 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:198 (discriminator 1)
                     while (n != 0){
                         num[len] = n % 10;
                         n = n / 10;
@@ -2368,12 +2368,12 @@ void vprintf(char * format, va_list va){
                     for (int i = len-1; i >= 0; i--){
     100b:	66 85 c9             	test   %ecx,%ecx
     100e:	79 e2                	jns    ff2 <vprintf+0xe0>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:201
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:201
                         buf[des_index++] = num[i]+'0';
                     }
                     src_index++;
     1010:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:190
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:190
                     buf[des_index++] =*(arg_addr + arg_num++);
                     src_index++;
                     break;
@@ -2382,7 +2382,7 @@ void vprintf(char * format, va_list va){
                     int n = *(arg_addr + arg_num++);
     1014:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
     101a:	eb 6f                	jmp    108b <core_header_data_segment+0x8b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:205
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:205
                     }
                     src_index++;
                     break;
@@ -2394,16 +2394,16 @@ void vprintf(char * format, va_list va){
     1027:	67 66 8b 84 24 74 04 	mov    0x474(%esp),%eax
     102e:	00 00 
     1030:	67 66 8b 34 90       	mov    (%eax,%edx,4),%esi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:206
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:206
                     u32 str_len = strlen(str);
     1035:	66 83 ec 0c          	sub    $0xc,%esp
     1039:	66 56                	push   %esi
     103b:	66 e8 eb 04 00 00    	calll  152c <strlen>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:208
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:208
                     u32 i = 0;
                     while (i < str_len){
     1041:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:207
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:207
                     break;
                 }
                 case 's':{
@@ -2411,16 +2411,16 @@ void vprintf(char * format, va_list va){
                     u32 str_len = strlen(str);
                     u32 i = 0;
     1045:	66 ba 00 00 00 00    	mov    $0x0,%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:208
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:208
                     while (i < str_len){
     104b:	eb 15                	jmp    1062 <core_header_data_segment+0x62>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:209
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:209
                         buf[des_index++] = str[i++];
     104d:	67 66 0f b6 0c 16    	movzbl (%esi,%edx,1),%ecx
     1053:	67 88 4c 1c 50       	mov    %cl,0x50(%esp,%ebx,1)
     1058:	67 66 8d 52 01       	lea    0x1(%edx),%edx
     105d:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:208
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:208
                 }
                 case 's':{
                     char * str = *(arg_addr + arg_num++);
@@ -2429,12 +2429,12 @@ void vprintf(char * format, va_list va){
                     while (i < str_len){
     1062:	66 39 c2             	cmp    %eax,%edx
     1065:	72 e6                	jb     104d <core_header_data_segment+0x4d>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:211
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:211
                         buf[des_index++] = str[i++];
                     }
                     src_index++;
     1067:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:205
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:205
                     }
                     src_index++;
                     break;
@@ -2442,7 +2442,7 @@ void vprintf(char * format, va_list va){
                 case 's':{
                     char * str = *(arg_addr + arg_num++);
     106b:	67 66 8b 54 24 08    	mov    0x8(%esp),%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:212
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:212
                     u32 i = 0;
                     while (i < str_len){
                         buf[des_index++] = str[i++];
@@ -2450,21 +2450,21 @@ void vprintf(char * format, va_list va){
                     src_index++;
                     break;
     1071:	eb 18                	jmp    108b <core_header_data_segment+0x8b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:215
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:215
                 }
                 default :
                     src_index++;
     1073:	66 83 c7 02          	add    $0x2,%edi
-/mnt/e/code/my_operating_system/os/lib/stdio.c:216
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:216
                     break;
     1077:	eb 12                	jmp    108b <core_header_data_segment+0x8b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:219
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:219
             }
         }
         else if (format[src_index] == '\\') {
     1079:	3c 5c                	cmp    $0x5c,%al
     107b:	74 0e                	je     108b <core_header_data_segment+0x8b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:238
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:238
                         break;
                 }
             }
@@ -2474,7 +2474,7 @@ void vprintf(char * format, va_list va){
     107d:	66 83 c7 01          	add    $0x1,%edi
     1081:	67 88 44 1c 50       	mov    %al,0x50(%esp,%ebx,1)
     1086:	67 66 8d 5b 01       	lea    0x1(%ebx),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:180
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:180
     char buf[BUF_LENGTH];
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
@@ -2484,7 +2484,7 @@ void vprintf(char * format, va_list va){
     108b:	67 66 0f b6 44 3d 00 	movzbl 0x0(%ebp,%edi,1),%eax
     1092:	84 c0                	test   %al,%al
     1094:	0f 85 a7 fe          	jne    f3f <vprintf+0x2d>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:241
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:241
         }
         else {
             buf[des_index++] = format[src_index++];
@@ -2492,17 +2492,17 @@ void vprintf(char * format, va_list va){
     }
     buf[des_index] = 0;
     1098:	67 c6 44 1c 50 00    	movb   $0x0,0x50(%esp,%ebx,1)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:242
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:242
     for (int i = 0; i < des_index; i++){
     109e:	66 be 00 00 00 00    	mov    $0x0,%esi
     10a4:	eb 1b                	jmp    10c1 <core_header_data_segment+0xc1>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:243 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:243 (discriminator 3)
         putc(buf[i]);
     10a6:	66 83 ec 0c          	sub    $0xc,%esp
     10aa:	67 66 0f be 44 34 5c 	movsbl 0x5c(%esp,%esi,1),%eax
     10b1:	66 50                	push   %eax
     10b3:	66 e8 a3 fa ff ff    	calll  b5c <putc>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:242 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:242 (discriminator 3)
         else {
             buf[des_index++] = format[src_index++];
         }
@@ -2511,10 +2511,10 @@ void vprintf(char * format, va_list va){
     for (int i = 0; i < des_index; i++){
     10b9:	66 83 c6 01          	add    $0x1,%esi
     10bd:	66 83 c4 10          	add    $0x10,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:242 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:242 (discriminator 1)
     10c1:	66 39 f3             	cmp    %esi,%ebx
     10c4:	7f e0                	jg     10a6 <core_header_data_segment+0xa6>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:246
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:246
         putc(buf[i]);
     }
     return ;
@@ -2528,17 +2528,17 @@ void vprintf(char * format, va_list va){
 
 000010d7 <printf>:
 printf():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:248
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:248
 
 void printf(char * format, ...){
     10d7:	66 83 ec 14          	sub    $0x14,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:249
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:249
     vprintf(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
     10db:	67 66 8d 44 24 1c    	lea    0x1c(%esp),%eax
     10e1:	66 50                	push   %eax
     10e3:	67 66 ff 74 24 1c    	pushl  0x1c(%esp)
     10e9:	66 e8 23 fe ff ff    	calll  f12 <vprintf>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:251
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:251
     return ;
 }
     10ef:	66 83 c4 1c          	add    $0x1c,%esp
@@ -2546,7 +2546,7 @@ void printf(char * format, ...){
 
 000010f5 <isalpha>:
 isalpha():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:270
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:270
 //     return ;
 // }
 
@@ -2554,22 +2554,22 @@ isalpha():
 
 int isalpha (int ch){
     10f5:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:271
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:271
     if ('a' <= ch && ch <= 'z')
     10fb:	67 66 8d 50 9f       	lea    -0x61(%eax),%edx
     1100:	66 83 fa 19          	cmp    $0x19,%edx
     1104:	76 12                	jbe    1118 <isalpha+0x23>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:273
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:273
         return 1;
     if ('A' <= ch && ch <= 'Z')
     1106:	66 83 e8 41          	sub    $0x41,%eax
     110a:	66 83 f8 19          	cmp    $0x19,%eax
     110e:	77 10                	ja     1120 <isalpha+0x2b>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:274
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:274
         return 1;
     1110:	66 b8 01 00 00 00    	mov    $0x1,%eax
     1116:	66 c3                	retl   
-/mnt/e/code/my_operating_system/os/lib/stdio.c:272
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:272
 
 
 
@@ -2578,62 +2578,62 @@ int isalpha (int ch){
         return 1;
     1118:	66 b8 01 00 00 00    	mov    $0x1,%eax
     111e:	66 c3                	retl   
-/mnt/e/code/my_operating_system/os/lib/stdio.c:275
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:275
     if ('A' <= ch && ch <= 'Z')
         return 1;
     return 0;
     1120:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:276
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:276
 }
     1126:	66 c3                	retl   
 
 00001128 <isdigit>:
 isdigit():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:278
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:278
 int isdigit (int ch){
     if ('0' <= ch && ch <= '9')
     1128:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
     112e:	66 83 e8 30          	sub    $0x30,%eax
     1132:	66 83 f8 09          	cmp    $0x9,%eax
     1136:	77 08                	ja     1140 <isdigit+0x18>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:279
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:279
         return 1;
     1138:	66 b8 01 00 00 00    	mov    $0x1,%eax
     113e:	66 c3                	retl   
-/mnt/e/code/my_operating_system/os/lib/stdio.c:280
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:280
     return 0;
     1140:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:281
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:281
 }
     1146:	66 c3                	retl   
 
 00001148 <isalnum>:
 isalnum():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:283
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:283
 
 int isalnum (int ch){
     1148:	66 53                	push   %ebx
     114a:	67 66 8b 5c 24 08    	mov    0x8(%esp),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:284
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:284
     if ( isalpha(ch) || isdigit(ch) ){
     1150:	66 53                	push   %ebx
     1152:	66 e8 9d ff ff ff    	calll  10f5 <isalpha>
     1158:	66 83 c4 04          	add    $0x4,%esp
     115c:	66 85 c0             	test   %eax,%eax
     115f:	75 13                	jne    1174 <isalnum+0x2c>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:284 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:284 (discriminator 1)
     1161:	66 53                	push   %ebx
     1163:	66 e8 bf ff ff ff    	calll  1128 <isdigit>
     1169:	66 83 c4 04          	add    $0x4,%esp
     116d:	66 85 c0             	test   %eax,%eax
     1170:	75 0a                	jne    117c <isalnum+0x34>
     1172:	eb 0e                	jmp    1182 <isalnum+0x3a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:285
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:285
         return 1;
     1174:	66 b8 01 00 00 00    	mov    $0x1,%eax
     117a:	eb 06                	jmp    1182 <isalnum+0x3a>
     117c:	66 b8 01 00 00 00    	mov    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:288
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:288
     }
     return 0;
 }
@@ -2642,11 +2642,11 @@ int isalnum (int ch){
 
 00001186 <ispunct>:
 ispunct():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:289
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:289
 int ispunct (int ch){
     1186:	66 83 ec 30          	sub    $0x30,%esp
     118a:	67 66 8b 4c 24 34    	mov    0x34(%esp),%ecx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:290
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:290
     char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     1190:	67 66 c7 44 24 0e 21 	movl   $0x24232221,0xe(%esp)
     1197:	22 23 24 
@@ -2665,16 +2665,16 @@ int ispunct (int ch){
     11d6:	67 66 c7 44 24 2a 7b 	movl   $0x7e7d7c7b,0x2a(%esp)
     11dd:	7c 7d 7e 
     11e0:	67 c7 44 24 2e 00 00 	movw   $0x0,0x2e(%esp)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:291
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:291
     for (int i = 0; i < 33; i++){
     11e7:	66 b8 00 00 00 00    	mov    $0x0,%eax
     11ed:	eb 10                	jmp    11ff <ispunct+0x79>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:292
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:292
         if (ch == punct[i])
     11ef:	67 66 0f be 54 04 0e 	movsbl 0xe(%esp,%eax,1),%edx
     11f6:	66 39 ca             	cmp    %ecx,%edx
     11f9:	74 12                	je     120d <ispunct+0x87>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:291 (discriminator 2)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:291 (discriminator 2)
     }
     return 0;
 }
@@ -2682,17 +2682,17 @@ int ispunct (int ch){
     char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     for (int i = 0; i < 33; i++){
     11fb:	66 83 c0 01          	add    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:291 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:291 (discriminator 1)
     11ff:	66 83 f8 20          	cmp    $0x20,%eax
     1203:	7e ea                	jle    11ef <ispunct+0x69>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:295
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:295
         if (ch == punct[i])
             return 1;
     }
     return 0;
     1205:	66 b8 00 00 00 00    	mov    $0x0,%eax
     120b:	eb 06                	jmp    1213 <ispunct+0x8d>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:293
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:293
 }
 int ispunct (int ch){
     char punct[34] =  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
@@ -2700,7 +2700,7 @@ int ispunct (int ch){
         if (ch == punct[i])
             return 1;
     120d:	66 b8 01 00 00 00    	mov    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:296
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:296
     }
     return 0;
 }
@@ -2709,61 +2709,61 @@ int ispunct (int ch){
 
 00001219 <isblank>:
 isblank():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:298
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:298
 int isblank (int ch){
     if (ch == ' ')
     1219:	67 66 83 7c 24 04 20 	cmpl   $0x20,0x4(%esp)
     1220:	75 08                	jne    122a <isblank+0x11>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:299
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:299
         return 1;
     1222:	66 b8 01 00 00 00    	mov    $0x1,%eax
     1228:	66 c3                	retl   
-/mnt/e/code/my_operating_system/os/lib/stdio.c:300
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:300
     return 0;
     122a:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:301
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:301
 }
     1230:	66 c3                	retl   
 
 00001232 <isprint>:
 isprint():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:302
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:302
 int isprint (int ch){
     1232:	66 53                	push   %ebx
     1234:	67 66 8b 5c 24 08    	mov    0x8(%esp),%ebx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:303
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:303
     if (isalpha(ch) || isdigit(ch) || isalnum(ch) || ispunct(ch) || isblank(ch)){
     123a:	66 53                	push   %ebx
     123c:	66 e8 b3 fe ff ff    	calll  10f5 <isalpha>
     1242:	66 83 c4 04          	add    $0x4,%esp
     1246:	66 85 c0             	test   %eax,%eax
     1249:	75 46                	jne    1291 <isprint+0x5f>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:303 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:303 (discriminator 1)
     124b:	66 53                	push   %ebx
     124d:	66 e8 d5 fe ff ff    	calll  1128 <isdigit>
     1253:	66 83 c4 04          	add    $0x4,%esp
     1257:	66 85 c0             	test   %eax,%eax
     125a:	75 3d                	jne    1299 <isprint+0x67>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:303 (discriminator 2)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:303 (discriminator 2)
     125c:	66 53                	push   %ebx
     125e:	66 e8 e4 fe ff ff    	calll  1148 <isalnum>
     1264:	66 83 c4 04          	add    $0x4,%esp
     1268:	66 85 c0             	test   %eax,%eax
     126b:	75 34                	jne    12a1 <isprint+0x6f>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:303 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:303 (discriminator 3)
     126d:	66 53                	push   %ebx
     126f:	66 e8 11 ff ff ff    	calll  1186 <ispunct>
     1275:	66 83 c4 04          	add    $0x4,%esp
     1279:	66 85 c0             	test   %eax,%eax
     127c:	75 2b                	jne    12a9 <isprint+0x77>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:303 (discriminator 4)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:303 (discriminator 4)
     127e:	66 53                	push   %ebx
     1280:	66 e8 93 ff ff ff    	calll  1219 <isblank>
     1286:	66 83 c4 04          	add    $0x4,%esp
     128a:	66 85 c0             	test   %eax,%eax
     128d:	75 22                	jne    12b1 <isprint+0x7f>
     128f:	eb 26                	jmp    12b7 <isprint+0x85>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:304
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:304
         return 1;
     1291:	66 b8 01 00 00 00    	mov    $0x1,%eax
     1297:	eb 1e                	jmp    12b7 <isprint+0x85>
@@ -2774,7 +2774,7 @@ int isprint (int ch){
     12a9:	66 b8 01 00 00 00    	mov    $0x1,%eax
     12af:	eb 06                	jmp    12b7 <isprint+0x85>
     12b1:	66 b8 01 00 00 00    	mov    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:307
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:307
     }
     return 0;
 }
@@ -2783,24 +2783,24 @@ int isprint (int ch){
 
 000012bb <iscntrl>:
 iscntrl():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:308
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:308
 int iscntrl (int ch){
     12bb:	67 66 8b 44 24 04    	mov    0x4(%esp),%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:310
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:310
     //he control characters are the characters with the codes 0x00-0x1F and 0x7F.
     if (0 <= ch && ch <= 0x1f)
     12c1:	66 83 f8 1f          	cmp    $0x1f,%eax
     12c5:	76 0e                	jbe    12d5 <iscntrl+0x1a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:312
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:312
         return 1;
     if (ch == 0x7f)
     12c7:	66 83 f8 7f          	cmp    $0x7f,%eax
     12cb:	75 10                	jne    12dd <iscntrl+0x22>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:313
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:313
         return 1;
     12cd:	66 b8 01 00 00 00    	mov    $0x1,%eax
     12d3:	66 c3                	retl   
-/mnt/e/code/my_operating_system/os/lib/stdio.c:311
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:311
     return 0;
 }
 int iscntrl (int ch){
@@ -2809,18 +2809,18 @@ int iscntrl (int ch){
         return 1;
     12d5:	66 b8 01 00 00 00    	mov    $0x1,%eax
     12db:	66 c3                	retl   
-/mnt/e/code/my_operating_system/os/lib/stdio.c:314
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:314
     if (ch == 0x7f)
         return 1;
     return 0;
     12dd:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/stdio.c:315
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:315
 }
     12e3:	66 c3                	retl   
 
 000012e5 <read_n_sector>:
 read_n_sector():
-/mnt/e/code/my_operating_system/os/lib/stdio.c:321
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:321
 
 /* tested
 读取指定逻辑扇区号的扇区到指定内存地址处
@@ -2838,11 +2838,11 @@ void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
     1306:	67 89 44 24 0c       	mov    %ax,0xc(%esp)
     130b:	67 66 0f b7 44 24 3c 	movzwl 0x3c(%esp),%eax
     1312:	67 89 44 24 0e       	mov    %ax,0xe(%esp)
-/mnt/e/code/my_operating_system/os/lib/stdio.c:322
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:322
     for (int i = 0; i < number; i++){
     1317:	66 bb 00 00 00 00    	mov    $0x0,%ebx
     131d:	eb 7d                	jmp    139c <read_n_sector+0xb7>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:323 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:323 (discriminator 3)
         int sector = (sector_code+i) % 18+1;
     131f:	66 0f b7 ef          	movzwl %di,%ebp
     1323:	66 01 dd             	add    %ebx,%ebp
@@ -2859,12 +2859,12 @@ void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
     134d:	66 89 ea             	mov    %ebp,%edx
     1350:	66 29 c2             	sub    %eax,%edx
     1353:	66 83 c2 01          	add    $0x1,%edx
-/mnt/e/code/my_operating_system/os/lib/stdio.c:325 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:325 (discriminator 3)
         int mid = (sector_code+i) / 18;
         int cylinder = mid >> 1;
     1357:	66 89 cd             	mov    %ecx,%ebp
     135a:	66 d1 fd             	sar    %ebp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:327 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:327 (discriminator 3)
         int head = mid & 1;
         read_sector(head, cylinder,sector,segment, offset + i*512);
     135d:	66 83 ec 0c          	sub    $0xc,%esp
@@ -2882,7 +2882,7 @@ void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
     1388:	66 83 e1 01          	and    $0x1,%ecx
     138c:	66 51                	push   %ecx
     138e:	66 e8 28 01 00 00    	calll  14bc <read_sector>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:322 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:322 (discriminator 3)
 /* tested
 读取指定逻辑扇区号的扇区到指定内存地址处
 注意一次最多写一个段，也就是64k 最多读128个扇区。
@@ -2891,11 +2891,11 @@ void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
     for (int i = 0; i < number; i++){
     1394:	66 83 c3 01          	add    $0x1,%ebx
     1398:	66 83 c4 20          	add    $0x20,%esp
-/mnt/e/code/my_operating_system/os/lib/stdio.c:322 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:322 (discriminator 1)
     139c:	66 0f b7 c6          	movzwl %si,%eax
     13a0:	66 39 c3             	cmp    %eax,%ebx
     13a3:	0f 8c 78 ff          	jl     131f <read_n_sector+0x3a>
-/mnt/e/code/my_operating_system/os/lib/stdio.c:330
+/mnt/e/code/my_operating_system/os/service/../lib/stdio.c:330
         int cylinder = mid >> 1;
         int head = mid & 1;
         read_sector(head, cylinder,sector,segment, offset + i*512);
@@ -3171,21 +3171,21 @@ reboot():
 
 0000152c <strlen>:
 strlen():
-/mnt/e/code/my_operating_system/os/lib/string.c:3
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:3
 #include "../include/type.h"
 
 size_t strlen(char * str){
     152c:	67 66 8b 54 24 04    	mov    0x4(%esp),%edx
-/mnt/e/code/my_operating_system/os/lib/string.c:4
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:4
     u32 len = 0;
     1532:	66 b8 00 00 00 00    	mov    $0x0,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:5
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:5
     while (str[len] != 0){
     1538:	eb 04                	jmp    153e <strlen+0x12>
-/mnt/e/code/my_operating_system/os/lib/string.c:6
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:6
         len++;
     153a:	66 83 c0 01          	add    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:5
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:5
 #include "../include/type.h"
 
 size_t strlen(char * str){
@@ -3193,7 +3193,7 @@ size_t strlen(char * str){
     while (str[len] != 0){
     153e:	67 80 3c 02 00       	cmpb   $0x0,(%edx,%eax,1)
     1543:	75 f5                	jne    153a <strlen+0xe>
-/mnt/e/code/my_operating_system/os/lib/string.c:9
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:9
         len++;
     }
     return len;
@@ -3202,7 +3202,7 @@ size_t strlen(char * str){
 
 00001548 <strncpy>:
 strncpy():
-/mnt/e/code/my_operating_system/os/lib/string.c:11
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:11
 
 void strncpy(char * dest, char * src, u32 size){
     1548:	66 56                	push   %esi
@@ -3210,15 +3210,15 @@ void strncpy(char * dest, char * src, u32 size){
     154c:	67 66 8b 5c 24 0c    	mov    0xc(%esp),%ebx
     1552:	67 66 8b 74 24 10    	mov    0x10(%esp),%esi
     1558:	67 66 8b 4c 24 14    	mov    0x14(%esp),%ecx
-/mnt/e/code/my_operating_system/os/lib/string.c:12
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:12
     for (int i = 0; i < size; i++){
     155e:	66 b8 00 00 00 00    	mov    $0x0,%eax
     1564:	eb 0e                	jmp    1574 <strncpy+0x2c>
-/mnt/e/code/my_operating_system/os/lib/string.c:13 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:13 (discriminator 3)
         dest[i] = src[i];
     1566:	67 66 0f b6 14 06    	movzbl (%esi,%eax,1),%edx
     156c:	67 88 14 03          	mov    %dl,(%ebx,%eax,1)
-/mnt/e/code/my_operating_system/os/lib/string.c:12 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:12 (discriminator 3)
     }
     return len;
 }
@@ -3226,15 +3226,15 @@ void strncpy(char * dest, char * src, u32 size){
 void strncpy(char * dest, char * src, u32 size){
     for (int i = 0; i < size; i++){
     1570:	66 83 c0 01          	add    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:12 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:12 (discriminator 1)
     1574:	66 39 c8             	cmp    %ecx,%eax
     1577:	72 ed                	jb     1566 <strncpy+0x1e>
-/mnt/e/code/my_operating_system/os/lib/string.c:15
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:15
         dest[i] = src[i];
     }
     dest[size] = '\0';
     1579:	67 c6 04 0b 00       	movb   $0x0,(%ebx,%ecx,1)
-/mnt/e/code/my_operating_system/os/lib/string.c:16
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:16
 }
     157e:	66 5b                	pop    %ebx
     1580:	66 5e                	pop    %esi
@@ -3242,7 +3242,7 @@ void strncpy(char * dest, char * src, u32 size){
 
 00001584 <strcmp>:
 strcmp():
-/mnt/e/code/my_operating_system/os/lib/string.c:18
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:18
 
 int strcmp(char * lhs, char * rhs){
     1584:	66 57                	push   %edi
@@ -3250,23 +3250,23 @@ int strcmp(char * lhs, char * rhs){
     1588:	66 53                	push   %ebx
     158a:	67 66 8b 74 24 10    	mov    0x10(%esp),%esi
     1590:	67 66 8b 7c 24 14    	mov    0x14(%esp),%edi
-/mnt/e/code/my_operating_system/os/lib/string.c:19
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:19
     int lhs_len = strlen(lhs);
     1596:	66 56                	push   %esi
     1598:	66 e8 8e ff ff ff    	calll  152c <strlen>
     159e:	66 89 c3             	mov    %eax,%ebx
-/mnt/e/code/my_operating_system/os/lib/string.c:20
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:20
     int rhs_len = strlen(rhs);
     15a1:	67 66 89 3c 24       	mov    %edi,(%esp)
     15a6:	66 e8 80 ff ff ff    	calll  152c <strlen>
     15ac:	66 83 c4 04          	add    $0x4,%esp
-/mnt/e/code/my_operating_system/os/lib/string.c:21
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:21
     if (lhs_len != rhs_len){
     15b0:	66 39 c3             	cmp    %eax,%ebx
     15b3:	75 25                	jne    15da <strcmp+0x56>
     15b5:	66 b8 00 00 00 00    	mov    $0x0,%eax
     15bb:	eb 10                	jmp    15cd <strcmp+0x49>
-/mnt/e/code/my_operating_system/os/lib/string.c:25
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:25
         return 1;
     }
     for (int i = 0; i < lhs_len; i++){
@@ -3274,7 +3274,7 @@ int strcmp(char * lhs, char * rhs){
     15bd:	67 66 0f b6 14 07    	movzbl (%edi,%eax,1),%edx
     15c3:	67 38 14 06          	cmp    %dl,(%esi,%eax,1)
     15c7:	75 19                	jne    15e2 <strcmp+0x5e>
-/mnt/e/code/my_operating_system/os/lib/string.c:24 (discriminator 2)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:24 (discriminator 2)
     int lhs_len = strlen(lhs);
     int rhs_len = strlen(rhs);
     if (lhs_len != rhs_len){
@@ -3282,17 +3282,17 @@ int strcmp(char * lhs, char * rhs){
     }
     for (int i = 0; i < lhs_len; i++){
     15c9:	66 83 c0 01          	add    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:24 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:24 (discriminator 1)
     15cd:	66 39 d8             	cmp    %ebx,%eax
     15d0:	7c eb                	jl     15bd <strcmp+0x39>
-/mnt/e/code/my_operating_system/os/lib/string.c:28
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:28
         if (lhs[i] != rhs[i])
             return 1;
     }
     return 0;
     15d2:	66 b8 00 00 00 00    	mov    $0x0,%eax
     15d8:	eb 0e                	jmp    15e8 <strcmp+0x64>
-/mnt/e/code/my_operating_system/os/lib/string.c:22
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:22
 
 int strcmp(char * lhs, char * rhs){
     int lhs_len = strlen(lhs);
@@ -3301,13 +3301,13 @@ int strcmp(char * lhs, char * rhs){
         return 1;
     15da:	66 b8 01 00 00 00    	mov    $0x1,%eax
     15e0:	eb 06                	jmp    15e8 <strcmp+0x64>
-/mnt/e/code/my_operating_system/os/lib/string.c:26
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:26
     }
     for (int i = 0; i < lhs_len; i++){
         if (lhs[i] != rhs[i])
             return 1;
     15e2:	66 b8 01 00 00 00    	mov    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:29
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:29
     }
     return 0;
 }
@@ -3318,7 +3318,7 @@ int strcmp(char * lhs, char * rhs){
 
 000015f0 <strncmp>:
 strncmp():
-/mnt/e/code/my_operating_system/os/lib/string.c:31
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:31
 
 int strncmp(char * lhs, char * rhs, int size){
     15f0:	66 56                	push   %esi
@@ -3326,16 +3326,16 @@ int strncmp(char * lhs, char * rhs, int size){
     15f4:	67 66 8b 5c 24 0c    	mov    0xc(%esp),%ebx
     15fa:	67 66 8b 4c 24 10    	mov    0x10(%esp),%ecx
     1600:	67 66 8b 74 24 14    	mov    0x14(%esp),%esi
-/mnt/e/code/my_operating_system/os/lib/string.c:32
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:32
     for (int i = 0; i < size; i++){
     1606:	66 b8 00 00 00 00    	mov    $0x0,%eax
     160c:	eb 10                	jmp    161e <strncmp+0x2e>
-/mnt/e/code/my_operating_system/os/lib/string.c:33
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:33
         if (lhs[i] != rhs[i])
     160e:	67 66 0f b6 14 01    	movzbl (%ecx,%eax,1),%edx
     1614:	67 38 14 03          	cmp    %dl,(%ebx,%eax,1)
     1618:	75 11                	jne    162b <strncmp+0x3b>
-/mnt/e/code/my_operating_system/os/lib/string.c:32 (discriminator 2)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:32 (discriminator 2)
     }
     return 0;
 }
@@ -3343,17 +3343,17 @@ int strncmp(char * lhs, char * rhs, int size){
 int strncmp(char * lhs, char * rhs, int size){
     for (int i = 0; i < size; i++){
     161a:	66 83 c0 01          	add    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:32 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:32 (discriminator 1)
     161e:	66 39 f0             	cmp    %esi,%eax
     1621:	7c eb                	jl     160e <strncmp+0x1e>
-/mnt/e/code/my_operating_system/os/lib/string.c:36
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:36
         if (lhs[i] != rhs[i])
             return 1;
     }
     return 0;
     1623:	66 b8 00 00 00 00    	mov    $0x0,%eax
     1629:	eb 06                	jmp    1631 <strncmp+0x41>
-/mnt/e/code/my_operating_system/os/lib/string.c:34
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:34
 }
 
 int strncmp(char * lhs, char * rhs, int size){
@@ -3361,7 +3361,7 @@ int strncmp(char * lhs, char * rhs, int size){
         if (lhs[i] != rhs[i])
             return 1;
     162b:	66 b8 01 00 00 00    	mov    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/string.c:37
+/mnt/e/code/my_operating_system/os/service/../lib/string.c:37
     }
     return 0;
     1631:	66 5b                	pop    %ebx
@@ -3370,7 +3370,7 @@ int strncmp(char * lhs, char * rhs, int size){
 
 00001637 <move_name>:
 move_name():
-/mnt/e/code/my_operating_system/os/lib/../lib/style.c:9
+/mnt/e/code/my_operating_system/os/service/../lib/style.c:9
 
 void move_name(){
     u16 *text_line = 1920*2;
@@ -3378,17 +3378,17 @@ void move_name(){
     // text_line[80]
     u16 last_char = text_line[79];
     1637:	66 0f b7 0e 9e 0f    	movzwl 0xf9e,%ecx
-/mnt/e/code/my_operating_system/os/lib/../lib/style.c:10
+/mnt/e/code/my_operating_system/os/service/../lib/style.c:10
     for (int i =78; i >= 0; i--){
     163d:	66 b8 4e 00 00 00    	mov    $0x4e,%eax
     1643:	eb 16                	jmp    165b <move_name+0x24>
-/mnt/e/code/my_operating_system/os/lib/../lib/style.c:11 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/style.c:11 (discriminator 3)
         text_line[i+1] = text_line[i];
     1645:	67 66 0f b7 94 00 00 	movzwl 0xf00(%eax,%eax,1),%edx
     164c:	0f 00 00 
     164f:	67 89 94 00 02 0f 00 	mov    %dx,0xf02(%eax,%eax,1)
     1656:	00 
-/mnt/e/code/my_operating_system/os/lib/../lib/style.c:10 (discriminator 3)
+/mnt/e/code/my_operating_system/os/service/../lib/style.c:10 (discriminator 3)
 void move_name(){
     u16 *text_line = 1920*2;
     // text_line 0-79
@@ -3396,10 +3396,10 @@ void move_name(){
     u16 last_char = text_line[79];
     for (int i =78; i >= 0; i--){
     1657:	66 83 e8 01          	sub    $0x1,%eax
-/mnt/e/code/my_operating_system/os/lib/../lib/style.c:10 (discriminator 1)
+/mnt/e/code/my_operating_system/os/service/../lib/style.c:10 (discriminator 1)
     165b:	66 85 c0             	test   %eax,%eax
     165e:	79 e5                	jns    1645 <move_name+0xe>
-/mnt/e/code/my_operating_system/os/lib/../lib/style.c:13
+/mnt/e/code/my_operating_system/os/service/../lib/style.c:13
         text_line[i+1] = text_line[i];
     }
     text_line[0] = last_char;
