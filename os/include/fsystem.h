@@ -56,11 +56,11 @@ void _fs_show_file_by_descriptor_number(u16);
 /* tested
 根据起始簇号，加载簇到指定地址。
 返回值 字节数 */
-u16 _fs_load_by_cluster_code(u16 first_cluster_code, void (*program)() );
+u16 _fs_load_by_cluster_code(u16 first_cluster_code, u16 segment, u16 offset);
 
 /* tested
 加载文件 到指定地址， 返回程序字节数 */
-u16 fs_load_by_name(char * file_name, void (*program)());
+u16 fs_load_by_name(char * file_name, u16 segment, u16 offset);
 
 /* tested
 获取文件占用内存大小 */

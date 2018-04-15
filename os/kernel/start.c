@@ -16,7 +16,7 @@ int cstart(){
     // 将光标设置为0 TODO:
     set_cursor(0);
     // install_system_call(2, test_system_call);
-    fs_load_by_name("test_b.bin", 0x5000);
+    fs_load_by_name("test_b.bin", 0x2000, 0x0000);
     // while (1){}
     init_process(0);
 
@@ -26,7 +26,7 @@ int cstart(){
 
 void init_process(int process_index){
     PCB_t* this_process = &process_block[process_index];
-    u16 segment = 0x1500;
+    u16 segment = 0x2000;
     this_process->regs.ss = segment;
     this_process->regs.sp = 0x5000;
     this_process->regs.ds = segment;

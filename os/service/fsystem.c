@@ -68,23 +68,23 @@ void _fs_show_file_by_descriptor_number(u16 index){
     return ;
 }
 
-u16 _fs_load_by_cluster_code(u16 cluster_code, void(*program)()){
+u16 _fs_load_by_cluster_code(u16 cluster_code, u16 segment, u16 offset){
     int size = 0;
     while (0x0002 <= cluster_code && cluster_code <= 0xFFEF){
         size += 512*cluster2sector;
         int sector_number = first_cluster_by_sector + (cluster_code-2)*cluster2sector;
-        read_n_sector(sector_number, cluster2sector, 0x1000, program);
-        program = program+cluster2sector*512;
+        read_n_sector(sector_number, cluster2sector, segment, offset);
+        offset = offset+cluster2sector*512;
         cluster_code = FAT_table[cluster_code];
     }
     return size;
 }
 
 
-u16 fs_load_by_name(char * file_name, void (*program)()){
+u16 fs_load_by_name(char * file_name, u16 segment, u16 offset){
     int cluster_code = _fs_find_cluster_code_by_name(file_name);
     if (cluster_code){
-        return _fs_load_by_cluster_code(cluster_code, program);
+        return _fs_load_by_cluster_code(cluster_code, segment, offset);
     }
     else {
         return 0;
