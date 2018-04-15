@@ -7,4 +7,6 @@
 */
 void install_system_call(int system_call_number, void (*function)() );
 
+void test_system_call();
+
 #endif

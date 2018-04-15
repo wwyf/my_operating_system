@@ -3,7 +3,7 @@
 char my_infomation[30] = "wang yong feng 16337237";
 
 void move_name(){
-    u16 *text_line = 1920*2;
+    u16 *text_line = (u16*)(1920*2);
     // text_line 0-79
     // text_line[80]
     u16 last_char = text_line[79];

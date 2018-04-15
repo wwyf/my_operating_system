@@ -15,8 +15,8 @@ void init_fsystem(){
     cluster2sector = 1;
     root_sector = 37;
     first_cluster_by_sector = root_sector + 1;  
-    read_n_sector(root_sector,1, 0x1000, root);
-    read_n_sector(1,2,0x1000, FAT_table);// 这个会覆盖掉root吗？
+    read_n_sector(root_sector,1, 0x1000, (u16)&root);
+    read_n_sector(1,2,0x1000, (u16)&FAT_table);// 这个会覆盖掉root吗？
     // TODO: tab表可能不够大，在加载多一些
     // FIXME:在fat表和root数组设置得小一点的时候，似乎加载fat_table的时候会覆盖掉root所在的内存空间，导致后面出现错误。
     // puti(FAT_table[0]);
@@ -31,7 +31,7 @@ u16 _fs_find_descriptor_number_by_name(char * file_name){
     if (file_name_length >= 11) file_name_length = 11;
     // TODO:这里的10是文件数，需要使用常量代替
     for (int i = 0; i < 10; i++){
-        if (!strncmp(&root[i], file_name, file_name_length)){
+        if (!strncmp((char *)&root[i], file_name, file_name_length)){
             return i;
         }
     }
@@ -115,5 +115,5 @@ void fs_show_file_by_name(char * file_name){
 
 
 void fs_show_floppy_infomation(){
-    return 0;
+    return ;
 }

@@ -1,6 +1,6 @@
 # 生成kernel.bin
 OBJECTS= stdio.o  basic.o  string.o  style.o
-KERNEL_OBJECTS=system_call.o fsystem.o global.o proc.o
+KERNEL_OBJECTS=system_call.o fsystem.o global.o proc.o tty.o
 C_FLAGS=-c -m16 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
@@ -36,6 +36,10 @@ global.o : global.c
 
 proc.o : proc.c
 	gcc $(C_FLAGS) -o proc.o proc.c
+
+
+tty.o : tty.c
+	gcc $(C_FLAGS) -o tty.o tty.c
 
 
 .PHONY : clean

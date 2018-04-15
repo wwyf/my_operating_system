@@ -130,7 +130,7 @@ void sprintf(char * dest , char * format, ...){
                     break;
                 }
                 case 's':{
-                    char * str = *(arg_addr + arg_num++);
+                    char * str = *(char **)(arg_addr + arg_num++);
                     u32 str_len = strlen(str);
                     u32 i = 0;
                     while (i < str_len){
@@ -202,7 +202,7 @@ void vprintf(char * format, va_list va){
                     break;
                 }
                 case 's':{
-                    char * str = *(arg_addr + arg_num++);
+                    char * str = *(char **)(arg_addr + arg_num++);
                     u32 str_len = strlen(str);
                     u32 i = 0;
                     while (i < str_len){

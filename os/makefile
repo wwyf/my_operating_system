@@ -42,7 +42,7 @@ $(objects) : $(BIN_FILES)
 	dd if=$(KERNEL)/kernel.bin of=a.img ibs=512 count=18 conv=notrunc seek=46
 	dd if=$(USER)/test_a.bin of=a.img ibs=512 count=18 conv=notrunc seek=90
 	dd if=$(USER)/test_b.bin of=a.img ibs=512 count=18 conv=notrunc seek=108
-	# dd if=$(USER)/user_stone_1.bin of=a.img ibs=512 count=5 conv=notrunc seek=126
+	dd if=$(USER)/ouch.bin of=a.img ibs=512 count=18 conv=notrunc seek=126
 	# dd if=$(USER)/user_stone_2.bin of=a.img ibs=512 count=5 conv=notrunc seek=144
 	# dd if=$(USER)/user_stone_3.bin of=a.img ibs=512 count=5 conv=notrunc seek=162
 	# dd if=$(USER)/user_stone_4.bin of=a.img ibs=512 count=5 conv=notrunc seek=180

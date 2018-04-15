@@ -6,6 +6,7 @@
 #include "../include/type.h"
 #define MAX_SYSTEM_CALL 256
 #define MAX_PROCESS_NUM 256
+#define CUR_PROCESS_NUM 2
 
 // 系统调用表
 EXTERN u16 system_call[MAX_SYSTEM_CALL];

@@ -1,5 +1,5 @@
 
-USER_BIN = test_a.bin test_b.bin
+USER_BIN = test_a.bin test_b.bin ouch.bin
 C_FLAGS=-I ../include -c -m16 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
 LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
@@ -17,6 +17,10 @@ test_a.bin : test_a.c
 test_b.bin : test_b.c
 	gcc $(C_FLAGS) -o test_b.o test_b.c
 	ld $(LINK_FLAGS) -o test_b.bin test_b.o ../include/c_run_time.a
+
+ouch.bin: ouch.c
+	gcc $(C_FLAGS) -o ouch.o ouch.c
+	ld -Ttext 0x00 -m elf_i386 --oformat binary -o ouch.bin ouch.o ../include/c_run_time.a
 
 # user_test.bin : $(TEST_ASM) $(include)/macro.inc
 # 	nasm -f bin -o $(TEST_BIN)  $(TEST_ASM)

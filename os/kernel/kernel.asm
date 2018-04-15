@@ -21,11 +21,12 @@ _start:
     call dword cstart
     call install_int8
     call restart
+
 start_tty:
-    jmp 0x1500:0x0000
     call dword tty
     mov ah, 0x02
     int 0x40
+    jmp $
     jmp $
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。
 ;--------------------------安装8号中断----------------------------
