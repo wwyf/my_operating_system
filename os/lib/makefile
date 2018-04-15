@@ -6,7 +6,7 @@ LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
 OBJDUMP_FLAGS= -m i8086 -Sl
 
 all : $(OBJECTS)
-	ar rcs ../include/c_run_time.a stdio.o basic.o string.o
+	ar rcs ../include/c_run_time.a $(OBJECTS)
 
 stdio.o : stdio.c
 	gcc $(C_FLAGS) -o stdio.o stdio.c
