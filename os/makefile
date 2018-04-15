@@ -1,3 +1,5 @@
+# 修改文件位置指南
+# 改fat表，改root表的起始簇号，改makefile的dd选项
 objects = a.img
 include = include
 LOADER = loader
@@ -25,9 +27,8 @@ $(objects) : $(BIN_FILES)
 	dd if=$(BOOT)/boot.bin of=a.img ibs=512 count=1 conv=notrunc
 	dd if=$(BOOT)/fat.bin of=a.img ibs=512 count=3 conv=notrunc seek=1
 	dd if=$(BOOT)/root.bin of=a.img ibs=512 count=3 conv=notrunc seek=37
-	# dd if=$(LOADER)/gdt.bin of=a.img ibs=512 count=18 conv=notrunc seek=35
-	dd if=$(BOOT)/loader.bin of=a.img ibs=512 count=18 conv=notrunc seek=63
-	dd if=$(KERNEL)/kernel.bin of=a.img ibs=512 count=18 conv=notrunc seek=72
+	dd if=$(BOOT)/loader.bin of=a.img ibs=512 count=5 conv=notrunc seek=40
+	dd if=$(KERNEL)/kernel.bin of=a.img ibs=512 count=18 conv=notrunc seek=46
 	dd if=$(USER)/user_test.bin of=a.img ibs=512 count=5 conv=notrunc seek=90
 	dd if=$(USER)/user_e1.bin of=a.img ibs=512 count=5 conv=notrunc seek=108
 	dd if=$(USER)/user_stone_1.bin of=a.img ibs=512 count=5 conv=notrunc seek=126

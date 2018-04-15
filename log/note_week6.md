@@ -193,3 +193,6 @@ u16 kernel_cluster_code = root[0].cluster_code;
 ax成功取到了0x24
 
 其实刚刚我搞错了，的确是有取值的。
+
+问题在于前面各种内存改写，导致我全局变量的值都不对。
+
