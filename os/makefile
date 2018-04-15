@@ -7,18 +7,23 @@ BOOT = boot
 KERNEL = kernel
 USER = user
 BIN_FILES = $(BOOT)/boot.bin $(BOOT)/fat.bin $(BOOT)/root.bin $(KERNEL)/kernel.bin $(USER)/user_test.bin  $(USER)/user_e1.bin  $(USER)/user_stone_1.bin $(USER)/user_stone_2.bin $(USER)/user_stone_3.bin $(USER)/user_stone_4.bin
+C_RUN_TIME = ../include/c_run_time.a
 
 everthing : $(objects) $(BIN_FILES)
 
-$(BOOT)/boot.bin  $(BOOT)/root.bin $(BOOT)/fat.bin :
+$(C_RUN_TIME):
+	cd lib && make all
+	cd ..
+
+$(BOOT)/boot.bin  $(BOOT)/root.bin $(BOOT)/fat.bin :$(C_RUN_TIME)
 	cd boot && make
 	cd ..
 
-$(KERNEL)/kernel.bin:
+$(KERNEL)/kernel.bin:$(C_RUN_TIME)
 	cd kernel && make
 	cd ..
 
-$(USER)/user_test.bin  $(USER)/user_e1.bin:
+$(USER)/user_test.bin  $(USER)/user_e1.bin:$(C_RUN_TIME)
 	cd user && make
 	cd ..
 
@@ -49,6 +54,7 @@ all:
 
 .PHONY : clean
 clean :
+	-rm */*.a
 	-rm */*.o
 	-rm */*.bin
 	-rm */*.list
