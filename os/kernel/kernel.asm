@@ -39,6 +39,7 @@ restart:
     mov cx, 42
     sub di, 42
     cld
+    ; 将需要的信息复制到用户栈中。
     rep movsb
 
     mov ax, es; 取得第一个进程的栈段
