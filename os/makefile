@@ -34,7 +34,7 @@ $(USER)/test_a.bin:$(C_RUN_TIME)
 	cd ..
 
 $(objects) : $(BIN_FILES)
-	dd if=/dev/zero of=a.img ibs=512 count=150  conv=notrunc
+	dd if=/dev/zero of=a.img ibs=512 count=300  conv=notrunc
 	dd if=$(BOOT)/boot.bin of=a.img ibs=512 count=1 conv=notrunc
 	dd if=$(BOOT)/fat.bin of=a.img ibs=512 count=3 conv=notrunc seek=1
 	dd if=$(BOOT)/root.bin of=a.img ibs=512 count=3 conv=notrunc seek=37

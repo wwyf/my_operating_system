@@ -196,11 +196,8 @@ get_random:
     in al, 40h
 
     mov bl, 8 ; 除以8，得到范围为0-7的随机数
-    div bl
+    mul bl
 
-    mov al, ah
-    mov ah, 0h
-    add ax, 114 ; 加上白色背景色
     pop bx
     retl
 

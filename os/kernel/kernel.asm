@@ -51,6 +51,7 @@ install_int8:
 ;------------------------------------------------------------------------------
 new_int8:
     ; 保存所有信息到用户栈中
+    cli
     pushad
     push es
     push ds
@@ -88,7 +89,6 @@ new_int8:
     ; call dword move_name
     iret
 
-
 ; 启动一个进程，根据当前进程来启动
 restart:
     mov bp, [cur_process]
@@ -116,6 +116,7 @@ restart:
     pop ds
     pop es
     popad
+    sti
     iret
 
 

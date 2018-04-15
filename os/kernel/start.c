@@ -19,14 +19,12 @@ int cstart(){
     // 加载文件到内存指定位置
     fs_load_by_name("test_a.bin", 0x2000, 0x0000);
     fs_load_by_name("test_b.bin", 0x3000, 0x0000);
-    // fs_load_by_name("ouch.bin", 0x3000, 0x0000);
+    fs_load_by_name("ouch.bin", 0x4000, 0x0000);
     // 初始化进程控制块
-    init_process(0, 0x2000);
-    init_process(1, 0x3000);
 
-    // for (int i = 0; i < CUR_PROCESS_NUM ; i++){
-    //     init_process(i, 0x2000 + i * 0x1000);
-    // }
+    for (int i = 0; i < CUR_PROCESS_NUM ; i++){
+        init_process(i, 0x2000 + i * 0x1000);
+    }
     // 初始化启动进程
     cur_process_index = 0;
     cur_process = (PCB_t*)(&process_table[cur_process_index]);
