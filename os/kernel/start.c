@@ -8,11 +8,25 @@
 
 void (**my_program)();
 void test_system_call();
-
+int a;
 int cstart(){
     install_system_call(2, test_system_call);
     clean_screen();
     set_cursor(0);
+
+    a = get_cursor();
+
+    set_cursor(0);
+    set_cursor(1);
+    set_cursor(2);
+    set_cursor(3);
+    set_cursor(4);
+    set_cursor(345);
+
+
+    // while (1){}
+
+
     init_fsystem();
 
     fs_show_root_file_table();
@@ -22,7 +36,6 @@ int cstart(){
     // fs_load_by_name("stone1.bin", *my_program);
     // (*my_program)();
 
-    // while (1){}
     return 0;
 }
 

@@ -2,9 +2,9 @@
 
 global write_port_byte
 global read_port_byte
-global write_memory_word
+; global write_memory_word
 global write_memory_byte
-global read_memory_word
+global read_memory_byte
 global check_keyboard
 global get_keyboard
 global get_random
@@ -22,17 +22,14 @@ global reboot
 write_port_byte:
     push ebp
     mov ebp, esp
-    push ax
-    push dx
-    ;enter
+    proc_save
 
-    mov dx, [ebp+8] ; 取第一个参数 16位端口号
+    mov bx, [ebp+8] ; 取第一个参数 16位端口号
     mov al, [ebp+12]  ; 取第二个参数 数据
-    out dx, al
+    int 0x34
 
     ;laeve
-    pop dx
-    pop ax
+    proc_recover
     mov esp, ebp
     pop ebp 
     retl
@@ -43,45 +40,42 @@ write_port_byte:
 read_port_byte:
     push ebp
     mov ebp, esp
-    push dx
+    proc_save
     ;enter
 
-    mov dx, [ebp+8]  ; 取第一个参数  端口号
-    in  al, dx
+    mov ax, [ebp+8]  ; 取第一个参数  端口号
+    int 0x33
 
     ;laeve
-    pop dx
+    proc_recover
     mov esp, ebp
-    pop ebp
+    pop ebp 
     retl
 
 
-;[已测试] 对指定地址写入一字节
-; void write_memory_word(u32 address, u16 data);
-write_memory_word:
-    push ebp
-    mov ebp, esp
-    push ax
-    push bx
-    push dx
-    push ds
-    ;enter
+; ;[已测试] 对指定地址写入一字节
+; ; void write_memory_word(u32 address, u16 data);
+; write_memory_word:
+;     push ebp
+;     mov ebp, esp
+;     proc_save
+;     ;enter
 
-    mov bx, [ebp+8] ; 地址低16位，作为偏移量
-    mov ax, [ebp+10] ; 地址高16位
-    shl ax, 12       ;左移12位，作为段地址
-    mov ds, ax
-    mov dx, [ebp+12]
-    mov [ds:bx], dx
+;     mov bx, [ebp+8] ; 地址低16位，作为偏移量
+;     mov ax, [ebp+10] ; 地址高16位
+;     shl ax, 12       ;左移12位，作为段地址
 
-    ;laeve
-    pop ds
-    pop dx
-    pop bx
-    pop ax
-    mov esp, ebp
-    pop ebp
-    retl
+;     mov cx, [ebp+12] ; 要写的数据
+    
+;     int 0x36
+
+
+
+;     ;laeve
+;     proc_recover
+;     mov esp, ebp
+;     pop ebp
+;     retl
 
 ;[已测试] 对指定地址写入一字节
 ; void write_memory_byte(u32 address, u8 data);
@@ -97,9 +91,8 @@ write_memory_byte:
     mov bx, [ebp+8] ; 地址低16位，作为偏移量
     mov ax, [ebp+10] ; 地址高16位
     shl ax, 12       ;左移12位，作为段地址
-    mov ds, ax
-    mov dl, [ebp+12]
-    mov [ds:bx], dl
+    mov cl, [ebp+12]
+    int 0x36
 
     ;laeve
     pop ds
@@ -113,27 +106,20 @@ write_memory_byte:
 ; read_memory:
 
 ;[未测试] 从指定地址读取16位的数据
-; u16 read_memory_word(u32 address);
-read_memory_word:
+; u16 read_memory_byte(u32 address);
+read_memory_byte:
     push ebp
     mov ebp, esp
-    ; push ax
-    push bx
-    push dx
-    push ds
     ;enter
+    proc_save
 
     mov bx, [ebp+8] ; 地址低16位，作为偏移量
     mov ax, [ebp+10] ; 地址高16位
     shl ax, 12       ;左移12位，作为段地址
-    mov ds, ax
-    mov ax, [ds:bx]
+    int 0x35
 
+    proc_recover
     ;laeve
-    pop ds
-    pop dx
-    pop bx
-    ; pop ax
     mov esp, ebp
     pop ebp
     retl

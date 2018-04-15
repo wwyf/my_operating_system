@@ -5,7 +5,6 @@ SECTIONS
     {
         *(.text)
     }
-    . = 0x02100;
     .data :
     {
         *(.data)

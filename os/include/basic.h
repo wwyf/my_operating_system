@@ -13,7 +13,7 @@ void write_memory_byte(u32 address, u8 data);
 
 /* tested
 查看内存绝对地址处的内容 */
-u16 read_memory_word(u32 address);
+u16 read_memory_byte(u32 address);
 
 /* tested
 将8位的数据写到指定端口 */

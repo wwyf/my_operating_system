@@ -44,3 +44,61 @@ user4_bound_y_right equ 78
     db 0x66
     ret
 %endmacro
+
+%macro proc_save 0
+    push bx
+    push cx
+    push dx
+
+    push si
+    push di
+    push bp
+
+    push ds
+    push es
+    push ss
+%endmacro
+
+%macro proc_recover 0
+    pop ss
+    pop es
+    pop ds
+    
+    pop bp
+    pop di
+    pop si
+
+    pop dx
+    pop cx
+    pop bx
+%endmacro
+
+%macro interrupt_save 0
+    push ax
+    push bx
+    push cx
+    push dx
+
+    push si
+    push di
+    push bp
+
+    push ds
+    push es
+    push ss
+%endmacro
+
+%macro interrupt_recover 0
+    pop ss
+    pop es
+    pop ds
+    
+    pop bp
+    pop di
+    pop si
+
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+%endmacro
