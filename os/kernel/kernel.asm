@@ -7,6 +7,7 @@ extern tty
 extern get_random
 extern move_name
 extern my_infomation
+extern process_block
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
@@ -18,12 +19,39 @@ _start:
     call install_int40
     call dword cstart
 start_tty:
+    call restart
     jmp 0x1500:0x0000
     call dword tty
     mov ah, 0x02
     int 0x40
     jmp $
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。
+
+restart:
+    ; 取得进程表部分需要复制的内容
+    mov si, process_block+4
+    ; 取得用户栈地址
+    mov es, [process_block]; 取得第一个进程的栈段
+    mov di, [process_block+2]; 取得第一个进程的栈指针
+    ; movsb ds:si to es:di
+    ; 默认用户栈足够,将信息复制到用户栈中。
+    ; TODO:需要用户栈的大小:42 字节
+    mov cx, 42
+    sub di, 42
+    cld
+    rep movsb
+
+    mov ax, es; 取得第一个进程的栈段
+    sub di, 42; 取得第一个进程的栈指针
+
+    mov ss, ax
+    mov sp, di
+
+    pop ds
+    pop es
+    popad
+    iret
+
 
 ;##############################################################################
 ;--------------------------------安装40号中断----------------------------------

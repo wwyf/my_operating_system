@@ -32,4 +32,37 @@ typedef struct{
     u32 space5;
 }Message;
 
+
+
+typedef struct proc_register {
+    u16 ss;// 用户所处栈段
+    u16 sp;// 用户栈指针
+    // #####
+    u16 ds;
+    u16 es;
+    // popad
+    u32 edi;
+    u32 esi;
+    u32 ebp;
+    u32 kernel_esp; // TODO:??
+    u32 ebx;
+    u32 edx;
+    u32 ecx;
+    u32 eax;
+    // pushad
+    // u32 retaddr;
+    u16 ip;
+    u16 cs;
+    u16 flags;
+    // #####
+}procRegister;
+
+
+typedef struct controlProcessBlock{
+    procRegister regs;
+    u32 pid;
+    char p_name[16];
+}PCB_t;
+
+
 #endif
