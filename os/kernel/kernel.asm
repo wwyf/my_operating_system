@@ -18,10 +18,9 @@ _start:
     call install_int40
     call dword cstart
 start_tty:
+    call dword tty
     mov ah, 0x02
     int 0x40
-    call dword tty
-    jmp $
     jmp $
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。
 
@@ -46,6 +45,7 @@ install_int40:
 ; 这是新的int40，用于调用系统调用
 ; 使用ax索引中断
 ; 每一个项是16位+16位 
+; TODO: 在qemu下运行系统调用可能会出问题
 new_int40:
 
     cmp ah, 0x4c
