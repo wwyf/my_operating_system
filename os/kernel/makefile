@@ -13,7 +13,7 @@ KERNEL_ASM=kernel.asm
 LIB_C=$(LIB)/stdio.c
 LIB_ASM=$(LIB)/basic.asm
 
-all : $(TARGET) $(OBJECTS) kernel.bin kernel.objdump user_ouch.bin
+all : $(TARGET) $(OBJECTS) kernel.bin kernel.objdump
 
 stdio.o : $(LIB_C)
 	gcc $(C_FLAGS) -o stdio.o $(LIB_C)
