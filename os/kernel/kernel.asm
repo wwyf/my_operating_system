@@ -19,8 +19,8 @@ _start:
     call install_int36
     call install_int40
     call dword cstart
+    call install_int8
     call restart
-    ; call install_int8
 start_tty:
     jmp 0x1500:0x0000
     call dword tty
