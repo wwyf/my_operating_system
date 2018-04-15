@@ -35,7 +35,7 @@ $(objects) : $(BIN_FILES)
 	dd if=$(USER)/user_stone_2.bin of=a.img ibs=512 count=5 conv=notrunc seek=144
 	dd if=$(USER)/user_stone_3.bin of=a.img ibs=512 count=5 conv=notrunc seek=162
 	dd if=$(USER)/user_stone_4.bin of=a.img ibs=512 count=5 conv=notrunc seek=180
-	# dd if=$(KERNEL)/user_ouch.bin of=a.img ibs=512 count=5 conv=notrunc seek=198
+	dd if=$(USER)/test_a.bin of=a.img ibs=512 count=5 conv=notrunc seek=198
 
 runq:
 	qemu-system-i386.exe -fda a.img

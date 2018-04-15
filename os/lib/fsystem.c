@@ -100,7 +100,7 @@ u16 fs_get_file_size(char * file_name){
 void fs_show_root_file_table(){
     printf("%s   | %s | %s\n", "file name ", "file size", "cluster");
     printf("------------------------------------\n\r");
-    int file_number = 7;// TODO:文件数量需要设置！
+    int file_number = 9;// TODO:文件数量需要设置！
     for(int i = 0; i < file_number; i++){
         _fs_show_file_by_descriptor_number(i);
     }
