@@ -10,17 +10,17 @@ extern my_infomation
 [bits 16]
 ;----------------------------内核功能入口---------------------------------------
 _start:
-    call install_int40
-    ; call install_int8
+    call install_int8
     call install_int33
     call install_int34
     call install_int35
     call install_int36
+    call install_int40
     call dword cstart
 start_tty:
-    call dword tty
     mov ah, 0x02
     int 0x40
+    call dword tty
     jmp $
     jmp $
 ; 这里放的是内核加载器，负责加载在其他扇区的程序。
@@ -30,9 +30,7 @@ start_tty:
 ;--------------------------------安装40号中断----------------------------------
 ; 安装40号中断，用于用户程序返回内核
 install_int40:
-    push ax
-    push bx
-    push ds
+    proc_save
 
     ; 安装 int 40 主要代码
     mov ax, 0
@@ -41,9 +39,7 @@ install_int40:
     mov word [0x40*4], new_int40
     mov word [0x40*4+2], ax
     
-    pop ds
-    pop bx
-    pop ax
+    proc_recover
     ret
 
 ;------------------------------------------------------------------------------
@@ -124,7 +120,6 @@ new_int8:
 	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
 
     interrupt_recover
-    sti
     iret
 
 
@@ -213,14 +208,11 @@ new_int34:
 
 install_int35:
     proc_save
-
-    ; 安装 int 35 主要代码
     mov ax, 0
     mov ds, ax
     mov ax, cs
     mov word [0x35*4], new_int35
     mov word [0x35*4+2], ax
-
     proc_recover
     ret
 
@@ -236,14 +228,10 @@ new_int35:
     ; 保存用户栈指针
     ; 将栈切换到内核栈
     ; 将用户栈保存到内核栈中
-
     proc_save
-
     mov es, ax ; 取第一个参数 段地址
     mov al, [es:bx]
-
     proc_recover
-
     iret
 
 ;##############################################################################
@@ -252,14 +240,11 @@ new_int35:
 
 install_int36:
     proc_save
-
-    ; 安装 int 36 主要代码
     mov ax, 0
     mov ds, ax
     mov ax, cs
     mov word [0x36*4], new_int36
     mov word [0x36*4+2], ax
-
     proc_recover
     ret
 
@@ -276,10 +261,7 @@ new_int36:
     ; 将用户栈保存到内核栈中
 
     interrupt_save
-
     mov es, ax ; 取第一个参数 段地址
     mov [es:bx], cl
-
     interrupt_recover
-
     iret
