@@ -476,7 +476,7 @@ int cstart(){
      2b5:	66 e8 c2 08 00 00    	calll  b7d <set_cursor>
 /mnt/e/code/my_operating_system/os/kernel/start.c:19
     // install_system_call(2, test_system_call);
-    fs_load_by_name("test_a.bin", 0x5000);
+    fs_load_by_name("test_b.bin", 0x5000);
      2bb:	66 83 c4 08          	add    $0x8,%esp
      2bf:	66 68 00 50 00 00    	pushl  $0x5000
      2c5:	66 68 56 17 00 00    	pushl  $0x1756
