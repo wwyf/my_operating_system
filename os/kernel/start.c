@@ -30,6 +30,8 @@ int cstart(){
     cur_process_index = 0;
     cur_process = (PCB_t*)(&process_table[cur_process_index]);
 
+    int8_repetion = 0;
+
     // 初始化 系统调用表
     install_system_call(2, test_system_call);
     return 0;

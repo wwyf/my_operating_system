@@ -16,6 +16,7 @@ EXTERN PCB_t process_table[MAX_SYSTEM_CALL];
 EXTERN u16 cur_process_index;
 EXTERN u16* cur_process;
 EXTERN u16 cur_process_num;
+EXTERN u16 int8_repetion;
 
 
 

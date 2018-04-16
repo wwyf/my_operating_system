@@ -38,8 +38,8 @@ typedef struct proc_register {
     u16 ss;// 用户所处栈段
     u16 sp;// 用户栈指针
     // #####
-    u16 ds;
     u16 es;
+    u16 ds;
     // popad
     u32 edi;
     u32 esi;

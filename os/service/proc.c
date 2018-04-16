@@ -19,8 +19,8 @@ void init_process(int process_index, u16 segment){
     PCB_t* this_process = &process_table[process_index];
     this_process->regs.ss = segment;
     this_process->regs.sp = 0x5000;
-    this_process->regs.ds = segment;
     this_process->regs.es = segment;
+    this_process->regs.ds = segment;
     this_process->regs.edi = 0;
     this_process->regs.esi = 0;
     this_process->regs.ebp = 0x5000;

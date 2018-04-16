@@ -8,6 +8,7 @@ extern get_random
 extern move_name
 extern my_infomation
 extern cur_process
+extern int8_repetion
 extern schedule_process
 
 [bits 16]
@@ -53,8 +54,12 @@ new_int8:
     ; 保存所有信息到用户栈中
     cli
     pushad
-    push es
     push ds
+    push es
+    ; TODO:时钟重入
+    cmp word [int8_repetion],1
+    je int8_reture
+    mov word [int8_repetion],1
     push sp
     push ss
     ; 将信息存到进程控制块中
@@ -81,7 +86,7 @@ new_int8:
 	out 20h,al			; 发送EOI到主8529A
 	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
 
-    call restart
+    jmp restart
 
     ; ; 设置段地址
     ; mov ax, 0b800h
@@ -107,15 +112,18 @@ restart:
     ; 将需要的信息复制到用户栈中。
     rep movsb
 
+
     mov ax, es; 取得第一个进程的栈段
     sub di, 42; 取得第一个进程的栈指针
 
     mov ss, ax
     mov sp, di
-
-    pop ds
+; TODO: 时钟中断重入
+    mov word [int8_repetion],0
     pop es
+    pop ds
     popad
+int8_reture:
     sti
     iret
 
