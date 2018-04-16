@@ -367,11 +367,12 @@ new_int41h:
     pushad
     push ds
     push es
+    push cx
+    push ss,
     ; TODO:时钟重入
     ; cmp word [int8_repetion],1
     ; je int8_reture
     ; mov word [int8_repetion],1
-    push ss
     ; 将信息存到进程控制块中
     ; ds 已经是用户段了，并且和ss相同
     mov si, sp
@@ -379,7 +380,7 @@ new_int41h:
     mov es, ax ; TODO:内核段
     mov di, [es:cur_process]
     ; move ds:si to es:di
-    mov cx, 46 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
+    mov cx, 48 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
     cld
     rep movsb 
 

@@ -7,9 +7,9 @@ int test(int a, int b){
 }
 
 int main(){
-    printf("test!");
+    printf("test in a");
     while(1){
-        // for(int i = 0; i < 20000000; i++);
+        for(int i = 0; i < 20000000; i++);
         __asm__("int $0x41");
         printf("%c ",'a');
         test(1,1);
