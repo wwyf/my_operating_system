@@ -21,9 +21,9 @@ _start:
     call install_int40
     call install_int41h
     call dword cstart 
-    call install_int8
+    ; call install_int8
+    call int41h_restart
     sti
-    call restart
 
 
 start_tty:
@@ -48,92 +48,10 @@ install_int8:
     mov ds, ax
     mov ax, cs
     mov word [4*8+2], ax ; 设置段地址为cs
-    mov word [4*8], new_int8 ; 设置偏移地址为子过程所在位置
+    mov word [4*8], new_int41h ; 设置偏移地址为子过程所在位置
 
     proc_recover
     ret
-;------------------------------------------------------------------------------
-new_int8:
-    ; 保存所有信息到用户栈中
-    ; cli
-    push sp
-    pushad
-    push ds
-    push es
-    push cx
-    push ss,
-    ; TODO:时钟重入
-    ; cmp word [int8_repetion],1
-    ; je int8_reture
-    ; mov word [int8_repetion],1
-    ; 将信息存到进程控制块中
-    ; ds 已经是用户段了，并且和ss相同
-    mov si, sp
-    mov ax, 0x1000 ; TODO:内核段
-    mov es, ax ; TODO:内核段
-    mov di, [es:cur_process]
-    ; move ds:si to es:di
-    mov cx, 48 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
-    cld
-    rep movsb 
-
-    mov ax, 0x1000
-    mov es, ax
-    mov ds, ax
-    mov ss, ax
-    mov sp, 0x5000 ;TODO:需要维护内核的栈指针吗？
-    ; 进入到内核段中
-
-    call dword schedule_process
-
-
-    jmp restart
-
-    ; ; 设置段地址
-    ; mov ax, 0b800h
-    ; mov ds, ax
-    ; call dword move_name
-    iret
-
-; 启动一个进程，根据当前进程来启动
-restart:
-    mov bp, [cur_process]
-    mov si, bp
-    add si, 4 ; TODO: 跳过ss
-    ; 取得进程表部分需要复制的内容
-    ; 取得用户栈地址
-    mov di, [ds:bp+40]; 取得当前进程的栈指针
-    mov es, [ds:bp]; 取得当前进程的栈段
-    ; TODO:注意这个栈指针的值！
-    sub di, 44
-    ; 默认用户栈足够,将信息复制到用户栈中。
-    ; TODO:需要用户栈的大小:42 字节
-    ; movsb ds:si to es:di
-    mov cx, 44
-    cld
-    ; 将需要的信息复制到用户栈中。
-    rep movsb
-
-	mov al,20h			; AL = EOI
-	out 20h,al			; 发送EOI到主8529A
-	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
-
-
-
-    sub di, 44; 取得第一个进程的栈指针, 移动之后di的值已经变了，所以要减回来
-    mov ax, es; 取得第一个进程的栈段
-    mov ss, ax
-    mov sp, di
-; TODO: 时钟中断重入
-    ; mov word [int8_repetion],0
-    pop es
-    pop ds
-    popad
-    pop sp
-    sub sp, 6
-int8_reture:
-    ; sti
-    iret
 
 
 ;##############################################################################
@@ -409,15 +327,15 @@ int41h_restart:
 
     mov bp, [cur_process]
     mov si, bp
-    add si, 4 ; TODO: 跳过ss
+    add si, 4 ; TODO: 跳过ss,还有placehold
     ; 取得进程表部分需要复制的内容
     ; 取得用户栈地址
     mov di, [ds:bp+40]; 取得当前进程的栈指针
     mov es, [ds:bp]; 取得当前进程的栈段
     ; TODO:注意这个栈指针的值！
-    sub di, 44
+    sub di, 42
     ; 默认用户栈足够,将信息复制到用户栈中。
-    ; TODO:需要用户栈的大小:42 字节
+    ; TODO:需要用户栈的大小:44 字节
     ; movsb ds:si to es:di
     mov cx, 44
     cld
@@ -440,7 +358,7 @@ int41h_restart:
     pop ds
     popad
     pop sp
-    sub sp, 6
+    sub sp, 4
 int41h_reture:
     ; sti
     iret
