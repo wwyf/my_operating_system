@@ -127,8 +127,8 @@ read_memory_byte:
 check_keyboard:
     mov ah, 0x01
     int 0x16
-    ; 若有按键，则zf为0，若无按键，则zf为1，跳回去继续查询
-    jz .have_key
+    ; 若有按键，则zf为1，若无按键，则zf为0，跳回去继续查询
+    jnz .have_key
     mov ax, 0
     jmp .check_keyboard_return
  .have_key:

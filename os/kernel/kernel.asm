@@ -57,9 +57,9 @@ new_int8:
     push ds
     push es
     ; TODO:时钟重入
-    cmp word [int8_repetion],1
-    je int8_reture
-    mov word [int8_repetion],1
+    ; cmp word [int8_repetion],1
+    ; je int8_reture
+    ; mov word [int8_repetion],1
     push sp
     push ss
     ; 将信息存到进程控制块中
@@ -119,7 +119,7 @@ restart:
     mov ss, ax
     mov sp, di
 ; TODO: 时钟中断重入
-    mov word [int8_repetion],0
+    ; mov word [int8_repetion],0
     pop es
     pop ds
     popad

@@ -195,6 +195,10 @@ void vprintf(char * format, va_list va){
                         n = n / 10;
                         len++;
                     }
+                    if (n == 0){
+                        num[len] = 0;
+                        len = 1;
+                    }
                     for (int i = len-1; i >= 0; i--){
                         buf[des_index++] = num[i]+'0';
                     }
