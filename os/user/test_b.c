@@ -2,7 +2,7 @@
 #include "../include/stdio.h"
 
 int test(int a, int b){
-    printf("in function %d %d", a, b);
+    printf("in process %d ! %d\n", a, b);
 }
 
 int main(){

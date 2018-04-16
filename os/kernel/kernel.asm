@@ -52,7 +52,7 @@ install_int8:
 ;------------------------------------------------------------------------------
 new_int8:
     ; 保存所有信息到用户栈中
-    cli
+    ; cli
     pushad
     push ds
     push es
@@ -124,7 +124,7 @@ restart:
     pop ds
     popad
 int8_reture:
-    sti
+    ; sti
     iret
 
 
