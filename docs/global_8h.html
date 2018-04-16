@@ -93,8 +93,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="global_8h__dep__incl.png" border="0" usemap="#os_2include_2global_8hdep" alt=""/></div>
 <map name="os_2include_2global_8hdep" id="os_2include_2global_8hdep">
 <area shape="rect" id="node2" href="start_8c.html" title="os/kernel/start.c" alt="" coords="5,80,121,107"/>
-<area shape="rect" id="node3" href="global_8c.html" title="os/lib/global.c" alt="" coords="145,80,248,107"/>
-<area shape="rect" id="node4" href="system__call_8c.html" title="os/lib/system_call.c" alt="" coords="273,80,411,107"/>
+<area shape="rect" id="node3" href="global_8c.html" title="os/service/global.c" alt="" coords="146,80,277,107"/>
+<area shape="rect" id="node4" href="proc_8c.html" title="os/service/proc.c" alt="" coords="301,80,423,107"/>
+<area shape="rect" id="node5" href="system__call_8c.html" title="os/service/system_call.c" alt="" coords="448,80,615,107"/>
 </map>
 </div>
 </div>
@@ -104,13 +105,43 @@ This graph shows which files directly or indirectly include this file:</div>
 Macros</h2></td></tr>
 <tr class="memitem:a1ee61641fb17b2c4c6a3a7c5330c41c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#a1ee61641fb17b2c4c6a3a7c5330c41c6">MAX_SYSTEM_CALL</a>&#160;&#160;&#160;256</td></tr>
 <tr class="separator:a1ee61641fb17b2c4c6a3a7c5330c41c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72747dee175975e0e3062065cb12f776"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#a72747dee175975e0e3062065cb12f776">MAX_PROCESS_NUM</a>&#160;&#160;&#160;256</td></tr>
+<tr class="separator:a72747dee175975e0e3062065cb12f776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:ac5e3eb71c441a9aa03e3c180db8d095d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#ac5e3eb71c441a9aa03e3c180db8d095d">system_call</a> [<a class="el" href="type_8h.html#a1ee61641fb17b2c4c6a3a7c5330c41c6">MAX_SYSTEM_CALL</a>]</td></tr>
 <tr class="separator:ac5e3eb71c441a9aa03e3c180db8d095d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48b3b7241943c4e1c5639f37d4e2b77a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a2a202acc1a6a2f397930faf7a335c629">PCB_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#a48b3b7241943c4e1c5639f37d4e2b77a">process_table</a> [<a class="el" href="type_8h.html#a1ee61641fb17b2c4c6a3a7c5330c41c6">MAX_SYSTEM_CALL</a>]</td></tr>
+<tr class="separator:a48b3b7241943c4e1c5639f37d4e2b77a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6260e40d1dad63addd9281306fa8f2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#ab6260e40d1dad63addd9281306fa8f2e">cur_process_index</a></td></tr>
+<tr class="separator:ab6260e40d1dad63addd9281306fa8f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa430f7c2a4c701f459288c2b7cdfaa0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#aa430f7c2a4c701f459288c2b7cdfaa0d">cur_process</a></td></tr>
+<tr class="separator:aa430f7c2a4c701f459288c2b7cdfaa0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a8441e755cc8aad529da3733c58bb74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#a5a8441e755cc8aad529da3733c58bb74">cur_process_num</a></td></tr>
+<tr class="separator:a5a8441e755cc8aad529da3733c58bb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eef42078c80958cd9a6d98b0477a561"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#a4eef42078c80958cd9a6d98b0477a561">int8_repetion</a></td></tr>
+<tr class="separator:a4eef42078c80958cd9a6d98b0477a561"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559bcc70719cac56a16150e3baa2c6c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="global_8h.html#a559bcc70719cac56a16150e3baa2c6c3">current_process</a></td></tr>
+<tr class="separator:a559bcc70719cac56a16150e3baa2c6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a72747dee175975e0e3062065cb12f776"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72747dee175975e0e3062065cb12f776">&#9670;&nbsp;</a></span>MAX_PROCESS_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_PROCESS_NUM&#160;&#160;&#160;256</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00008">8</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
 <a id="a1ee61641fb17b2c4c6a3a7c5330c41c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ee61641fb17b2c4c6a3a7c5330c41c6">&#9670;&nbsp;</a></span>MAX_SYSTEM_CALL</h2>
 
@@ -128,6 +159,102 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="aa430f7c2a4c701f459288c2b7cdfaa0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa430f7c2a4c701f459288c2b7cdfaa0d">&#9670;&nbsp;</a></span>cur_process</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>* cur_process</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00017">17</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
+<a id="ab6260e40d1dad63addd9281306fa8f2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6260e40d1dad63addd9281306fa8f2e">&#9670;&nbsp;</a></span>cur_process_index</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> cur_process_index</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00016">16</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
+<a id="a5a8441e755cc8aad529da3733c58bb74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a8441e755cc8aad529da3733c58bb74">&#9670;&nbsp;</a></span>cur_process_num</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> cur_process_num</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00018">18</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
+<a id="a559bcc70719cac56a16150e3baa2c6c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559bcc70719cac56a16150e3baa2c6c3">&#9670;&nbsp;</a></span>current_process</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> current_process</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00025">25</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
+<a id="a4eef42078c80958cd9a6d98b0477a561"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eef42078c80958cd9a6d98b0477a561">&#9670;&nbsp;</a></span>int8_repetion</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> int8_repetion</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00019">19</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
+<a id="a48b3b7241943c4e1c5639f37d4e2b77a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48b3b7241943c4e1c5639f37d4e2b77a">&#9670;&nbsp;</a></span>process_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stdio_8h.html#a77366c1bd428629dc898e188bfd182a3">EXTERN</a> <a class="el" href="type_8h.html#a2a202acc1a6a2f397930faf7a335c629">PCB_t</a> process_table[<a class="el" href="type_8h.html#a1ee61641fb17b2c4c6a3a7c5330c41c6">MAX_SYSTEM_CALL</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00014">14</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+
+</div>
+</div>
 <a id="ac5e3eb71c441a9aa03e3c180db8d095d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac5e3eb71c441a9aa03e3c180db8d095d">&#9670;&nbsp;</a></span>system_call</h2>
 
@@ -140,7 +267,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00009">9</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="global_8h_source.html#l00011">11</a> of file <a class="el" href="global_8h_source.html">global.h</a>.</p>
 
 </div>
 </div>

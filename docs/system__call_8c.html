@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: os/lib/system_call.c File Reference</title>
+<title>My Project: os/service/system_call.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_8b7cb6c889a10e2a101a7e90c854ca4d.html">os</a></li><li class="navelem"><a class="el" href="dir_875248aa65efa84c2144f97a73121a29.html">lib</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_8b7cb6c889a10e2a101a7e90c854ca4d.html">os</a></li><li class="navelem"><a class="el" href="dir_38801e5937c1ecb7f62a4b2db818240f.html">service</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,11 +83,11 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for system_call.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="system__call_8c__incl.png" border="0" usemap="#os_2lib_2system__call_8c" alt=""/></div>
-<map name="os_2lib_2system__call_8c" id="os_2lib_2system__call_8c">
-<area shape="rect" id="node2" href="type_8h.html" title="../include/type.h" alt="" coords="22,155,137,181"/>
-<area shape="rect" id="node3" href="stdio_8h.html" title="../include/stdio.h" alt="" coords="20,80,139,107"/>
-<area shape="rect" id="node4" href="global_8h.html" title="../include/global.h" alt="" coords="163,80,287,107"/>
+<div class="center"><img src="system__call_8c__incl.png" border="0" usemap="#os_2service_2system__call_8c" alt=""/></div>
+<map name="os_2service_2system__call_8c" id="os_2service_2system__call_8c">
+<area shape="rect" id="node2" href="type_8h.html" title="../include/type.h" alt="" coords="31,155,146,181"/>
+<area shape="rect" id="node3" href="stdio_8h.html" title="../include/stdio.h" alt="" coords="29,80,148,107"/>
+<area shape="rect" id="node4" href="global_8h.html" title="../include/global.h" alt="" coords="172,80,296,107"/>
 </map>
 </div>
 </div>
@@ -97,6 +97,8 @@ Include dependency graph for system_call.c:</div>
 Functions</h2></td></tr>
 <tr class="memitem:ab471ab6e9cae8b01bb5a6db1759c9664"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="system__call_8c.html#ab471ab6e9cae8b01bb5a6db1759c9664">install_system_call</a> (int system_call_number, void(*function)())</td></tr>
 <tr class="separator:ab471ab6e9cae8b01bb5a6db1759c9664"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b036fe1079e07853382ec6f3ddba789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="system__call_8c.html#a6b036fe1079e07853382ec6f3ddba789">test_system_call</a> ()</td></tr>
+<tr class="separator:a6b036fe1079e07853382ec6f3ddba789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ab471ab6e9cae8b01bb5a6db1759c9664"></a>
@@ -127,8 +129,50 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="system__call_8c_source.html#l00005">5</a> of file <a class="el" href="system__call_8c_source.html">system_call.c</a>.</p>
 <div class="fragment"><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                                     {</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <a class="code" href="global_8h.html#ac5e3eb71c441a9aa03e3c180db8d095d">system_call</a>[system_call_number] = (<a class="code" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>) <span class="keyword">function</span>;</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    return ;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div><div class="ttc" id="type_8h_html_a9e6c91d77e24643b888dbd1a1a590054"><div class="ttname"><a href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a></div><div class="ttdeci">unsigned short u16</div><div class="ttdef"><b>Definition:</b> <a href="type_8h_source.html#l00007">type.h:7</a></div></div>
-<div class="ttc" id="global_8h_html_ac5e3eb71c441a9aa03e3c180db8d095d"><div class="ttname"><a href="global_8h.html#ac5e3eb71c441a9aa03e3c180db8d095d">system_call</a></div><div class="ttdeci">EXTERN u16 system_call[MAX_SYSTEM_CALL]</div><div class="ttdef"><b>Definition:</b> <a href="global_8h_source.html#l00009">global.h:9</a></div></div>
+<div class="ttc" id="global_8h_html_ac5e3eb71c441a9aa03e3c180db8d095d"><div class="ttname"><a href="global_8h.html#ac5e3eb71c441a9aa03e3c180db8d095d">system_call</a></div><div class="ttdeci">EXTERN u16 system_call[MAX_SYSTEM_CALL]</div><div class="ttdef"><b>Definition:</b> <a href="global_8h_source.html#l00011">global.h:11</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a6b036fe1079e07853382ec6f3ddba789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b036fe1079e07853382ec6f3ddba789">&#9670;&nbsp;</a></span>test_system_call()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void test_system_call </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="system__call_8c_source.html#l00012">12</a> of file <a class="el" href="system__call_8c_source.html">system_call.c</a>.</p>
+<div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                       {</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">int</span> origin = <a class="code" href="stdio_8h.html#a321b6fd7a588cf8b65118d1cdd9409f3">get_cursor</a>();</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9">set_cursor</a>(1800);</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="stdio_8h.html#a63c54f1d737929378b379911b1ca4a45">printf</a>(<span class="stringliteral">&quot;test custom system call!!! &quot;</span>);</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9">set_cursor</a>(origin);</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div><div class="ttc" id="stdio_8h_html_a321b6fd7a588cf8b65118d1cdd9409f3"><div class="ttname"><a href="stdio_8h.html#a321b6fd7a588cf8b65118d1cdd9409f3">get_cursor</a></div><div class="ttdeci">u16 get_cursor()</div><div class="ttdef"><b>Definition:</b> <a href="stdio_8c_source.html#l00024">stdio.c:24</a></div></div>
+<div class="ttc" id="stdio_8h_html_a63c54f1d737929378b379911b1ca4a45"><div class="ttname"><a href="stdio_8h.html#a63c54f1d737929378b379911b1ca4a45">printf</a></div><div class="ttdeci">void printf(char *format,...)</div><div class="ttdef"><b>Definition:</b> <a href="stdio_8c_source.html#l00252">stdio.c:252</a></div></div>
+<div class="ttc" id="stdio_8h_html_aacdcb46fde898777fbbe95f24fedaac9"><div class="ttname"><a href="stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9">set_cursor</a></div><div class="ttdeci">void set_cursor(u16 cursor_index)</div><div class="ttdef"><b>Definition:</b> <a href="stdio_8c_source.html#l00013">stdio.c:13</a></div></div>
+</div><!-- fragment --><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="system__call_8c_a6b036fe1079e07853382ec6f3ddba789_cgraph.png" border="0" usemap="#system__call_8c_a6b036fe1079e07853382ec6f3ddba789_cgraph" alt=""/></div>
+<map name="system__call_8c_a6b036fe1079e07853382ec6f3ddba789_cgraph" id="system__call_8c_a6b036fe1079e07853382ec6f3ddba789_cgraph">
+<area shape="rect" id="node2" href="stdio_8h.html#a321b6fd7a588cf8b65118d1cdd9409f3" title="get_cursor" alt="" coords="515,5,597,32"/>
+<area shape="rect" id="node5" href="stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="273,247,356,273"/>
+<area shape="rect" id="node6" href="stdio_8h.html#a63c54f1d737929378b379911b1ca4a45" title="printf" alt="" coords="175,171,225,197"/>
+<area shape="rect" id="node3" href="basic_8h.html#aefb5aad9c0c6a619c34b515b299f1382" title="write_port_byte" alt="" coords="666,132,777,159"/>
+<area shape="rect" id="node4" href="basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948" title="read_port_byte" alt="" coords="667,31,775,57"/>
+<area shape="rect" id="node7" href="stdio_8c.html#aa1eb54b83570e9a54c13e605e35eac14" title="vprintf" alt="" coords="285,171,344,197"/>
+<area shape="rect" id="node8" href="string_8h.html#a1b466f2a1e360235424abfb1b426f648" title="strlen" alt="" coords="404,189,459,216"/>
+<area shape="rect" id="node9" href="stdio_8c.html#acc0ee6e9643f83a5ab11722197fc25ec" title="putc" alt="" coords="408,139,455,165"/>
+<area shape="rect" id="node10" href="stdio_8c.html#a321b6fd7a588cf8b65118d1cdd9409f3" title="get_cursor" alt="" coords="515,107,597,133"/>
+<area shape="rect" id="node11" href="basic_8h.html#a84aa5d70fb7071886a0c2fc4d5380535" title="scroll_screen" alt="" coords="507,56,605,83"/>
+<area shape="rect" id="node12" href="stdio_8c.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="515,157,597,184"/>
+<area shape="rect" id="node13" href="stdio_8c.html#a9a8be2f89b180575b6161043f1fd78ff" title="_put_char" alt="" coords="517,208,595,235"/>
+<area shape="rect" id="node14" href="basic_8h.html#ae64d89b50cdcd8c1a7a639eaeec2d87e" title="write_memory_byte" alt="" coords="653,208,789,235"/>
+</map>
+</div>
+
 </div>
 </div>
 </div><!-- contents -->

@@ -1,20 +1,6 @@
 var searchData=
 [
-  ['macro_2einc',['macro.inc',['../macro_8inc.html',1,'']]],
-  ['main',['main',['../user__ouch_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'user_ouch.c']]],
-  ['max_5fbuf',['MAX_BUF',['../tty_8c.html#a2491303d0fe260aaba8f46717cda66cc',1,'tty.c']]],
-  ['max_5fsystem_5fcall',['MAX_SYSTEM_CALL',['../global_8h.html#a1ee61641fb17b2c4c6a3a7c5330c41c6',1,'MAX_SYSTEM_CALL():&#160;global.h'],['../type_8h.html#a1ee61641fb17b2c4c6a3a7c5330c41c6',1,'MAX_SYSTEM_CALL():&#160;type.h']]],
-  ['memchr',['memchr',['../string_8h.html#afbc731424da17ba82d0b96318b02f62a',1,'string.h']]],
-  ['memcmp',['memcmp',['../string_8h.html#abc842b01023ad0d7849b1ff6db8c45db',1,'string.h']]],
-  ['memcpy',['memcpy',['../string_8h.html#a82c26cd350df88414f825bca40183ec2',1,'string.h']]],
-  ['memmove',['memmove',['../string_8h.html#aefb2fbd59e518d0de056c0e95aba0722',1,'string.h']]],
-  ['memset',['memset',['../string_8h.html#ab229cfa9b9367a8ca2819d8ca0f46e4f',1,'string.h']]],
-  ['message',['Message',['../structMessage.html',1,'']]],
-  ['message_5flength',['message_length',['../tty_8c.html#a71dc9a9f719087f7fcc6621b617469de',1,'tty.c']]],
-  ['move_5fname',['move_name',['../style_8h.html#a8cc2e052cc81332c6ac2687a717da49c',1,'move_name():&#160;style.c'],['../style_8c.html#a8cc2e052cc81332c6ac2687a717da49c',1,'move_name():&#160;style.c']]],
-  ['msg_5frecv',['MSG_RECV',['../type_8h.html#afede5cf5d0ab00260e0f50c4273a4df1',1,'type.h']]],
-  ['msg_5fsegment',['MSG_SEGMENT',['../type_8h.html#a421bb7405cd38aef70cc3123aa8de9bd',1,'type.h']]],
-  ['msg_5fsend',['MSG_SEND',['../type_8h.html#a9972e630027bd272f8125433d77f0c94',1,'type.h']]],
-  ['my_5finfomation',['my_infomation',['../style_8c.html#aec24ae18ffb25100205c8d5eec2cff2e',1,'style.c']]],
-  ['my_5fprogram',['my_program',['../start_8c.html#a452f8475017e59d8f32671e9e0c8dedf',1,'start.c']]]
+  ['kernel_5fcluster_5fcode',['kernel_cluster_code',['../loader_8c.html#ad19cb0b2d4a1957e7dedb87c517316a9',1,'loader.c']]],
+  ['kernel_5fesp',['kernel_esp',['../structproc__register.html#ae2c2b17fce9f73c82a1dfb7d651156f9',1,'proc_register']]],
+  ['kernel_5fstart',['kernel_start',['../loader__start_8h.html#a5fed83f1870809270475ca393c04530f',1,'loader_start.h']]]
 ];

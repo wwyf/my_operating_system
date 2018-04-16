@@ -1,6 +1,7 @@
 var searchData=
 [
   ['init_5ffsystem',['init_fsystem',['../fsystem_8h.html#a7aa52cc16165c5332fcd1f88156c7d01',1,'init_fsystem():&#160;fsystem.c'],['../fsystem_8c.html#a7aa52cc16165c5332fcd1f88156c7d01',1,'init_fsystem():&#160;fsystem.c']]],
+  ['init_5fprocess',['init_process',['../proc_8h.html#ac565e61424415b5630c687b6cac7da84',1,'init_process(int process_index, u16 segment):&#160;proc.c'],['../proc_8c.html#ac565e61424415b5630c687b6cac7da84',1,'init_process(int process_index, u16 segment):&#160;proc.c']]],
   ['install_5fsystem_5fcall',['install_system_call',['../system__call_8h.html#ab471ab6e9cae8b01bb5a6db1759c9664',1,'install_system_call(int system_call_number, void(*function)()):&#160;system_call.c'],['../system__call_8c.html#ab471ab6e9cae8b01bb5a6db1759c9664',1,'install_system_call(int system_call_number, void(*function)()):&#160;system_call.c']]],
   ['isalnum',['isalnum',['../stdio_8h.html#a2473f8b1ac53521d1b67ec7f35e9200a',1,'isalnum(int ch):&#160;stdio.c'],['../stdio_8c.html#a2473f8b1ac53521d1b67ec7f35e9200a',1,'isalnum(int ch):&#160;stdio.c']]],
   ['isalpha',['isalpha',['../stdio_8h.html#a0353589609b4d18243a69068c9ceacb8',1,'isalpha(int ch):&#160;stdio.c'],['../stdio_8c.html#a0353589609b4d18243a69068c9ceacb8',1,'isalpha(int ch):&#160;stdio.c']]],

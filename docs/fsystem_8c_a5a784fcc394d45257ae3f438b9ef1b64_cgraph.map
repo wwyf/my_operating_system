@@ -1,0 +1,8 @@
+<map id="fs_load_by_name" name="fs_load_by_name">
+<area shape="rect" id="node2" href="$fsystem_8c.html#afb71b2b119e7c1b743145b016753e2a8" title="_fs_find_cluster_code\l_by_name" alt="" coords="189,23,339,65"/>
+<area shape="rect" id="node6" href="$fsystem_8c.html#a597aff7bcb20ffc433e7abf43e6e3344" title="_fs_load_by_cluster_code" alt="" coords="177,89,351,116"/>
+<area shape="rect" id="node3" href="$fsystem_8c.html#acaeb5cdcbf389584126544102fadd0b0" title="_fs_find_descriptor\l_number_by_name" alt="" coords="399,23,531,65"/>
+<area shape="rect" id="node4" href="$string_8h.html#a1b466f2a1e360235424abfb1b426f648" title="strlen" alt="" coords="586,5,641,32"/>
+<area shape="rect" id="node5" href="$string_8h.html#a3f74a77304f18e9b3bc92d7a3ade2b69" title="strncmp" alt="" coords="579,56,648,83"/>
+<area shape="rect" id="node7" href="$loader_8c.html#a2de87d8da4f464304a2071cc87cdeace" title="read_n_sector" alt="" coords="413,89,517,116"/>
+</map>

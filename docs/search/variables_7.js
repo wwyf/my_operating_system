@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['root',['root',['../fsystem_8c.html#a5c44b7e562545424269916a30ff46154',1,'fsystem.c']]],
-  ['root_5fsector',['root_sector',['../fsystem_8c.html#abfebea20600932ece27a69e4735e618f',1,'fsystem.c']]]
+  ['message_5flength',['message_length',['../tty_8c.html#a71dc9a9f719087f7fcc6621b617469de',1,'tty.c']]],
+  ['my_5finfomation',['my_infomation',['../style_8c.html#aec24ae18ffb25100205c8d5eec2cff2e',1,'style.c']]]
 ];

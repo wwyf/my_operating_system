@@ -1,14 +1,19 @@
 <map id="os/include/type.h" name="os/include/type.h">
-<area shape="rect" id="node2" href="$basic_8h.html" title="os/include/basic.h" alt="" coords="560,80,687,107"/>
-<area shape="rect" id="node3" href="$start_8c.html" title="os/kernel/start.c" alt="" coords="296,155,412,181"/>
-<area shape="rect" id="node4" href="$tty_8c.html" title="os/kernel/tty.c" alt="" coords="436,155,541,181"/>
-<area shape="rect" id="node6" href="$fsystem_8c.html" title="os/lib/fsystem.c" alt="" coords="566,155,681,181"/>
-<area shape="rect" id="node7" href="$stdio_8c.html" title="os/lib/stdio.c" alt="" coords="881,155,977,181"/>
-<area shape="rect" id="node8" href="$global_8h.html" title="os/include/global.h" alt="" coords="154,80,285,107"/>
-<area shape="rect" id="node10" href="$system__call_8c.html" title="os/lib/system_call.c" alt="" coords="133,155,271,181"/>
-<area shape="rect" id="node11" href="$stdio_8h.html" title="os/include/stdio.h" alt="" coords="360,80,484,107"/>
-<area shape="rect" id="node12" href="$string_8c.html" title="os/lib/string.c" alt="" coords="813,80,913,107"/>
-<area shape="rect" id="node13" href="$style_8c.html" title="os/lib/style.c" alt="" coords="938,80,1034,107"/>
-<area shape="rect" id="node5" href="$user__ouch_8c.html" title="os/kernel/user_ouch.c" alt="" coords="705,155,856,181"/>
-<area shape="rect" id="node9" href="$global_8c.html" title="os/lib/global.c" alt="" coords="5,155,108,181"/>
+<area shape="rect" id="node2" href="$loader__start_8h.html" title="os/boot/loader_start.h" alt="" coords="165,80,313,107"/>
+<area shape="rect" id="node3" href="$loader_8c.html" title="os/boot/loader.c" alt="" coords="5,155,120,181"/>
+<area shape="rect" id="node4" href="$basic_8h.html" title="os/include/basic.h" alt="" coords="550,80,677,107"/>
+<area shape="rect" id="node5" href="$start_8c.html" title="os/kernel/start.c" alt="" coords="701,155,817,181"/>
+<area shape="rect" id="node6" href="$stdio_8c.html" title="os/lib/stdio.c" alt="" coords="144,155,240,181"/>
+<area shape="rect" id="node7" href="$fsystem_8c.html" title="os/service/fsystem.c" alt="" coords="264,155,408,181"/>
+<area shape="rect" id="node8" href="$proc_8c.html" title="os/service/proc.c" alt="" coords="1121,155,1244,181"/>
+<area shape="rect" id="node9" href="$tty_8c.html" title="os/service/tty.c" alt="" coords="432,155,544,181"/>
+<area shape="rect" id="node11" href="$global_8h.html" title="os/include/global.h" alt="" coords="952,80,1083,107"/>
+<area shape="rect" id="node13" href="$system__call_8c.html" title="os/service/system_call.c" alt="" coords="1269,155,1435,181"/>
+<area shape="rect" id="node14" href="$stdio_8h.html" title="os/include/stdio.h" alt="" coords="753,80,877,107"/>
+<area shape="rect" id="node17" href="$string_8c.html" title="os/lib/string.c" alt="" coords="1158,80,1258,107"/>
+<area shape="rect" id="node18" href="$style_8c.html" title="os/lib/style.c" alt="" coords="1283,80,1379,107"/>
+<area shape="rect" id="node10" href="$ouch_8c.html" title="os/user/ouch.c" alt="" coords="569,155,677,181"/>
+<area shape="rect" id="node12" href="$global_8c.html" title="os/service/global.c" alt="" coords="1460,155,1591,181"/>
+<area shape="rect" id="node15" href="$test__a_8c.html" title="os/user/test_a.c" alt="" coords="981,155,1097,181"/>
+<area shape="rect" id="node16" href="$test__b_8c.html" title="os/user/test_b.c" alt="" coords="841,155,957,181"/>
 </map>

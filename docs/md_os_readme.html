@@ -78,22 +78,9 @@ $(function() {
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">模块  </th><th class="markdownTableHeadNone" colspan="4">�   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">boot.bin  </td><td class="markdownTableBodyNone" colspan="2">(0,0,1):0,1  </td><td class="markdownTableBodyNone">0x7c00-0x7e00  </td><td class="markdownTableBodyNone">在软盘中搜索loader.bin，并加载到内存0x0800:0x0000处   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone">kernel.bin  </td><td class="markdownTableBodyNone" colspan="2">(0,2,1):72,16  </td><td class="markdownTableBodyNone">0x10000-0x2FFFF  </td><td class="markdownTableBodyNone">在内核下，初始化各种东西后，自动加载tty   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">tty.bin  </td><td class="markdownTableBodyNone" colspan="2">(1,2,1):90,10  </td><td class="markdownTableBodyNone">0x30000-0x34FFF  </td><td class="markdownTableBodyNone">显示终端，调用各种功能   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone">fsystem.bin  </td><td class="markdownTableBodyNone" colspan="3">(?,?,?):?,4  </td><td class="markdownTableBodyNone">在内存中，作为访问文件的接口   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">user_stone_1.bin  </td><td class="markdownTableBodyNone" colspan="2">126,5  </td><td class="markdownTableBodyNone">0x4000:0x0000  </td><td class="markdownTableBodyNone">一个用于测试的用户程序   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone">user_stone_2.bin  </td><td class="markdownTableBodyNone" colspan="2">148,5  </td><td class="markdownTableBodyNone">0x4000:0x0000  </td><td class="markdownTableBodyNone">一个用于测试的用户程序   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">user_stone_3.bin  </td><td class="markdownTableBodyNone" colspan="2">166,5  </td><td class="markdownTableBodyNone">0x4000:0x0000  </td><td class="markdownTableBodyNone">一个用于测试的用户程序   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone">user_stone_4.bin  </td><td class="markdownTableBodyNone" colspan="2">184,5  </td><td class="markdownTableBodyNone">0x4000:0x0000  </td><td class="markdownTableBodyNone">一个用于测试的用户程序   </td></tr>
+<td class="markdownTableBodyNone">boot.bin  </td><td class="markdownTableBodyNone" colspan="2">(0,0,1):0,1  </td><td class="markdownTableBodyNone">0x7c00-0x7e00  </td><td class="markdownTableBodyNone">在软盘从指定位置加载loader.bin   </td></tr>
 </table>
+<p>|loader.bin|(1,1,10):63,5|0x8000-0xFFFF|在软盘中加载kernel.bin，并跳转到内核| |kernel.bin|(0,2,1):72,16||0x10000-0x2FFFF|在内核下，初始化各种东西后，自动加载tty| |tty.bin|(1,2,1):90,10||0x30000-0x34FFF|显示终端，调用各种功能| |fsystem.bin|(?,?,?):?,4|||在内存中，作为访问文件的接口| |user_stone_1.bin|126,5||0x4000:0x0000|一个用于测试的用户程序| |user_stone_2.bin|148,5||0x4000:0x0000|一个用于测试的用户程序| |user_stone_3.bin|166,5||0x4000:0x0000|一个用于测试的用户程序| |user_stone_4.bin|184,5||0x4000:0x0000|一个用于测试的用户程序|</p>
 <h2>kernel.bin</h2>
 <p class="">0x1000:0x0000</p>
 <p class="">直接跳到tty</p>

@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['parser',['parser',['../tty_8c.html#ac15f7c36f6055edec43d0f0f611c4dc0',1,'tty.c']]],
-  ['print_5fname',['print_name',['../basic_8h.html#a7981a626703ff2312463e3a17a26661e',1,'basic.h']]],
-  ['printf',['printf',['../stdio_8h.html#a63c54f1d737929378b379911b1ca4a45',1,'printf(char *format,...):&#160;stdio.c'],['../stdio_8c.html#a63c54f1d737929378b379911b1ca4a45',1,'printf(char *format,...):&#160;stdio.c']]],
-  ['putc',['putc',['../stdio_8h.html#acc0ee6e9643f83a5ab11722197fc25ec',1,'putc(char c):&#160;stdio.c'],['../stdio_8c.html#acc0ee6e9643f83a5ab11722197fc25ec',1,'putc(char c):&#160;stdio.c']]],
-  ['puti',['puti',['../stdio_8h.html#aac6ccbb7ccafb31bea0f038c7469c661',1,'puti(u32 n):&#160;stdio.c'],['../stdio_8c.html#aac6ccbb7ccafb31bea0f038c7469c661',1,'puti(u32 n):&#160;stdio.c']]],
-  ['puts',['puts',['../stdio_8h.html#a5440f204aee13d4f19cbc2129a81a570',1,'puts(char *str, int size):&#160;stdio.c'],['../stdio_8c.html#a5440f204aee13d4f19cbc2129a81a570',1,'puts(char *str, int size):&#160;stdio.c']]]
+  ['main',['main',['../loader_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;loader.c'],['../ouch_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;ouch.c'],['../test__a_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;test_a.c'],['../test__b_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;test_b.c']]],
+  ['memchr',['memchr',['../string_8h.html#afbc731424da17ba82d0b96318b02f62a',1,'string.h']]],
+  ['memcmp',['memcmp',['../string_8h.html#abc842b01023ad0d7849b1ff6db8c45db',1,'string.h']]],
+  ['memcpy',['memcpy',['../string_8h.html#a82c26cd350df88414f825bca40183ec2',1,'string.h']]],
+  ['memmove',['memmove',['../string_8h.html#aefb2fbd59e518d0de056c0e95aba0722',1,'string.h']]],
+  ['memset',['memset',['../string_8h.html#ab229cfa9b9367a8ca2819d8ca0f46e4f',1,'string.h']]],
+  ['move_5fname',['move_name',['../style_8h.html#a8cc2e052cc81332c6ac2687a717da49c',1,'move_name():&#160;style.c'],['../style_8c.html#a8cc2e052cc81332c6ac2687a717da49c',1,'move_name():&#160;style.c']]]
 ];

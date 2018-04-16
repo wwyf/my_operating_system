@@ -1,0 +1,5 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$loader_8c.html#a2de87d8da4f464304a2071cc87cdeace" title="read_n_sector" alt="" coords="139,5,243,32"/>
+<area shape="rect" id="node3" href="$loader_8c.html#a597aff7bcb20ffc433e7abf43e6e3344" title="_fs_load_by_cluster_code" alt="" coords="104,56,277,83"/>
+<area shape="rect" id="node4" href="$loader__start_8h.html#a5fed83f1870809270475ca393c04530f" title="kernel_start" alt="" coords="145,107,236,133"/>
+</map>

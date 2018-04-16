@@ -92,10 +92,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="basic_8h__dep__incl.png" border="0" usemap="#os_2include_2basic_8hdep" alt=""/></div>
 <map name="os_2include_2basic_8hdep" id="os_2include_2basic_8hdep">
 <area shape="rect" id="node2" href="start_8c.html" title="os/kernel/start.c" alt="" coords="5,80,121,107"/>
-<area shape="rect" id="node3" href="tty_8c.html" title="os/kernel/tty.c" alt="" coords="145,80,251,107"/>
-<area shape="rect" id="node4" href="user__ouch_8c.html" title="os/kernel/user_ouch.c" alt="" coords="275,80,425,107"/>
-<area shape="rect" id="node5" href="fsystem_8c.html" title="os/lib/fsystem.c" alt="" coords="450,80,565,107"/>
-<area shape="rect" id="node6" href="stdio_8c.html" title="os/lib/stdio.c" alt="" coords="589,80,685,107"/>
+<area shape="rect" id="node3" href="stdio_8c.html" title="os/lib/stdio.c" alt="" coords="146,80,242,107"/>
+<area shape="rect" id="node4" href="fsystem_8c.html" title="os/service/fsystem.c" alt="" coords="266,80,410,107"/>
+<area shape="rect" id="node5" href="proc_8c.html" title="os/service/proc.c" alt="" coords="434,80,557,107"/>
+<area shape="rect" id="node6" href="tty_8c.html" title="os/service/tty.c" alt="" coords="581,80,693,107"/>
+<area shape="rect" id="node7" href="ouch_8c.html" title="os/user/ouch.c" alt="" coords="717,80,825,107"/>
 </map>
 </div>
 </div>
@@ -107,8 +108,8 @@ Functions</h2></td></tr>
 <tr class="separator:ab930a38d31494111b81f4a5a31f79f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae64d89b50cdcd8c1a7a639eaeec2d87e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#ae64d89b50cdcd8c1a7a639eaeec2d87e">write_memory_byte</a> (<a class="el" href="type_8h.html#a10e94b422ef0c20dcdec20d31a1f5049">u32</a> address, <a class="el" href="type_8h.html#aed742c436da53c1080638ce6ef7d13de">u8</a> data)</td></tr>
 <tr class="separator:ae64d89b50cdcd8c1a7a639eaeec2d87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b8b78aeb163cbaef065b5237706ab19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#a2b8b78aeb163cbaef065b5237706ab19">read_memory_word</a> (<a class="el" href="type_8h.html#a10e94b422ef0c20dcdec20d31a1f5049">u32</a> address)</td></tr>
-<tr class="separator:a2b8b78aeb163cbaef065b5237706ab19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7414c70e23f4ecd5ceac7720d6730801"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#a7414c70e23f4ecd5ceac7720d6730801">read_memory_byte</a> (<a class="el" href="type_8h.html#a10e94b422ef0c20dcdec20d31a1f5049">u32</a> address)</td></tr>
+<tr class="separator:a7414c70e23f4ecd5ceac7720d6730801"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefb5aad9c0c6a619c34b515b299f1382"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#aefb5aad9c0c6a619c34b515b299f1382">write_port_byte</a> (<a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> port_number, <a class="el" href="type_8h.html#aed742c436da53c1080638ce6ef7d13de">u8</a> data)</td></tr>
 <tr class="separator:aefb5aad9c0c6a619c34b515b299f1382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972b27acd6f9dd9f578bd5f3ebc8b948"><td class="memItemLeft" align="right" valign="top"><a class="el" href="type_8h.html#aed742c436da53c1080638ce6ef7d13de">u8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948">read_port_byte</a> (<a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> port_number)</td></tr>
@@ -214,14 +215,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2b8b78aeb163cbaef065b5237706ab19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b8b78aeb163cbaef065b5237706ab19">&#9670;&nbsp;</a></span>read_memory_word()</h2>
+<a id="a7414c70e23f4ecd5ceac7720d6730801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7414c70e23f4ecd5ceac7720d6730801">&#9670;&nbsp;</a></span>read_memory_byte()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> read_memory_word </td>
+          <td class="memname"><a class="el" href="type_8h.html#a9e6c91d77e24643b888dbd1a1a590054">u16</a> read_memory_byte </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="type_8h.html#a10e94b422ef0c20dcdec20d31a1f5049">u32</a>&#160;</td>
           <td class="paramname"><em>address</em></td><td>)</td>

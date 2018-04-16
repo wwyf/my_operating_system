@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['vprintf',['vprintf',['../stdio_8h.html#a7d7599b746c4549cc155e4700c8a3b81',1,'vprintf(char *format, va_list a):&#160;stdio.c'],['../stdio_8c.html#aa1eb54b83570e9a54c13e605e35eac14',1,'vprintf(char *format, va_list va):&#160;stdio.c']]]
+  ['test',['test',['../test__a_8c.html#a6435b6b08357ded36de14f529d75b05c',1,'test(int a, int b):&#160;test_a.c'],['../test__b_8c.html#a6435b6b08357ded36de14f529d75b05c',1,'test(int a, int b):&#160;test_b.c']]],
+  ['test_5fsystem_5fcall',['test_system_call',['../system__call_8h.html#a6b036fe1079e07853382ec6f3ddba789',1,'test_system_call():&#160;system_call.c'],['../system__call_8c.html#a6b036fe1079e07853382ec6f3ddba789',1,'test_system_call():&#160;system_call.c']]],
+  ['tty',['tty',['../tty_8c.html#a69c2da24cb9f5c6ff292a2979521f92b',1,'tty.c']]],
+  ['tty_5fscroll_5fscreen',['tty_scroll_screen',['../tty_8c.html#a9cacad4a9f4cdf1d5205cf925ddfe4fd',1,'tty.c']]]
 ];

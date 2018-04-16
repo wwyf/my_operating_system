@@ -1,9 +1,10 @@
 <map id="os/kernel/start.c" name="os/kernel/start.c">
-<area shape="rect" id="node2" href="$type_8h.html" title="../include/type.h" alt="" coords="101,155,216,181"/>
-<area shape="rect" id="node3" href="$basic_8h.html" title="../include/basic.h" alt="" coords="26,80,147,107"/>
-<area shape="rect" id="node4" href="$stdio_8h.html" title="../include/stdio.h" alt="" coords="171,80,290,107"/>
-<area shape="rect" id="node5" href="$string_8h.html" title="../include/string.h" alt="" coords="315,80,437,107"/>
+<area shape="rect" id="node2" href="$type_8h.html" title="../include/type.h" alt="" coords="102,155,216,181"/>
+<area shape="rect" id="node3" href="$basic_8h.html" title="../include/basic.h" alt="" coords="26,80,148,107"/>
+<area shape="rect" id="node4" href="$stdio_8h.html" title="../include/stdio.h" alt="" coords="172,80,290,107"/>
+<area shape="rect" id="node5" href="$string_8h.html" title="../include/string.h" alt="" coords="315,80,438,107"/>
 <area shape="rect" id="node6" href="$global_8h.html" title="../include/global.h" alt="" coords="462,80,586,107"/>
-<area shape="rect" id="node7" href="$system__call_8h.html" title="../include/system_call.h" alt="" coords="609,80,769,107"/>
-<area shape="rect" id="node8" href="$fsystem_8h.html" title="../include/fsystem.h" alt="" coords="794,80,931,107"/>
+<area shape="rect" id="node7" href="$system__call_8h.html" title="../include/system_call.h" alt="" coords="610,80,770,107"/>
+<area shape="rect" id="node8" href="$fsystem_8h.html" title="../include/fsystem.h" alt="" coords="794,80,932,107"/>
+<area shape="rect" id="node9" href="$proc_8h.html" title="../include/proc.h" alt="" coords="956,80,1071,107"/>
 </map>

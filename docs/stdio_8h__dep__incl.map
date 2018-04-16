@@ -1,6 +1,10 @@
 <map id="os/include/stdio.h" name="os/include/stdio.h">
 <area shape="rect" id="node2" href="$start_8c.html" title="os/kernel/start.c" alt="" coords="5,80,121,107"/>
-<area shape="rect" id="node3" href="$tty_8c.html" title="os/kernel/tty.c" alt="" coords="145,80,251,107"/>
-<area shape="rect" id="node4" href="$fsystem_8c.html" title="os/lib/fsystem.c" alt="" coords="275,80,390,107"/>
-<area shape="rect" id="node5" href="$system__call_8c.html" title="os/lib/system_call.c" alt="" coords="414,80,553,107"/>
+<area shape="rect" id="node3" href="$fsystem_8c.html" title="os/service/fsystem.c" alt="" coords="146,80,290,107"/>
+<area shape="rect" id="node4" href="$proc_8c.html" title="os/service/proc.c" alt="" coords="314,80,437,107"/>
+<area shape="rect" id="node5" href="$system__call_8c.html" title="os/service/system_call.c" alt="" coords="461,80,628,107"/>
+<area shape="rect" id="node6" href="$tty_8c.html" title="os/service/tty.c" alt="" coords="651,80,763,107"/>
+<area shape="rect" id="node7" href="$ouch_8c.html" title="os/user/ouch.c" alt="" coords="788,80,896,107"/>
+<area shape="rect" id="node8" href="$test__a_8c.html" title="os/user/test_a.c" alt="" coords="920,80,1036,107"/>
+<area shape="rect" id="node9" href="$test__b_8c.html" title="os/user/test_b.c" alt="" coords="1060,80,1176,107"/>
 </map>

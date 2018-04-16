@@ -1,14 +1,8 @@
 var searchData=
 [
-  ['scroll_5fscreen',['scroll_screen',['../basic_8h.html#a84aa5d70fb7071886a0c2fc4d5380535',1,'basic.h']]],
-  ['set_5fcursor',['set_cursor',['../stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9',1,'set_cursor(u16 cursor_index):&#160;stdio.c'],['../stdio_8c.html#aacdcb46fde898777fbbe95f24fedaac9',1,'set_cursor(u16 cursor_index):&#160;stdio.c']]],
-  ['sprintf',['sprintf',['../stdio_8h.html#ae4a3ec598d841bdb7d79b4ac5311a88e',1,'sprintf(char *, char *format,...):&#160;stdio.c'],['../stdio_8c.html#aa4dc4909a22a5da2e5828a9a70e22878',1,'sprintf(char *dest, char *format,...):&#160;stdio.c']]],
-  ['strchr',['strchr',['../string_8h.html#a52d8ea02f31ff4411a52c36562dac046',1,'string.h']]],
-  ['strcmp',['strcmp',['../string_8h.html#ab655c443e1cef04fa70bdb5a0ff26ca2',1,'strcmp(char *lhs, char *rhs):&#160;string.c'],['../string_8c.html#ab655c443e1cef04fa70bdb5a0ff26ca2',1,'strcmp(char *lhs, char *rhs):&#160;string.c']]],
-  ['strcpy',['strcpy',['../string_8h.html#af9af30bd4e6b10d1560aabd834144e33',1,'string.h']]],
-  ['strlen',['strlen',['../string_8h.html#a1b466f2a1e360235424abfb1b426f648',1,'strlen(char *str):&#160;string.c'],['../string_8c.html#a1b466f2a1e360235424abfb1b426f648',1,'strlen(char *str):&#160;string.c']]],
-  ['strncat',['strncat',['../string_8h.html#ad816896a9b962ae43664c4b530849255',1,'string.h']]],
-  ['strncmp',['strncmp',['../string_8h.html#a3f74a77304f18e9b3bc92d7a3ade2b69',1,'strncmp(char *lhs, char *rhs, int size):&#160;string.c'],['../string_8c.html#a3f74a77304f18e9b3bc92d7a3ade2b69',1,'strncmp(char *lhs, char *rhs, int size):&#160;string.c']]],
-  ['strncpy',['strncpy',['../string_8h.html#aad7e8a0a18e9bb980bc5ed8b3cf2d3cf',1,'strncpy(char *dest, char *src, u32 size):&#160;string.c'],['../string_8c.html#aad7e8a0a18e9bb980bc5ed8b3cf2d3cf',1,'strncpy(char *dest, char *src, u32 size):&#160;string.c']]],
-  ['strstr',['strstr',['../string_8h.html#a9d7aa964dee61000bd0fd976144f0e94',1,'string.h']]]
+  ['read_5fmemory',['read_memory',['../stdio_8h.html#a5d95964a0f154e14081b7f680583a395',1,'stdio.h']]],
+  ['read_5fmemory_5fbyte',['read_memory_byte',['../basic_8h.html#a7414c70e23f4ecd5ceac7720d6730801',1,'basic.h']]],
+  ['read_5fn_5fsector',['read_n_sector',['../loader_8c.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;loader.c'],['../stdio_8h.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;loader.c'],['../stdio_8c.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;stdio.c']]],
+  ['read_5fport_5fbyte',['read_port_byte',['../basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948',1,'basic.h']]],
+  ['read_5fsector',['read_sector',['../loader__start_8h.html#ae09053bb528e6283f6fa2998dfdf00ef',1,'read_sector(u16 head, u16 cylinder, u16 sector, u16 segment, u16 offset):&#160;loader_start.h'],['../basic_8h.html#ae09053bb528e6283f6fa2998dfdf00ef',1,'read_sector(u16 head, u16 cylinder, u16 sector, u16 segment, u16 offset):&#160;basic.h']]]
 ];

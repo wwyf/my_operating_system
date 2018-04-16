@@ -1,8 +1,13 @@
 var searchData=
 [
-  ['test_5fsystem_5fcall',['test_system_call',['../start_8c.html#a6b036fe1079e07853382ec6f3ddba789',1,'start.c']]],
-  ['tty',['tty',['../tty_8c.html#a69c2da24cb9f5c6ff292a2979521f92b',1,'tty.c']]],
-  ['tty_2ec',['tty.c',['../tty_8c.html',1,'']]],
-  ['tty_5fscroll_5fscreen',['tty_scroll_screen',['../tty_8c.html#a9cacad4a9f4cdf1d5205cf925ddfe4fd',1,'tty.c']]],
-  ['type_2eh',['type.h',['../type_8h.html',1,'']]]
+  ['read_5fmemory',['read_memory',['../stdio_8h.html#a5d95964a0f154e14081b7f680583a395',1,'stdio.h']]],
+  ['read_5fmemory_5fbyte',['read_memory_byte',['../basic_8h.html#a7414c70e23f4ecd5ceac7720d6730801',1,'basic.h']]],
+  ['read_5fn_5fsector',['read_n_sector',['../loader_8c.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;loader.c'],['../stdio_8h.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;loader.c'],['../stdio_8c.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;stdio.c']]],
+  ['read_5fport_5fbyte',['read_port_byte',['../basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948',1,'basic.h']]],
+  ['read_5fsector',['read_sector',['../loader__start_8h.html#ae09053bb528e6283f6fa2998dfdf00ef',1,'read_sector(u16 head, u16 cylinder, u16 sector, u16 segment, u16 offset):&#160;loader_start.h'],['../basic_8h.html#ae09053bb528e6283f6fa2998dfdf00ef',1,'read_sector(u16 head, u16 cylinder, u16 sector, u16 segment, u16 offset):&#160;basic.h']]],
+  ['readme_2emd',['readme.md',['../readme_8md.html',1,'']]],
+  ['regs',['regs',['../structcontrolProcessBlock.html#ad7b536dfb3a696b8bd4e6335c73732e4',1,'controlProcessBlock']]],
+  ['root',['root',['../loader_8c.html#a47f476204291a9d7a0a28830340f963f',1,'root():&#160;loader.c'],['../fsystem_8c.html#a5c44b7e562545424269916a30ff46154',1,'root():&#160;fsystem.c']]],
+  ['root_5fsector',['root_sector',['../loader_8c.html#abfebea20600932ece27a69e4735e618f',1,'root_sector():&#160;loader.c'],['../fsystem_8c.html#abfebea20600932ece27a69e4735e618f',1,'root_sector():&#160;fsystem.c']]],
+  ['root_5fsector_5fnumber',['ROOT_SECTOR_NUMBER',['../loader_8c.html#a6499219cdc8ea9044247d32be070bb88',1,'loader.c']]]
 ];

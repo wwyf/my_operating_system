@@ -1,6 +1,7 @@
-<map id="os/kernel/tty.c" name="os/kernel/tty.c">
+<map id="os/service/tty.c" name="os/service/tty.c">
 <area shape="rect" id="node2" href="$type_8h.html" title="../include/type.h" alt="" coords="27,155,142,181"/>
 <area shape="rect" id="node3" href="$basic_8h.html" title="../include/basic.h" alt="" coords="24,80,145,107"/>
 <area shape="rect" id="node4" href="$stdio_8h.html" title="../include/stdio.h" alt="" coords="169,80,288,107"/>
-<area shape="rect" id="node5" href="$string_8h.html" title="../include/string.h" alt="" coords="312,80,435,107"/>
+<area shape="rect" id="node5" href="$fsystem_8h.html" title="../include/fsystem.h" alt="" coords="312,80,449,107"/>
+<area shape="rect" id="node6" href="$string_8h.html" title="../include/string.h" alt="" coords="474,80,596,107"/>
 </map>

@@ -1,4 +1,4 @@
-<map id="os/lib/fsystem.c" name="os/lib/fsystem.c">
+<map id="os/service/fsystem.c" name="os/service/fsystem.c">
 <area shape="rect" id="node2" href="$basic_8h.html" title="../include/basic.h" alt="" coords="5,80,127,107"/>
 <area shape="rect" id="node3" href="$type_8h.html" title="type.h" alt="" coords="135,155,194,181"/>
 <area shape="rect" id="node4" href="$string_8h.html" title="../include/string.h" alt="" coords="202,80,325,107"/>
