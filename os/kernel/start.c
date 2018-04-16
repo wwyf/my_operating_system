@@ -12,7 +12,7 @@ int cstart(){
     init_fsystem();
     // 清屏
     clean_screen();
-    // 将光标设置为0 TODO:
+    // 将光标设置为0
     set_cursor(0);
 
 

@@ -8,8 +8,6 @@ DEBUG_LINK_FLAGS= -m elf_i386 -T loader.lds
 NASM_FLAGS=-f elf32
 OBJDUMP_FLAGS= -m i8086 -Sl
 
-all : $(objects).bin  root.bin fat.bin loader.bin
-
 boot.bin : boot.asm ../include/macro.inc
 	nasm -f bin -o boot.bin -l boot.list boot.asm
 
