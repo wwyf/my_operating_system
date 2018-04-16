@@ -282,12 +282,11 @@ install_int41h:
 new_int41h:
     ; 保存所有信息到用户栈中
     ; cli
-    push sp
     pushad
     push ds
     push es
-    push cx
     push ss,
+    push sp
     ; TODO:时钟重入
     ; cmp word [int8_repetion],1
     ; je int8_reture
@@ -296,10 +295,10 @@ new_int41h:
     ; ds 已经是用户段了，并且和ss相同
     mov si, sp
     mov ax, 0x1000 ; TODO:内核段
-    mov es, ax ; TODO:内核段
+    mov es, ax ; 
     mov di, [es:cur_process]
     ; move ds:si to es:di
-    mov cx, 48 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
+    mov cx, 46 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
     cld
     rep movsb 
 
@@ -323,21 +322,19 @@ new_int41h:
 
 ; 启动一个进程，根据当前进程来启动
 int41h_restart:
-
-
     mov bp, [cur_process]
     mov si, bp
-    add si, 4 ; TODO: 跳过ss,还有placehold
+
     ; 取得进程表部分需要复制的内容
     ; 取得用户栈地址
-    mov di, [ds:bp+40]; 取得当前进程的栈指针
-    mov es, [ds:bp]; 取得当前进程的栈段
+    mov es, [ds:bp+2]; 取得当前进程的栈段
+    mov di, [ds:bp]; 取得当前进程的栈指针
     ; TODO:注意这个栈指针的值！
-    sub di, 42
     ; 默认用户栈足够,将信息复制到用户栈中。
     ; TODO:需要用户栈的大小:44 字节
+    ; 默认从进程控制块获得的栈指针已经包含了进程控制开的内容
     ; movsb ds:si to es:di
-    mov cx, 44
+    mov cx, 46
     cld
     ; 将需要的信息复制到用户栈中。
     rep movsb
@@ -348,17 +345,17 @@ int41h_restart:
 
 
 
-    sub di, 44; 取得第一个进程的栈指针, 移动之后di的值已经变了，所以要减回来
+    sub di, 46; 取得第一个进程的栈指针, 移动之后di的值已经变了，所以要减回来
     mov ax, es; 取得第一个进程的栈段
     mov ss, ax
     mov sp, di
 ; TODO: 时钟中断重入
     ; mov word [int8_repetion],0
+    pop cx
+    pop cx ; 这两个是push到cx，清掉栈中原有的东西
     pop es
     pop ds
     popad
-    pop sp
-    sub sp, 4
 int41h_reture:
     ; sti
     iret
