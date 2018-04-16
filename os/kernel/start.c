@@ -15,7 +15,7 @@ int cstart(){
     // 将光标设置为0
     set_cursor(0);
 
-    cur_process_num = 3;
+    cur_process_num = 2;
 
     // 加载文件到内存指定位置
     fs_load_by_name("test_a.bin", 0x2000, 0x0000);

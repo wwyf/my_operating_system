@@ -21,7 +21,7 @@ _start:
     call install_int40
     call install_int41h
     call dword cstart 
-    ; call install_int8
+    call install_int8
     sti
     call restart
 
@@ -56,23 +56,24 @@ install_int8:
 new_int8:
     ; 保存所有信息到用户栈中
     ; cli
+    push sp
     pushad
     push ds
     push es
+    push cx
+    push ss,
     ; TODO:时钟重入
     ; cmp word [int8_repetion],1
     ; je int8_reture
     ; mov word [int8_repetion],1
-    push sp
-    push ss
     ; 将信息存到进程控制块中
-    ; move ds:si to es:di
     ; ds 已经是用户段了，并且和ss相同
     mov si, sp
     mov ax, 0x1000 ; TODO:内核段
     mov es, ax ; TODO:内核段
-    mov di, [cur_process]
-    mov cx, 46 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
+    mov di, [es:cur_process]
+    ; move ds:si to es:di
+    mov cx, 48 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
     cld
     rep movsb 
 

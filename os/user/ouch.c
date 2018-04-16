@@ -10,7 +10,7 @@ int main(){
         // 不断检查， 直到有端盘输入才停止
         while (!is_hit){
             is_hit = check_keyboard();
-            __asm__("int $0x41");
+            // __asm__("int $0x41");
             // printf("%d", is_hit);
         }
         char input = get_keyboard();
