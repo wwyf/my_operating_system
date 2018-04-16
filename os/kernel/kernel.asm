@@ -19,9 +19,9 @@ _start:
     call install_int35
     call install_int36
     call install_int40
-    call install_int41h
+    ; call install_int41h
     call dword cstart 
-    ; call install_int8
+    call install_int8
     call int41h_restart
     sti
 
@@ -285,8 +285,13 @@ new_int41h:
     pushad
     push ds
     push es
-    push ss,
-    push sp
+    push ss
+    ;push sp  这样的写法是不好的，这个是先push再减2
+    ;push sp ; 这个sp的值是不确定的
+    sub sp, 2
+    mov bp, sp
+    mov [ss:bp], sp
+
     ; TODO:时钟重入
     ; cmp word [int8_repetion],1
     ; je int8_reture
