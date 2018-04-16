@@ -15,14 +15,15 @@ int cstart(){
     // 将光标设置为0
     set_cursor(0);
 
+    cur_process_num = 2;
 
     // 加载文件到内存指定位置
     fs_load_by_name("test_a.bin", 0x2000, 0x0000);
     fs_load_by_name("test_b.bin", 0x3000, 0x0000);
-    fs_load_by_name("ouch.bin", 0x4000, 0x0000);
+    // fs_load_by_name("ouch.bin", 0x4000, 0x0000);
     // 初始化进程控制块
 
-    for (int i = 0; i < CUR_PROCESS_NUM ; i++){
+    for (int i = 0; i < cur_process_num ; i++){
         init_process(i, 0x2000 + i * 0x1000);
     }
     // 初始化启动进程

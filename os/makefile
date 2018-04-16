@@ -15,7 +15,7 @@ everything:
 	cd ..
 	cd service && make
 	cd ..
-	cd kernel && make
+	cd kernel && make all
 	cd ..
 	cd user && make
 	cd ..

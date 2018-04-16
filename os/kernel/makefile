@@ -9,6 +9,7 @@ LINK_FLAGS=-Ttext 0x00000 -m elf_i386 -T t.lds --oformat binary
 DEBUG_LINK_FLAGS=  -Ttext 0x00000 -m elf_i386 -T t.lds
 OBJDUMP_FLAGS= -m i8086 -Sl
 
+all: kernel.bin kernel.objdump
 
 kernel.bin kernel.objdump:kernel.o $(OBJECTS) ../include/kernel_run_time.a  kernel.debug
 	ld $(LINK_FLAGS) -o kernel.bin kernel.o $(OBJECTS) ../include/kernel_run_time.a
