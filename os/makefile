@@ -26,7 +26,7 @@ everything:
 	dd if=boot/fat.bin of=a.img ibs=512 count=3 conv=notrunc seek=1
 	dd if=boot/root.bin of=a.img ibs=512 count=3 conv=notrunc seek=37
 	dd if=boot/loader.bin of=a.img ibs=512 count=5 conv=notrunc seek=40
-	dd if=kernel/kernel.bin of=a.img ibs=512 count=18 conv=notrunc seek=46
+	dd if=kernel/kernel.bin of=a.img ibs=512 count=40 conv=notrunc seek=46
 	dd if=user/test_a.bin of=a.img ibs=512 count=18 conv=notrunc seek=90
 	dd if=user/test_b.bin of=a.img ibs=512 count=18 conv=notrunc seek=108
 	dd if=user/ouch.bin of=a.img ibs=512 count=18 conv=notrunc seek=126
