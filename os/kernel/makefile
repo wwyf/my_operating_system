@@ -11,11 +11,11 @@ OBJDUMP_FLAGS= -m i8086 -Sl
 
 all: kernel.bin kernel.objdump
 
-kernel.bin kernel.objdump:kernel.o $(OBJECTS) ../include/kernel_run_time.a  kernel.debug
+kernel.bin kernel.objdump:kernel.o $(OBJECTS) ../include/kernel_run_time.a  kernel.debug kernel.asm
 	ld $(LINK_FLAGS) -o kernel.bin kernel.o $(OBJECTS) ../include/kernel_run_time.a
 	objdump $(OBJDUMP_FLAGS) kernel.debug > kernel.objdump
 
-kernel.debug:kernel.o $(OBJECTS)  ../include/kernel_run_time.a
+kernel.debug:kernel.o $(OBJECTS) kernel.asm  ../include/kernel_run_time.a
 	ld $(DEBUG_LINK_FLAGS) -o kernel.debug kernel.o $(OBJECTS) ../include/kernel_run_time.a
 
 kernel.o: kernel.asm

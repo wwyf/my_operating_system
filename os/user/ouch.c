@@ -4,10 +4,11 @@
 
 int main(){
     int is_hit = 0;
+    printf("in the ouch!");
     while(1){
-        for(int i = 0; i < 20000000; i++);
-        printf("in the ouch!");
+        // for(int i = 0; i < 20000000; i++);
         // 不断检查， 直到有端盘输入才停止
+        __asm__("int $0x41");
         while (!is_hit){
             is_hit = check_keyboard();
             // printf("%d", is_hit);

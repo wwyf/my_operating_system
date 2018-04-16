@@ -9,7 +9,7 @@
 
 void schedule_process(){
     // printf("wowwow");
-    for (int i = 0; i < 10000000; i++);
+    // for (int i = 0; i < 10000000; i++);
     cur_process_index = (cur_process_index + 1) % cur_process_num;
     cur_process = &process_table[cur_process_index];
 }
@@ -18,7 +18,6 @@ void schedule_process(){
 void init_process(int process_index, u16 segment){
     PCB_t* this_process = &process_table[process_index];
     this_process->regs.ss = segment;
-    this_process->regs.sp = 0x5000;
     this_process->regs.es = segment;
     this_process->regs.ds = segment;
     this_process->regs.edi = 0;
@@ -29,6 +28,7 @@ void init_process(int process_index, u16 segment){
     this_process->regs.edx = 0;
     this_process->regs.ecx = 0;
     this_process->regs.eax = 0;
+    this_process->regs.sp = 0x5000;
     this_process->regs.ip = 0x0000;
     this_process->regs.cs = segment;
     this_process->regs.flags = 0x1202;

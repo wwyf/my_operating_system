@@ -19,9 +19,12 @@ _start:
     call install_int35
     call install_int36
     call install_int40
-    call dword cstart
-    call install_int8
+    call install_int41h
+    call dword cstart 
+    ; call install_int8
+    sti
     call restart
+
 
 start_tty:
     call dword tty
@@ -82,9 +85,6 @@ new_int8:
 
     call dword schedule_process
 
-	mov al,20h			; AL = EOI
-	out 20h,al			; 发送EOI到主8529A
-	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
 
     jmp restart
 
@@ -98,24 +98,29 @@ new_int8:
 restart:
     mov bp, [cur_process]
     mov si, bp
-    add si, 4
+    add si, 4 ; TODO: 跳过ss
     ; 取得进程表部分需要复制的内容
     ; 取得用户栈地址
+    mov di, [ds:bp+40]; 取得当前进程的栈指针
     mov es, [ds:bp]; 取得当前进程的栈段
-    mov di, [ds:bp+2]; 取得当前进程的栈指针
-    ; movsb ds:si to es:di
+    ; TODO:注意这个栈指针的值！
+    sub di, 44
     ; 默认用户栈足够,将信息复制到用户栈中。
     ; TODO:需要用户栈的大小:42 字节
-    mov cx, 42
-    sub di, 42
+    ; movsb ds:si to es:di
+    mov cx, 44
     cld
     ; 将需要的信息复制到用户栈中。
     rep movsb
 
+	mov al,20h			; AL = EOI
+	out 20h,al			; 发送EOI到主8529A
+	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
 
+
+
+    sub di, 44; 取得第一个进程的栈指针, 移动之后di的值已经变了，所以要减回来
     mov ax, es; 取得第一个进程的栈段
-    sub di, 42; 取得第一个进程的栈指针
-
     mov ss, ax
     mov sp, di
 ; TODO: 时钟中断重入
@@ -123,6 +128,8 @@ restart:
     pop es
     pop ds
     popad
+    pop sp
+    sub sp, 6
 int8_reture:
     ; sti
     iret
@@ -329,4 +336,109 @@ new_int36:
     mov es, ax ; 取第一个参数 段地址
     mov [es:bx], cl
     interrupt_recover
+    iret
+
+
+;--------------------------安装8号中断----------------------------
+install_int41h:
+    proc_save
+
+    mov al,34h   ; 设控制字值 
+    out 43h,al   ; 写控制字到控制字寄存器 
+    mov ax,0ffffh ; 中断时间设置
+    out 40h,al   ; 写计数器 0 的低字节 
+    mov al,ah    ; AL=AH 
+    out 40h,al   ; 写计数器 0 的高字节
+ 
+    mov ax, 0
+    mov ds, ax
+    mov ax, cs
+    mov word [0x41*4+2], ax ; 设置段地址为cs
+    mov word [0x41*4], new_int41h ; 设置偏移地址为子过程所在位置
+
+    proc_recover
+    ret
+
+;------------------------------------------------------------------------------
+new_int41h:
+    ; 保存所有信息到用户栈中
+    ; cli
+    push sp
+    pushad
+    push ds
+    push es
+    ; TODO:时钟重入
+    ; cmp word [int8_repetion],1
+    ; je int8_reture
+    ; mov word [int8_repetion],1
+    push ss
+    ; 将信息存到进程控制块中
+    ; ds 已经是用户段了，并且和ss相同
+    mov si, sp
+    mov ax, 0x1000 ; TODO:内核段
+    mov es, ax ; TODO:内核段
+    mov di, [es:cur_process]
+    ; move ds:si to es:di
+    mov cx, 46 ; TODO: 常量，需要加宏, 而且由于多了两个元素，与start不同
+    cld
+    rep movsb 
+
+    mov ax, 0x1000
+    mov es, ax
+    mov ds, ax
+    mov ss, ax
+    mov sp, 0x5000 ;TODO:需要维护内核的栈指针吗？
+    ; 进入到内核段中
+
+    call dword schedule_process
+
+
+    jmp int41h_restart
+
+    ; ; 设置段地址
+    ; mov ax, 0b800h
+    ; mov ds, ax
+    ; call dword move_name
+    iret
+
+; 启动一个进程，根据当前进程来启动
+int41h_restart:
+
+
+    mov bp, [cur_process]
+    mov si, bp
+    add si, 4 ; TODO: 跳过ss
+    ; 取得进程表部分需要复制的内容
+    ; 取得用户栈地址
+    mov di, [ds:bp+40]; 取得当前进程的栈指针
+    mov es, [ds:bp]; 取得当前进程的栈段
+    ; TODO:注意这个栈指针的值！
+    sub di, 44
+    ; 默认用户栈足够,将信息复制到用户栈中。
+    ; TODO:需要用户栈的大小:42 字节
+    ; movsb ds:si to es:di
+    mov cx, 44
+    cld
+    ; 将需要的信息复制到用户栈中。
+    rep movsb
+
+	mov al,20h			; AL = EOI
+	out 20h,al			; 发送EOI到主8529A
+	out 0A0h,al			; 发送EOI到从8529A， 注释掉好像也行，为啥？
+
+
+
+    sub di, 44; 取得第一个进程的栈指针, 移动之后di的值已经变了，所以要减回来
+    mov ax, es; 取得第一个进程的栈段
+    mov ss, ax
+    mov sp, di
+; TODO: 时钟中断重入
+    ; mov word [int8_repetion],0
+    pop es
+    pop ds
+    popad
+    pop sp
+    sub sp, 6
+int41h_reture:
+    ; sti
     iret

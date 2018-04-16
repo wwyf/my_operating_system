@@ -36,8 +36,8 @@ typedef struct{
 
 typedef struct proc_register {
     u16 ss;// 用户所处栈段
-    u16 sp;// 用户栈指针
     // #####
+    u16 placeholder;
     u16 es;
     u16 ds;
     // popad
@@ -51,6 +51,7 @@ typedef struct proc_register {
     u32 eax;
     // pushad
     // u32 retaddr;
+    u16 sp;// 用户栈指针
     u16 ip;
     u16 cs;
     u16 flags;

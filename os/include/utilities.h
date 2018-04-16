@@ -3,6 +3,6 @@ __asm__(
     "mov    %ax,%ds\n\t"
     "mov    %ax,%es\n\t"
     "mov    %ax,%ss\n\t"
-    "mov    $0x2000,%sp\n\t"
+    "mov    $0x5000,%sp\n\t"
     "jmp   main\n\t"
 );
