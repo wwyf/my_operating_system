@@ -8,7 +8,7 @@
 #include "../include/proc.h"
 
 void schedule_process(){
-    printf("!");
+    printf("wowwow");
     for (int i = 0; i < 10000000; i++);
     cur_process_index = (cur_process_index + 1) % CUR_PROCESS_NUM;
     cur_process = &process_table[cur_process_index];

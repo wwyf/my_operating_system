@@ -15,11 +15,11 @@ everything:
 	cd ..
 	cd service && make
 	cd ..
-	cd boot && make
-	cd ..
 	cd kernel && make
 	cd ..
 	cd user && make
+	cd ..
+	cd boot && make all
 	cd ..
 	dd if=/dev/zero of=a.img ibs=512 count=300  conv=notrunc
 	dd if=boot/boot.bin of=a.img ibs=512 count=1 conv=notrunc
