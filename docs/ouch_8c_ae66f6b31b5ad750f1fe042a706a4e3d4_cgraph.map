@@ -1,10 +1,9 @@
 <map id="main" name="main">
-<area shape="rect" id="node2" href="$stdio_8h.html#a63c54f1d737929378b379911b1ca4a45" title="printf" alt="" coords="137,43,188,69"/>
-<area shape="rect" id="node13" href="$basic_8h.html#a7d5baf5910c68ba7970c81065b85d774" title="check_keyboard" alt="" coords="104,93,221,120"/>
-<area shape="rect" id="node14" href="$utilities_8h.html#a269136be8829be11e497dd16d2b191ee" title="__asm__" alt="" coords="125,144,200,171"/>
-<area shape="rect" id="node15" href="$basic_8h.html#a07078b0c83b180d2945315e4fdda109b" title="get_keyboard" alt="" coords="113,195,213,221"/>
-<area shape="rect" id="node16" href="$basic_8h.html#a87b240724f48f8ae1a77f22ad9c165e9" title="get_random" alt="" coords="117,245,208,272"/>
-<area shape="rect" id="node17" href="$stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="269,284,352,311"/>
+<area shape="rect" id="node2" href="$stdio_8h.html#a63c54f1d737929378b379911b1ca4a45" title="printf" alt="" coords="137,49,188,76"/>
+<area shape="rect" id="node13" href="$basic_8h.html#a7d5baf5910c68ba7970c81065b85d774" title="check_keyboard" alt="" coords="104,100,221,127"/>
+<area shape="rect" id="node14" href="$basic_8h.html#a07078b0c83b180d2945315e4fdda109b" title="get_keyboard" alt="" coords="113,151,213,177"/>
+<area shape="rect" id="node15" href="$basic_8h.html#a87b240724f48f8ae1a77f22ad9c165e9" title="get_random" alt="" coords="117,201,208,228"/>
+<area shape="rect" id="node16" href="$stdio_8h.html#aacdcb46fde898777fbbe95f24fedaac9" title="set_cursor" alt="" coords="269,245,352,272"/>
 <area shape="rect" id="node3" href="$stdio_8c.html#aa1eb54b83570e9a54c13e605e35eac14" title="vprintf" alt="" coords="281,56,340,83"/>
 <area shape="rect" id="node4" href="$string_8h.html#a1b466f2a1e360235424abfb1b426f648" title="strlen" alt="" coords="400,107,455,133"/>
 <area shape="rect" id="node5" href="$stdio_8c.html#acc0ee6e9643f83a5ab11722197fc25ec" title="putc" alt="" coords="404,56,451,83"/>

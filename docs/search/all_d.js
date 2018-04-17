@@ -4,6 +4,7 @@ var searchData=
   ['parser',['parser',['../tty_8c.html#ac15f7c36f6055edec43d0f0f611c4dc0',1,'tty.c']]],
   ['pcb_5ft',['PCB_t',['../type_8h.html#a2a202acc1a6a2f397930faf7a335c629',1,'type.h']]],
   ['pid',['pid',['../structcontrolProcessBlock.html#a1c12527b63ad22716942e0b638549893',1,'controlProcessBlock']]],
+  ['placeholder',['placeholder',['../structproc__register.html#a3e17cc82b220129b2add81fd044a3020',1,'proc_register']]],
   ['print_5fname',['print_name',['../basic_8h.html#a7981a626703ff2312463e3a17a26661e',1,'basic.h']]],
   ['printf',['printf',['../stdio_8h.html#a63c54f1d737929378b379911b1ca4a45',1,'printf(char *format,...):&#160;stdio.c'],['../stdio_8c.html#a63c54f1d737929378b379911b1ca4a45',1,'printf(char *format,...):&#160;stdio.c']]],
   ['proc_2ec',['proc.c',['../proc_8c.html',1,'']]],
