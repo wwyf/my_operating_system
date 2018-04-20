@@ -11,7 +11,7 @@ OBJDUMP_FLAGS= -m i8086 -Sl
 $(USER_BIN): $(USER_OBJECTS) ../include/c_run_time.a
 	ld $(LINK_FLAGS) -o test_a.bin test_a.o ../include/c_run_time.a
 	ld $(LINK_FLAGS) -o test_b.bin test_b.o ../include/c_run_time.a
-	ld -Ttext 0x00 -m elf_i386 --oformat binary -o ouch.bin ouch.o ../include/c_run_time.a
+	ld $(LINK_FLAGS) -o ouch.bin ouch.o ../include/c_run_time.a
 
 test_a.o : test_a.c
 	gcc $(C_FLAGS) -o test_a.o test_a.c
