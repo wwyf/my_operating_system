@@ -1,6 +1,6 @@
 ;程序源代码（myos1.asm）
 ; org  7c00h		; BIOS将把引导扇区加载到0:7C00h处，并开始执行
-%include "./include/macro.inc"
+%include "../include/macro.inc"
 section my_mbr vstart=0x7c00
 
 jmp short LABEL_START		; Start to boot.
@@ -48,26 +48,40 @@ LoadnEx:
 	mov es,ax                ;设置段地址（不能直接mov es,段地址）
 	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
 	mov ah,2                 ; 功能号
-	mov al,10                ;扇区数
+	mov al,5                ;扇区数
 	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
-	mov dh,1                 ;磁头号 ; 起始编号为0
-	mov ch,0                 ;柱面号 ; 起始编号为0
-	mov cl,9                ;起始扇区号 ; 起始编号为1
+	mov dh,0                 ;磁头号 ; 起始编号为0
+	mov ch,1                 ;柱面号 ; 起始编号为0
+	mov cl,5                ;起始扇区号 ; 起始编号为1
 	int 13H ;                调用读磁盘BIOS的13h功能
+	; 系统内核已加载到指定内存区域中	
+; LoadnEx2:
+;      ;读软盘或硬盘上的若干物理扇区到内存的ES:BX处：
+; 	mov ax,user_program_segment ;段地址 ; 存放数据的内存基地址
+; 	mov es,ax                ;设置段地址（不能直接mov es,段地址）
+; 	mov bx,0 ;偏移地址; 存放数据的内存偏移地址
+; 	mov ah,2                 ; 功能号
+; 	mov al,18                ;扇区数
+; 	mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
+; 	mov dh,1                 ;磁头号 ; 起始编号为0
+; 	mov ch,2                 ;柱面号 ; 起始编号为0
+; 	mov cl,1                 ;起始扇区号 ; 起始编号为1
+; 	int 13H ;                调用读磁盘BIOS的13h功能
+; 	; 系统内核已加载到指定内存区域中
 
 ; 转入加载器
-jmp_into_loader:
+inkernel:
 ; TODO: 加载器段地址常量
     mov ax, 0800h
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov sp, 3000h
+    mov sp, 2000h
 	mov bp, sp
 	; TODO: 加载器常量
 	jmp 0x0800:0x0000
 Message:
-	db 'init...the loader!'
+	db 'Hello, MyOs is loading system core.'
 MessageLength  equ ($-Message)
 times 510-($-$$) db 0
 db 0x55,0xaa

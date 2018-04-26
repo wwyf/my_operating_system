@@ -1,12 +1,12 @@
 /* 默认内核为root表项中的第一个文件，这样子就不需要做字符串比较的工作，就可以减少代码的依赖 */
 /* TODO:加载器所在段，0x0800 需要常量 */
 /* 加载器所在位置：0x8000-0x0a000 */
-#include "./include/utilities.h"
+#include "../include/utilities.h"
 #include "./loader_start.h"
-#include "./include/type.h"
+#include "../include/type.h"
 
 #define LOADER_SEGMENT 0x0800
-#define ROOT_SECTOR_NUMBER 11
+#define ROOT_SECTOR_NUMBER 37
 
 u16 _fs_load_by_cluster_code(u16 cluster_code, u16 segment, u16 offset );
 void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset);
