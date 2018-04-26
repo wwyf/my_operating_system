@@ -1,17 +1,22 @@
-%include "../include/macro.inc"
+%include "./include/macro.inc"
 
 global read_sector
 global kernel_start
 [bits 16]
+
+
+kernel_start:
+    mov ax, 0x1000
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    ; TODO: sp的值需要注意
+    mov sp, 0x5000
+    ; TODO:改段地址之后，进入内核
+    jmp 0x1000:0x0000
+    
+
 ;------------------------------------------------------------
-;----------------------------------------------------------------------------
-; 函数名: ReadSector
-; http://blog.csdn.net/littlehedgehog/article/details/2147361
-;----------------------------------------------------------------------------
-; 作用:
-;    从第 ax 个 Sector 开始, 将 cl 个 Sector 读入 es:bx 中
-;    从0开始算
-;                       +8      12     ebp + 16      ebp + 20      ebp + 24
 ; void read_sector(u16 磁头, u16 柱面, u16 扇区号,  u16 segment, u16 offset)
 read_sector:
     push ebp
@@ -42,13 +47,3 @@ read_sector:
     pop ebp
     retl
 
-kernel_start:
-    mov ax, 0x1000
-    mov ds, ax
-    mov es, ax
-    mov ss, ax
-    ; TODO: sp的值需要注意
-    mov sp, 0x5000
-    ; TODO:改段地址之后，进入内核
-    jmp 0x1000:0x0000
-    

@@ -1,6 +1,5 @@
 # 生成boot.bin 引导器，将加载器加载并转交控制权
 objects = boot
-include = ../include
 C_FLAGS=-c -m16 -ffreestanding -O0 -g
 LINK_FLAGS= -m elf_i386 -T loader.lds --oformat binary
 # TODO:连接器已经指定地址为0x08000
@@ -10,7 +9,7 @@ OBJDUMP_FLAGS= -m i8086 -Sl
 
 all : boot.bin root.bin fat.bin loader.bin
 
-boot.bin : boot.asm ../include/macro.inc
+boot.bin : boot.asm ./include/macro.inc
 	nasm -f bin -o boot.bin -l boot.list boot.asm
 
 root.bin : root.asm
@@ -30,4 +29,4 @@ loader.bin: loader.c loader_start.asm loader_start.h
 clean :
 	-rm *.bin
 	-rm *.list
-	# -rm *.objdump
+	-rm *.objdump
