@@ -1,5 +1,5 @@
 ;程序源代码（myos1.asm）
-; org  7c00h		; BIOS将把引导扇区加载到0:7C00h处，并开始执行
+;BIOS将把引导扇区加载到0:7C00h处，并开始执行
 %include "../include/macro.inc"
 section my_mbr vstart=0x7c00
 
