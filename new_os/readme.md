@@ -104,3 +104,20 @@
 |test_a.bin|90,18|54|0x20000-0x2FFFF|循环递增输出1-1000|
 |test_b.bin|108,18|72|0x30000-0x3FFFF|循环递增输出a-z|
 |ouch.bin|126,18|90|0x40000-0x4FFFF|响应键盘中断，并在屏幕随机位置输出"ouch！ Yout input is X"|
+
+
+|模块|逻辑扇区号|扇区数量|起始簇号|内存位置|功能说明|
+|-|-|-|-|-|-|
+|boot.bin|0|1|/|0x7c00-0x7e00|在软盘从指定位置加载loader.bin|
+|fat.bin|1|2|/|/|fat16文件系统中的fat表|
+|root.bin|37|2|/|/|fat16文件系统中的根目录区|
+|loader.bin|40|5|/|0x8000-0xFFFF|在软盘中加载kernel.bin，并跳转到内核|
+<!-- |kernel.bin|46,16|10|0x10000-0x1FFFF|在内核下，初始化各种东西| -->
+
+如果要改一个文件的位置，可以改
+1. readme.md，修改文档
+1. 修改makefile in new_os ，dd的参数，修改文件写入磁盘的位置
+1. 修改root表
+1. 修改FAT表
+
+

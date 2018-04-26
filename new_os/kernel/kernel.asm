@@ -1,6 +1,10 @@
 ; 内核程序
 ; 加载到内存 0x10000处
+%include "../include/pm.inc"
 %include "../include/macro.inc"
+%include "../include/gdt.inc"
+%include "../include/kernel.inc"
+
 extern system_call
 extern cstart
 extern tty
@@ -12,7 +16,83 @@ extern int8_repetion
 extern schedule_process
 
 [bits 16]
-;----------------------------内核功能入口---------------------------------------
+;-------------初始化保护模式---------------------------
+init_protected_mode:
+	; 初始化段寄存器，此时cs为0x01000，ip为0， 并且分配0x100的栈空间TODO:栈空间？？
+	mov	ax, cs
+	mov	ds, ax
+	mov	es, ax
+	mov	ss, ax
+	mov	sp, 5000h
+
+;#################################################################
+; 进入保护模式前的初始化工作
+;#################################################################
+	; 段表已经提前加载到内存中了，这里只需要指定地址就好
+	; 加载 GDTR
+	lgdt	[GdtPtr]
+
+	; 关中断
+	cli
+
+	; 打开地址线A20
+	in	al, 92h
+	or	al, 00000010b
+	out	92h, al
+
+	; 准备切换到保护模式
+	mov	eax, cr0
+	or	eax, 1
+	mov	cr0, eax
+
+	; 真正进入保护模式
+	; 此处为16位保护模式，为了保证能够修改32位的eip，必须使用dword
+	jmp	dword SelectorFlatKernel:kernel_start
+
+;##############################################################
+; GDT  Table
+;##############################################################
+; GDT ---------------------------------------------------------
+;                                         段基址            段界限     , 属性
+LABEL_GDT:			    Descriptor          0,                   0, 0						; 空描述符
+LABEL_DESC_FLAT_C:		Descriptor          0,             0fffffh, DA_CR  | DA_32 | DA_LIMIT_4K	; 0 ~ 4G
+LABEL_DESC_FLAT_KERNEL:	Descriptor    010000h,             0fffffh, DA_CR  | DA_32 | DA_LIMIT_4K	; 0 ~ 4G
+LABEL_DESC_FLAT_RW:		Descriptor          0,             0fffffh, DA_DRW | DA_32 | DA_LIMIT_4K; 0 ~ 4G
+LABEL_DESC_VIDEO:		Descriptor	 0B8000h,              0fffffh, DA_DRW | DA_DPL3	; 显存首地址
+; GDT -----------------------------------------
+
+GdtLen		equ	$ - LABEL_GDT
+GdtPtr		dw	GdtLen - 1				; 段界限
+		dd	LOADER_PHY_ADDR + LABEL_GDT		; 基地址 (让基地址八字节对齐将起到优化速度之效果，目前懒得改)
+; The GDT is not a segment itself; instead, it is a data structure in linear address space.
+; The base linear address and limit of the GDT must be loaded into the GDTR register. -- IA-32 Software Developer’s Manual, Vol.3A
+
+
+; GDT 选择子 ----------------------------------------------------------------------------------
+SelectorFlatC		equ	LABEL_DESC_FLAT_C	- LABEL_GDT
+SelectorFlatKernel	equ	LABEL_DESC_FLAT_KERNEL	- LABEL_GDT
+SelectorFlatRW		equ	LABEL_DESC_FLAT_RW	- LABEL_GDT
+SelectorVideo		equ	LABEL_DESC_VIDEO	- LABEL_GDT + SA_RPL3
+; GDT 选择子 ----------------------------------------------------------------------------------
+
+ALIGN	32
+[BITS 32]
+
+kernel_start:
+	mov	ax, SelectorVideo
+	mov	gs, ax
+	mov	ax, SelectorFlatRW
+	mov	ds, ax
+	mov	es, ax
+	mov	fs, ax
+	mov	ss, ax
+	mov	esp, 0x5000;TODO:
+
+    mov [gs:0], byte 30h
+    jmp $
+
+
+
 _start:
     call install_int33
     call install_int34
@@ -31,8 +111,16 @@ start_tty:
     mov ah, 0x02
     int 0x40
     jmp $
-    jmp $
-; 这里放的是内核加载器，负责加载在其他扇区的程序。
+
+
+
+
+
+
+
+
+
+
 ;--------------------------安装8号中断----------------------------
 install_int8:
     proc_save
