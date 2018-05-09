@@ -36,3 +36,4 @@ clean :
 	-rm */*.list
 	-rm */*.objdump
 	-rm */*.elf
+	-rm */*.o
