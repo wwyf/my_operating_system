@@ -3,16 +3,21 @@ include = include
 LOADER = loader
 BOOT = boot
 KERNEL = kernel
+INIT = init
 
+everthing : $(objects) $(BOOT)/boot.bin $(INIT)/kernel.bin
 
-everthing : $(objects) $(BOOT)/boot.bin
-
-$(objects) : $(BOOT)/boot.bin
+$(objects) : $(BOOT)/boot.bin $(INIT)/kernel.bin
 	dd if=/dev/zero of=a.img ibs=512 count=150 conv=notrunc
 	dd if=$(BOOT)/boot.bin of=a.img ibs=512 count=5 conv=notrunc
+	dd if=$(INIT)/kernel.bin of=a.img ibs=512 count=10 conv=notrunc seek=5
 
 $(BOOT)/boot.bin:
 	cd boot && make
+	cd ..
+
+$(INIT)/kernel.bin:
+	cd init && make
 	cd ..
 
 runq:
@@ -30,3 +35,4 @@ clean :
 	-rm */*.bin
 	-rm */*.list
 	-rm */*.objdump
+	-rm */*.elf
