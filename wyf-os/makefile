@@ -1,9 +1,9 @@
-objects = a.img
-include = include
-LOADER = loader
-BOOT = boot
-KERNEL = kernel
-INIT = init
+objects=a.img
+include=include
+LOADER=loader
+BOOT=boot
+KERNEL=kernel
+INIT=init
 
 everthing : $(objects) $(BOOT)/boot.bin $(INIT)/kernel.bin
 
