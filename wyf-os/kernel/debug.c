@@ -1,48 +1,53 @@
-#include "../include/basic.h"
-#include "../include/type.h"
-#include "../include/string.h"
+#include <basic.h>
+#include <type.h>
+#include <string.h>
+#include <console.h>
 
-void _put_char(char c, u16 cursor_index){
+#define INT_LENGTH 20
+#define BUF_LENGTH 100
+
+void _put_char(char c, uint16_t cursor_index){
     int _address = 0xb8000;
     int _offset = cursor_index * 2;
-    write_memory_byte(_address+_offset, c);
-    write_memory_byte(_address+_offset+1, 0x1f);
+    char * display_ptr = (char *)(_address+_offset);
+    *display_ptr = c;
+    *(display_ptr+1) = 0x0007;
     return ;
 }
 
 void putc(char c){
-    u16 cursor_index = get_cursor();
-    u16 row = cursor_index / 80;
-    u16 col = cursor_index % 80;
-    if (cursor_index >= 1920){
-        scroll_screen();
-        cursor_index = 1840;
-    }
+    uint16_t cursor_index = _sys_get_cursor();
+    uint16_t row = cursor_index / 80;
+    uint16_t col = cursor_index % 80;
+    // if (cursor_index >= 1920){
+    //     scroll_screen();
+    //     cursor_index = 1840;
+    // }
     switch (c) {
         case '\n':
-            set_cursor((row+1)*80); // 回车，移到下一行
+            _sys_set_cursor((row+1)*80); // 回车，移到下一行
             break;
         case '\r':
-            set_cursor(row*80);    // 移到本行开头处
+            _sys_set_cursor(row*80);    // 移到本行开头处
             break;
         default:
             _put_char(c, cursor_index);
-            set_cursor(cursor_index+1);
+            _sys_set_cursor(cursor_index+1);
             break;
     }
     return ;
 }
 
 void _putc(char c){
-    u16 cursor_index = get_cursor();
-    u16 row = cursor_index / 80;
-    u16 col = cursor_index % 80;
+    uint16_t cursor_index = _sys_get_cursor();
+    uint16_t row = cursor_index / 80;
+    uint16_t col = cursor_index % 80;
     switch (c) {
         case '\n':
-            set_cursor((row+1)*80+col); // 回车，移到下一行
+            _sys_set_cursor((row+1)*80+col); // 回车，移到下一行
             break;
         case '\r':
-            set_cursor(row*80);    // 移到本行开头处
+            _sys_set_cursor(row*80);    // 移到本行开头处
             break;
         default:
             _put_char(c, cursor_index);
@@ -52,7 +57,7 @@ void _putc(char c){
     return ;
 }
 
-void puti(u32 n){
+void puti(uint32_t n){
     int len = 0;
     int num[INT_LENGTH];  // 临时存放各位数，从低位放到高位，之后倒序输出即可
     while (n != 0){
@@ -81,7 +86,7 @@ void sprintf(char * dest , char * format, ...){
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
-    int* arg_addr = &format+1; // 边长参数第一个参数的地址。
+    int * arg_addr =(int *)&format+1; // 边长参数第一个参数的地址。
     while (format[src_index] != 0){
         if (format[src_index] == '%'){
             src_index++;
@@ -108,8 +113,8 @@ void sprintf(char * dest , char * format, ...){
                 }
                 case 's':{
                     char * str = *(char **)(arg_addr + arg_num++);
-                    u32 str_len = strlen(str);
-                    u32 i = 0;
+                    uint32_t str_len = strlen(str);
+                    uint32_t i = 0;
                     while (i < str_len){
                         dest[des_index++] = str[i++];
                     }
@@ -148,12 +153,12 @@ void sprintf(char * dest , char * format, ...){
 }
 
 
-void vprintf(char * format, va_list va){
+void vprintf(char * format, char ** va){
     char buf[BUF_LENGTH];
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
-    int* arg_addr = va; // 边长参数第一个参数的地址。
+    int* arg_addr = (int *)va; // 边长参数第一个参数的地址。
     while (format[src_index] != 0){
         if (format[src_index] == '%'){
             src_index++;
@@ -186,8 +191,8 @@ void vprintf(char * format, va_list va){
                 }
                 case 's':{
                     char * str = *(char **)(arg_addr + arg_num++);
-                    u32 str_len = strlen(str);
-                    u32 i = 0;
+                    uint32_t str_len = strlen(str);
+                    uint32_t i = 0;
                     while (i < str_len){
                         buf[des_index++] = str[i++];
                     }
@@ -234,7 +239,7 @@ void printf(char * format, ...){
 }
 
 
-// void _install_interrupt_handler(u8 n, u16 segment_address, u16 entry_offset){
+// void _install_interrupt_handler(u8 n, uint16_t segment_address, uint16_t entry_offset){
 //     write_memory_word(n*4, entry_offset);
 //     write_memory_word(n*4+2, segment_address);
 //     return ;
@@ -297,27 +302,3 @@ int iscntrl (int ch){
     return 0;
 }
 
-/* tested
-读取指定逻辑扇区号的扇区到指定内存地址处
-注意一次最多写一个段，也就是64k 最多读128个扇区。
-够用了够用了 */
-void read_n_sector(u16 sector_code, u16 number,  u16 segment, u16 offset){
-    for (int i = 0; i < number; i++){
-        int sector = (sector_code+i) % 18+1;
-        int mid = (sector_code+i) / 18;
-        int cylinder = mid >> 1;
-        int head = mid & 1;
-        read_sector(head, cylinder,sector,segment, offset + i*512);
-    }
-    return ;
-}
-
-
-// /* 
-// 读取内存中指定地址起n字节的内容到指定指针处 */
-// void read_memory(u16 segment, u16 offset, u16 byte_size, u16 * ptr){
-//     int addr = (segment << 4) + offset;
-//     for (int i = 0; i < byte_size; i++){
-//         *(ptr+i) = read_memory_word(addr);
-//     }
-// }

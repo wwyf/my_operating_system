@@ -9,7 +9,7 @@ static uint16_t video_size_row = 160;
 static uint16_t video_num_columns = 80;
 // 行数
 static uint16_t video_num_lines = 25;
-static char * video_mem_start = 0xb8000;
+static char * video_mem_start = (char *)0xb8000;
 static char * video_mem_end;
 // 用来擦除字符的字符
 static uint8_t vodeo_erase_char;
@@ -52,6 +52,7 @@ void con_write(struct tty_struct * tty){
         char c = _tty_queue_get(&tty->write_q);
         display_ptr = (char *)video_mem_start + x*video_size_row + y*2;
         *display_ptr = c;
+        *(display_ptr+1) = 0x0007;
         y++;
         if (y >= video_num_columns){
             y = 0;
