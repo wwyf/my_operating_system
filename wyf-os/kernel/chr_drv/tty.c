@@ -7,8 +7,8 @@ char _tty_queue_get(struct tty_queue * q){
 }
 
 void _tty_queue_put(struct tty_queue * q, char c){
-	q->tail = (q->tail+1) % TTY_BUF_SIZE;
 	q->buf[q->tail] = c;
+	q->tail = (q->tail+1) % TTY_BUF_SIZE;
 }
 
 int _tty_queue_is_full(struct tty_queue * q){

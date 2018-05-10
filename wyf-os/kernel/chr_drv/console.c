@@ -50,7 +50,7 @@ void con_write(struct tty_struct * tty){
     char * display_ptr =(char *)video_mem_start + x*video_size_row + y*2;
     while(!_tty_queue_is_empty(&tty->write_q)){
         char c = _tty_queue_get(&tty->write_q);
-        display_ptr = (char *)video_mem_start + x*video_size_row + y*2;
+        display_ptr = (char *)(video_mem_start + x*video_size_row + y*2);
         *display_ptr = c;
         *(display_ptr+1) = 0x0007;
         y++;
