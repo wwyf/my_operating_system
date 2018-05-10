@@ -10,7 +10,7 @@ static int skip_atoi(const char **s)
 	return i;
 }
 
-int strlen(const char * s)
+int ___strlen(const char * s)
 {
 	int len = 0;
 	while(*s != 0){
@@ -169,7 +169,7 @@ int vsprintf(char *buf, const char *fmt, va_list args)
 
 		case 's':
 			s = va_arg(args, char *);
-			len = strlen(s);
+			len = ___strlen(s);
 			if (precision < 0)
 				precision = len;
 			else if (len > precision)

@@ -1,4 +1,4 @@
-#include <cursor.h>
+#include <console.h>
 void test(){
     _sys_set_cursor(0);
     _sys_set_cursor(80);

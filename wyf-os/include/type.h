@@ -9,4 +9,6 @@
 #define int16_t short
 #define int32_t int
 
+#define size_t unsigned int
+
 #endif

@@ -1,14 +1,15 @@
-#include "../include/type.h"
+#include <string.h>
+#include <type.h>
 
 size_t strlen(char * str){
-    u32 len = 0;
+    uint32_t len = 0;
     while (str[len] != 0){
         len++;
     }
     return len;
 }
 
-void strncpy(char * dest, char * src, u32 size){
+void strncpy(char * dest, char * src, uint32_t size){
     for (int i = 0; i < size; i++){
         dest[i] = src[i];
     }

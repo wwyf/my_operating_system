@@ -17,13 +17,18 @@ $(BOOT)/boot.bin:
 	cd ..
 
 
-kernel.bin:$(INIT)/main.o $(INIT)/head.o
+kernel.bin:$(INIT)/main.o $(INIT)/head.o $(INCLUDE)/libmycrt.a
 	cd kernel && make
 	cd ..
 
 $(INIT)/main.o $(INIT)/head.o:
 	cd init && make
 	cd ..
+
+$(INCLUDE)/libmycrt.a:
+	cd lib && make
+	cd ..
+
 runq:
 	qemu-system-i386.exe -fda a.img
 d:
@@ -41,3 +46,4 @@ clean :
 	-rm */*.objdump
 	-rm */*.elf
 	-rm */*.o
+	-rm */*/*.o

@@ -1,5 +1,7 @@
 #include <basic.h>
 #include <type.h>
+#include <string.h>
+#include <tty.h>
 
 void _sys_set_cursor(uint16_t cursor_index){
     // short cursor_index = 80 * row + column;     // 计算光标寄存器的值
@@ -22,4 +24,14 @@ uint16_t _sys_get_cursor(){
     cursor_index = high_eight;
     cursor_index = (cursor_index << 8) + low_eight;
     return cursor_index;
+}
+
+void con_write(struct tty_struct * tty){
+    /* 向终端设备写入字符并显示 */
+    int current_num_char = strlen(tty->write_q.buf);
+    char * display_ptr =(char *)0xb800;
+    char * buf_ptr = tty->write_q.buf;
+    while (current_num_char--){
+        *display_ptr++ = *buf_ptr++;
+    }
 }

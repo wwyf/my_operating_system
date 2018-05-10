@@ -31,6 +31,7 @@
         "stdarg.h": "c",
         "cstdarg": "c",
         "test.h": "c",
-        "cursor.h": "c"
+        "cursor.h": "c",
+        "type.h": "c"
       }
     }
