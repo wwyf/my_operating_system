@@ -15,7 +15,8 @@ kernel_head_start:
     mov ds, ax
     mov es, ax
     mov ss, ax
-    
+    mov ax, SelectorVideo
+    mov gs, ax
     call setup_idt
     call setup_paging
     push 0x0
@@ -75,7 +76,7 @@ gdt_descr dw 256*8 - 1
 ALIGN	32
 _idt:
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; 这里是idt表。
+; 这里是idt表。一项8字节，总共放256项 TODO:固定内存地址
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; 门                        目标选择子,            偏移, DCount, 属性
 %rep 32
@@ -86,12 +87,15 @@ _idt:
 		Gate	SelectorZero, SpuriousHandler,      0, DA_386IGate
 %endrep
 .080h:	Gate	SelectorZero,  UserIntHandler,      0, DA_386IGate
+%rep 127
+		Gate	SelectorZero, SpuriousHandler,      0, DA_386IGate
+%endrep
 
 
 ALIGN	32
 _gdt:
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-; 这里是gdt表。
+; 这里是gdt表。一项8字节，总共放256项 TODO:固定内存地址
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ;                              段基址,       段界限     , 属性
 LABEL_GDT:	        Descriptor       0,               0, 0           ; 空描述符
@@ -99,7 +103,7 @@ LABEL_DESC_NORMAL:	Descriptor	     0,          0ffffh, DA_DRW 	; Normal 描述�
 LABEL_DESC_ZERO:    Descriptor       0,          0ffffh, DA_C + DA_32; 非一致代码段
 LABEL_DESC_KERNEL:  Descriptor       0,          0ffffh, DA_C + DA_32; 非一致代码段
 LABEL_DESC_VIDEO:   Descriptor 0B8000h,          0ffffh, DA_DRW	     ; 显存首地址
-; GDT 结束
+
 
 ; GDT 选择子
 SelectorNormal		equ	LABEL_DESC_NORMAL	- LABEL_GDT
