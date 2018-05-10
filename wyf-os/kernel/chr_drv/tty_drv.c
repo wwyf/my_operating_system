@@ -5,6 +5,6 @@
 struct tty_struct tty_table[1] = {
     {
     con_write,
-    {0,0,0,""},
+    {0,0,0,"abcdefg"},
     }
 };

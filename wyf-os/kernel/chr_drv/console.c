@@ -29,9 +29,10 @@ uint16_t _sys_get_cursor(){
 void con_write(struct tty_struct * tty){
     /* 向终端设备写入字符并显示 */
     int current_num_char = strlen(tty->write_q.buf);
-    char * display_ptr =(char *)0xb800;
+    char * display_ptr =(char *)0xb8000;
     char * buf_ptr = tty->write_q.buf;
     while (current_num_char--){
         *display_ptr++ = *buf_ptr++;
+        *display_ptr++ = 0x0007;
     }
 }
