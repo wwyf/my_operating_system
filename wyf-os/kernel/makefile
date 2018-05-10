@@ -1,5 +1,5 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=test.o vsprintf.o
+KERNEL_OBJDECT=test.o vsprintf.o basic.o cursor.o
 
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT)
 
@@ -22,6 +22,10 @@ vsprintf.o:vsprintf.c
 	gcc vsprintf.c -o vsprintf.o $(C_FLAGS)
 test.o:test.c
 	gcc test.c -o test.o $(C_FLAGS)
+basic.o:basic.asm
+	nasm basic.asm -o basic.o $(NASM_FLAGS)
+cursor.o:cursor.c
+	gcc cursor.c -o cursor.o $(C_FLAGS)
 
 $(INIT_OBJDECT):
 	cd ../init && make
