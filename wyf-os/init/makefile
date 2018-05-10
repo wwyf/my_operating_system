@@ -5,13 +5,7 @@ LINK_FLAGS_DEBUG=-e kernel_head_start -Ttext 0x00000 -m elf_i386
 DEBUG_LINK_FLAGS=  -Ttext 0x00000 -m elf_i386 -T t.lds
 OBJDUMP_FLAGS= -m i386 -Sl
 
-all:kernel.bin kernel.elf
-
-kernel.bin:head.o main.o
-	ld head.o main.o -o kernel.bin $(LINK_FLAGS)
-kernel.elf:head.o main.o
-	ld head.o main.o -o kernel.elf $(LINK_FLAGS_DEBUG)
-	objdump kernel.elf  $(OBJDUMP_FLAGS) > kernel.objdump
+all:head.o main.o
 
 head.o:head.asm
 	nasm head.asm -o head.o $(NASM_FLAGS)

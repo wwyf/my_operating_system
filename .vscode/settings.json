@@ -26,5 +26,10 @@
             "xelatex"
           ]
         }
-      ]
-}
+      ],
+      "files.associations": {
+        "stdarg.h": "c",
+        "cstdarg": "c",
+        "test.h": "c"
+      }
+    }
