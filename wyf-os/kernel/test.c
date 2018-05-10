@@ -19,6 +19,8 @@ void test(){
     _tty_queue_put(&(&tty_table[0])->write_q, 'b');
     _tty_queue_put(&(&tty_table[0])->write_q, 'i');
     con_write(&tty_table[0]);
+    char t[16] = "!!testtesttest";
+    tty_write(0, t, strlen(t));
     __asm__("int $0x80");
     while(1){};
 }
