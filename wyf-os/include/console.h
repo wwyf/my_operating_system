@@ -5,10 +5,13 @@
 #include <type.h>
 #include <tty.h>
 
-void con_write(struct tty_struct * tty);
+void _console_init();
 
+void _console_set_cursor(uint16_t cursor_index);
 
-void _sys_set_cursor(uint16_t cursor_index);
-uint16_t _sys_get_cursor();
+uint16_t _console_get_cursor();
+
+void _console_write(struct tty_struct * tty);
+
 
 #endif

@@ -16,7 +16,7 @@ void _put_char(char c, uint16_t cursor_index){
 }
 
 void putc(char c){
-    uint16_t cursor_index = _sys_get_cursor();
+    uint16_t cursor_index = _console_get_cursor();
     uint16_t row = cursor_index / 80;
     uint16_t col = cursor_index % 80;
     // if (cursor_index >= 1920){
@@ -25,29 +25,29 @@ void putc(char c){
     // }
     switch (c) {
         case '\n':
-            _sys_set_cursor((row+1)*80); // 回车，移到下一行
+            _console_set_cursor((row+1)*80); // 回车，移到下一行
             break;
         case '\r':
-            _sys_set_cursor(row*80);    // 移到本行开头处
+            _console_set_cursor(row*80);    // 移到本行开头处
             break;
         default:
             _put_char(c, cursor_index);
-            _sys_set_cursor(cursor_index+1);
+            _console_set_cursor(cursor_index+1);
             break;
     }
     return ;
 }
 
 void _putc(char c){
-    uint16_t cursor_index = _sys_get_cursor();
+    uint16_t cursor_index = _console_get_cursor();
     uint16_t row = cursor_index / 80;
     uint16_t col = cursor_index % 80;
     switch (c) {
         case '\n':
-            _sys_set_cursor((row+1)*80+col); // 回车，移到下一行
+            _console_set_cursor((row+1)*80+col); // 回车，移到下一行
             break;
         case '\r':
-            _sys_set_cursor(row*80);    // 移到本行开头处
+            _console_set_cursor(row*80);    // 移到本行开头处
             break;
         default:
             _put_char(c, cursor_index);

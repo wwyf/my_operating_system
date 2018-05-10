@@ -3,6 +3,6 @@
 
 
 /* 专门用来测试的 */
-void test();
+void test1();
 
 #endif

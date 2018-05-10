@@ -4,7 +4,7 @@
 
 struct tty_struct tty_table[1] = {
     {
-    con_write,
+    _console_write,
     {0,0,0,""},
     }
 };
@@ -29,4 +29,10 @@ int tty_write(unsigned channel, char * buf, int nr)
         tty->write(tty);
 	}
 	return cur_char_index;
+}
+
+
+
+void tty_init(){
+    _console_init();
 }

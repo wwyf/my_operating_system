@@ -1,5 +1,5 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=test.o vsprintf.o basic.o  debug.o
+KERNEL_OBJDECT=test.o basic.o  debug.o printk.o
 CHR_DRV_OBJDECT=chr_drv/console.o chr_drv/tty_drv.o chr_drv/tty.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT)
 
@@ -17,14 +17,15 @@ kernel.elf:$(ALL_OBJDECTS)
 	ld $(ALL_OBJDECTS) -o ../kernel.elf $(LINK_FLAGS_DEBUG)
 	objdump ../kernel.elf  $(OBJDUMP_FLAGS) > ../kernel.objdump
 
-vsprintf.o:vsprintf.c
-	gcc vsprintf.c -o vsprintf.o $(C_FLAGS)
 test.o:test.c
 	gcc test.c -o test.o $(C_FLAGS)
 debug.o:debug.c
 	gcc debug.c -o debug.o $(C_FLAGS)
+printk.o:printk.c
+	gcc printk.c -o printk.o $(C_FLAGS)
 basic.o:basic.asm
 	nasm basic.asm -o basic.o $(NASM_FLAGS)
+
 
 chr_drv/console.o:chr_drv/console.c
 	gcc chr_drv/console.c -o chr_drv/console.o $(C_FLAGS)
