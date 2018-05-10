@@ -15,13 +15,15 @@ static char * video_mem_end;
 static uint8_t vodeo_erase_char;
 
 // 光标所在位置。行，列
-static uint16_t x = 0,y = 0;
+static uint16_t x,y;
 
 void _console_init(){
     video_size_row = 160;
     video_num_columns = 80;
     video_num_lines = 25;
     video_mem_start = (char *)0xB8000;
+    x = 0;
+    y = 0;
     // video_mem_end = TODO:
 }
 
