@@ -1,6 +1,6 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
 KERNEL_OBJDECT=test.o vsprintf.o basic.o 
-CHR_DRV_OBJDECT=chr_drv/console.o chr_drv/tty_drv.o
+CHR_DRV_OBJDECT=chr_drv/console.o chr_drv/tty_drv.o chr_drv/tty.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT)
 
 C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
@@ -28,6 +28,8 @@ chr_drv/console.o:chr_drv/console.c
 	gcc chr_drv/console.c -o chr_drv/console.o $(C_FLAGS)
 chr_drv/tty_drv.o:chr_drv/tty_drv.c
 	gcc chr_drv/tty_drv.c -o chr_drv/tty_drv.o $(C_FLAGS)
+chr_drv/tty.o:chr_drv/tty.c
+	gcc chr_drv/tty.c -o chr_drv/tty.o $(C_FLAGS)
 
 
 

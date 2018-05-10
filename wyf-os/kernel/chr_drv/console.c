@@ -3,6 +3,21 @@
 #include <string.h>
 #include <tty.h>
 
+// 每行字节数
+static uint16_t video_size_row = 160;
+// 列数
+static uint16_t video_num_columns = 80;
+// 行数
+static uint16_t video_num_lines = 25;
+static char * video_mem_start = 0xb8000;
+static char * video_mem_end;
+// 用来擦除字符的字符
+static uint8_t vodeo_erase_char;
+
+// 光标所在位置。行，列
+static uint16_t x = 0,y = 0;
+
+
 void _sys_set_cursor(uint16_t cursor_index){
     // short cursor_index = 80 * row + column;     // 计算光标寄存器的值
     uint8_t low_eight = cursor_index; // 取低八位，高位被截断
@@ -28,11 +43,21 @@ uint16_t _sys_get_cursor(){
 
 void con_write(struct tty_struct * tty){
     /* 向终端设备写入字符并显示 */
+    // TODO:光标没有去控制。
+    // 需要输出的字符个数
     int current_num_char = strlen(tty->write_q.buf);
-    char * display_ptr =(char *)0xb8000;
-    char * buf_ptr = tty->write_q.buf;
-    while (current_num_char--){
-        *display_ptr++ = *buf_ptr++;
-        *display_ptr++ = 0x0007;
+    // 开始输出的内存地址
+    char * display_ptr =(char *)video_mem_start + x*video_size_row + y*2;
+    while(!_tty_queue_is_empty(&tty->write_q)){
+        char c = _tty_queue_get(&tty->write_q);
+        display_ptr = (char *)video_mem_start + x*video_size_row + y*2;
+        *display_ptr = c;
+        y++;
+        if (y >= video_num_columns){
+            y = 0;
+            x++;
+        }
+        // TODO:x行数超出限制需要滚屏
     }
+
 }
