@@ -3,8 +3,12 @@
 [BITS 32]
 extern main
 global kernel_head_start
+global _idt
+global _gdt
+global _page_dir
 ;TODO:页目录表占位符位置
 PageDirBase:
+_page_dir:
 kernel_head_start:
     mov ax, SelectorNormal
     mov ds, ax
