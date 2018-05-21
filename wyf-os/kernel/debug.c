@@ -82,7 +82,7 @@ void puts(char * str, int size){
 
 
 
-void sprintf(char * dest , char * format, ...){
+void sprint(char * dest , char * format, ...){
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
     int des_index = 0;   // 目标字符串索引，总是指向未写的一位。
@@ -153,7 +153,7 @@ void sprintf(char * dest , char * format, ...){
 }
 
 
-void vprintf(char * format, char ** va){
+void vprint(char * format, char ** va){
     char buf[BUF_LENGTH];
     int arg_num = 0;
     int src_index = 0;   // 源字符串索引，总是指向未读的一位
@@ -233,8 +233,8 @@ void vprintf(char * format, char ** va){
     return ;
 }
 
-void printf(char * format, ...){
-    vprintf(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
+void print(char * format, ...){
+    vprint(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
     return ;
 }
 

@@ -3,6 +3,7 @@
 
 int main(){
     tty_init();
-    test1();
+    // test1();
+    test2();
     return 0;
 }

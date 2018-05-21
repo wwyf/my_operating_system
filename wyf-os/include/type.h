@@ -11,4 +11,12 @@
 
 #define size_t unsigned int
 
+
+struct desc_struct_t{
+	uint32_t a;
+    uint32_t b;
+};
+
+typedef struct desc_struct_t desc_table_t[256];
+
 #endif

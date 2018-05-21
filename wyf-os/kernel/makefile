@@ -1,5 +1,5 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=test.o basic.o  debug.o printk.o
+KERNEL_OBJDECT=test.o basic.o  debug.o printk.o protect.o
 CHR_DRV_OBJDECT=chr_drv/console.o chr_drv/tty_drv.o chr_drv/tty.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT)
 
@@ -23,6 +23,8 @@ debug.o:debug.c
 	gcc debug.c -o debug.o $(C_FLAGS)
 printk.o:printk.c
 	gcc printk.c -o printk.o $(C_FLAGS)
+protect.o:protect.c
+	gcc protect.c -o protect.o $(C_FLAGS)
 basic.o:basic.asm
 	nasm basic.asm -o basic.o $(NASM_FLAGS)
 
