@@ -1,5 +1,5 @@
 # 生成kernel.bin
-OBJECTS= string.o vsprintf.o
+OBJECTS= string.o vsprintf.o stdlib.o
 C_FLAGS=-c -I ../include -m32 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
 OBJDUMP_FLAGS= -m i386 -Sl
@@ -13,6 +13,9 @@ string.o : string.c
 
 vsprintf.o : vsprintf.c
 	gcc vsprintf.c -o vsprintf.o $(C_FLAGS) 
+
+stdlib.o : stdlib.c
+	gcc stdlib.c -o stdlib.o $(C_FLAGS) 
 
 .PHONY : clean
 clean :

@@ -1,5 +1,5 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=test.o basic.o  debug.o printk.o protect.o interrupt.o interrupt_table.o
+KERNEL_OBJDECT=test.o basic.o  debug.o printk.o protect.o interrupt.o interrupt_table.o process.o
 CHR_DRV_OBJDECT=chr_drv/console.o chr_drv/tty_drv.o chr_drv/tty.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT)
 
@@ -28,6 +28,8 @@ protect.o:protect.c
 basic.o:basic.asm
 	nasm basic.asm -o basic.o $(NASM_FLAGS)
 
+process.o:process.c
+	gcc process.c -o process.o $(C_FLAGS)
 interrupt.o:interrupt.c
 	gcc interrupt.c -o interrupt.o $(C_FLAGS)
 interrupt_table.o:interrupt_table.asm

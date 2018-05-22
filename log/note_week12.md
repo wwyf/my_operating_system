@@ -1,14 +1,31 @@
 ---
+title: 实验报告
 typora-copy-images-to: figure
 ---
 
-# 工作拆解
 
-1. 中断系统的设计
-2. 进程结构的设计
-3. 进程切换
+[TOC]
+
+# 操作系统整体设计
+
+## 文件组织
+
+## 启动流程
+
+###  引导启动 
+
+在引导启动阶段，运行的代码主要在boot.asm
+
+### 初始化保护模式
+
+`head.asm`
+
+### 初始化操作系统
 
 
+# 操作系统模块说明
+
+## 模块组织概述
 
 ## 中断系统的设计
 
@@ -75,7 +92,54 @@ struct irq_desc{
 }
 ```
 
+## 进程
 
+1. 确定进程控制块的结构
+2. 编写restart函数，启动一个init进程，该进程工作在ring3
+3. 编写时钟中断
+4. 编写一个系统调用，需要有一个完整的流程
+
+
+
+当时钟中断发生的时候，push一个数，然后save 寄存器到 进程控制块，
+
+```cpp
+恢复的时候，从新进程的内核栈中获得上下文，然后返回。
+```
+
+1. 进程控制块，头为栈信息
+
+
+
+
+
+
+
+## 遇到的问题记录
+
+C语言中，传参的指针会失去大小信息
+
+```cpp
+void update_current_process_context(PT_REGS * regs){
+    ...
+    memcpyk((char *)regs, (char *)&current->regs, sizeof(regs));
+    ...
+}
+```
+
+我有一个函数一开始是这么写的，但是一直没有成功，后来打印了`sizeof(regs)`发现结果是4
+
+![1526977750932](figure/1526977750932.png)
+
+终于才明白过来，不能够这么写，必须使用类型名。
+
+```cpp
+void update_current_process_context(PT_REGS * regs){
+    ...
+    memcpyk((char *)regs, (char *)&current->regs, sizeof(PT_REGS));
+    ...
+}
+```
 
 
 

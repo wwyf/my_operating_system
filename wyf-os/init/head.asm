@@ -37,7 +37,7 @@ kernel_head_start:
     push 0x0
     push SelectorKernel
     push main
-    jmp SelectorZero:setup_paging
+    jmp SelectorKernel:setup_paging
     ret
 
 setup_gdt:
