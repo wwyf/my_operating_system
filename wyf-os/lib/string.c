@@ -1,4 +1,4 @@
-#include <string.h>
+#include <common/string.h>
 #include <type.h>
 
 size_t com_strlen(char * str){

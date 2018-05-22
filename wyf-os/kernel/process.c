@@ -15,7 +15,7 @@ void process_init(){
 
 void update_current_process_context(PT_REGS * regs){
     current_process_kernel_stack = regs;
-    memcpyk((char *)regs, (char *)&current->regs, sizeof(PT_REGS));
+    com_memcpy((char *)regs, (char *)&current->regs, sizeof(PT_REGS));
     current->kernel_stack = regs;
 }
 

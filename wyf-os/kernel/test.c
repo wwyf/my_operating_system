@@ -1,9 +1,9 @@
 #include <console.h>
 #include <global.h>
-#include <debug.h>
+#include <common/debug.h>
 #include <tty_drv.h>
 #include <kernel.h>
-#include <string.h>
+#include <common/string.h>
 #include <protect.h>
 
 /* 用来测试中断向量表的设置 */

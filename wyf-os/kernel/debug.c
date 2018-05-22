@@ -1,6 +1,6 @@
 #include <basic.h>
 #include <type.h>
-#include <string.h>
+#include <common/string.h>
 #include <console.h>
 
 #define INT_LENGTH 20

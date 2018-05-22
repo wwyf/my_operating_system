@@ -1,10 +1,10 @@
 #include <interrupt.h>
 #include <head.h>
 #include <protect.h>
-#include <debug.h>
+#include <common/debug.h>
 #include <kernel.h>
 #include <process.h>
-#include <stdlib.h>
+#include <common/stdlib.h>
 
 
 

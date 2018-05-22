@@ -1,6 +1,6 @@
 #include <basic.h>
 #include <type.h>
-#include <string.h>
+#include <common/string.h>
 #include <tty.h>
 
 // 每行字节数
