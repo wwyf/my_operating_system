@@ -34,7 +34,8 @@
         "cursor.h": "c",
         "type.h": "c",
         "interrupt.h": "c",
-        "global.h": "c"
+        "global.h": "c",
+        "stdlib.h": "c"
       },
       "cSpell.words": [
         "printk"

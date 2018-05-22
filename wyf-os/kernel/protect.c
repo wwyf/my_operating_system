@@ -33,7 +33,7 @@ void pack_gate( uint32_t * a, uint32_t * b,
 void _set_gate(uint32_t gate, uint32_t type, void * addr, uint8_t seg){
     uint32_t a,b;
     pack_gate(&a, &b, (uint32_t)addr, seg, type, 0);
-    write_idt_entry(idt_table, gate, a, b);
+    write_idt_entry(g_idt_table, gate, a, b);
 }
 
 void set_intr_gate(uint32_t n, void * addr){

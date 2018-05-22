@@ -3,12 +3,12 @@
 [BITS 32]
 extern main
 global kernel_head_start
-global _idt
-global _gdt
-global _page_dir
+global g_idt_table
+global g_gdt_table
+global g_page_dir
 ;TODO:页目录表占位符位置
 PageDirBase:
-_page_dir:
+g_page_dir:
 kernel_head_start:
     mov ax, SelectorNormal
     mov ds, ax
@@ -137,9 +137,9 @@ SpuriousHandler	equ	_SpuriousHandler - $$
 
 
 idt_descr dw 256*8 - 1
-            dd _idt-$$
+            dd g_idt_table-$$
 gdt_descr dw 256*8 - 1
-            dd _gdt-$$
+            dd g_gdt_table-$$
 
 
 times 0x6F00-($-$$) db 0
@@ -150,7 +150,7 @@ times 0x7000-($-$$) db 0
 
 
 ALIGN	32
-_idt:
+g_idt_table:
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; 这里是idt表。一项8字节，总共放256项 TODO:固定内存地址
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,7 +172,7 @@ times 0x9000-($-$$) db 0
 
 
 ALIGN	32
-_gdt:
+g_gdt_table:
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; 这里是gdt表。一项8字节，总共放256项 TODO:固定内存地址
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

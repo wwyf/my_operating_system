@@ -55,9 +55,10 @@ typedef struct s_proc{
     void * kernel_stack;
 }PROCESS;
 
-PROCESS PCB_table[MAX_PROCESS_NUM];
-PROCESS * current;
-PT_REGS * current_process_kernel_stack;
+
+PROCESS PCB_table[MAX_PROCESS_NUM]; /// 进程控制块表。
+PROCESS * current; /// 当前进程。
+PT_REGS * current_process_kernel_stack; /// 当前进程恢复上下文所用内核栈。
 
 void process_init();
 
