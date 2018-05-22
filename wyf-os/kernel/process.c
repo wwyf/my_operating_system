@@ -2,6 +2,8 @@
 #include <proc/process.h>
 #include <const.h>
 
+void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function);
+
 
 /**
  * @brief 初始化第一个进程
@@ -14,12 +16,6 @@ void process_init(){
 
 
 
-void update_current_process_context(proc_regs_t * regs){
-    g_cur_proc_context_stack = regs;
-    com_memcpy((char *)regs, (char *)&g_cur_proc->regs, sizeof(proc_regs_t));
-    g_cur_proc->kernel_stack = regs;
-}
-
 /**
  * @brief  初始化一个内核进程，初始化其eip，cs，其他使用内核常量填充。这样就能够跳转过去运行。
  * 
@@ -28,7 +24,7 @@ void update_current_process_context(proc_regs_t * regs){
  * @param pid 如名
  * @param function 该进程的入口函数（即入口地址）
  */
-void init_a_process(uint32_t n, char * name, uint32_t pid, void * function){
+void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function){
     g_pcb_table[n].regs.eax = 0;
     g_pcb_table[n].regs.ebx = 0;
     g_pcb_table[n].regs.ecx = 0;
@@ -50,6 +46,4 @@ void init_a_process(uint32_t n, char * name, uint32_t pid, void * function){
     g_pcb_table[n].pid = pid;
 
     // g_pcb_table[n].p_name = "test";
-
-
 }

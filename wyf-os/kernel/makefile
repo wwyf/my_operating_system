@@ -3,7 +3,8 @@ KERNEL_OBJDECT=basic.o protect.o  process.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
 INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o
 TEST_OBJECT=test/test.o
-ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT)
+COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o
+ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT)
 
 C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
@@ -47,6 +48,16 @@ chr_drv/tty.o:chr_drv/tty.c
 
 test/test.o:test/test.c
 	gcc test/test.c -o test/test.o $(C_FLAGS)
+
+common/string.o : common/string.c
+	gcc common/string.c -o common/string.o $(C_FLAGS) 
+
+common/vsprintf.o : common/vsprintf.c
+	gcc common/vsprintf.c -o common/vsprintf.o $(C_FLAGS) 
+
+common/stdlib.o : common/stdlib.c
+	gcc common/stdlib.c -o common/stdlib.o $(C_FLAGS) 
+
 
 
 $(INIT_OBJDECT):

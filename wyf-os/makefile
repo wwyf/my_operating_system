@@ -16,16 +16,12 @@ $(BOOT)/boot.bin:
 	cd boot && make
 	cd ..
 
-kernel.bin:$(INIT)/main.o $(INIT)/head.o $(INCLUDE)/libmycrt.a
+kernel.bin:$(INIT)/main.o $(INIT)/head.o
 	cd kernel && make
 	cd ..
 
 $(INIT)/main.o $(INIT)/head.o:
 	cd init && make
-	cd ..
-
-$(INCLUDE)/libmycrt.a:
-	cd lib && make
 	cd ..
 
 runq:

@@ -4,7 +4,7 @@
 #include <type.h>
 #include <const.h>
 
-
+/* 用来保存CPU的上下文信息 */
 typedef struct pt_regs{
     long ebx;
     long ecx; 
@@ -26,6 +26,8 @@ typedef struct pt_regs{
     int xss;
 }proc_regs_t;
 
+
+/* 这就是PCB啦，进程控制块 */
 typedef struct s_proc{
     proc_regs_t regs;
     uint32_t pid;
@@ -39,9 +41,6 @@ proc_task_struct_t * g_cur_proc; /// 当前进程。
 proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文所用内核栈。
 
 void process_init();
-
-void update_current_process_context(proc_regs_t * regs);
-
 
 #endif
 
