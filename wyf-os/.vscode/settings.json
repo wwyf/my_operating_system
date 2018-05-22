@@ -33,7 +33,8 @@
         "test.h": "c",
         "cursor.h": "c",
         "type.h": "c",
-        "interrupt.h": "c"
+        "interrupt.h": "c",
+        "global.h": "c"
       },
       "cSpell.words": [
         "printk"
