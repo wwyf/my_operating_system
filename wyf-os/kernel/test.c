@@ -1,7 +1,7 @@
-#include <console.h>
+#include <chr_drv/console.h>
 #include <global.h>
 #include <common/debug.h>
-#include <tty_drv.h>
+#include <chr_drv/tty_drv.h>
 #include <common/string.h>
 #include <protect.h>
 

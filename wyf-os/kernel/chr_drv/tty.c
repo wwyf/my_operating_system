@@ -1,4 +1,4 @@
-#include <tty.h>
+#include <chr_drv/tty.h>
 // 将检查队列是否为空的职责交给调用者
 char _tty_queue_get(struct tty_queue * q){
 	int cur_head = q->head;

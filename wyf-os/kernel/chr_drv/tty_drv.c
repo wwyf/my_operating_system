@@ -1,6 +1,6 @@
 /* 这里存放的是tty字符设备 */
-#include <console.h>
-#include <tty.h>
+#include <chr_drv/console.h>
+#include <chr_drv/tty.h>
 
 struct tty_struct tty_table[1] = {
     {

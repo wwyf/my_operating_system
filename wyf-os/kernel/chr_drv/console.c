@@ -1,7 +1,7 @@
 #include <basic.h>
 #include <type.h>
 #include <common/string.h>
-#include <tty.h>
+#include <chr_drv/tty.h>
 
 // 每行字节数
 static uint16_t video_size_row;

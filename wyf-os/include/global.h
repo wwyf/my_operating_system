@@ -2,7 +2,7 @@
 #define _GLOBAL_H_ 
 
 #include <type.h>
-#include <tty.h>
+#include <chr_drv/tty.h>
 
 /* 定义在tty_drv.c中 */
 extern struct tty_struct tty_table[1];

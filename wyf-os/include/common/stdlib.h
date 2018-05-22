@@ -4,4 +4,5 @@
 #include <type.h>
 
 void com_memcpy(char * src, char * dest, uint32_t size);
+
 #endif

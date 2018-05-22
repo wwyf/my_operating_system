@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include <common/debug.h>
-#include <tty_drv.h>
+#include <chr_drv/tty_drv.h>
 
 static char buf[1024];
 

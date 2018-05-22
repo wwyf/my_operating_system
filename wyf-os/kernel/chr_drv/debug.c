@@ -1,7 +1,7 @@
 #include <basic.h>
 #include <type.h>
 #include <common/string.h>
-#include <console.h>
+#include <chr_drv/console.h>
 
 #define INT_LENGTH 20
 #define BUF_LENGTH 100
