@@ -1,12 +1,12 @@
 # 生成kernel.bin
 TARGET=libcrt.a
 OBJECTS= string.o vsprintf.o stdlib.o
-C_FLAGS=-c -I ../include -m32 -ffreestanding -Og -g
+C_FLAGS=-c -I ./include -m32 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
 OBJDUMP_FLAGS= -m i386 -Sl
 
 ../lib/libcrt.a : $(OBJECTS)
-	ar rcs ../include/libcrt.a $(OBJECTS)
+	ar rcs ../lib/libcrt.a $(OBJECTS)
 
 # ALL USER
 string.o : string.c
