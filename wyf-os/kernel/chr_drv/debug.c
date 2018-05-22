@@ -233,7 +233,7 @@ void vprint(char * format, char ** va){
     return ;
 }
 
-void print(char * format, ...){
+void com_print(char * format, ...){
     vprint(format, &format+1);// 其实这里由于format是个指针，是32位的，所以这里对format的地址+1，也会加4个字节。
     return ;
 }

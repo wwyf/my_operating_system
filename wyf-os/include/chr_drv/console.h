@@ -3,7 +3,7 @@
 
 #include <basic.h>
 #include <type.h>
-#include <chr_drv/tty.h>
+#include <chr_drv/tty_drv.h>
 
 void _console_init();
 

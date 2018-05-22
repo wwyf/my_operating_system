@@ -1,7 +1,7 @@
 #include <protect.h>
 #include <type.h>
 #include <const.h>
-#include <head.h>
+#include <global.h>
 
 #define DESCTYPE_LDT 0x82
 #define DESCTYPE_TSS 0x89
@@ -12,7 +12,7 @@
 /* system */
 #define DESCTYPE_s 0x10
 
-void write_idt_entry(struct desc_struct_t * dt, 
+void _write_idt_entry(struct desc_struct_t * dt, 
                     int32_t entry, 
                     uint32_t entry_low, 
                     uint32_t entry_high){
@@ -20,7 +20,7 @@ void write_idt_entry(struct desc_struct_t * dt,
     dt[entry].b = entry_high;
 }
 
-void pack_gate( uint32_t * a, uint32_t * b, 
+void _pack_gate( uint32_t * a, uint32_t * b, 
                 uint32_t base, 
                 uint8_t seg, 
                 uint8_t type, 
@@ -32,8 +32,8 @@ void pack_gate( uint32_t * a, uint32_t * b,
 
 void _set_gate(uint32_t gate, uint32_t type, void * addr, uint8_t seg){
     uint32_t a,b;
-    pack_gate(&a, &b, (uint32_t)addr, seg, type, 0);
-    write_idt_entry(g_idt_table, gate, a, b);
+    _pack_gate(&a, &b, (uint32_t)addr, seg, type, 0);
+    _write_idt_entry(g_idt_table, gate, a, b);
 }
 
 void set_intr_gate(uint32_t n, void * addr){

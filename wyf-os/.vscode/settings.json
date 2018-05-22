@@ -35,9 +35,10 @@
         "type.h": "c",
         "interrupt.h": "c",
         "global.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "tty_drv.h": "c"
       },
       "cSpell.words": [
-        "printk"
+        "com_printk"
       ]
     }

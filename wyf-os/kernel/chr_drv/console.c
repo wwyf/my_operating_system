@@ -1,7 +1,7 @@
 #include <basic.h>
 #include <type.h>
 #include <common/string.h>
-#include <chr_drv/tty.h>
+#include <chr_drv/tty_drv.h>
 
 // 每行字节数
 static uint16_t video_size_row;
@@ -61,6 +61,7 @@ void _console_write(struct tty_struct * tty){
         char c = _tty_queue_get(&tty->write_q);
         display_ptr = (char *)(video_mem_start + x*video_size_row + y*2);
         *display_ptr = c;
+        // 颜色
         *(display_ptr+1) = 0x0007;
         y++;
         if (y >= video_num_columns){

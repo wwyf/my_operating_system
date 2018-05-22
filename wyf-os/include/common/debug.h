@@ -3,10 +3,12 @@
 
 #include <common/stdarg.h>
 
-void print(char * format, ...);
+void com_print(char * format, ...);
 
-int printk( char * fmt, ...);
+int com_printk( char * fmt, ...);
 
-int vsprintk(char *buf, const char *fmt, va_list args);
+int com_vsprintk(char *buf, const char *fmt, va_list args);
+
+int com_sprintk(char * dest, char * fmt, ...);
 
 #endif
