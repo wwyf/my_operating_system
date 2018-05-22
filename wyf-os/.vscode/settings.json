@@ -32,7 +32,8 @@
         "cstdarg": "c",
         "test.h": "c",
         "cursor.h": "c",
-        "type.h": "c"
+        "type.h": "c",
+        "interrupt.h": "c"
       },
       "cSpell.words": [
         "printk"

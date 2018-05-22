@@ -14,6 +14,9 @@ void example_interrupt(){
 }
 
 void test2(){
+    print("test default interrupt!");
+    asm("int $81");
+    asm("int $82");
     print("testing interrupt!");
     set_intr_gate(0x79, example_interrupt);
     asm("int $0x79");

@@ -37,7 +37,7 @@ interrupt_1:
 该函数会判断该中断的类型，并调用对应的处理例程。
 
 ```cpp
-handle_irq(uint8_t n){
+interrupt_handler(uint8_t n){
     // 索引到irq_desc的第n项，这里的n 如何对应上？
     // 调用该项对应的action
 }
