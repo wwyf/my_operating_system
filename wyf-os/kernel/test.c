@@ -49,7 +49,7 @@ void test1(){
     _tty_queue_put(&(&tty_table[0])->write_q, 'i');
     _console_write(&tty_table[0]);
     char t[16] = "!!testtesttest";
-    tty_write(0, t, strlenk(t));
+    tty_write(0, t, com_strlen(t));
     __asm__("int $0x80");
     // while(1){};
 }

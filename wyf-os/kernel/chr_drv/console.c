@@ -54,7 +54,7 @@ void _console_write(struct tty_struct * tty){
     /* 向终端设备写入字符并显示 */
     // TODO:光标没有去控制。
     // 需要输出的字符个数
-    int current_num_char = strlenk(tty->write_q.buf);
+    int current_num_char = com_strlen(tty->write_q.buf);
     // 开始输出的内存地址
     char * display_ptr =(char *)video_mem_start + x*video_size_row + y*2;
     while(!_tty_queue_is_empty(&tty->write_q)){

@@ -113,7 +113,7 @@ void sprint(char * dest , char * format, ...){
                 }
                 case 's':{
                     char * str = *(char **)(arg_addr + arg_num++);
-                    uint32_t str_len = strlenk(str);
+                    uint32_t str_len = com_strlen(str);
                     uint32_t i = 0;
                     while (i < str_len){
                         dest[des_index++] = str[i++];
@@ -191,7 +191,7 @@ void vprint(char * format, char ** va){
                 }
                 case 's':{
                     char * str = *(char **)(arg_addr + arg_num++);
-                    uint32_t str_len = strlenk(str);
+                    uint32_t str_len = com_strlen(str);
                     uint32_t i = 0;
                     while (i < str_len){
                         buf[des_index++] = str[i++];
