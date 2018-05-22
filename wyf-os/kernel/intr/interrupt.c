@@ -18,9 +18,9 @@ void _update_current_process_context(proc_regs_t * regs);
 void _interrupt_handler(proc_regs_t * regs){
     // 将上下文保存到当前进程控制块中。
     _update_current_process_context(regs);
-
-    int v = regs->orig_eax;
-    com_print("in the %d interrupt!!!", v);
+    uint32_t v = regs->orig_eax;
+    // FIXME:输出的数字不对，不知道为什么
+    com_printk("in the %d interrupt!!!", v);
     
 }
 

@@ -1,23 +1,42 @@
-#include <chr_drv/console.h>
 #include <global.h>
 #include <common/debug.h>
-#include <chr_drv/tty_drv.h>
 #include <common/string.h>
 #include <protect/protect.h>
+#include <chr_drv/console.h>
+#include <chr_drv/tty_drv.h>
 
-/* 用来测试中断向量表的设置 */
+
+void _test1();
+void _test2();
+void _test3();
+
+
+void main_test(){
+    // _test1();
+    // _test2();
+    _test3();
+}
+
+/***********************************************/
+
+/* 测试中断能够做到正确的保存环境和恢复环境。 */
+void _test3(){
+    while(1){
+        asm("int $81");
+        asm("int $82");
+    }
+}
+
+/***********************************************/
+/* 用于测试自定义中断的设置 */
 
 void example_interrupt(){
     com_print("test in interrupt!!");
     com_print("test success!!!!!!");
 }
 
-void test2(){
+void _test2(){
     com_print("test default interrupt!");
-    while(1){
-        asm("int $81");
-        asm("int $82");
-    }
     com_print("testing interrupt!");
     set_intr_gate(0x79, example_interrupt);
     asm("int $0x79");
@@ -26,9 +45,10 @@ void test2(){
 }
 
 
+/***********************************************/
 
 // /* 用来测试字符设备的使用 */
-void test1(){
+void _test1(){
     _console_set_cursor(0);
     _console_set_cursor(80);
     com_print("asdfasf!");
@@ -53,5 +73,7 @@ void test1(){
     char s[30];
     com_sprintk(s, "test %d%s", 2342,"sdfs");
     com_printk(s);
-    while(1){};
+    // while(1){};
 }
+
+

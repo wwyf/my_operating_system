@@ -6,25 +6,25 @@
 
 /* 用来保存CPU的上下文信息 */
 typedef struct pt_regs{
-    long ebx;
-    long ecx; 
-    long edx;
-    long esi;
-    long edi;
-    long ebp;
-    long eax;
-    int xds;
-    int xes;
-    int xfs;
+    uint32_t ebx;
+    uint32_t ecx; 
+    uint32_t edx;
+    uint32_t esi;
+    uint32_t edi;
+    uint32_t ebp;
+    uint32_t eax;
+    uint16_t xds;
+    uint16_t xes;
+    uint16_t xfs;
     // 中断号
-    long orig_eax;
+    uint32_t orig_eax;
     // 返回地址信息
-    long eip;
-    int xcs;
-    long eflags;
-    long esp;
-    int xss;
-}proc_regs_t;
+    uint32_t eip;
+    uint16_t xcs;
+    uint32_t eflags;
+    uint32_t esp;
+    uint16_t xss;
+}proc_regs_t __attribute__((gcc_struct, packed));
 
 
 /* 这就是PCB啦，进程控制块 */
