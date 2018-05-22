@@ -2,7 +2,6 @@
 #include <global.h>
 #include <common/debug.h>
 #include <tty_drv.h>
-#include <kernel.h>
 #include <common/string.h>
 #include <protect.h>
 

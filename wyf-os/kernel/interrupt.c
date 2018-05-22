@@ -2,7 +2,7 @@
 #include <head.h>
 #include <protect.h>
 #include <common/debug.h>
-#include <kernel.h>
+#include <common/debug.h>
 #include <process.h>
 #include <common/stdlib.h>
 

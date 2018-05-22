@@ -1,6 +1,6 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=test.o basic.o  debug.o printk.o protect.o interrupt.o interrupt_table.o process.o
-CHR_DRV_OBJDECT=chr_drv/console.o chr_drv/tty_drv.o chr_drv/tty.o
+KERNEL_OBJDECT=test.o basic.o protect.o interrupt.o interrupt_table.o process.o
+CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o chr_drv/tty.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT)
 
 C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
@@ -19,10 +19,6 @@ kernel.elf:$(ALL_OBJDECTS)
 
 test.o:test.c
 	gcc test.c -o test.o $(C_FLAGS)
-debug.o:debug.c
-	gcc debug.c -o debug.o $(C_FLAGS)
-printk.o:printk.c
-	gcc printk.c -o printk.o $(C_FLAGS)
 protect.o:protect.c
 	gcc protect.c -o protect.o $(C_FLAGS)
 basic.o:basic.asm
@@ -36,6 +32,10 @@ interrupt_table.o:interrupt_table.asm
 	nasm interrupt_table.asm -o interrupt_table.o $(NASM_FLAGS)
 
 
+chr_drv/debug.o:chr_drv/debug.c
+	gcc chr_drv/debug.c -o chr_drv/debug.o $(C_FLAGS)
+chr_drv/printk.o:chr_drv/printk.c
+	gcc chr_drv/printk.c -o chr_drv/printk.o $(C_FLAGS)
 chr_drv/console.o:chr_drv/console.c
 	gcc chr_drv/console.c -o chr_drv/console.o $(C_FLAGS)
 chr_drv/tty_drv.o:chr_drv/tty_drv.c

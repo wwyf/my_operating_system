@@ -16,7 +16,6 @@ $(BOOT)/boot.bin:
 	cd boot && make
 	cd ..
 
-
 kernel.bin:$(INIT)/main.o $(INIT)/head.o $(INCLUDE)/libmycrt.a
 	cd kernel && make
 	cd ..

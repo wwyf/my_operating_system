@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include <kernel.h>
+#include <common/debug.h>
 #include <tty_drv.h>
 
 static char buf[1024];
