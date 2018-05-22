@@ -3,7 +3,7 @@
 #include <common/debug.h>
 #include <chr_drv/tty_drv.h>
 #include <common/string.h>
-#include <protect.h>
+#include <protect/protect.h>
 
 /* 用来测试中断向量表的设置 */
 

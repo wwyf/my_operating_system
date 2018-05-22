@@ -9,6 +9,7 @@
 #define __KERNEL_ES 0x08
 #define __KERNEL_SS 0x08
 
+#define MAX_PROCESS_NUM 4
 
 
 #endif

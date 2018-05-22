@@ -5,4 +5,6 @@
 /* 专门用来测试的 */
 void test1();
 
+void test2();
+
 #endif

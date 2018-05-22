@@ -1,14 +1,14 @@
-#include <interrupt.h>
+#include <intr/interrupt.h>
 #include <global.h>
-#include <protect.h>
-#include <process.h>
+#include <protect/protect.h>
+#include <proc/process.h>
 #include <common/debug.h>
 #include <common/debug.h>
 #include <common/stdlib.h>
 
 
 
-void interrupt_handler(PT_REGS * regs){
+void _interrupt_handler(proc_regs_t * regs){
     // 将上下文保存到当前进程控制块中。
     update_current_process_context(regs);
 

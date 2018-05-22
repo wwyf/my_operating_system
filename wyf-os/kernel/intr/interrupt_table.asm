@@ -1,5 +1,5 @@
-extern interrupt_handler
-extern current_process_kernel_stack
+extern _interrupt_handler
+extern g_cur_proc_context_stack
 
 global interrupt_table
 
@@ -47,14 +47,14 @@ common_handler:
     SAVE_ALL
     mov eax, esp
     push eax
-    call interrupt_handler
+    call _interrupt_handler
     pop eax
     jmp ret_from_intr
 
 
 ret_from_intr:
     ; TODO:获得新进程的内核栈指针
-    mov esp, [current_process_kernel_stack]
+    mov esp, [g_cur_proc_context_stack]
     RESTORE_ALL
     add esp, 4
     iret

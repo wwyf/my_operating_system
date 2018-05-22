@@ -1,5 +1,5 @@
 #include <common/common.h>
-#include <process.h>
+#include <proc/process.h>
 #include <const.h>
 
 
@@ -8,16 +8,16 @@
  * 
  */
 void process_init(){
-    current = &PCB_table[0];
-    current_process_kernel_stack = &current->regs;
+    g_cur_proc = &g_pcb_table[0];
+    g_cur_proc_context_stack = &g_cur_proc->regs;
 }
 
 
 
-void update_current_process_context(PT_REGS * regs){
-    current_process_kernel_stack = regs;
-    com_memcpy((char *)regs, (char *)&current->regs, sizeof(PT_REGS));
-    current->kernel_stack = regs;
+void update_current_process_context(proc_regs_t * regs){
+    g_cur_proc_context_stack = regs;
+    com_memcpy((char *)regs, (char *)&g_cur_proc->regs, sizeof(proc_regs_t));
+    g_cur_proc->kernel_stack = regs;
 }
 
 /**
@@ -29,27 +29,27 @@ void update_current_process_context(PT_REGS * regs){
  * @param function 该进程的入口函数（即入口地址）
  */
 void init_a_process(uint32_t n, char * name, uint32_t pid, void * function){
-    PCB_table[n].regs.eax = 0;
-    PCB_table[n].regs.ebx = 0;
-    PCB_table[n].regs.ecx = 0;
-    PCB_table[n].regs.edx = 0;
-    PCB_table[n].regs.edi = 0;
-    PCB_table[n].regs.esi = 0;
-    PCB_table[n].regs.ebp = 0;
+    g_pcb_table[n].regs.eax = 0;
+    g_pcb_table[n].regs.ebx = 0;
+    g_pcb_table[n].regs.ecx = 0;
+    g_pcb_table[n].regs.edx = 0;
+    g_pcb_table[n].regs.edi = 0;
+    g_pcb_table[n].regs.esi = 0;
+    g_pcb_table[n].regs.ebp = 0;
 
-    PCB_table[n].regs.xfs = __KERNEL_FS;
-    PCB_table[n].regs.xds = __KERNEL_DS;
-    PCB_table[n].regs.xes = __KERNEL_ES;
+    g_pcb_table[n].regs.xfs = __KERNEL_FS;
+    g_pcb_table[n].regs.xds = __KERNEL_DS;
+    g_pcb_table[n].regs.xes = __KERNEL_ES;
 
-    PCB_table[n].regs.xcs = __KERNEL_CS;
-    PCB_table[n].regs.xss = __KERNEL_SS;
-    PCB_table[n].regs.esp = 0;// TODO:
-    PCB_table[n].regs.eip = (uint32_t)function;
-    PCB_table[n].regs.eflags = 0; // TODO:
+    g_pcb_table[n].regs.xcs = __KERNEL_CS;
+    g_pcb_table[n].regs.xss = __KERNEL_SS;
+    g_pcb_table[n].regs.esp = 0;// TODO:
+    g_pcb_table[n].regs.eip = (uint32_t)function;
+    g_pcb_table[n].regs.eflags = 0; // TODO:
 
-    PCB_table[n].pid = pid;
+    g_pcb_table[n].pid = pid;
 
-    // PCB_table[n].p_name = "test";
+    // g_pcb_table[n].p_name = "test";
 
 
 }

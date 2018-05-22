@@ -1,8 +1,9 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=basic.o protect.o interrupt.o interrupt_table.o process.o
+KERNEL_OBJDECT=basic.o protect.o  process.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
+INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o
 TEST_OBJECT=test/test.o
-ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT)
+ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT)
 
 C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
@@ -24,10 +25,12 @@ protect.o:protect.c
 	gcc protect.c -o protect.o $(C_FLAGS)
 process.o:process.c
 	gcc process.c -o process.o $(C_FLAGS)
-interrupt.o:interrupt.c
-	gcc interrupt.c -o interrupt.o $(C_FLAGS)
-interrupt_table.o:interrupt_table.asm
-	nasm interrupt_table.asm -o interrupt_table.o $(NASM_FLAGS)
+
+
+intr/interrupt.o:intr/interrupt.c
+	gcc intr/interrupt.c -o intr/interrupt.o $(C_FLAGS)
+intr/interrupt_table.o:intr/interrupt_table.asm
+	nasm intr/interrupt_table.asm -o intr/interrupt_table.o $(NASM_FLAGS)
 
 
 chr_drv/debug.o:chr_drv/debug.c
