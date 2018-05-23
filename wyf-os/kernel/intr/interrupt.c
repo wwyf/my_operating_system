@@ -15,6 +15,19 @@
 void _update_current_process_context(proc_regs_t * regs);
 
 
+void interrupt_init(){
+    for (int i = 0; i < 256; i++){
+        // com_print("%d  ", interrupt_table[i]);
+        // com_printk("%x  ", ((uint32_t)&interrupt_table + 8 * i));
+        set_intr_gate(i, (void *)((uint32_t)&interrupt_table + 8 * i));
+    }
+}
+
+/**
+ * @brief 可能是个hack？，传参方式为在汇编中push
+ * 
+ * @param regs 当前进程上下文
+ */
 void _interrupt_handler(proc_regs_t * regs){
     // 将上下文保存到当前进程控制块中。
     _update_current_process_context(regs);
@@ -24,14 +37,6 @@ void _interrupt_handler(proc_regs_t * regs){
     com_printk("in the %c interrupt!!!", v);
     com_printk("in the %d interrupt!!!", v);
     
-}
-
-void interrupt_init(){
-    for (int i = 0; i < 256; i++){
-        // com_print("%d  ", interrupt_table[i]);
-        // com_printk("%x  ", ((uint32_t)&interrupt_table + 8 * i));
-        set_intr_gate(i, (void *)((uint32_t)&interrupt_table + 8 * i));
-    }
 }
 
 
