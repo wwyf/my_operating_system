@@ -1,4 +1,4 @@
-/wyf-os/cmake-build-debug/*
+/wyf-os/cmake-build-debug/**/*
 *.bin
 *.log
 *.com
