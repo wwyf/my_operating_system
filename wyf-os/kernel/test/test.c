@@ -4,19 +4,51 @@
 #include <protect/protect.h>
 #include <chr_drv/console.h>
 #include <chr_drv/tty_drv.h>
+#include <proc/process.h>
 
+extern ret_from_intr();
 
 void _test1();
 void _test2();
 void _test3();
+void _test4();
 
 
 void main_test(){
     // _test1();
     // _test2();
-    _test3();
+    // _test3();
+    _test4();
 }
 
+/***********************************************/
+
+void test_proc1(){
+    while (1){
+        for (int i = 0; i <10000000; i++);
+        com_print("pid : 1");
+        asm("int $0x66");
+    }
+}
+
+void test_proc2(){
+    while (1){
+        for (int i = 0; i <10000000; i++);
+        com_printk("pid : 2");
+        asm("int $0x66");
+    }
+}
+
+
+/* 测试内核进程的初始化和切换 */
+void _test4(){
+    _init_a_process(0, "test1", 1, test_proc1, (proc_regs_t *)0x20000);
+    _init_a_process(1, "test2", 2, test_proc2, (proc_regs_t *)0x30000);
+
+    g_cur_proc = &g_pcb_table[0];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    ret_from_intr();
+}
 
 
 

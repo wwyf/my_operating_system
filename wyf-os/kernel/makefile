@@ -1,10 +1,11 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=basic.o protect.o  process.o
+KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
 INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o
+MM_OBJECT=mm/memory.o
 TEST_OBJECT=test/test.o
 COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o
-ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT)
+ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT) $(MM_OBJECT)
 
 C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
@@ -26,6 +27,8 @@ protect.o:protect.c
 	gcc protect.c -o protect.o $(C_FLAGS)
 process.o:process.c
 	gcc process.c -o process.o $(C_FLAGS)
+schedule.o:schedule.c
+	gcc schedule.c -o schedule.o $(C_FLAGS)
 
 
 intr/interrupt.o:intr/interrupt.c
@@ -33,6 +36,9 @@ intr/interrupt.o:intr/interrupt.c
 intr/interrupt_table.o:intr/interrupt_table.asm
 	nasm intr/interrupt_table.asm -o intr/interrupt_table.o $(NASM_FLAGS)
 
+	
+mm/memory.o:mm/memory.c
+	gcc mm/memory.c -o mm/memory.o $(C_FLAGS)
 
 chr_drv/debug.o:chr_drv/debug.c
 	gcc chr_drv/debug.c -o chr_drv/debug.o $(C_FLAGS)

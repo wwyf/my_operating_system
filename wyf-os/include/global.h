@@ -5,13 +5,14 @@
 #include <const.h>
 #include <chr_drv/tty_drv.h>
 #include <proc/process.h>
+#include <mm/page.h>
 
 /* 定义在tty_drv.c中 */
 extern struct tty_struct g_tty_table[1];
 
 // 页表
 /* 定义在head.asm中 */
-extern uint32_t g_pg_dir[1024];
+extern page_dir_entry_t g_page_dir[1024];
 
 // 中断描述符表
 /* 定义在head.asm中 */

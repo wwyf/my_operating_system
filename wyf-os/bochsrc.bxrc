@@ -5,7 +5,7 @@
 # how much memory the emulated machine will have
 megs: 100
 
-port_e9_hack=1
+# port_e9_hack=1
 
 # filename of ROM images
 romimage: file=../dependence/BIOS-bochs-latest

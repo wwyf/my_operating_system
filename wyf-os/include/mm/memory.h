@@ -1,6 +1,16 @@
 #ifndef _MEMORY_H_
 #define _MEMORY_H_
 
+#include <mm/page.h>
+
+typedef struct memory_struct{
+    cr3_t this_cr3;
+}mm_struct_t;
+
+/* 内核进程专用 */
+extern mm_struct_t init_kernel_mm;
+
+
 void free_page();
 
 void copy_page_tables();

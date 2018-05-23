@@ -1,6 +1,7 @@
 #include <global.h>
 #include <protect/protect.h>
 #include <proc/process.h>
+#include <proc/schedule.h>
 #include <common/debug.h>
 #include <common/debug.h>
 #include <common/stdlib.h>
@@ -17,14 +18,12 @@ void _update_current_process_context(proc_regs_t * regs);
 
 void interrupt_init(){
     for (int i = 0; i < 256; i++){
-        // com_print("%d  ", interrupt_table[i]);
-        // com_printk("%x  ", ((uint32_t)&interrupt_table + 8 * i));
         set_intr_gate(i, (void *)((uint32_t)&interrupt_table + 8 * i));
     }
 }
 
 /**
- * @brief 可能是个hack？，传参方式为在汇编中push
+ * @brief 可能是个hack？传参方式为在汇编中push
  * 
  * @param regs 当前进程上下文
  */
@@ -32,10 +31,16 @@ void _interrupt_handler(proc_regs_t * regs){
     // 将上下文保存到当前进程控制块中。
     _update_current_process_context(regs);
     uint32_t v = regs->orig_eax;
-    // // 输出的数字不对，不知道为什么
-    // 已经FIX
-    com_printk("in the %c interrupt!!!", v);
-    com_printk("in the %d interrupt!!!", v);
+    
+    switch (v){
+        case 0x66:{
+            proc_schedule();
+            break;
+        }
+        default:{
+            com_printk("in the %d interrupt!", v);
+        }
+    }
     
 }
 

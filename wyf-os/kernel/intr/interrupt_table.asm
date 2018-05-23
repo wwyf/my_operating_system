@@ -2,6 +2,7 @@ extern _interrupt_handler
 extern g_cur_proc_context_stack
 
 global interrupt_table
+global ret_from_intr
 
 [bits 32]
 
