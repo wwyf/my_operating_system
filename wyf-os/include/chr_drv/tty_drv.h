@@ -11,9 +11,9 @@ uint16_t _sys_get_cursor();
 
 
 typedef struct tty_queue {
-	unsigned long data;
-	unsigned long head;
-	unsigned long tail;
+	uint32_t data;
+	uint32_t head;
+	uint32_t tail;
 	// struct task_struct * proc_list;
 	char buf[TTY_BUF_SIZE];
 }tty_queue_t;
@@ -41,7 +41,7 @@ int _tty_queue_is_full(tty_queue_t * q);
 int _tty_queue_is_empty(tty_queue_t * q);
 
 
-int tty_write(unsigned channel, char * buf, int nr);
+int tty_write(uint32_t channel, char * buf, uint32_t nr);
 
 void tty_init();
 

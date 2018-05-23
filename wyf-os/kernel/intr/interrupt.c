@@ -52,8 +52,7 @@ void _interrupt_handler(proc_regs_t * regs){
             com_printk("in the %d interrupt!", v);
             break;
         }
-    }
-    
+    }   
 }
 
 

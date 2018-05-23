@@ -17,10 +17,10 @@ tty_struct_t g_tty_table[1] = {
  * @param nr 字符缓冲区大小（缓冲区字符数）
  * @return int 写入的字符数
  */
-int tty_write(unsigned channel, char * buf, int nr)
+int tty_write(uint32_t channel, char * buf, uint32_t nr)
 {
 	tty_struct_t * tty = channel + g_tty_table;
-    int cur_char_index = 0;
+    uint32_t cur_char_index = 0;
     // TODO:终端号的范围
 	if (channel>2 || nr<0) return -1;
 
