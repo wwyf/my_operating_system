@@ -1,55 +1,218 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CodeBlocks_project_file>
-   <FileVersion major="1" minor="6" />
-   <Project>
-      <Option title="wyf_os" />
-      <Option makefile_is_custom="1" />
-      <Option compiler="gcc" />
-      <Option virtualFolders="CMake Files\;" />
-      <Build>
-      <Target title="all">
-         <Option working_dir="/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug" />
-         <Option type="4" />
-         <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 all" />
-            <CompileFile command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-         </MakeCommands>
-      </Target>
-      <Target title="rebuild_cache">
-         <Option working_dir="/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug" />
-         <Option type="4" />
-         <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache" />
-            <CompileFile command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-         </MakeCommands>
-      </Target>
-      <Target title="edit_cache">
-         <Option working_dir="/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug" />
-         <Option type="4" />
-         <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache" />
-            <CompileFile command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-         </MakeCommands>
-      </Target>
-      <Target title="wyf_os">
-         <Option working_dir="/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug" />
-         <Option type="4" />
-         <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 wyf_os" />
-            <CompileFile command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/mnt/e/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean" />
-         </MakeCommands>
-      </Target>
-      </Build>
-      <Unit filename="/mnt/e/code/my_operating_system/wyf-os/CMakeLists.txt">
-          <Option virtualFolder="CMake Files\" />
-      </Unit>
-   </Project>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="wyf_os"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="E:/code/my_operating_system/wyf-os/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="wyf_os">
+				<Option working_dir="E:/code/my_operating_system/wyf-os/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 wyf_os"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="E:/code/my_operating_system/wyf-os/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="useless">
+				<Option output="E:/code/my_operating_system/wyf-os/cmake-build-debug/useless.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="E:/code/my_operating_system/wyf-os/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="E:/code/my_operating_system/wyf-os/include"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/chr_drv"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/common"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/intr"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/mm"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/proc"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/protect"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/test"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 useless"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="useless/fast">
+				<Option output="E:/code/my_operating_system/wyf-os/cmake-build-debug/useless.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="E:/code/my_operating_system/wyf-os/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="E:/code/my_operating_system/wyf-os/include"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/chr_drv"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/common"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/intr"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/mm"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/proc"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/protect"/>
+					<Add directory="E:/code/my_operating_system/wyf-os/include/test"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 useless/fast"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="E:/code/my_operating_system/wyf-os/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;E:/code/my_operating_system/wyf-os/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/basic.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/chr_drv/console.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/chr_drv/tty_drv.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/common/common.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/common/debug.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/common/stdarg.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/common/stdlib.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/common/string.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/const.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/global.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/intr/clock.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/intr/interrupt.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/mm/memory.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/mm/page.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/proc/process.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/proc/schedule.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/protect/protect.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/test/test.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/include/type.h">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/init/main.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/chr_drv/console.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/chr_drv/debug.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/chr_drv/printk.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/chr_drv/tty_drv.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/common/stdlib.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/common/string.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/common/vsprintf.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/intr/clock.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/intr/interrupt.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/mm/memory.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/mm/page.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/process.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/protect.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/schedule.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/kernel/test/test.c">
+			<Option target="useless"/>
+		</Unit>
+		<Unit filename="E:/code/my_operating_system/wyf-os/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
 </CodeBlocks_project_file>
