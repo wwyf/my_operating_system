@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['内核初始化工作',['内核初始化工作',['../md_wyf-os_init_readme.html',1,'']]]
+  ['测试样例1',['测试样例1',['../md_wyf-os_test_test.html',1,'']]]
 ];

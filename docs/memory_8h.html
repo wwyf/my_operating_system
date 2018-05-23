@@ -74,7 +74,6 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">memory.h File Reference</div>  </div>
@@ -120,25 +119,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ab5ed1a51c56b37565bc2399759f29790"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structmemory__struct.html">memory_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#ab5ed1a51c56b37565bc2399759f29790">mm_struct_t</a></td></tr>
 <tr class="separator:ab5ed1a51c56b37565bc2399759f29790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a84d7f203af1b0c2ae6547f7a22c283ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a84d7f203af1b0c2ae6547f7a22c283ec">free_page</a> ()</td></tr>
-<tr class="separator:a84d7f203af1b0c2ae6547f7a22c283ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04358820069a108292efa86c68c3bb33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a04358820069a108292efa86c68c3bb33">copy_page_tables</a> ()</td></tr>
-<tr class="separator:a04358820069a108292efa86c68c3bb33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7789e0965cac49e52dd6eb735286a0d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a7789e0965cac49e52dd6eb735286a0d6">get_empty_tables</a> ()</td></tr>
-<tr class="separator:a7789e0965cac49e52dd6eb735286a0d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a577eb28cca66e27b0166a6330fd5ca3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a577eb28cca66e27b0166a6330fd5ca3a">free_page_tables</a> ()</td></tr>
-<tr class="separator:a577eb28cca66e27b0166a6330fd5ca3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26d9856091ded975f73e8a362cb0cc56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a26d9856091ded975f73e8a362cb0cc56">put_page</a> ()</td></tr>
-<tr class="separator:a26d9856091ded975f73e8a362cb0cc56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2bcc1f502057b7bfd4897563fe7b533"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#af2bcc1f502057b7bfd4897563fe7b533">do_wp_page</a> ()</td></tr>
-<tr class="separator:af2bcc1f502057b7bfd4897563fe7b533"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca4cf160e8cfe71ec79fb8d4a6d6230c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#aca4cf160e8cfe71ec79fb8d4a6d6230c">do_no_page</a> ()</td></tr>
-<tr class="separator:aca4cf160e8cfe71ec79fb8d4a6d6230c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70473c7f1d2679277751cb161e2d768d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a70473c7f1d2679277751cb161e2d768d">do_page_fault</a> ()</td></tr>
-<tr class="separator:a70473c7f1d2679277751cb161e2d768d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a1f616527cda909a4e72b8a00ab91c41a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="memory_8h.html#ab5ed1a51c56b37565bc2399759f29790">mm_struct_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory_8h.html#a1f616527cda909a4e72b8a00ab91c41a">init_kernel_mm</a></td></tr>
@@ -153,143 +133,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">typedef struct <a class="el" href="structmemory__struct.html">memory_struct</a> <a class="el" href="memory_8h.html#ab5ed1a51c56b37565bc2399759f29790">mm_struct_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a04358820069a108292efa86c68c3bb33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04358820069a108292efa86c68c3bb33">&#9670;&nbsp;</a></span>copy_page_tables()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void copy_page_tables </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aca4cf160e8cfe71ec79fb8d4a6d6230c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca4cf160e8cfe71ec79fb8d4a6d6230c">&#9670;&nbsp;</a></span>do_no_page()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void do_no_page </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a70473c7f1d2679277751cb161e2d768d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70473c7f1d2679277751cb161e2d768d">&#9670;&nbsp;</a></span>do_page_fault()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void do_page_fault </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af2bcc1f502057b7bfd4897563fe7b533"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2bcc1f502057b7bfd4897563fe7b533">&#9670;&nbsp;</a></span>do_wp_page()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void do_wp_page </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a84d7f203af1b0c2ae6547f7a22c283ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84d7f203af1b0c2ae6547f7a22c283ec">&#9670;&nbsp;</a></span>free_page()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void free_page </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a577eb28cca66e27b0166a6330fd5ca3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a577eb28cca66e27b0166a6330fd5ca3a">&#9670;&nbsp;</a></span>free_page_tables()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void free_page_tables </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7789e0965cac49e52dd6eb735286a0d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7789e0965cac49e52dd6eb735286a0d6">&#9670;&nbsp;</a></span>get_empty_tables()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void get_empty_tables </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a26d9856091ded975f73e8a362cb0cc56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26d9856091ded975f73e8a362cb0cc56">&#9670;&nbsp;</a></span>put_page()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void put_page </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

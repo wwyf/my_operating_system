@@ -27,6 +27,11 @@ void _console_init(){
     // video_mem_end = TODO:
 }
 
+/**
+ * @brief 设置本控制台的光标位置
+ * 
+ * @param cursor_index 光标位置索引（0-1999）
+ */
 void _console_set_cursor(uint16_t cursor_index){
     // short cursor_index = 80 * row + column;     // 计算光标寄存器的值
     uint8_t low_eight = cursor_index; // 取低八位，高位被截断
@@ -38,6 +43,12 @@ void _console_set_cursor(uint16_t cursor_index){
     return ;
 }
 
+
+/**
+ * @brief 获取光标位置索引
+ * 
+ * @return uint16_t 
+ */
 uint16_t _console_get_cursor(){
     uint8_t low_eight = 0, high_eight = 0;
     uint16_t cursor_index = 0;
@@ -50,6 +61,12 @@ uint16_t _console_get_cursor(){
     return cursor_index;
 }
 
+
+/**
+ * @brief 将控制台对应的输入缓冲队列的内容写入该控制台对应的显示区域中。
+ * 
+ * @param tty 需要输出的控制台结构体
+ */
 void _console_write(struct tty_struct * tty){
     /* 向终端设备写入字符并显示 */
     // TODO:光标没有去控制。

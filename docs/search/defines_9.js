@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['uint16_5ft',['uint16_t',['../include_2type_8h.html#a395b3b2bf5cb4674ab41b6bda68c15bb',1,'uint16_t():&#160;type.h'],['../user_2include_2type_8h.html#a395b3b2bf5cb4674ab41b6bda68c15bb',1,'uint16_t():&#160;type.h']]],
-  ['uint32_5ft',['uint32_t',['../include_2type_8h.html#a0ddb3f43e52282b59ee55d059ed74a28',1,'uint32_t():&#160;type.h'],['../user_2include_2type_8h.html#a0ddb3f43e52282b59ee55d059ed74a28',1,'uint32_t():&#160;type.h']]],
-  ['uint8_5ft',['uint8_t',['../include_2type_8h.html#ab077fa1127453be2bd9d4c3c8a768fa7',1,'uint8_t():&#160;type.h'],['../user_2include_2type_8h.html#ab077fa1127453be2bd9d4c3c8a768fa7',1,'uint8_t():&#160;type.h']]]
+  ['tty_5fbuf_5fsize',['TTY_BUF_SIZE',['../tty__drv_8h.html#aea9043a8bd54305ff61fb3f628e57280',1,'tty_drv.h']]]
 ];

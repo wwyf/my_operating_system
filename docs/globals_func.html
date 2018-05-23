@@ -73,11 +73,17 @@ $(function() {
 <li>___strlen()
 : <a class="el" href="kernel_2common_2vsprintf_8c.html#aa34510d7948c41a0ef6b124a6059f31b">vsprintf.c</a>
 </li>
+<li>_basic_cli()
+: <a class="el" href="basic_8h.html#aa120f80925fc48d02d1c95e3a67aadd8">basic.h</a>
+</li>
 <li>_basic_inb()
 : <a class="el" href="basic_8h.html#a79b4e768b2568b6ed9d428db69c490da">basic.h</a>
 </li>
 <li>_basic_outb()
 : <a class="el" href="basic_8h.html#a2fa1f7e1ed69dec7ce36fda092553079">basic.h</a>
+</li>
+<li>_basic_sti()
+: <a class="el" href="basic_8h.html#ac8ccf1f71f7a7d97289a7b9568b3e0c8">basic.h</a>
 </li>
 <li>_console_get_cursor()
 : <a class="el" href="console_8h.html#ae32ca4860b20b85a4cf1bbdefc67b162">console.h</a>
@@ -97,6 +103,7 @@ $(function() {
 </li>
 <li>_init_a_process()
 : <a class="el" href="process_8c.html#a30633fc13d19de80fb26736ccac72f6f">process.c</a>
+, <a class="el" href="test_8c.html#a30633fc13d19de80fb26736ccac72f6f">test.c</a>
 </li>
 <li>_interrupt_handler()
 : <a class="el" href="interrupt_8c.html#a259c27836246248b7277c3e89df1607a">interrupt.c</a>
@@ -104,6 +111,9 @@ $(function() {
 <li>_pack_gate()
 : <a class="el" href="protect_8h.html#aa95111eabecc3cc4b1f37df555b3bbe8">protect.h</a>
 , <a class="el" href="protect_8c.html#aa95111eabecc3cc4b1f37df555b3bbe8">protect.c</a>
+</li>
+<li>_proc_restart()
+: <a class="el" href="test_8c.html#afa722fc440ff7e249a8b9c9944692198">test.c</a>
 </li>
 <li>_put_char()
 : <a class="el" href="debug_8c.html#aca10afc0209157f926300dc353b59075">debug.c</a>
@@ -133,6 +143,21 @@ $(function() {
 <li>_test4()
 : <a class="el" href="test_8c.html#a88c3060b63e04e7bdf02c7a123803f9d">test.c</a>
 </li>
+<li>_test5()
+: <a class="el" href="test_8c.html#a9b8a99738ae2261246627fc00c18f9c9">test.c</a>
+</li>
+<li>_test_66_proc1()
+: <a class="el" href="test_8c.html#a779b84dcb59f9a528cd80cb4e9103a8a">test.c</a>
+</li>
+<li>_test_66_proc2()
+: <a class="el" href="test_8c.html#adb9ea7ece1e6e0adeffa553b186a3c14">test.c</a>
+</li>
+<li>_test_clock_proc1()
+: <a class="el" href="test_8c.html#a568cad9080e719a09cc65f38cc60107e">test.c</a>
+</li>
+<li>_test_clock_proc2()
+: <a class="el" href="test_8c.html#a1f534fda43b9330e61a8bbc7c46b6dde">test.c</a>
+</li>
 <li>_tty_queue_get()
 : <a class="el" href="tty__drv_8h.html#a0293e323de0f03d597bc9f079693806c">tty_drv.h</a>
 , <a class="el" href="tty__drv_8c.html#a0293e323de0f03d597bc9f079693806c">tty_drv.c</a>
@@ -160,6 +185,10 @@ $(function() {
 
 
 <h3><a id="index_c"></a>- c -</h3><ul>
+<li>clock_init()
+: <a class="el" href="clock_8h.html#ae9cc0a879e88eea28e4e8b57318ef8e5">clock.h</a>
+, <a class="el" href="clock_8c.html#ae9cc0a879e88eea28e4e8b57318ef8e5">clock.c</a>
+</li>
 <li>com_memcpy()
 : <a class="el" href="include_2common_2stdlib_8h.html#aa9b1040dad61a0ff05527fb56448319c">stdlib.h</a>
 , <a class="el" href="kernel_2common_2stdlib_8c.html#aa9b1040dad61a0ff05527fb56448319c">stdlib.c</a>
@@ -199,22 +228,6 @@ $(function() {
 : <a class="el" href="debug_8h.html#a02ebee988fe1e248389c66ee226b6a9e">debug.h</a>
 , <a class="el" href="kernel_2common_2vsprintf_8c.html#a02ebee988fe1e248389c66ee226b6a9e">vsprintf.c</a>
 </li>
-<li>copy_page_tables()
-: <a class="el" href="memory_8h.html#a04358820069a108292efa86c68c3bb33">memory.h</a>
-</li>
-</ul>
-
-
-<h3><a id="index_d"></a>- d -</h3><ul>
-<li>do_no_page()
-: <a class="el" href="memory_8h.html#aca4cf160e8cfe71ec79fb8d4a6d6230c">memory.h</a>
-</li>
-<li>do_page_fault()
-: <a class="el" href="memory_8h.html#a70473c7f1d2679277751cb161e2d768d">memory.h</a>
-</li>
-<li>do_wp_page()
-: <a class="el" href="memory_8h.html#af2bcc1f502057b7bfd4897563fe7b533">memory.h</a>
-</li>
 </ul>
 
 
@@ -225,29 +238,17 @@ $(function() {
 </ul>
 
 
-<h3><a id="index_f"></a>- f -</h3><ul>
-<li>free_page()
-: <a class="el" href="memory_8h.html#a84d7f203af1b0c2ae6547f7a22c283ec">memory.h</a>
-</li>
-<li>free_page_tables()
-: <a class="el" href="memory_8h.html#a577eb28cca66e27b0166a6330fd5ca3a">memory.h</a>
-</li>
-</ul>
-
-
-<h3><a id="index_g"></a>- g -</h3><ul>
-<li>get_empty_tables()
-: <a class="el" href="memory_8h.html#a7789e0965cac49e52dd6eb735286a0d6">memory.h</a>
-</li>
-</ul>
-
-
 <h3><a id="index_i"></a>- i -</h3><ul>
 <li>interrupt_handler()
 : <a class="el" href="interrupt_8h.html#a02d0b431c682b84850bc92e6233d5a5b">interrupt.h</a>
 </li>
 <li>interrupt_init()
-: <a class="el" href="interrupt_8c.html#a1c62fca549a4981d6684d4a5c72874b9">interrupt.c</a>
+: <a class="el" href="interrupt_8h.html#a1c62fca549a4981d6684d4a5c72874b9">interrupt.h</a>
+, <a class="el" href="interrupt_8c.html#a1c62fca549a4981d6684d4a5c72874b9">interrupt.c</a>
+</li>
+<li>irq0_clock_handler()
+: <a class="el" href="clock_8h.html#a3bd3ff1b6918124e4ba668901c71e817">clock.h</a>
+, <a class="el" href="clock_8c.html#a3bd3ff1b6918124e4ba668901c71e817">clock.c</a>
 </li>
 <li>isalnum()
 : <a class="el" href="debug_8c.html#a2473f8b1ac53521d1b67ec7f35e9200a">debug.c</a>
@@ -288,9 +289,9 @@ $(function() {
 : <a class="el" href="user_2include_2string_8h.html#abc842b01023ad0d7849b1ff6db8c45db">string.h</a>
 </li>
 <li>memcpy()
-: <a class="el" href="user_2source_2stdlib_8c.html#a7b3cd02ad77b57472e631c3c437c585d">stdlib.c</a>
+: <a class="el" href="user_2include_2string_8h.html#a82c26cd350df88414f825bca40183ec2">string.h</a>
+, <a class="el" href="user_2source_2stdlib_8c.html#a7b3cd02ad77b57472e631c3c437c585d">stdlib.c</a>
 , <a class="el" href="user_2include_2stdlib_8h.html#a7b3cd02ad77b57472e631c3c437c585d">stdlib.h</a>
-, <a class="el" href="user_2include_2string_8h.html#a82c26cd350df88414f825bca40183ec2">string.h</a>
 </li>
 <li>memmove()
 : <a class="el" href="user_2include_2string_8h.html#aefb2fbd59e518d0de056c0e95aba0722">string.h</a>
@@ -313,9 +314,6 @@ $(function() {
 : <a class="el" href="process_8h.html#aae4d3240509e9d67a749da3ea506522a">process.h</a>
 , <a class="el" href="process_8c.html#aae4d3240509e9d67a749da3ea506522a">process.c</a>
 </li>
-<li>put_page()
-: <a class="el" href="memory_8h.html#a26d9856091ded975f73e8a362cb0cc56">memory.h</a>
-</li>
 <li>putc()
 : <a class="el" href="debug_8c.html#acc0ee6e9643f83a5ab11722197fc25ec">debug.c</a>
 </li>
@@ -324,13 +322,6 @@ $(function() {
 </li>
 <li>puts()
 : <a class="el" href="debug_8c.html#a5440f204aee13d4f19cbc2129a81a570">debug.c</a>
-</li>
-</ul>
-
-
-<h3><a id="index_r"></a>- r -</h3><ul>
-<li>ret_from_intr()
-: <a class="el" href="test_8c.html#ab1cef1f3f4c63bd0fb2f991bd0a6ea0a">test.c</a>
 </li>
 </ul>
 
@@ -384,12 +375,6 @@ $(function() {
 
 
 <h3><a id="index_t"></a>- t -</h3><ul>
-<li>test_proc1()
-: <a class="el" href="test_8c.html#a64fa3524800f4d51e29470baa8495f59">test.c</a>
-</li>
-<li>test_proc2()
-: <a class="el" href="test_8c.html#a07704005b1b0e311aef8c0d64ef969ed">test.c</a>
-</li>
 <li>tty_init()
 : <a class="el" href="tty__drv_8h.html#a3bf9faf77dd76addc6deac2722b097e2">tty_drv.h</a>
 , <a class="el" href="tty__drv_8c.html#a3bf9faf77dd76addc6deac2722b097e2">tty_drv.c</a>

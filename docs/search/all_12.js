@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['uint16_5ft',['uint16_t',['../include_2type_8h.html#a395b3b2bf5cb4674ab41b6bda68c15bb',1,'uint16_t():&#160;type.h'],['../user_2include_2type_8h.html#a395b3b2bf5cb4674ab41b6bda68c15bb',1,'uint16_t():&#160;type.h']]],
-  ['uint32_5ft',['uint32_t',['../include_2type_8h.html#a0ddb3f43e52282b59ee55d059ed74a28',1,'uint32_t():&#160;type.h'],['../user_2include_2type_8h.html#a0ddb3f43e52282b59ee55d059ed74a28',1,'uint32_t():&#160;type.h']]],
-  ['uint8_5ft',['uint8_t',['../include_2type_8h.html#ab077fa1127453be2bd9d4c3c8a768fa7',1,'uint8_t():&#160;type.h'],['../user_2include_2type_8h.html#ab077fa1127453be2bd9d4c3c8a768fa7',1,'uint8_t():&#160;type.h']]],
-  ['user_5fprogram_5f1',['user_program_1',['../hello_8c.html#a2abbf63ed9df056622d718e663b13a46',1,'hello.c']]]
+  ['va_5farg',['va_arg',['../include_2common_2stdarg_8h.html#a73bff2bd79d774417fcd63f973202dd3',1,'va_arg():&#160;stdarg.h'],['../user_2include_2stdarg_8h.html#a73bff2bd79d774417fcd63f973202dd3',1,'va_arg():&#160;stdarg.h']]],
+  ['va_5fend',['va_end',['../include_2common_2stdarg_8h.html#a89e547abd2927b21e5398404e68e7f94',1,'va_end():&#160;stdarg.h'],['../user_2include_2stdarg_8h.html#a89e547abd2927b21e5398404e68e7f94',1,'va_end():&#160;stdarg.h'],['../include_2common_2stdarg_8h.html#a5c6d141352390699d74591ec3b6983ff',1,'va_end(va_list):&#160;stdarg.h'],['../user_2include_2stdarg_8h.html#a5c6d141352390699d74591ec3b6983ff',1,'va_end(va_list):&#160;stdarg.h']]],
+  ['va_5flist',['va_list',['../include_2common_2stdarg_8h.html#abaefbc6cabb217bf0138d4f9c94d4775',1,'va_list():&#160;stdarg.h'],['../user_2include_2stdarg_8h.html#abaefbc6cabb217bf0138d4f9c94d4775',1,'va_list():&#160;stdarg.h']]],
+  ['va_5fstart',['va_start',['../include_2common_2stdarg_8h.html#a4a41ae753ad859126fe15c0e4655f400',1,'va_start():&#160;stdarg.h'],['../user_2include_2stdarg_8h.html#a4a41ae753ad859126fe15c0e4655f400',1,'va_start():&#160;stdarg.h']]],
+  ['vprint',['vprint',['../debug_8c.html#a09271e6f70671dd8604237d4051ded1f',1,'debug.c']]],
+  ['vsprintf',['vsprintf',['../user_2source_2vsprintf_8c.html#aaa83f2a89dae6d03dfe15deae29f383a',1,'vsprintf.c']]],
+  ['vsprintf_2ec',['vsprintf.c',['../kernel_2common_2vsprintf_8c.html',1,'(Global Namespace)'],['../user_2source_2vsprintf_8c.html',1,'(Global Namespace)']]]
 ];

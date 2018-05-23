@@ -8,6 +8,7 @@ var searchData=
   ['edx',['edx',['../structpt__regs.html#afd15cab97cc4f73329200206c9e60311',1,'pt_regs']]],
   ['eflags',['eflags',['../structpt__regs.html#ab98af36ae408b8b40fee6b32f26d1955',1,'pt_regs']]],
   ['eip',['eip',['../structpt__regs.html#a17c833799d2c9404db4f121c1cae602d',1,'pt_regs']]],
+  ['eoi',['EOI',['../clock_8c.html#a04c9015da7e7ea45f3b80793809e2d7b',1,'clock.c']]],
   ['esi',['esi',['../structpt__regs.html#aee353b63f0563e4fb563da9f4b93a150',1,'pt_regs']]],
   ['esp',['esp',['../structpt__regs.html#a48902b72f1f668d48b2fcaefc2c6bd59',1,'pt_regs']]],
   ['example_5finterrupt',['example_interrupt',['../test_8c.html#a6ef4b1c998583751c5a245ec30638eae',1,'test.c']]]

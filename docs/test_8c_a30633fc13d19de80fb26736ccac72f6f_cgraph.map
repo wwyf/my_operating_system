@@ -1,0 +1,6 @@
+<map id="_init_a_process" name="_init_a_process">
+<area shape="rect" id="node2" href="$include_2common_2string_8h.html#ad9c508ab1c3c4a9340b35e21b1e2f451" title="com_strncpy" alt="" coords="170,5,267,32"/>
+<area shape="rect" id="node3" href="$include_2common_2stdlib_8h.html#aa9b1040dad61a0ff05527fb56448319c" title="com_memcpy" alt="" coords="167,56,271,83"/>
+<area shape="rect" id="node4" href="$debug_8h.html#a40607f1fa7c1718ea1a37cd18759c42c" title="com_print" alt="" coords="179,107,258,133"/>
+<area shape="rect" id="node5" href="$debug_8c.html#a09271e6f70671dd8604237d4051ded1f" title="vprint" alt="" coords="319,107,373,133"/>
+</map>

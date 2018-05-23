@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['plus',['PLUS',['../kernel_2common_2vsprintf_8c.html#a0ea7ff5947c5f5430a29fdd98391eb2a',1,'PLUS():&#160;vsprintf.c'],['../user_2source_2vsprintf_8c.html#a0ea7ff5947c5f5430a29fdd98391eb2a',1,'PLUS():&#160;vsprintf.c']]]
+  ['max_5fprocess_5fnum',['MAX_PROCESS_NUM',['../const_8h.html#a72747dee175975e0e3062065cb12f776',1,'const.h']]]
 ];

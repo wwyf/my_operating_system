@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kernel_5fstack',['kernel_stack',['../structs__proc.html#a8b8d8b37fc8087f2e96dcb8cd1a2981e',1,'s_proc']]]
+  ['left',['LEFT',['../kernel_2common_2vsprintf_8c.html#a437ef08681e7210d6678427030446a54',1,'LEFT():&#160;vsprintf.c'],['../user_2source_2vsprintf_8c.html#a437ef08681e7210d6678427030446a54',1,'LEFT():&#160;vsprintf.c']]]
 ];

@@ -1,0 +1,4 @@
+<map id="irq0_clock_handler" name="irq0_clock_handler">
+<area shape="rect" id="node2" href="$schedule_8h.html#a7e221b5100aa8134b138142d9c7cef50" title="proc_schedule" alt="" coords="184,5,291,32"/>
+<area shape="rect" id="node3" href="$basic_8h.html#a2fa1f7e1ed69dec7ce36fda092553079" title="_basic_outb" alt="" coords="191,56,283,83"/>
+</map>

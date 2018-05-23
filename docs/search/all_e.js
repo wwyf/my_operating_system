@@ -1,24 +1,5 @@
 var searchData=
 [
-  ['p_5fname',['p_name',['../structs__proc.html#ac9cb41a8ddd32cdbbea350a3d86842a9',1,'s_proc']]],
-  ['page_2ec',['page.c',['../page_8c.html',1,'']]],
-  ['page_2eh',['page.h',['../page_8h.html',1,'']]],
-  ['page_5fdir_5fentry_5ft',['page_dir_entry_t',['../page_8h.html#a0896f6025f51a6feaba7eb9d214b816d',1,'page.h']]],
-  ['pid',['pid',['../structs__proc.html#ad6a50191f602abf23cf7be3c8b161b71',1,'s_proc']]],
-  ['plus',['PLUS',['../kernel_2common_2vsprintf_8c.html#a0ea7ff5947c5f5430a29fdd98391eb2a',1,'PLUS():&#160;vsprintf.c'],['../user_2source_2vsprintf_8c.html#a0ea7ff5947c5f5430a29fdd98391eb2a',1,'PLUS():&#160;vsprintf.c']]],
-  ['pm_2einc',['pm.inc',['../pm_8inc.html',1,'']]],
-  ['printk_2ec',['printk.c',['../printk_8c.html',1,'']]],
-  ['proc_5fregs_5ft',['proc_regs_t',['../process_8h.html#a0a6e7d9b2b093f9e5dcc2ac5f93a13ed',1,'process.h']]],
-  ['proc_5fschedule',['proc_schedule',['../schedule_8h.html#a7e221b5100aa8134b138142d9c7cef50',1,'proc_schedule():&#160;schedule.c'],['../schedule_8c.html#a7e221b5100aa8134b138142d9c7cef50',1,'proc_schedule():&#160;schedule.c']]],
-  ['proc_5ftask_5fstruct_5ft',['proc_task_struct_t',['../process_8h.html#aea1a1f8d98cd36d3ff64178ed907ebef',1,'process.h']]],
-  ['process_2ec',['process.c',['../process_8c.html',1,'']]],
-  ['process_2eh',['process.h',['../process_8h.html',1,'']]],
-  ['process_5finit',['process_init',['../process_8h.html#aae4d3240509e9d67a749da3ea506522a',1,'process_init():&#160;process.c'],['../process_8c.html#aae4d3240509e9d67a749da3ea506522a',1,'process_init():&#160;process.c']]],
-  ['protect_2ec',['protect.c',['../protect_8c.html',1,'']]],
-  ['protect_2eh',['protect.h',['../protect_8h.html',1,'']]],
-  ['pt_5fregs',['pt_regs',['../structpt__regs.html',1,'']]],
-  ['put_5fpage',['put_page',['../memory_8h.html#a26d9856091ded975f73e8a362cb0cc56',1,'memory.h']]],
-  ['putc',['putc',['../debug_8c.html#acc0ee6e9643f83a5ab11722197fc25ec',1,'debug.c']]],
-  ['puti',['puti',['../debug_8c.html#a569759d308c854cc95a385bb00a02a8e',1,'debug.c']]],
-  ['puts',['puts',['../debug_8c.html#a5440f204aee13d4f19cbc2129a81a570',1,'debug.c']]]
+  ['readme_2emd',['readme.md',['../boot_2readme_8md.html',1,'(Global Namespace)'],['../init_2readme_8md.html',1,'(Global Namespace)'],['../kernel_2readme_8md.html',1,'(Global Namespace)'],['../readme_8md.html',1,'(Global Namespace)']]],
+  ['regs',['regs',['../structs__proc.html#a684181849b26e5ad27f6d9d76aafe22b',1,'s_proc']]]
 ];

@@ -91,19 +91,20 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="basic_8h__dep__incl.png" border="0" usemap="#wyf-os_2include_2basic_8hdep" alt=""/></div>
 <map name="wyf-os_2include_2basic_8hdep" id="wyf-os_2include_2basic_8hdep">
-<area shape="rect" id="node2" href="console_8h.html" title="wyf&#45;os/include/chr\l_drv/console.h" alt="" coords="116,169,244,211"/>
+<area shape="rect" id="node2" href="console_8h.html" title="wyf&#45;os/include/chr\l_drv/console.h" alt="" coords="128,169,256,211"/>
 <area shape="rect" id="node3" href="debug_8c.html" title="wyf&#45;os/kernel/chr_drv\l/debug.c" alt="" coords="5,259,152,300"/>
-<area shape="rect" id="node6" href="tty__drv_8h.html" title="wyf&#45;os/include/chr\l_drv/tty_drv.h" alt="" coords="413,80,541,121"/>
-<area shape="rect" id="node13" href="console_8c.html" title="wyf&#45;os/kernel/chr_drv\l/console.c" alt="" coords="868,169,1015,211"/>
+<area shape="rect" id="node6" href="tty__drv_8h.html" title="wyf&#45;os/include/chr\l_drv/tty_drv.h" alt="" coords="544,80,672,121"/>
+<area shape="rect" id="node8" href="interrupt_8c.html" title="wyf&#45;os/kernel/intr\l/interrupt.c" alt="" coords="1080,259,1203,300"/>
+<area shape="rect" id="node13" href="console_8c.html" title="wyf&#45;os/kernel/chr_drv\l/console.c" alt="" coords="880,169,1027,211"/>
+<area shape="rect" id="node15" href="clock_8c.html" title="wyf&#45;os/kernel/intr\l/clock.c" alt="" coords="1101,80,1224,121"/>
 <area shape="rect" id="node4" href="tty__drv_8c.html" title="wyf&#45;os/kernel/chr_drv\l/tty_drv.c" alt="" coords="176,259,323,300"/>
 <area shape="rect" id="node5" href="test_8c.html" title="wyf&#45;os/kernel/test\l/test.c" alt="" coords="347,259,474,300"/>
-<area shape="rect" id="node7" href="global_8h.html" title="wyf&#45;os/include/global.h" alt="" coords="540,177,695,203"/>
-<area shape="rect" id="node12" href="main_8c.html" title="wyf&#45;os/init/main.c" alt="" coords="719,177,844,203"/>
-<area shape="rect" id="node14" href="printk_8c.html" title="wyf&#45;os/kernel/chr_drv\l/printk.c" alt="" coords="268,169,415,211"/>
-<area shape="rect" id="node8" href="interrupt_8c.html" title="wyf&#45;os/kernel/intr\l/interrupt.c" alt="" coords="499,259,621,300"/>
-<area shape="rect" id="node9" href="memory_8c.html" title="wyf&#45;os/kernel/mm/memory.c" alt="" coords="646,266,834,293"/>
-<area shape="rect" id="node10" href="protect_8c.html" title="wyf&#45;os/kernel/protect.c" alt="" coords="859,266,1013,293"/>
-<area shape="rect" id="node11" href="schedule_8c.html" title="wyf&#45;os/kernel/schedule.c" alt="" coords="1038,266,1205,293"/>
+<area shape="rect" id="node7" href="global_8h.html" title="wyf&#45;os/include/global.h" alt="" coords="701,177,856,203"/>
+<area shape="rect" id="node12" href="main_8c.html" title="wyf&#45;os/init/main.c" alt="" coords="331,177,456,203"/>
+<area shape="rect" id="node14" href="printk_8c.html" title="wyf&#45;os/kernel/chr_drv\l/printk.c" alt="" coords="480,169,627,211"/>
+<area shape="rect" id="node9" href="memory_8c.html" title="wyf&#45;os/kernel/mm/memory.c" alt="" coords="689,266,877,293"/>
+<area shape="rect" id="node10" href="protect_8c.html" title="wyf&#45;os/kernel/protect.c" alt="" coords="901,266,1056,293"/>
+<area shape="rect" id="node11" href="schedule_8c.html" title="wyf&#45;os/kernel/schedule.c" alt="" coords="498,266,665,293"/>
 </map>
 </div>
 </div>
@@ -115,8 +116,29 @@ Functions</h2></td></tr>
 <tr class="separator:a2fa1f7e1ed69dec7ce36fda092553079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79b4e768b2568b6ed9d428db69c490da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="user_2include_2type_8h.html#ab077fa1127453be2bd9d4c3c8a768fa7">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#a79b4e768b2568b6ed9d428db69c490da">_basic_inb</a> (<a class="el" href="user_2include_2type_8h.html#a395b3b2bf5cb4674ab41b6bda68c15bb">uint16_t</a> port_number)</td></tr>
 <tr class="separator:a79b4e768b2568b6ed9d428db69c490da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8ccf1f71f7a7d97289a7b9568b3e0c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#ac8ccf1f71f7a7d97289a7b9568b3e0c8">_basic_sti</a> ()</td></tr>
+<tr class="separator:ac8ccf1f71f7a7d97289a7b9568b3e0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa120f80925fc48d02d1c95e3a67aadd8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic_8h.html#aa120f80925fc48d02d1c95e3a67aadd8">_basic_cli</a> ()</td></tr>
+<tr class="separator:aa120f80925fc48d02d1c95e3a67aadd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="aa120f80925fc48d02d1c95e3a67aadd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa120f80925fc48d02d1c95e3a67aadd8">&#9670;&nbsp;</a></span>_basic_cli()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _basic_cli </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a79b4e768b2568b6ed9d428db69c490da"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79b4e768b2568b6ed9d428db69c490da">&#9670;&nbsp;</a></span>_basic_inb()</h2>
 
@@ -157,6 +179,23 @@ Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8ccf1f71f7a7d97289a7b9568b3e0c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8ccf1f71f7a7d97289a7b9568b3e0c8">&#9670;&nbsp;</a></span>_basic_sti()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _basic_sti </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

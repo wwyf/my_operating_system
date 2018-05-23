@@ -1,5 +1,8 @@
 var searchData=
 [
+  ['clock_2ec',['clock.c',['../clock_8c.html',1,'']]],
+  ['clock_2eh',['clock.h',['../clock_8h.html',1,'']]],
+  ['clock_5finit',['clock_init',['../clock_8h.html#ae9cc0a879e88eea28e4e8b57318ef8e5',1,'clock_init():&#160;clock.c'],['../clock_8c.html#ae9cc0a879e88eea28e4e8b57318ef8e5',1,'clock_init():&#160;clock.c']]],
   ['com_5fmemcpy',['com_memcpy',['../include_2common_2stdlib_8h.html#aa9b1040dad61a0ff05527fb56448319c',1,'com_memcpy(char *src, char *dest, uint32_t size):&#160;stdlib.c'],['../kernel_2common_2stdlib_8c.html#aa9b1040dad61a0ff05527fb56448319c',1,'com_memcpy(char *src, char *dest, uint32_t size):&#160;stdlib.c']]],
   ['com_5fprint',['com_print',['../debug_8h.html#a40607f1fa7c1718ea1a37cd18759c42c',1,'com_print(char *format,...):&#160;debug.c'],['../debug_8c.html#a40607f1fa7c1718ea1a37cd18759c42c',1,'com_print(char *format,...):&#160;debug.c']]],
   ['com_5fprintk',['com_printk',['../debug_8h.html#afcae0b02326742db48b277ebb7247835',1,'com_printk(char *fmt,...):&#160;printk.c'],['../printk_8c.html#afcae0b02326742db48b277ebb7247835',1,'com_printk(char *fmt,...):&#160;printk.c']]],
@@ -14,6 +17,5 @@ var searchData=
   ['console_2ec',['console.c',['../console_8c.html',1,'']]],
   ['console_2eh',['console.h',['../console_8h.html',1,'']]],
   ['const_2eh',['const.h',['../const_8h.html',1,'']]],
-  ['copy_5fpage_5ftables',['copy_page_tables',['../memory_8h.html#a04358820069a108292efa86c68c3bb33',1,'memory.h']]],
   ['cr3_5ft',['cr3_t',['../page_8h.html#ac8e5981237f92c625e5417063a827501',1,'page.h']]]
 ];

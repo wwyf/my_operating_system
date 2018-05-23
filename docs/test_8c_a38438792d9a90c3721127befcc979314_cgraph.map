@@ -1,9 +1,9 @@
 <map id="_test1" name="_test1">
-<area shape="rect" id="node2" href="$console_8h.html#a05563de604ce99167ba141c704a2d160" title="_console_set_cursor" alt="" coords="112,5,255,32"/>
+<area shape="rect" id="node2" href="$console_8h.html#a05563de604ce99167ba141c704a2d160" title="设置本控制台的光标位置 " alt="" coords="112,5,255,32"/>
 <area shape="rect" id="node4" href="$debug_8h.html#a40607f1fa7c1718ea1a37cd18759c42c" title="com_print" alt="" coords="144,56,223,83"/>
 <area shape="rect" id="node6" href="$debug_8h.html#afcae0b02326742db48b277ebb7247835" title="com_printk" alt="" coords="140,107,227,133"/>
 <area shape="rect" id="node8" href="$tty__drv_8h.html#a4084851d8769d500701e9c8965126715" title="将一个队列放入一个字符 " alt="" coords="128,157,239,184"/>
-<area shape="rect" id="node9" href="$console_8h.html#a1811baf684900c9058863e4c056779cd" title="_console_write" alt="" coords="129,360,238,387"/>
+<area shape="rect" id="node9" href="$console_8h.html#a1811baf684900c9058863e4c056779cd" title="将控制台对应的输入缓冲队列的内容写入该控制台对应的显示区域中。 " alt="" coords="129,360,238,387"/>
 <area shape="rect" id="node10" href="$include_2common_2string_8h.html#a10ddffab584c67a90c942c242ff1b8a7" title="com_strlen" alt="" coords="309,309,396,336"/>
 <area shape="rect" id="node11" href="$tty__drv_8h.html#a9d5e51538e1da341e200f8fae638f8a7" title="将buf缓冲区的内容写入第channel个tty设备 " alt="" coords="147,309,219,336"/>
 <area shape="rect" id="node12" href="$debug_8h.html#a5674abcbf368e245e42e3839735142b5" title="com_sprintk" alt="" coords="137,208,230,235"/>

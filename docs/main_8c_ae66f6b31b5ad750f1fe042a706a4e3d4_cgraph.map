@@ -1,22 +1,25 @@
 <map id="main" name="main">
-<area shape="rect" id="node2" href="$tty__drv_8h.html#a3bf9faf77dd76addc6deac2722b097e2" title="tty_init" alt="" coords="120,19,181,45"/>
-<area shape="rect" id="node4" href="$interrupt_8c.html#a1c62fca549a4981d6684d4a5c72874b9" title="interrupt_init" alt="" coords="104,69,197,96"/>
-<area shape="rect" id="node9" href="$process_8h.html#aae4d3240509e9d67a749da3ea506522a" title="初始化第一个进程 " alt="" coords="105,120,197,147"/>
-<area shape="rect" id="node10" href="$test_8h.html#adabab771d1839194ed00a0b3e9759c59" title="main_test" alt="" coords="111,183,190,209"/>
-<area shape="rect" id="node3" href="$console_8h.html#ace21591c21e6c0f7c4247f2f5e6fe0c0" title="_console_init" alt="" coords="245,19,344,45"/>
-<area shape="rect" id="node5" href="$protect_8h.html#af1180c2b41aa70032a9f3739f5ef0d96" title="Set the intr gate object. " alt="" coords="246,69,343,96"/>
-<area shape="rect" id="node6" href="$protect_8c.html#a47dba2651beac2dc3bd80762e79798ec" title="作为底层函数，将相应的门设置到中断向量表中。 " alt="" coords="409,56,488,83"/>
-<area shape="rect" id="node7" href="$protect_8c.html#aa95111eabecc3cc4b1f37df555b3bbe8" title="将参数打包成一个门描述符，a为低地址,b为高地址 " alt="" coords="566,5,655,32"/>
-<area shape="rect" id="node8" href="$protect_8c.html#a5e824e043ee1935034e07b05cc7bf0b5" title="写中断向量表 " alt="" coords="553,56,668,83"/>
-<area shape="rect" id="node11" href="$test_8c.html#a88c3060b63e04e7bdf02c7a123803f9d" title="_test4" alt="" coords="265,208,324,235"/>
-<area shape="rect" id="node12" href="$process_8c.html#a30633fc13d19de80fb26736ccac72f6f" title="当前进程恢复上下文所用内核栈。 " alt="" coords="392,157,505,184"/>
-<area shape="rect" id="node17" href="$test_8c.html#a64fa3524800f4d51e29470baa8495f59" title="test_proc1" alt="" coords="407,208,490,235"/>
-<area shape="rect" id="node18" href="$test_8c.html#a07704005b1b0e311aef8c0d64ef969ed" title="test_proc2" alt="" coords="407,259,490,285"/>
-<area shape="rect" id="node21" href="$test_8c.html#ab1cef1f3f4c63bd0fb2f991bd0a6ea0a" title="ret_from_intr" alt="" coords="401,309,496,336"/>
-<area shape="rect" id="node13" href="$include_2common_2string_8h.html#ad9c508ab1c3c4a9340b35e21b1e2f451" title="com_strncpy" alt="" coords="562,107,659,133"/>
-<area shape="rect" id="node14" href="$include_2common_2stdlib_8h.html#aa9b1040dad61a0ff05527fb56448319c" title="com_memcpy" alt="" coords="559,157,663,184"/>
-<area shape="rect" id="node15" href="$debug_8h.html#a40607f1fa7c1718ea1a37cd18759c42c" title="com_print" alt="" coords="571,208,650,235"/>
-<area shape="rect" id="node16" href="$debug_8c.html#a09271e6f70671dd8604237d4051ded1f" title="vprint" alt="" coords="739,208,793,235"/>
-<area shape="rect" id="node19" href="$debug_8h.html#afcae0b02326742db48b277ebb7247835" title="com_printk" alt="" coords="567,259,654,285"/>
-<area shape="rect" id="node20" href="$debug_8h.html#a02ebee988fe1e248389c66ee226b6a9e" title="com_vsprintk" alt="" coords="716,259,816,285"/>
+<area shape="rect" id="node2" href="$tty__drv_8h.html#a3bf9faf77dd76addc6deac2722b097e2" title="tty_init" alt="" coords="120,31,181,57"/>
+<area shape="rect" id="node4" href="$interrupt_8h.html#a1c62fca549a4981d6684d4a5c72874b9" title="interrupt_init" alt="" coords="104,107,197,133"/>
+<area shape="rect" id="node12" href="$process_8h.html#aae4d3240509e9d67a749da3ea506522a" title="初始化第一个进程 " alt="" coords="105,157,197,184"/>
+<area shape="rect" id="node13" href="$test_8h.html#adabab771d1839194ed00a0b3e9759c59" title="main_test" alt="" coords="111,208,190,235"/>
+<area shape="rect" id="node3" href="$console_8h.html#ace21591c21e6c0f7c4247f2f5e6fe0c0" title="_console_init" alt="" coords="245,5,344,32"/>
+<area shape="rect" id="node5" href="$protect_8h.html#af1180c2b41aa70032a9f3739f5ef0d96" title="Set the intr gate object. " alt="" coords="246,56,343,83"/>
+<area shape="rect" id="node9" href="$clock_8h.html#ae9cc0a879e88eea28e4e8b57318ef8e5" title="clock_init" alt="" coords="256,107,333,133"/>
+<area shape="rect" id="node11" href="$basic_8h.html#ac8ccf1f71f7a7d97289a7b9568b3e0c8" title="_basic_sti" alt="" coords="254,157,335,184"/>
+<area shape="rect" id="node6" href="$protect_8c.html#a47dba2651beac2dc3bd80762e79798ec" title="作为底层函数，将相应的门设置到中断向量表中。 " alt="" coords="417,56,495,83"/>
+<area shape="rect" id="node7" href="$protect_8c.html#aa95111eabecc3cc4b1f37df555b3bbe8" title="将参数打包成一个门描述符，a为低地址,b为高地址 " alt="" coords="581,5,670,32"/>
+<area shape="rect" id="node8" href="$protect_8c.html#a5e824e043ee1935034e07b05cc7bf0b5" title="写中断向量表 " alt="" coords="568,56,683,83"/>
+<area shape="rect" id="node10" href="$basic_8h.html#a2fa1f7e1ed69dec7ce36fda092553079" title="_basic_outb" alt="" coords="410,107,502,133"/>
+<area shape="rect" id="node14" href="$test_8c.html#a9b8a99738ae2261246627fc00c18f9c9" title="_test5" alt="" coords="265,208,324,235"/>
+<area shape="rect" id="node15" href="$test_8c.html#a30633fc13d19de80fb26736ccac72f6f" title="当前进程恢复上下文所用内核栈。 " alt="" coords="399,157,513,184"/>
+<area shape="rect" id="node20" href="$test_8c.html#a568cad9080e719a09cc65f38cc60107e" title="_test_clock_proc1" alt="" coords="392,208,520,235"/>
+<area shape="rect" id="node21" href="$test_8c.html#a1f534fda43b9330e61a8bbc7c46b6dde" title="_test_clock_proc2" alt="" coords="392,259,520,285"/>
+<area shape="rect" id="node24" href="$test_8c.html#afa722fc440ff7e249a8b9c9944692198" title="_proc_restart" alt="" coords="407,309,505,336"/>
+<area shape="rect" id="node16" href="$include_2common_2string_8h.html#ad9c508ab1c3c4a9340b35e21b1e2f451" title="com_strncpy" alt="" coords="577,107,674,133"/>
+<area shape="rect" id="node17" href="$include_2common_2stdlib_8h.html#aa9b1040dad61a0ff05527fb56448319c" title="com_memcpy" alt="" coords="573,157,677,184"/>
+<area shape="rect" id="node18" href="$debug_8h.html#a40607f1fa7c1718ea1a37cd18759c42c" title="com_print" alt="" coords="586,208,665,235"/>
+<area shape="rect" id="node19" href="$debug_8c.html#a09271e6f70671dd8604237d4051ded1f" title="vprint" alt="" coords="753,208,808,235"/>
+<area shape="rect" id="node22" href="$debug_8h.html#afcae0b02326742db48b277ebb7247835" title="com_printk" alt="" coords="582,259,669,285"/>
+<area shape="rect" id="node23" href="$debug_8h.html#a02ebee988fe1e248389c66ee226b6a9e" title="com_vsprintk" alt="" coords="731,259,831,285"/>
 </map>

@@ -1,3 +1,4 @@
 <map id="wyf&#45;os/include/proc/schedule.h" name="wyf&#45;os/include/proc/schedule.h">
-<area shape="rect" id="node2" href="$interrupt_8c.html" title="wyf&#45;os/kernel/intr\l/interrupt.c" alt="" coords="11,95,134,136"/>
+<area shape="rect" id="node2" href="$clock_8c.html" title="wyf&#45;os/kernel/intr\l/clock.c" alt="" coords="5,95,128,136"/>
+<area shape="rect" id="node3" href="$interrupt_8c.html" title="wyf&#45;os/kernel/intr\l/interrupt.c" alt="" coords="152,95,275,136"/>
 </map>
