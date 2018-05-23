@@ -46,7 +46,7 @@ TODO:流程图
 
 > 关于开机流程，我想最值得讨论的就是开机时代码的各种移动了。我在以前的操作系统中，受限于原来加载在0x7c00的引导程序，没能好好的利用这片空间，对于内核代码的组织，也没有向linux-0.11的组织这么清晰。linus的做法，虽然在大量的复制中耗费了比较多的时间，不过花费的时间在之后换来的是开发过程的便捷，同时还有内存空间的充分利用，我想这样的行为是值得的。
 
-关于这一部分的代码，由于比较多汇编代码较难说明，同时这也不是在学习操作系统中的核心内容，因此不做过多说明。TODO以下仅对其中的一个较难实现的函数`read_kernel()`进行说明。
+关于这一部分的代码，由于比较多汇编代码较难说明，同时这也不是在学习操作系统中的核心内容，因此不做过多说明。
 
 # 操作系统整体设计
 
@@ -67,26 +67,51 @@ TODO:流程图
 在`global.h`中，描述了在本系统中用到了所有全局变量的名称
 
 ```cpp
-/* 定义在tty_drv.c中 
-说明了*/
+/**
+ * @brief 终端设备表，定义在tty_drv.c中
+ * 
+ */
 extern struct tty_struct g_tty_table[1];
-
-// 页表
-/* 定义在head.asm中 */
+/**
+ * @brief 页目录表，定义在head.asm中
+ * 
+ */
 extern page_dir_entry_t g_page_dir[1024];
-
-// 中断描述符表
-/* 定义在head.asm中 */
+/**
+ * @brief 中断描述符表
+ * 
+ * 中断描述符表，总共256项，定义在head.asm中 
+ */
 extern desc_table_t g_idt_table;
-
-// 全局描述符表
-/* 定义在head.asm中 */
+/**
+ * @brief 全局描述符表
+ * 
+ * GDT，全局描述符表，定义在head.asm中
+ */
 extern desc_table_t g_gdt_table;
+/**
+ * @brief 进程控制块表
+ * 
+ * 定义在process.h中 
+ */
+extern proc_task_struct_t g_pcb_table[MAX_PROCESS_NUM]; 
 
-/* 定义在process.h中 */
-extern proc_task_struct_t g_pcb_table[MAX_PROCESS_NUM]; /// 进程控制块表。
-extern proc_task_struct_t * g_cur_proc; /// 当前进程。
-extern proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文所用内核栈。
+/**
+ * @brief 当前进程指针
+ * 
+ * 
+ * 该为指向当前进程的进程控制块的指针
+ */
+extern proc_task_struct_t * g_cur_proc;
+
+/**
+ * @brief 当前进程内核栈地址
+ * 
+ * 
+ * 用于恢复上下文
+ */
+extern proc_regs_t * g_cur_proc_context_stack;
+
 ```
 
 
@@ -103,20 +128,34 @@ extern proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文�
 | 模块内部函数 |   _modulename_feature,注意下划线开头表示私有    |  _tty_queue_put()  |
 |   公共例程   |                   以com_开头                    |     com_print      |
 
+## 注释风格
 
-
+整体注释风格采用`doxygen`生成文档的格式，由于该注释的标准定下来较晚，因此有部分没有这样的注释，会在后期进一步补充。
 
 # 各模块说明
 
-## 字符设备的设计
 
+## 公共例程
 
-
-## 中断系统的设计
-
-###  编写工具函数
+###  保护模式下的描述符操作
 
 在`include/protect.h`中写好了对全局中断向量表进行操作的工具函数，于是在内核就可以通过简单的调用`set_XXX_gate`来对中断向量表进行设置。
+
+TODO:
+
+### 常用操作
+
+在`common`文件夹下，我定义了一些常用的操作，如`com_strlen`,`com_strcpy`等操作。这些操作的实现并不是重点，因此不加详细描述。
+
+## 字符设备的设计
+
+linux操作系统的设计者将所有设备，文本等都抽象成一个文件的形式，我们在外界调用其`write()`函数，就能够使用该设备的功能，或者向文件写入内容。在这个的基础上，linux实现了一个虚拟文件系统。虽然我还没有实现该虚拟文件系统，不过我也尽可能仿照了这种设计的哲学，将我的终端抽象成一个字符设备，外界的`com_printk`函数在往内核终端输出信息时，只需要调用终端提供的`write()`函数即可。
+
+### 字符设备相关的数据结构
+
+在前面提到，内核提供的字符设备tty，以`tty_struct_t`
+
+## 中断系统的设计
 
 ### 通用中断处理例程的设计
 

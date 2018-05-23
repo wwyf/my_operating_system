@@ -11,7 +11,7 @@ void _console_set_cursor(uint16_t cursor_index);
 
 uint16_t _console_get_cursor();
 
-void _console_write(struct tty_struct * tty);
+void _console_write(tty_struct_t * tty);
 
 
 #endif

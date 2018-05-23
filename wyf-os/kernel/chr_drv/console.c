@@ -67,7 +67,7 @@ uint16_t _console_get_cursor(){
  * 
  * @param tty 需要输出的控制台结构体
  */
-void _console_write(struct tty_struct * tty){
+void _console_write(tty_struct_t * tty){
     /* 向终端设备写入字符并显示 */
     // TODO:光标没有去控制。
     // 需要输出的字符个数

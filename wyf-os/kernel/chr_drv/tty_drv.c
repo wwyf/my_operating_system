@@ -2,7 +2,7 @@
 #include <chr_drv/console.h>
 #include <chr_drv/tty_drv.h>
 
-struct tty_struct g_tty_table[1] = {
+tty_struct_t g_tty_table[1] = {
     {
     _console_write,
     {0,0,0,""},
@@ -19,7 +19,7 @@ struct tty_struct g_tty_table[1] = {
  */
 int tty_write(unsigned channel, char * buf, int nr)
 {
-	struct tty_struct * tty = channel + g_tty_table;
+	tty_struct_t * tty = channel + g_tty_table;
     int cur_char_index = 0;
     // TODO:终端号的范围
 	if (channel>2 || nr<0) return -1;
@@ -53,7 +53,7 @@ tty 缓冲区队列处理函数
  * @param q 指向一个数组队列的指针
  * @return char 取得的字符
  */
-char _tty_queue_get(struct tty_queue * q){
+char _tty_queue_get(tty_queue_t * q){
 	int cur_head = q->head;
 	q->head = (q->head+1) % TTY_BUF_SIZE;
 	return q->buf[cur_head];
@@ -65,7 +65,7 @@ char _tty_queue_get(struct tty_queue * q){
  * @param q 指向一个数组队列的指针
  * @param c 要放入的字符
  */
-void _tty_queue_put(struct tty_queue * q, char c){
+void _tty_queue_put(tty_queue_t * q, char c){
 	q->buf[q->tail] = c;
 	q->tail = (q->tail+1) % TTY_BUF_SIZE;
 }
@@ -77,7 +77,7 @@ void _tty_queue_put(struct tty_queue * q, char c){
  * @param q 指向数组队列的指针
  * @return int 返回1则满，否则为0，不满
  */
-int _tty_queue_is_full(struct tty_queue * q){
+int _tty_queue_is_full(tty_queue_t * q){
 	return ( q->head == (q->tail+1 % TTY_BUF_SIZE ));
 }
 
@@ -88,6 +88,6 @@ int _tty_queue_is_full(struct tty_queue * q){
  * @param q 指向数组队列的指针
  * @return int 返回1则空，否则为0，不空
  */
-int _tty_queue_is_empty(struct tty_queue * q){
+int _tty_queue_is_empty(tty_queue_t * q){
 	return (q->head == q->tail);
 }

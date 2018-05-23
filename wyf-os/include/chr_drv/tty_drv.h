@@ -10,35 +10,35 @@ void _sys_set_cursor(uint16_t cursor_index);
 uint16_t _sys_get_cursor();
 
 
-struct tty_queue {
+typedef struct tty_queue {
 	unsigned long data;
 	unsigned long head;
 	unsigned long tail;
 	// struct task_struct * proc_list;
 	char buf[TTY_BUF_SIZE];
-};
+}tty_queue_t;
 
 
-struct tty_struct {
+typedef struct tty_struct{
 	// struct termios termios;
 	// int pgrp;
 	// int stopped;
 	void (*write)(struct tty_struct * tty);
 
-	// struct tty_queue read_q;
-	struct tty_queue write_q;
-	// struct tty_queue secondary;
-	};
+	// tty_queue_t read_q;
+	tty_queue_t write_q;
+	// tty_queue_t secondary;
+}tty_struct_t;
 
 
 // 将检查队列是否为空的职责交给调用者
-char _tty_queue_get(struct tty_queue * q);
+char _tty_queue_get(tty_queue_t * q);
 
-void _tty_queue_put(struct tty_queue * q, char c);
+void _tty_queue_put(tty_queue_t * q, char c);
 
-int _tty_queue_is_full(struct tty_queue * q);
+int _tty_queue_is_full(tty_queue_t * q);
 
-int _tty_queue_is_empty(struct tty_queue * q);
+int _tty_queue_is_empty(tty_queue_t * q);
 
 
 int tty_write(unsigned channel, char * buf, int nr);

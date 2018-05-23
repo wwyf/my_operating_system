@@ -20,6 +20,7 @@ void _write_idt_entry(struct desc_struct_t * dt,
     dt[entry].b = entry_high;
 }
 
+
 void _pack_gate( uint32_t * a, uint32_t * b, 
                 uint32_t base, 
                 uint8_t seg, 
