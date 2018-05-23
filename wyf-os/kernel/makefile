@@ -19,6 +19,7 @@ kernel.bin:$(ALL_OBJDECTS)
 	ld $(ALL_OBJDECTS) -o ../kernel.bin $(LINK_FLAGS)
 kernel.elf:$(ALL_OBJDECTS)
 	ld $(ALL_OBJDECTS) -o ../kernel.elf $(LINK_FLAGS_DEBUG)
+	objcopy --only-keep-debug ../kernel.elf ../kernel.sym
 	objdump ../kernel.elf  $(OBJDUMP_FLAGS) > ../kernel.objdump
 
 basic.o:basic.asm
