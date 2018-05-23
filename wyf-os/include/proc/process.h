@@ -5,25 +5,26 @@
 #include <const.h>
 
 /* 用来保存CPU的上下文信息 */
+// NOTICE:在push的时候，无论是普通寄存器还是段寄存器，push都是32位
 typedef struct pt_regs{
-    uint32_t ebx;
-    uint32_t ecx; 
-    uint32_t edx;
-    uint32_t esi;
-    uint32_t edi;
-    uint32_t ebp;
-    uint32_t eax;
-    uint16_t xds;
-    uint16_t xes;
-    uint16_t xfs;
+    uint32_t ebx; // 0x00
+    uint32_t ecx; // 0x04
+    uint32_t edx; // 0x08
+    uint32_t esi; // 0x0c
+    uint32_t edi; // 0x10
+    uint32_t ebp; // 0x14
+    uint32_t eax; // 0x18
+    uint32_t xds; // 0x1a
+    uint32_t xes; // 0x1c
+    uint32_t xfs; // 0x1e
     // 中断号
-    uint32_t orig_eax;
+    uint32_t orig_eax; // 0x22
     // 返回地址信息
     uint32_t eip;
-    uint16_t xcs;
+    uint32_t xcs;
     uint32_t eflags;
     uint32_t esp;
-    uint16_t xss;
+    uint32_t xss;
 }proc_regs_t __attribute__((gcc_struct, packed));
 
 

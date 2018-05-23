@@ -22,8 +22,9 @@ void main_test(){
 /* 测试中断能够做到正确的保存环境和恢复环境。 */
 void _test3(){
     while(1){
-        asm("int $81");
-        asm("int $82");
+        asm("int $40");
+        asm("int $48");
+        // while(1){}
     }
 }
 
