@@ -42,7 +42,8 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
 
     g_pcb_table[n].regs.eip = (uint32_t)function;
     g_pcb_table[n].regs.xcs = __KERNEL_CS;
-    g_pcb_table[n].regs.eflags = 0; // TODO:
+    g_pcb_table[n].regs.eflags = 0x286; // TODO:注意IF不能置为0，不然的话时钟中断不会发生
+    /* eflags 0x00000286: id vip vif ac vm rf nt IOPL=0 of df IF tf SF zf af PF cf */
     g_pcb_table[n].regs.esp = (uint32_t)k;// TODO:
     g_pcb_table[n].regs.xss = __KERNEL_SS;
 

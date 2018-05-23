@@ -24,8 +24,8 @@ void interrupt_init(){
 
 
     /* 打开中断 */
-    // _basic_sti();
-    _basic_cli();
+    _basic_sti();
+    // _basic_cli();
 }
 
 /**

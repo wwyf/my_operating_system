@@ -20,8 +20,8 @@ void main_test(){
     // _test1();
     // _test2();
     // _test3();
-    _test4();
-    // _test5();
+    // _test4();
+    _test5();
 }
 
 /***********************************************/
@@ -50,6 +50,7 @@ void _test5(){
 
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    while(1){}
     _proc_restart();
 }
 
@@ -84,6 +85,7 @@ void _test4(){
 
     g_cur_proc = &g_pcb_table[1];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _basic_sti();
     _proc_restart();
 }
 
