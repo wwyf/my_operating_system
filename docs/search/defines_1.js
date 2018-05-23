@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['extern',['EXTERN',['../stdio_8h.html#a77366c1bd428629dc898e188bfd182a3',1,'stdio.h']]]
+  ['buf_5flength',['BUF_LENGTH',['../debug_8c.html#a13dbec6bcca325d02239a4b306140420',1,'debug.c']]]
 ];

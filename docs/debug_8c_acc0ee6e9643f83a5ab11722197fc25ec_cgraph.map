@@ -1,0 +1,7 @@
+<map id="putc" name="putc">
+<area shape="rect" id="node2" href="$console_8h.html#ae32ca4860b20b85a4cf1bbdefc67b162" title="_console_get_cursor" alt="" coords="100,56,243,83"/>
+<area shape="rect" id="node5" href="$console_8h.html#a05563de604ce99167ba141c704a2d160" title="_console_set_cursor" alt="" coords="100,5,243,32"/>
+<area shape="rect" id="node6" href="$debug_8c.html#aca10afc0209157f926300dc353b59075" title="_put_char" alt="" coords="132,107,211,133"/>
+<area shape="rect" id="node3" href="$basic_8h.html#a2fa1f7e1ed69dec7ce36fda092553079" title="_basic_outb" alt="" coords="291,5,383,32"/>
+<area shape="rect" id="node4" href="$basic_8h.html#a79b4e768b2568b6ed9d428db69c490da" title="_basic_inb" alt="" coords="295,56,379,83"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filedescriptor',['FileDescriptor',['../structFileDescriptor.html',1,'']]]
+  ['memory_5fstruct',['memory_struct',['../structmemory__struct.html',1,'']]]
 ];

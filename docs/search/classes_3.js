@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['proc_5fregister',['proc_register',['../structproc__register.html',1,'']]]
+  ['s_5fproc',['s_proc',['../structs__proc.html',1,'']]]
 ];

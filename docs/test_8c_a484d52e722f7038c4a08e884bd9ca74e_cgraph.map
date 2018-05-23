@@ -1,0 +1,9 @@
+<map id="_test2" name="_test2">
+<area shape="rect" id="node2" href="$debug_8h.html#a40607f1fa7c1718ea1a37cd18759c42c" title="com_print" alt="" coords="285,5,364,32"/>
+<area shape="rect" id="node4" href="$protect_8h.html#af1180c2b41aa70032a9f3739f5ef0d96" title="Set the intr gate object. " alt="" coords="126,93,223,120"/>
+<area shape="rect" id="node8" href="$test_8c.html#a6ef4b1c998583751c5a245ec30638eae" title="example_interrupt" alt="" coords="112,43,237,69"/>
+<area shape="rect" id="node3" href="$debug_8c.html#a09271e6f70671dd8604237d4051ded1f" title="vprint" alt="" coords="442,5,497,32"/>
+<area shape="rect" id="node5" href="$protect_8c.html#a47dba2651beac2dc3bd80762e79798ec" title="作为底层函数，将相应的门设置到中断向量表中。 " alt="" coords="285,93,364,120"/>
+<area shape="rect" id="node6" href="$protect_8c.html#aa95111eabecc3cc4b1f37df555b3bbe8" title="将参数打包成一个门描述符，a为低地址,b为高地址 " alt="" coords="425,68,514,95"/>
+<area shape="rect" id="node7" href="$protect_8c.html#a5e824e043ee1935034e07b05cc7bf0b5" title="写中断向量表 " alt="" coords="412,119,527,145"/>
+</map>

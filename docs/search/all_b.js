@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['new_5fline_5fflag',['new_line_flag',['../tty_8c.html#a019f015f327eec2197f821ad75d6ff7d',1,'tty.c']]],
-  ['number',['number',['../structMessage.html#a56add30b2e38cab32451fc3ebe875bc7',1,'Message']]]
+  ['left',['LEFT',['../kernel_2common_2vsprintf_8c.html#a437ef08681e7210d6678427030446a54',1,'LEFT():&#160;vsprintf.c'],['../user_2source_2vsprintf_8c.html#a437ef08681e7210d6678427030446a54',1,'LEFT():&#160;vsprintf.c']]]
 ];

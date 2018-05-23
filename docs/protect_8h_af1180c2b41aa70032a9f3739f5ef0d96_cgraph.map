@@ -1,0 +1,5 @@
+<map id="set_intr_gate" name="set_intr_gate">
+<area shape="rect" id="node2" href="$protect_8c.html#a47dba2651beac2dc3bd80762e79798ec" title="作为底层函数，将相应的门设置到中断向量表中。 " alt="" coords="151,31,229,57"/>
+<area shape="rect" id="node3" href="$protect_8c.html#aa95111eabecc3cc4b1f37df555b3bbe8" title="将参数打包成一个门描述符，a为低地址,b为高地址 " alt="" coords="290,5,379,32"/>
+<area shape="rect" id="node4" href="$protect_8c.html#a5e824e043ee1935034e07b05cc7bf0b5" title="写中断向量表 " alt="" coords="277,56,392,83"/>
+</map>

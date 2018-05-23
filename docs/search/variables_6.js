@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['last_5fwrite_5fdata',['last_write_data',['../structFileDescriptor.html#a185f7322af419f384d36c262c74bfc99',1,'FileDescriptor']]],
-  ['last_5fwrite_5ftime',['last_write_time',['../structFileDescriptor.html#ac2f8686848b56761a26956b69465ef30',1,'FileDescriptor']]]
+  ['init_5fkernel_5fmm',['init_kernel_mm',['../memory_8h.html#a1f616527cda909a4e72b8a00ab91c41a',1,'init_kernel_mm():&#160;memory.c'],['../memory_8c.html#a1f616527cda909a4e72b8a00ab91c41a',1,'init_kernel_mm():&#160;memory.c']]],
+  ['interrupt_5ftable',['interrupt_table',['../interrupt_8h.html#a8f8ac7fda7746dc058d50684697cd87e',1,'interrupt.h']]]
 ];

@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['read_5fmemory',['read_memory',['../stdio_8h.html#a5d95964a0f154e14081b7f680583a395',1,'stdio.h']]],
-  ['read_5fmemory_5fbyte',['read_memory_byte',['../basic_8h.html#a7414c70e23f4ecd5ceac7720d6730801',1,'basic.h']]],
-  ['read_5fn_5fsector',['read_n_sector',['../loader_8c.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;loader.c'],['../stdio_8h.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;loader.c'],['../stdio_8c.html#a2de87d8da4f464304a2071cc87cdeace',1,'read_n_sector(u16 sector_code, u16 number, u16 segment, u16 offset):&#160;stdio.c']]],
-  ['read_5fport_5fbyte',['read_port_byte',['../basic_8h.html#a972b27acd6f9dd9f578bd5f3ebc8b948',1,'basic.h']]],
-  ['read_5fsector',['read_sector',['../loader__start_8h.html#ae09053bb528e6283f6fa2998dfdf00ef',1,'read_sector(u16 head, u16 cylinder, u16 sector, u16 segment, u16 offset):&#160;loader_start.h'],['../basic_8h.html#ae09053bb528e6283f6fa2998dfdf00ef',1,'read_sector(u16 head, u16 cylinder, u16 sector, u16 segment, u16 offset):&#160;basic.h']]]
+  ['proc_5fschedule',['proc_schedule',['../schedule_8h.html#a7e221b5100aa8134b138142d9c7cef50',1,'proc_schedule():&#160;schedule.c'],['../schedule_8c.html#a7e221b5100aa8134b138142d9c7cef50',1,'proc_schedule():&#160;schedule.c']]],
+  ['process_5finit',['process_init',['../process_8h.html#aae4d3240509e9d67a749da3ea506522a',1,'process_init():&#160;process.c'],['../process_8c.html#aae4d3240509e9d67a749da3ea506522a',1,'process_init():&#160;process.c']]],
+  ['put_5fpage',['put_page',['../memory_8h.html#a26d9856091ded975f73e8a362cb0cc56',1,'memory.h']]],
+  ['putc',['putc',['../debug_8c.html#acc0ee6e9643f83a5ab11722197fc25ec',1,'debug.c']]],
+  ['puti',['puti',['../debug_8c.html#a569759d308c854cc95a385bb00a02a8e',1,'debug.c']]],
+  ['puts',['puts',['../debug_8c.html#a5440f204aee13d4f19cbc2129a81a570',1,'debug.c']]]
 ];

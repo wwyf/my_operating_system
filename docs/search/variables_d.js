@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['useless1',['useless1',['../structFileDescriptor.html#a8af97832d3998c5165d44d6339d1304d',1,'FileDescriptor']]],
-  ['useless2',['useless2',['../structFileDescriptor.html#abd85f690a265db8d7894b415352a718e',1,'FileDescriptor']]],
-  ['useless3',['useless3',['../structFileDescriptor.html#ad507344a517decb55045525030721f62',1,'FileDescriptor']]]
+  ['write',['write',['../structtty__struct.html#a0b77a9532051e7788f604ea88a1377d3',1,'tty_struct']]],
+  ['write_5fq',['write_q',['../structtty__struct.html#ae1e26ef49124af2980a5d26fbacc6306',1,'tty_struct']]]
 ];

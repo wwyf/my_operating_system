@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['loader_5fsegment',['LOADER_SEGMENT',['../loader_8c.html#a21d17d9adf9ed2b82184394df25018f5',1,'loader.c']]]
+  ['left',['LEFT',['../kernel_2common_2vsprintf_8c.html#a437ef08681e7210d6678427030446a54',1,'LEFT():&#160;vsprintf.c'],['../user_2source_2vsprintf_8c.html#a437ef08681e7210d6678427030446a54',1,'LEFT():&#160;vsprintf.c']]]
 ];

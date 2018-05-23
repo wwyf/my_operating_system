@@ -1,12 +1,19 @@
 var searchData=
 [
-  ['eax',['eax',['../structproc__register.html#a7fe0e32583dc4e6639fa17985bf89867',1,'proc_register']]],
-  ['ebp',['ebp',['../structproc__register.html#a6d222d3db6c57736e60f02223bc84fd0',1,'proc_register']]],
-  ['ebx',['ebx',['../structproc__register.html#a197dd2f31a695a767703a9984d7f5427',1,'proc_register']]],
-  ['ecx',['ecx',['../structproc__register.html#a42335025610e44ff3ed9a144de9ebcd8',1,'proc_register']]],
-  ['edi',['edi',['../structproc__register.html#a589ee4792c89634904441aa6242667db',1,'proc_register']]],
-  ['edx',['edx',['../structproc__register.html#a25158a7e18e5c93af9ef1c90dd340a3a',1,'proc_register']]],
-  ['es',['es',['../structproc__register.html#a53ebf9c069f22bb3483e7a30afa618ef',1,'proc_register']]],
-  ['esi',['esi',['../structproc__register.html#a166b5b20405e2bf4ee81f1de5dd3d0e4',1,'proc_register']]],
-  ['extern',['EXTERN',['../stdio_8h.html#a77366c1bd428629dc898e188bfd182a3',1,'stdio.h']]]
+  ['data',['data',['../structtty__queue.html#a5351dbfed228d3c2cf13e3ea30558861',1,'tty_queue']]],
+  ['debug_2ec',['debug.c',['../debug_8c.html',1,'']]],
+  ['debug_2eh',['debug.h',['../debug_8h.html',1,'']]],
+  ['desc_5fstruct_5ft',['desc_struct_t',['../structdesc__struct__t.html',1,'']]],
+  ['desc_5ftable_5ft',['desc_table_t',['../include_2type_8h.html#ab7c3e6c9959101788152351a901b55fe',1,'desc_table_t():&#160;type.h'],['../user_2include_2type_8h.html#ab7c3e6c9959101788152351a901b55fe',1,'desc_table_t():&#160;type.h']]],
+  ['desctype_5fdpl3',['DESCTYPE_DPL3',['../protect_8c.html#a86990e8c171f4054abbd19e151649840',1,'protect.c']]],
+  ['desctype_5fint',['DESCTYPE_INT',['../protect_8c.html#aa8dca484666344d1b0016832e39b26d1',1,'protect.c']]],
+  ['desctype_5fldt',['DESCTYPE_LDT',['../protect_8c.html#a91c77344b14fb5e3bd1ec9a02779eab2',1,'protect.c']]],
+  ['desctype_5fs',['DESCTYPE_s',['../protect_8c.html#af941fe3298b758ccc54cf86a060f3a23',1,'protect.c']]],
+  ['desctype_5ftask',['DESCTYPE_TASK',['../protect_8c.html#a2b807bcdc994f56afc8d2fff6912f08f',1,'protect.c']]],
+  ['desctype_5ftrap',['DESCTYPE_TRAP',['../protect_8c.html#abe0b11ed2a3281e9ef1c9e9c050732d7',1,'protect.c']]],
+  ['desctype_5ftss',['DESCTYPE_TSS',['../protect_8c.html#a6c2ff9683c39dc7609f826b934d9607a',1,'protect.c']]],
+  ['do_5fdiv',['do_div',['../kernel_2common_2vsprintf_8c.html#a71a962bd85fdfc754c583d48d47e2040',1,'do_div():&#160;vsprintf.c'],['../user_2source_2vsprintf_8c.html#a71a962bd85fdfc754c583d48d47e2040',1,'do_div():&#160;vsprintf.c']]],
+  ['do_5fno_5fpage',['do_no_page',['../memory_8h.html#aca4cf160e8cfe71ec79fb8d4a6d6230c',1,'memory.h']]],
+  ['do_5fpage_5ffault',['do_page_fault',['../memory_8h.html#a70473c7f1d2679277751cb161e2d768d',1,'memory.h']]],
+  ['do_5fwp_5fpage',['do_wp_page',['../memory_8h.html#af2bcc1f502057b7bfd4897563fe7b533',1,'memory.h']]]
 ];

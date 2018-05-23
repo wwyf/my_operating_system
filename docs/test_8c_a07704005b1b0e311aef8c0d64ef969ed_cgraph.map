@@ -1,0 +1,4 @@
+<map id="test_proc2" name="test_proc2">
+<area shape="rect" id="node2" href="$debug_8h.html#afcae0b02326742db48b277ebb7247835" title="com_printk" alt="" coords="136,5,223,32"/>
+<area shape="rect" id="node3" href="$debug_8h.html#a02ebee988fe1e248389c66ee226b6a9e" title="com_vsprintk" alt="" coords="271,5,371,32"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="wyf&#45;os/kernel/test/test.c" name="wyf&#45;os/kernel/test/test.c">
+<area shape="rect" id="node2" href="$global_8h.html" title="global.h" alt="" coords="250,95,316,121"/>
+<area shape="rect" id="node5" href="$tty__drv_8h.html" title="chr_drv/tty_drv.h" alt="" coords="346,169,466,196"/>
+<area shape="rect" id="node8" href="$process_8h.html" title="proc/process.h" alt="" coords="61,169,169,196"/>
+<area shape="rect" id="node11" href="$debug_8h.html" title="common/debug.h" alt="" coords="760,95,883,121"/>
+<area shape="rect" id="node13" href="$include_2common_2string_8h.html" title="common/string.h" alt="" coords="545,319,664,345"/>
+<area shape="rect" id="node14" href="$protect_8h.html" title="protect/protect.h" alt="" coords="642,169,759,196"/>
+<area shape="rect" id="node15" href="$console_8h.html" title="chr_drv/console.h" alt="" coords="442,95,567,121"/>
+<area shape="rect" id="node3" href="$include_2type_8h.html" title="type.h" alt="" coords="312,319,371,345"/>
+<area shape="rect" id="node4" href="$const_8h.html" title="const.h" alt="" coords="154,244,220,271"/>
+<area shape="rect" id="node10" href="$page_8h.html" title="mm/page.h" alt="" coords="201,319,288,345"/>
+<area shape="rect" id="node6" href="$basic_8h.html" title="basic.h" alt="" coords="446,244,510,271"/>
+<area shape="rect" id="node9" href="$memory_8h.html" title="mm/memory.h" alt="" coords="23,244,130,271"/>
+<area shape="rect" id="node12" href="$include_2common_2stdarg_8h.html" title="common/stdarg.h" alt="" coords="783,169,906,196"/>
+</map>

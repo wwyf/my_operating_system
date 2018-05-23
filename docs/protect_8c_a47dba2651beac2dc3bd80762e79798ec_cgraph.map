@@ -1,0 +1,4 @@
+<map id="_set_gate" name="_set_gate">
+<area shape="rect" id="node2" href="$protect_8c.html#aa95111eabecc3cc4b1f37df555b3bbe8" title="将参数打包成一个门描述符，a为低地址,b为高地址 " alt="" coords="145,5,234,32"/>
+<area shape="rect" id="node3" href="$protect_8c.html#a5e824e043ee1935034e07b05cc7bf0b5" title="写中断向量表 " alt="" coords="132,56,247,83"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="wyf&#45;os/include/proc/process.h" name="wyf&#45;os/include/proc/process.h">
+<area shape="rect" id="node2" href="$global_8h.html" title="wyf&#45;os/include/global.h" alt="" coords="475,102,629,129"/>
+<area shape="rect" id="node3" href="$interrupt_8c.html" title="wyf&#45;os/kernel/intr\l/interrupt.c" alt="" coords="155,184,277,225"/>
+<area shape="rect" id="node7" href="$test_8c.html" title="wyf&#45;os/kernel/test\l/test.c" alt="" coords="885,184,1011,225"/>
+<area shape="rect" id="node8" href="$interrupt_8h.html" title="wyf&#45;os/include/intr\l/interrupt.h" alt="" coords="152,95,280,136"/>
+<area shape="rect" id="node10" href="$process_8c.html" title="wyf&#45;os/kernel/process.c" alt="" coords="705,102,866,129"/>
+<area shape="rect" id="node4" href="$memory_8c.html" title="wyf&#45;os/kernel/mm/memory.c" alt="" coords="302,191,490,218"/>
+<area shape="rect" id="node5" href="$protect_8c.html" title="wyf&#45;os/kernel/protect.c" alt="" coords="515,191,669,218"/>
+<area shape="rect" id="node6" href="$schedule_8c.html" title="wyf&#45;os/kernel/schedule.c" alt="" coords="694,191,861,218"/>
+<area shape="rect" id="node9" href="$main_8c.html" title="wyf&#45;os/init/main.c" alt="" coords="5,191,131,218"/>
+</map>

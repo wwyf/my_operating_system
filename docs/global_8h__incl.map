@@ -1,3 +1,9 @@
-<map id="os/include/global.h" name="os/include/global.h">
-<area shape="rect" id="node2" href="$type_8h.html" title="../include/type.h" alt="" coords="13,80,128,107"/>
+<map id="wyf&#45;os/include/global.h" name="wyf&#45;os/include/global.h">
+<area shape="rect" id="node2" href="$include_2type_8h.html" title="type.h" alt="" coords="5,229,64,256"/>
+<area shape="rect" id="node3" href="$const_8h.html" title="const.h" alt="" coords="177,155,242,181"/>
+<area shape="rect" id="node4" href="$tty__drv_8h.html" title="chr_drv/tty_drv.h" alt="" coords="44,80,164,107"/>
+<area shape="rect" id="node7" href="$process_8h.html" title="proc/process.h" alt="" coords="239,80,347,107"/>
+<area shape="rect" id="node9" href="$page_8h.html" title="mm/page.h" alt="" coords="327,229,414,256"/>
+<area shape="rect" id="node5" href="$basic_8h.html" title="basic.h" alt="" coords="37,155,101,181"/>
+<area shape="rect" id="node8" href="$memory_8h.html" title="mm/memory.h" alt="" coords="317,155,424,181"/>
 </map>

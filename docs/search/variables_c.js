@@ -1,11 +1,5 @@
 var searchData=
 [
-  ['sp',['sp',['../structproc__register.html#a20e4cdd501cc8cc99f6d70cd183a802e',1,'proc_register']]],
-  ['space1',['space1',['../structMessage.html#a8c743d8e8f72269b3e92fefec2d3ef51',1,'Message']]],
-  ['space2',['space2',['../structMessage.html#a07639eaf454f8af2c7a09ae28122160e',1,'Message']]],
-  ['space3',['space3',['../structMessage.html#a85363f7272bb99aa2b55b9f44184169a',1,'Message']]],
-  ['space4',['space4',['../structMessage.html#ae646a6500d9e8c8ecd2afa5817085dbd',1,'Message']]],
-  ['space5',['space5',['../structMessage.html#a18dfec93b1d2fe2ab48bafafaf51f12a',1,'Message']]],
-  ['ss',['ss',['../structproc__register.html#ae88457179eaff5b7843b20522d7fd338',1,'proc_register']]],
-  ['system_5fcall',['system_call',['../global_8h.html#ac5e3eb71c441a9aa03e3c180db8d095d',1,'global.h']]]
+  ['tail',['tail',['../structtty__queue.html#a1718a4e87f2dc74829e895a7aa735f2d',1,'tty_queue']]],
+  ['this_5fcr3',['this_cr3',['../structmemory__struct.html#af8a751e0f586682d9a63e41664f9aab5',1,'memory_struct']]]
 ];

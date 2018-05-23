@@ -1,6 +1,7 @@
-<map id="os/include/global.h" name="os/include/global.h">
-<area shape="rect" id="node2" href="$start_8c.html" title="os/kernel/start.c" alt="" coords="5,80,121,107"/>
-<area shape="rect" id="node3" href="$global_8c.html" title="os/service/global.c" alt="" coords="146,80,277,107"/>
-<area shape="rect" id="node4" href="$proc_8c.html" title="os/service/proc.c" alt="" coords="301,80,423,107"/>
-<area shape="rect" id="node5" href="$system__call_8c.html" title="os/service/system_call.c" alt="" coords="448,80,615,107"/>
+<map id="wyf&#45;os/include/global.h" name="wyf&#45;os/include/global.h">
+<area shape="rect" id="node2" href="$interrupt_8c.html" title="wyf&#45;os/kernel/intr\l/interrupt.c" alt="" coords="5,80,128,121"/>
+<area shape="rect" id="node3" href="$memory_8c.html" title="wyf&#45;os/kernel/mm/memory.c" alt="" coords="153,87,341,114"/>
+<area shape="rect" id="node4" href="$protect_8c.html" title="wyf&#45;os/kernel/protect.c" alt="" coords="365,87,520,114"/>
+<area shape="rect" id="node5" href="$schedule_8c.html" title="wyf&#45;os/kernel/schedule.c" alt="" coords="545,87,711,114"/>
+<area shape="rect" id="node6" href="$test_8c.html" title="wyf&#45;os/kernel/test\l/test.c" alt="" coords="735,80,862,121"/>
 </map>
