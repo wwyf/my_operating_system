@@ -1,7 +1,7 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
 KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
-INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o
+INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o intr/clock.o
 MM_OBJECT=mm/memory.o
 TEST_OBJECT=test/test.o
 COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o
@@ -35,6 +35,8 @@ intr/interrupt.o:intr/interrupt.c
 	gcc intr/interrupt.c -o intr/interrupt.o $(C_FLAGS)
 intr/interrupt_table.o:intr/interrupt_table.asm
 	nasm intr/interrupt_table.asm -o intr/interrupt_table.o $(NASM_FLAGS)
+intr/clock.o:intr/clock.c
+	gcc intr/clock.c -o intr/clock.o $(C_FLAGS)
 
 	
 mm/memory.o:mm/memory.c

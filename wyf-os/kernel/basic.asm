@@ -2,6 +2,9 @@
 
 global _basic_outb
 global _basic_inb
+global _basic_cli
+global _basic_sti
+
 [bits 32]
 
 ;对16位端口写入8位的值
@@ -36,4 +39,14 @@ _basic_inb:
     proc_recover
     mov esp, ebp
     pop ebp 
+    ret
+
+;打开中断
+_basic_sti:
+    sti
+    ret
+
+;关闭中断
+_basic_cli:
+    cli
     ret

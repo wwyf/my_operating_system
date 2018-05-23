@@ -2,7 +2,7 @@ extern _interrupt_handler
 extern g_cur_proc_context_stack
 
 global interrupt_table
-global ret_from_intr
+global _proc_restart
 
 [bits 32]
 
@@ -54,6 +54,7 @@ common_handler:
 
 
 ret_from_intr:
+_proc_restart:
     ; TODO:获得新进程的内核栈指针
     mov esp, [g_cur_proc_context_stack]
     RESTORE_ALL

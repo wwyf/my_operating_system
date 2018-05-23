@@ -1,11 +1,9 @@
 #include <global.h>
+#include <basic.h>
 #include <protect/protect.h>
 #include <proc/process.h>
 #include <proc/schedule.h>
-#include <common/debug.h>
-#include <common/debug.h>
-#include <common/stdlib.h>
-
+#include <common/common.h>
 #include <intr/interrupt.h>
 
 /**
@@ -17,9 +15,17 @@ void _update_current_process_context(proc_regs_t * regs);
 
 
 void interrupt_init(){
+    /* 初始化中断门描述符 */
     for (int i = 0; i < 256; i++){
         set_intr_gate(i, (void *)((uint32_t)&interrupt_table + 8 * i));
     }
+    /* 初始化时钟中断的参数，如中断时间等 */
+    clock_init();
+
+
+    /* 打开中断 */
+    // _basic_sti();
+    _basic_cli();
 }
 
 /**
@@ -33,12 +39,18 @@ void _interrupt_handler(proc_regs_t * regs){
     uint32_t v = regs->orig_eax;
     
     switch (v){
+        /* 时钟中断 */
+        case 0x20:{
+            irq0_clock_handler();
+            break;
+        }
         case 0x66:{
-            proc_schedule();
+            irq0_clock_handler();
             break;
         }
         default:{
             com_printk("in the %d interrupt!", v);
+            break;
         }
     }
     

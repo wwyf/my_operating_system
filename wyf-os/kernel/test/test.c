@@ -6,12 +6,14 @@
 #include <chr_drv/tty_drv.h>
 #include <proc/process.h>
 
-extern ret_from_intr();
+extern void _proc_restart();
+extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k);
 
 void _test1();
 void _test2();
 void _test3();
 void _test4();
+void _test5();
 
 
 void main_test(){
@@ -19,24 +21,57 @@ void main_test(){
     // _test2();
     // _test3();
     _test4();
+    // _test5();
 }
+
+/***********************************************/
+/* 测试内核进程的初始化和切换 */
+/* 使用时钟中断中断作为进程切换的测试中断 */
+/***********************************************/
+
+void _test_clock_proc1(){
+    while (1){
+        for (int i = 0; i < 100000000; i++);
+        com_print("pid : 1");
+    }
+}
+
+void _test_clock_proc2(){
+    while (1){
+        for (int i = 0; i < 100000000; i++);
+        com_printk("pid : 2");
+    }
+}
+
+
+void _test5(){
+    _init_a_process(0, "test1", 1, _test_clock_proc1, (proc_regs_t *)0x20000);
+    _init_a_process(1, "test2", 2, _test_clock_proc2, (proc_regs_t *)0x30000);
+
+    g_cur_proc = &g_pcb_table[0];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
+}
+
+
+
 
 /***********************************************/
 /* 测试内核进程的初始化和切换 */
 /* 使用0x66中断作为进程切换的测试中断，可在process.c中修改中断号 */
 /***********************************************/
 
-void test_proc1(){
+void _test_66_proc1(){
     while (1){
-        for (int i = 0; i <10000000; i++);
+        for (int i = 0; i <100000000; i++);
         com_print("pid : 1");
         asm("int $0x66");
     }
 }
 
-void test_proc2(){
+void _test_66_proc2(){
     while (1){
-        for (int i = 0; i <10000000; i++);
+        for (int i = 0; i <100000000; i++);
         com_printk("pid : 2");
         asm("int $0x66");
     }
@@ -44,12 +79,12 @@ void test_proc2(){
 
 
 void _test4(){
-    _init_a_process(0, "test1", 1, test_proc1, (proc_regs_t *)0x20000);
-    _init_a_process(1, "test2", 2, test_proc2, (proc_regs_t *)0x30000);
+    _init_a_process(0, "test1", 1, _test_66_proc1, (proc_regs_t *)0x20000);
+    _init_a_process(1, "test2", 2, _test_66_proc2, (proc_regs_t *)0x30000);
 
-    g_cur_proc = &g_pcb_table[0];
+    g_cur_proc = &g_pcb_table[1];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
-    ret_from_intr();
+    _proc_restart();
 }
 
 

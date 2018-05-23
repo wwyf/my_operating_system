@@ -14,5 +14,8 @@ void _basic_outb(uint16_t port_number, uint8_t data);
 uint8_t _basic_inb(uint16_t port_number);
 
 
+void _basic_sti();
+void _basic_cli();
+
 
 #endif

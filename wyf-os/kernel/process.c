@@ -43,7 +43,7 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].regs.eip = (uint32_t)function;
     g_pcb_table[n].regs.xcs = __KERNEL_CS;
     g_pcb_table[n].regs.eflags = 0; // TODO:
-    g_pcb_table[n].regs.esp = k;// TODO:
+    g_pcb_table[n].regs.esp = (uint32_t)k;// TODO:
     g_pcb_table[n].regs.xss = __KERNEL_SS;
 
     g_pcb_table[n].pid = pid;
