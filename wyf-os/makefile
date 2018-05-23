@@ -36,6 +36,9 @@ all:
 
 .PHONY : clean
 clean :
+	-rm bochsout.txt
+	-rm *.bin
+	-rm *.elf
 	-rm */*.bin
 	-rm */*.list
 	-rm */*.objdump

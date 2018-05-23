@@ -31,14 +31,14 @@ void main_test(){
 
 void _test_clock_proc1(){
     while (1){
-        for (int i = 0; i < 100000000; i++);
+        for (int i = 0; i < 10000000; i++);
         com_print("pid : 1");
     }
 }
 
 void _test_clock_proc2(){
     while (1){
-        for (int i = 0; i < 100000000; i++);
+        for (int i = 0; i < 10000000; i++);
         com_printk("pid : 2");
     }
 }
