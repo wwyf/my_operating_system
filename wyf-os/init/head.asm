@@ -156,15 +156,15 @@ g_idt_table:
 ;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ; 门                        目标选择子,            偏移, DCount, 属性
 %rep 32
-		Gate	SelectorZero, SpuriousHandler,      0, DA_386IGate
+		Gate	SelectorKernel, SpuriousHandler,      0, DA_386IGate
 %endrep
-.020h:	Gate	SelectorZero,    ClockHandler,      0, DA_386IGate
+.020h:	Gate	SelectorKernel,    ClockHandler,      0, DA_386IGate
 %rep 95
-		Gate	SelectorZero, SpuriousHandler,      0, DA_386IGate
+		Gate	SelectorKernel, SpuriousHandler,      0, DA_386IGate
 %endrep
-.080h:	Gate	SelectorZero,  UserIntHandler,      0, DA_386IGate
+.080h:	Gate	SelectorKernel,  UserIntHandler,      0, DA_386IGate
 %rep 127
-		Gate	SelectorZero, SpuriousHandler,      0, DA_386IGate
+		Gate	SelectorKernel, SpuriousHandler,      0, DA_386IGate
 %endrep
 
 
@@ -179,14 +179,12 @@ g_gdt_table:
 ;                              段基址,       段界限     , 属性
 LABEL_GDT:	        Descriptor       0,               0, 0           ; 空描述符
 LABEL_DESC_NORMAL:	Descriptor	     0,         0fffffh, DA_DRW 	; Normal 描述符
-LABEL_DESC_ZERO:    Descriptor       0,         0fffffh, DA_C + DA_32; 非一致代码段
 LABEL_DESC_KERNEL:  Descriptor       0,         0fffffh, DA_C + DA_32; 非一致代码段
 LABEL_DESC_VIDEO:   Descriptor 0B8000h,          0ffffh, DA_DRW	     ; 显存首地址
 
 
 ; GDT 选择子
 SelectorNormal		equ	LABEL_DESC_NORMAL	- LABEL_GDT
-SelectorZero		equ	LABEL_DESC_ZERO	- LABEL_GDT
 SelectorKernel		equ	LABEL_DESC_KERNEL	- LABEL_GDT
 SelectorVideo		equ	LABEL_DESC_VIDEO	- LABEL_GDT
 
