@@ -50,7 +50,6 @@ void _test5(){
 
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
-    while(1){}
     _proc_restart();
 }
 

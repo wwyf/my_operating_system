@@ -12,19 +12,19 @@
 
 void irq0_clock_handler(){
 
-    _basic_cli();
-    uint8_t master_port_value = _basic_inb(INT_M_CTLMASK);
-    _basic_outb(INT_M_CTLMASK, master_port_value | 1);//不允许再发生时钟中断
-    _basic_sti();
+    // _basic_cli();
+    // uint8_t master_port_value = _basic_inb(INT_M_CTLMASK);
+    // _basic_outb(INT_M_CTLMASK, master_port_value | 1);//不允许再发生时钟中断
+    // _basic_sti();
 
 
     com_print("in the clock!!!");
     proc_schedule();
 
-    _basic_cli();
-    master_port_value =_basic_inb(INT_M_CTLMASK);
-    _basic_outb(INT_M_CTLMASK, master_port_value | 0xFE); // 又允许时钟中断发生
-    _basic_sti();
+    // _basic_cli();
+    // master_port_value =_basic_inb(INT_M_CTLMASK);
+    // _basic_outb(INT_M_CTLMASK, master_port_value | 0xFE); // 又允许时钟中断发生
+    // _basic_sti();
     _basic_outb(INT_M_CTL, EOI); // 发送EOI
 }
 
