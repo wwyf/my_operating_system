@@ -37,7 +37,7 @@ kernel_head_start:
     push 0x0
     push SelectorKernel
     push main
-    jmp SelectorKernel:setup_paging
+    jmp SelectorZero:setup_paging
     ret
 
 setup_gdt:
@@ -180,12 +180,14 @@ g_gdt_table:
 LABEL_GDT:	        Descriptor       0,               0, 0           ; 空描述符
 LABEL_DESC_NORMAL:	Descriptor	     0,         0fffffh, DA_DRW 	; Normal 描述符
 LABEL_DESC_KERNEL:  Descriptor       0,         0fffffh, DA_C + DA_32; 非一致代码段
+LABEL_DESC_ZERO:  Descriptor       0,         0fffffh, DA_C + DA_32; 非一致代码段
 LABEL_DESC_VIDEO:   Descriptor 0B8000h,          0ffffh, DA_DRW	     ; 显存首地址
 
 
 ; GDT 选择子
 SelectorNormal		equ	LABEL_DESC_NORMAL	- LABEL_GDT
 SelectorKernel		equ	LABEL_DESC_KERNEL	- LABEL_GDT
+SelectorZero		equ	LABEL_DESC_ZERO	- LABEL_GDT
 SelectorVideo		equ	LABEL_DESC_VIDEO	- LABEL_GDT
 
 
