@@ -1,0 +1,4 @@
+E:/code/my_operating_system/wyf-os/cmake-build-debug/CMakeFiles/wyf_os.dir
+E:/code/my_operating_system/wyf-os/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+E:/code/my_operating_system/wyf-os/cmake-build-debug/CMakeFiles/useless.dir
+E:/code/my_operating_system/wyf-os/cmake-build-debug/CMakeFiles/edit_cache.dir
