@@ -14,40 +14,18 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}\\kernel.elf",
-            "args": [
-                "-fThreading"
-            ],
-            "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
-            "environment": [],
-            "externalConsole": true,
             "MIMode": "gdb",
             "miDebuggerPath": "D:/MinGW/bin/gdb.exe", // GDB的路径，注意替换成自己的路径
             "miDebuggerServerAddress": "localhost:1234",
             "launchCompleteCommand": "None",
-            "setupCommands": [
-                // {
-                //     "description": "Enable pretty-printing for gdb",
-                //     "text": "-enable-pretty-printing",
-                //     "ignoreFailures": true
-                // },
-                // {
-                //     "description": "load symbol file",
-                //     "text": "symbol-file kernel.syms",
-                //     "ignoreFailures": true
-                // }
-            ],
-            "customLaunchSetupCommands": [
-                // {
-                    // "text": "target-run",
-                    // "description": "run target",
-                    // "ignoreFailures": false
-                // }
-            ],
+
             "logging": {
-                "traceResponse": true,
-                "programOutput": true
+                "engineLogging": false
             },
+            "stopAtEntry": false,
+            "environment": [],
+            "externalConsole": true,
             "sourceFileMap": {
                 "/mnt/e": "e:\\"
             }
@@ -70,24 +48,24 @@
                     "ignoreFailures": false
                 },
             ],
-            "showDisplayString" : true,
+            // "showDisplayString" : true,
             
             
             //**************************************************************************************/
             //* 可有可无 */
             // "environment": [],
-            // "launchCompleteCommand": "None",
+            "launchCompleteCommand": "None",
             "externalConsole": true,
             "stopAtEntry": false,
             /* 以下日志打开的话可以寻找配置上的问题（如果没有配好的话） */
             "logging": {
                 "engineLogging": false
             },
-            // "targetArchitecture": "x86",
             // "args": [
-            //         "-fThreading"
-            //     ],
-            // 下面这个是失败的尝试，必须依靠vscode自己的一些初始化，不能完全覆写
+                //         "-fThreading"
+                //     ],
+                // 下面这个是失败的尝试，必须依靠vscode自己的一些初始化，不能完全覆写
+            // "targetArchitecture": "x86",
             // "customLaunchSetupCommands": [
             //     {
             //         "text": "cd /mnt/e/code/my_operating_system/wyf-os"
