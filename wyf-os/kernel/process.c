@@ -7,6 +7,7 @@ proc_task_struct_t g_pcb_table[MAX_PROCESS_NUM]; /// 进程控制块表。
 proc_task_struct_t * g_cur_proc; /// 当前进程。
 proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文所用内核栈。
 
+extern void _proc_restart();
 
 void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k);
 
@@ -48,6 +49,7 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].regs.xss = __KERNEL_SS;
 
     g_pcb_table[n].pid = pid;
+    g_pcb_table[n].status = _PROC_RUN;
     g_pcb_table[n].active_mm = &init_kernel_mm;
     com_strncpy(g_cur_proc[n].p_name, name, 10);
 
@@ -56,4 +58,27 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].kernel_stack = (void *)k;
     com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
+}
+
+void _proc_switch_to(){
+    asm("int $0x79");
+}
+
+/**
+ * @brief 使本进程进入睡眠状态，等待被激活
+ * 
+ */
+void proc_sleep_myself(){
+    g_cur_proc->status = _PROC_SLEEP;
+    _proc_switch_to();
+}
+
+
+/**
+ * @brief 激活一个进程，该n为进程控制块的索引号
+ * 
+ * @param n 
+ */
+void proc_wake_pid(int n){
+    g_pcb_table[n].status = _PROC_RUN;
 }

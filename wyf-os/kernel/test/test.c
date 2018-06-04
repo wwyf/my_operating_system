@@ -30,17 +30,25 @@ void main_test(){
 /* 测试硬盘驱动
 /* NOTICE:在schedule.c中设置当前进程数量
 /***********************************************/
-void _test_hd_process(){
-    com_printk("test\ntest");
-    hd_identify(0);
+void _test_idle(){
     while (1){
-        
+        for (int i = 0; i <10000000; i++);
+        com_printk("pid : %d", g_cur_proc->pid);
+    }
+}
+
+void _test_hd_process(){
+    while (1){
+        for (int i = 0; i <10000000; i++);
+        com_printk("pid : %d", g_cur_proc->pid);
+        // hd_identify(0);
     }
 }
 
 
 void _test_hd(){
-    _init_a_process(0, "test_hd", 1, _test_hd_process, (proc_regs_t *)0x20000);
+    _init_a_process(0, "test_hd", 0, _test_idle, (proc_regs_t *)0x30000);
+    _init_a_process(1, "test_hd", 1, _test_hd_process, (proc_regs_t *)0x20000);
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();

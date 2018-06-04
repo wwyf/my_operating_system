@@ -35,6 +35,7 @@ void interrupt_init(){
  * @param regs 当前进程上下文
  */
 void _interrupt_handler(proc_regs_t * regs){
+    // _basic_cli();
     // 将上下文保存到当前进程控制块中。
     _update_current_process_context(regs);
     uint32_t v = regs->orig_eax;
@@ -53,11 +54,17 @@ void _interrupt_handler(proc_regs_t * regs){
             irq14_hd_handler();
             break;
         }
+        /* 用作switch to所用的中断 */
+        case 0x79:{
+            proc_schedule();
+            break;
+        }
         default:{
             com_printk("in the %d interrupt!", v);
             break;
         }
-    }   
+    }
+    // _basic_sti();
 }
 
 

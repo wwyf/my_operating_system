@@ -167,11 +167,46 @@ typedef struct hd_cmd {
 #define REG_DRV_ADDR	0x3F7		/*	Drive Address			I		*/
 
 
-
-
 void irq14_hd_handler();
-void	hd_identify		(int drive);
+
+
 void hd_init();
+
+/**
+ * @brief 打印硬盘信息
+ * 
+ * @param drive 设备号，如果只有master硬盘的话一般为0
+ */
+void hd_identify(int drive);
+
+/**
+ * @brief 从硬盘中读取扇区到内存指定地址处
+ * 
+ * @param drive 设备号，一般为0，只有一个master硬盘
+ * @param pos 开始读取的硬盘字节地址
+ * @param bytes_count 需要读取的字节数
+ * @param dest 读取的字节需要放到什么位置。
+ */
+void hd_read(uint32_t drive, uint32_t pos, uint32_t bytes_count, void * dest);
+
+/**
+ * @brief 将内存中的数据写到硬盘中的指定字节地址处
+ * 
+ * @param drive 设备号
+ * @param pos 开始写的硬盘字节地址（要求扇区对齐）
+ * @param bytes_count 需要写的字节数
+ * @param src 需要写的数据原先在内存中的位置
+ */
+void hd_write(uint32_t drive, uint32_t pos, uint32_t bytes_count, void * src);
+
+
+
+#define HD_PCB_INDEX 1
+
+/* Hard Drive */
+#define SECTOR_SIZE		512
+#define SECTOR_BITS		(SECTOR_SIZE * 8)
+#define SECTOR_SIZE_SHIFT	9
 
 
 #endif /* _ORANGES_HD_H_ */

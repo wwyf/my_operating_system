@@ -3,6 +3,9 @@
 #include <common/string.h>
 #include <chr_drv/tty_drv.h>
 
+
+PRIVATE void _console_clear_screen(char * video_start, int start, int end);
+
 // 每行字节数
 static uint16_t video_size_row;
 // 列数
@@ -25,6 +28,7 @@ void _console_init(){
     x = 0;
     y = 0;
     // video_mem_end = TODO:
+    _console_clear_screen(video_mem_start, 0, 2000);
 }
 
 /**
@@ -95,5 +99,22 @@ void _console_write(tty_struct_t * tty){
             x++;
         }
         // TODO:x行数超出限制需要滚屏
+    }
+}
+
+
+/**
+ * @brief 清屏函数
+ * 
+ * @param video_start 显存起始地址 
+ * @param start 开始清屏的序号
+ * @param end 
+ */
+void _console_clear_screen(char * video_start, int start, int end){
+    char * cur_video_char = video_start;
+    for (int i = start; i < end; i++){
+        *cur_video_char = ' ';
+        cur_video_char++;
+        cur_video_char++;
     }
 }

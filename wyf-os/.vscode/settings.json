@@ -40,7 +40,8 @@
         "typeinfo": "c",
         "debug.h": "c",
         "process.h": "c",
-        "hd.h": "c"
+        "hd.h": "c",
+        "const.h": "c"
       },
       "cSpell.words": [
         "com_printk",

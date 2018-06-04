@@ -33,6 +33,7 @@ typedef struct pt_regs{
 typedef struct s_proc{
     proc_regs_t regs;
     uint32_t pid;
+    uint32_t status; /* 0  */
     char p_name[16];
     void * kernel_stack;
 
@@ -42,8 +43,13 @@ typedef struct s_proc{
     /* TODO: 时间统计信息 */
 }proc_task_struct_t;
 
+#define _PROC_SLEEP 1
+#define _PROC_RUN 0
 
 void process_init();
+
+void proc_sleep_myself();
+void proc_wake_pid(int n);
 
 #endif
 

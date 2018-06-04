@@ -12,7 +12,7 @@
 #include <common/debug.h>
 #include <basic.h>
 #include <hd_drv/hd.h>
-
+#include <proc/process.h>
 
 
 PRIVATE void	hd_cmd_out		(hd_cmd_t* cmd);
@@ -49,9 +49,6 @@ PUBLIC void hd_init()
 
 
 
-/*****************************************************************************
- *                                hd_identify
- *****************************************************************************/
 /**
  * Get the disk information.
  * 
@@ -65,6 +62,7 @@ PUBLIC void hd_identify(int drive)
 	cmd.command = ATA_IDENTIFY;
 	hd_cmd_out(&cmd);
 	// interrupt_wait();
+	// proc_sleep_myself();
     
 
 	_basic_port_read(REG_DATA, hd_buf, SECTOR_SIZE);
@@ -74,9 +72,6 @@ PUBLIC void hd_identify(int drive)
 
 
 
-/*****************************************************************************
- *                                hd_cmd_out
- *****************************************************************************/
 /**
  * Output a command to HD controller.
  * 
@@ -126,6 +121,55 @@ PRIVATE int hd_waitfor(int mask, int val, int timeout)
 
 	return 0;
 }
+
+/**
+ * @brief 从硬盘中读取扇区
+ * 
+ * @param drive 设备号，一般为0，只有一个master硬盘
+ * @param pos 开始读取的硬盘字节地址
+ * @param bytes_count 需要读取的字节数
+ * @param dest 读取的字节需要放到什么位置。
+ */
+// PRIVATE void hd_read(uint32_t drive, uint32_t pos, uint32_t bytes_count, void * dest)
+// {
+// 	/**
+// 	 * We only allow to R/W from a SECTOR boundary:
+// 	 */
+
+// 	if ((pos & 0x1FF) != 0){
+// 		com_printk("ERROR: R/W not from a SECTOR boundary");
+// 		return ;
+// 	}
+
+// 	/* 开始读取的扇区索引（pos要求要对齐扇区） */
+// 	uint32_t sect_start = (uint32_t)(pos >> SECTOR_SIZE_SHIFT); 
+// 	/* 计算应该需要读的扇区数 */
+// 	uint32_t sect_count = (bytes_count + SECTOR_SIZE - 1) / SECTOR_SIZE;
+
+// 	hd_cmd_t cmd;
+// 	cmd.features	= 0;
+// 	cmd.count	= sect_count;
+// 	cmd.lba_low	= sect_start & 0xFF;
+// 	cmd.lba_mid	= (sect_start >>  8) & 0xFF;
+// 	cmd.lba_high	= (sect_start >> 16) & 0xFF;
+// 	cmd.device	= MAKE_DEVICE_REG(1, drive, (sect_start >> 24) & 0xF);
+// 	cmd.command	= ATA_READ;
+// 	hd_cmd_out(&cmd);
+
+// 	int bytes_left = bytes_count; 
+// 	void * read_hd_buf = 0x50000;
+
+// 	while (bytes_left) {
+// 		int bytes = min(SECTOR_SIZE, bytes_left);
+// 			// interrupt_wait();
+// 		port_read(REG_DATA, hdbuf, SECTOR_SIZE);
+// 		phys_copy(la, (void*)va2la(TASK_HD, hdbuf), bytes);
+
+// 		bytes_left -= SECTOR_SIZE;
+// 		la += SECTOR_SIZE;
+// 	}
+// }															
+
 
 
 /*****************************************************************************
@@ -190,9 +234,12 @@ PUBLIC void irq14_hd_handler()
 	 *   - writes to the Command Register.
 	 */
 	hd_status = _basic_inb(REG_STATUS);
+	proc_wake_pid(HD_PCB_INDEX);
 	com_printk("get hd interrupt!");
 	// inform_int(TASK_HD);
 }
+
+
 
 
 

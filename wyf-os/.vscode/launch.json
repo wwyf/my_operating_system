@@ -37,9 +37,9 @@
             "type": "cppdbg",
             "request": "launch",
             // 会从中读取调试信息
-            "program": "/mnt/e/code/my_operating_system/wyf-os/kernel.elf",
+            "program": "/mnt/e/0code/my_operating_system/wyf-os/kernel.elf",
             // 会有一个cd到当前目录的操作
-            "cwd": "/mnt/e/code/my_operating_system/wyf-os",
+            "cwd": "/mnt/e/0code/my_operating_system/wyf-os",
             "MIMode": "gdb",
             "setupCommands":[
                 {
