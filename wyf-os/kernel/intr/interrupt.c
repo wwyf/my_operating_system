@@ -5,6 +5,7 @@
 #include <proc/schedule.h>
 #include <common/common.h>
 #include <intr/interrupt.h>
+#include <hd_drv/hd.h>
 
 /**
  * @brief 将获得的上下文信息（寄存器）保存到当前进程中
@@ -46,6 +47,10 @@ void _interrupt_handler(proc_regs_t * regs){
         }
         case 0x66:{
             irq0_clock_handler();
+            break;
+        }
+        case 0x2E:{
+            irq14_hd_handler();
             break;
         }
         default:{

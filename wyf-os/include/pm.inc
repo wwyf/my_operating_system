@@ -321,3 +321,10 @@ PG_USU		EQU	4	; U/S 属性位值, 用户级
 	dw	((%2 >> 16) & 0FFFFh)			; 偏移 2				(2 字节)
 %endmacro ; 共 8 字节
 ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+;/* 8259A interrupt controller ports. */
+;/* 8259A 中断控制器，相关端口 */
+INT_M_CTL	equ	0x20	; I/O port for interrupt controller         <Master>
+INT_M_CTLMASK	equ	0x21	; setting bits in this port disables ints   <Master>
+INT_S_CTL	equ	0xA0	; I/O port for second interrupt controller  <Slave>
+INT_S_CTLMASK	equ	0xA1	; setting bits in this port disables ints   <Slave>

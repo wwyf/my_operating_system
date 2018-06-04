@@ -5,7 +5,8 @@ INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o intr/clock.o
 MM_OBJECT=mm/memory.o
 TEST_OBJECT=test/test.o
 COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o
-ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT) $(MM_OBJECT)
+HD_DRV_OBJECT=hd_drv/hd.o
+ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT) $(MM_OBJECT) $(HD_DRV_OBJECT)
 
 C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
 NASM_FLAGS=-f elf32
@@ -66,6 +67,11 @@ common/vsprintf.o : common/vsprintf.c
 
 common/stdlib.o : common/stdlib.c
 	gcc common/stdlib.c -o common/stdlib.o $(C_FLAGS) 
+
+
+hd_drv/hd.o : hd_drv/hd.c
+	gcc hd_drv/hd.c -o hd_drv/hd.o $(C_FLAGS) 
+
 
 
 

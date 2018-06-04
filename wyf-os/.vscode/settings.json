@@ -39,9 +39,11 @@
         "tty_drv.h": "c",
         "typeinfo": "c",
         "debug.h": "c",
-        "process.h": "c"
+        "process.h": "c",
+        "hd.h": "c"
       },
       "cSpell.words": [
-        "com_printk"
+        "com_printk",
+        "printk"
       ]
     }

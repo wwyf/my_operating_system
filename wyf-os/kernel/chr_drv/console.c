@@ -77,6 +77,15 @@ void _console_write(tty_struct_t * tty){
     while(!_tty_queue_is_empty(&tty->write_q)){
         char c = _tty_queue_get(&tty->write_q);
         display_ptr = (char *)(video_mem_start + x*video_size_row + y*2);
+
+        // TODO:需要支持/n,得到下一行
+        if (c == '\n'){
+            y = 0;
+            x++;
+            continue;
+        }
+
+        /* 正常写字符 */
         *display_ptr = c;
         // 颜色
         *(display_ptr+1) = 0x0007;

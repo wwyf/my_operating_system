@@ -11,6 +11,9 @@
 
 #define size_t unsigned int
 
+/* 函数类型 */
+#define	PUBLIC		/* PUBLIC is the opposite of PRIVATE */
+#define	PRIVATE	static	/* PRIVATE x limits the scope of x */
 
 struct desc_struct_t{
 	uint32_t a;

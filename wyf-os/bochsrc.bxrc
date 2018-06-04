@@ -14,9 +14,11 @@ vgaromimage: file=../dependence/VGABIOS-lgpl-latest
 # what disk images will be used 
 floppya: 1_44=a.img, status=inserted
 
+
 # hard disk
-# ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
-# ata0-master: type=disk, path="hd10meg.img", cylinders=306, heads=4, spt=17
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=disk, path="c.img", mode=flat
+# cylinders=306, heads=4, spt=17
 
 # choose the boot disk.
 boot: floppy

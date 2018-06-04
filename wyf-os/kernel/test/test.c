@@ -5,6 +5,7 @@
 #include <chr_drv/console.h>
 #include <chr_drv/tty_drv.h>
 #include <proc/process.h>
+#include <hd_drv/hd.h>
 
 extern void _proc_restart();
 extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k);
@@ -14,14 +15,35 @@ void _test2();
 void _test3();
 void _test4();
 void _test5();
-
+void _test_hd();
 
 void main_test(){
     // _test1();
     // _test2();
     // _test3();
     // _test4();
-    _test5();
+    // _test5();
+    _test_hd();
+}
+
+/***********************************************/
+/* 测试硬盘驱动
+/* NOTICE:在schedule.c中设置当前进程数量
+/***********************************************/
+void _test_hd_process(){
+    com_printk("test\ntest");
+    hd_identify(0);
+    while (1){
+        
+    }
+}
+
+
+void _test_hd(){
+    _init_a_process(0, "test_hd", 1, _test_hd_process, (proc_regs_t *)0x20000);
+    g_cur_proc = &g_pcb_table[0];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
 }
 
 /***********************************************/

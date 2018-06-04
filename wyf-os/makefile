@@ -25,7 +25,7 @@ $(INIT)/main.o $(INIT)/head.o:
 	cd ..
 
 runq:
-	qemu-system-i386.exe -boot order=a -m 32M  -d guest_errors -drive format=raw,index=0,if=floppy,file=a.img -gdb tcp::1234 -S
+	qemu-system-i386.exe -boot order=a -m 32M -hda c.img  -d guest_errors -drive format=raw,index=0,if=floppy,file=a.img  -gdb tcp::1234 -S
 d:
 	bochsdbg.exe -q
 all:

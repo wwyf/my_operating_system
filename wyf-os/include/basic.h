@@ -18,4 +18,9 @@ void _basic_sti();
 void _basic_cli();
 
 
+void _basic_port_read(uint16_t port, void* buf, int n);
+void _basic_port_write(uint16_t port, void* buf, int n);
+
+void _basic_enable_irq(int irq);
+
 #endif
