@@ -4,7 +4,7 @@ CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_
 INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o intr/clock.o
 MM_OBJECT=mm/memory.o
 TEST_OBJECT=test/test.o
-COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o
+COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o common/debug.o
 HD_DRV_OBJECT=hd_drv/hd.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT) $(MM_OBJECT) $(HD_DRV_OBJECT)
 
@@ -69,6 +69,8 @@ common/vsprintf.o : common/vsprintf.c
 
 common/stdlib.o : common/stdlib.c
 	gcc common/stdlib.c -o common/stdlib.o $(C_FLAGS) 
+common/debug.o : common/debug.c
+	gcc common/debug.c -o common/debug.o $(C_FLAGS) 
 
 
 hd_drv/hd.o : hd_drv/hd.c

@@ -68,7 +68,10 @@ PRIVATE void _test_get_process(){
         for (int i = 0; i <100000; i++){
             for (int j = 0; j < 1000; j++);
         }
-            com_printk("<Ticks:%d>", _test_sys_call_get_ticks());
+        com_printk("<Ticks:%d>", _test_sys_call_get_ticks());
+        for (int i = 0; i < 1000; i++){
+            assert(i == 999);
+        }
     }
 }
 
