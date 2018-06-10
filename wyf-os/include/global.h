@@ -57,4 +57,7 @@ extern proc_task_struct_t * g_cur_proc;
 extern proc_regs_t * g_cur_proc_context_stack;
 
 
+extern uint32_t  g_ticks;
+
+
 #endif

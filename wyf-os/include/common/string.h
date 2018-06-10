@@ -7,18 +7,22 @@ size_t com_strlen(char * str);
 
 /* TODO:
 复制字符串 */
-void com_strcpy(char * dest, char * src);
+PUBLIC void com_strcpy(char * dest, char * src);
 
 /* TODO:
 复制字符串 */
-void com_strncpy(char * dest, char * src, uint32_t size);
+PUBLIC void com_strncpy(char * dest, char * src, uint32_t size);
 
 /* TODO:
 字符串比较 */
-int com_strcmp(char * lhs, char * rhs);
+PUBLIC int com_strcmp(char * lhs, char * rhs);
 
 /*
 字符串比较 */
-int com_strncmp(char * lhs, char * rhs, int size);
+PUBLIC int com_strncmp(char * lhs, char * rhs, int size);
+
+/* 
+使用字符填充一段内存 */
+PUBLIC void com_memset(void* p_dst, char ch, size_t size);
 
 #endif

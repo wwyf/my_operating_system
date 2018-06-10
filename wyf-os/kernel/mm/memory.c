@@ -13,7 +13,7 @@ mm_struct_t init_kernel_mm;
 
 
 void mm_init(){
-    init_kernel_mm.this_cr3 = (cr3_t)g_page_dir;
+    // init_kernel_mm.this_cr3 = (cr3_t)g_page_dir;
 }
 
 // void mem_init(long start_mem, long end_mem)

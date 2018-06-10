@@ -59,6 +59,11 @@ void _interrupt_handler(proc_regs_t * regs){
             proc_schedule();
             break;
         }
+        /* 系统调用 */
+        case 0x80:{
+            // sys_call();
+            break;
+        }
         default:{
             com_printk("in the %d interrupt!", v);
             break;

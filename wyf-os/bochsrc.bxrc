@@ -42,6 +42,8 @@ mouse: enabled=0
 cpu: ips=15000000
 clock: sync=both
 
+gdbstub: enabled=1, port=1234, text_base=0, data_base=0,bss_base=0
+
 # enable key mapping, using US layout as default.
 #
 # NOTE: In Bochs 1.4, keyboard mapping is only 100% implemented on X windows.

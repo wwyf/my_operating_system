@@ -2,6 +2,8 @@
 #include <basic.h>
 #include <proc/schedule.h>
 #include <common/common.h>
+#include <global.h>
+
 
 #define INT_M_CTL 0x20	// I/O port for interrupt controller         <Master>
 #define INT_M_CTLMASK 0x21	// setting bits in this port disables ints   <Master>
@@ -9,9 +11,11 @@
 #define INT_S_CTLMASK 0xA1	// setting bits in this port disables ints   <Slave>
 #define EOI 0x20
 
+PUBLIC uint32_t g_ticks = 0;
+
 
 void irq0_clock_handler(){
-
+    g_ticks++;
     // _basic_cli();
     // uint8_t master_port_value = _basic_inb(INT_M_CTLMASK);
     // _basic_outb(INT_M_CTLMASK, master_port_value | 1);//不允许再发生时钟中断
@@ -32,5 +36,3 @@ void clock_init(){
     _basic_outb(0x40, 0xff); // 中断时间设置 写计数器 0 的低字节 
     _basic_outb(0x40, 0xff); // 写计数器的高字节  
 }
-
-

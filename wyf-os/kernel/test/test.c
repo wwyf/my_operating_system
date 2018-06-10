@@ -1,21 +1,23 @@
 #include <global.h>
-#include <common/debug.h>
-#include <common/string.h>
+#include <const.h>
+#include <common/common.h>
 #include <protect/protect.h>
 #include <chr_drv/console.h>
 #include <chr_drv/tty_drv.h>
 #include <proc/process.h>
 #include <hd_drv/hd.h>
+#include <message.h>
 
 extern void _proc_restart();
 extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k);
 
-void _test1();
-void _test2();
-void _test3();
-void _test4();
-void _test5();
-void _test_hd();
+PRIVATE void _test1();
+PRIVATE void _test2();
+PRIVATE void _test3();
+PRIVATE void _test4();
+PRIVATE void _test5();
+PRIVATE void _test_get_ticks();
+PRIVATE void _test_hd();
 
 void main_test(){
     // _test1();
@@ -23,8 +25,61 @@ void main_test(){
     // _test3();
     // _test4();
     // _test5();
-    _test_hd();
+    _test_get_ticks();
+    // _test_hd();
 }
+
+/***********************************************/
+/* 测试消息机制下的get_ticks系统调用
+/* NOTICE:在schedule.c中设置当前进程数量
+/***********************************************/
+
+PRIVATE int _test_sys_call_get_ticks(){
+	message_t msg;
+	msg_reset(&msg);
+	msg.type = GET_TICKS;
+	// send_recv(BOTH, TASK_SYS, &msg);
+	msg.RETVAL = g_ticks;
+	return msg.RETVAL;
+}
+
+PRIVATE void _test_sys_task(){
+	message_t msg;
+	while (1) {
+        for (int i = 0; i < 10000000; i++);
+        com_printk("in the sys task");
+		// send_recv(RECEIVE, ANY, &msg);
+		// int src = msg.source;
+
+		// switch (msg.type) {
+		// case GET_TICKS:
+		// 	msg.RETVAL = g_ticks;
+		// 	send_recv(SEND, src, &msg);
+		// 	break;
+		// default:{}
+		// 	panic("unknown msg type");
+		// 	break;
+		// }
+	}
+}
+
+PRIVATE void _test_get_process(){
+    while(1){
+        for (int i = 0; i <100000; i++){
+            for (int j = 0; j < 1000; j++);
+        }
+            com_printk("<Ticks:%d>", _test_sys_call_get_ticks());
+    }
+}
+
+PRIVATE void _test_get_ticks(){
+    _init_a_process(0, "test_sys_task", 0, _test_sys_task, (proc_regs_t *)0x20000);
+    _init_a_process(1, "test_get_process", 1, _test_get_process, (proc_regs_t *)0x30000);
+    g_cur_proc = &g_pcb_table[0];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
+}
+
 
 /***********************************************/
 /* 测试硬盘驱动

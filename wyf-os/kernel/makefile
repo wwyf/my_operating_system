@@ -1,5 +1,5 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o
+KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o message.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
 INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o intr/clock.o
 MM_OBJECT=mm/memory.o
@@ -31,6 +31,8 @@ process.o:process.c
 	gcc process.c -o process.o $(C_FLAGS)
 schedule.o:schedule.c
 	gcc schedule.c -o schedule.o $(C_FLAGS)
+message.o:message.c
+	gcc message.c -o message.o $(C_FLAGS)
 
 
 intr/interrupt.o:intr/interrupt.c

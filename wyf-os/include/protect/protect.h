@@ -34,7 +34,7 @@ void _pack_gate( uint32_t * a, uint32_t * b, uint32_t base, uint8_t seg, uint8_t
  * @param entry_low  中断门描述符低字节
  * @param entry_high 中断门描述符高位字节
  */
-void _write_idt_entry(struct desc_struct_t * dt, int32_t entry, uint32_t entry_low, uint32_t entry_high);
+void _write_idt_entry(desc_struct_t * dt, int32_t entry, uint32_t entry_low, uint32_t entry_high);
 
 /* 陷阱门 */
 void set_trap_gate(uint32_t vector, void * addr);

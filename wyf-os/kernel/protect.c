@@ -12,7 +12,7 @@
 /* system */
 #define DESCTYPE_s 0x10
 
-void _write_idt_entry(struct desc_struct_t * dt, 
+void _write_idt_entry(desc_struct_t * dt, 
                     int32_t entry, 
                     uint32_t entry_low, 
                     uint32_t entry_high){

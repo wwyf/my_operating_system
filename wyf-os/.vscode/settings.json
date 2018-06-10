@@ -41,7 +41,9 @@
         "debug.h": "c",
         "process.h": "c",
         "hd.h": "c",
-        "const.h": "c"
+        "const.h": "c",
+        "common.h": "c",
+        "string.h": "c"
       },
       "cSpell.words": [
         "com_printk",
