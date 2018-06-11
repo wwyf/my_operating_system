@@ -52,6 +52,5 @@ PUBLIC int msg_send_recv(int function, int src_dest, message_t* msg)
 		       (function == SEND) || (function == RECEIVE));
 		break;
 	}
-
 	return ret;
 }

@@ -37,7 +37,6 @@ typedef struct s_proc{
     char p_name[16];
     void * kernel_stack;
 
-
     /* 进程优先级 及时间片信息*/
     uint32_t remain_ticks;                 /* remained ticks */
     uint32_t priority;
@@ -55,7 +54,6 @@ typedef struct s_proc{
     /* 消息内容 */
     message_t * p_msg;
 
-    /* TODO: 时间统计信息 */
 }proc_task_struct_t;
 
 

@@ -1,0 +1,56 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+          "command": "xelatex",
+          "args": [
+            "-synctex=1",
+            "-shell-escape",
+            "-file-line-error",
+            "%DOC%"
+          ],
+          "name": "xelatex"
+        },
+        {
+          "command": "bibtex",
+          "args": [
+            "%DOCFILE%"
+          ],
+          "name": "bibtex"
+        }
+      ],
+      "latex-workshop.latex.recipes": [
+        {
+          "name": "toolchain",
+          "tools": [
+            "xelatex",
+            "xelatex"
+          ]
+        }
+      ],
+      "files.associations": {
+        "stdarg.h": "c",
+        "cstdarg": "c",
+        "test.h": "c",
+        "cursor.h": "c",
+        "type.h": "c",
+        "interrupt.h": "c",
+        "global.h": "c",
+        "stdlib.h": "c",
+        "tty_drv.h": "c",
+        "typeinfo": "c",
+        "debug.h": "c",
+        "process.h": "c",
+        "hd.h": "c",
+        "const.h": "c",
+        "common.h": "c",
+        "string.h": "c",
+        "protect.h": "c",
+        "sys_call.h": "c",
+        "memory.h": "c",
+        "sys_vcall.h": "c"
+      },
+      "cSpell.words": [
+        "com_printk",
+        "printk"
+      ]
+    }

@@ -278,6 +278,7 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 
 	assert(proc2pid(p_who_wanna_recv) != src);
 
+	/* TODO:继续看吧？ */
 	if ((p_who_wanna_recv->has_int_msg) &&
 	    ((src == ANY) || (src == INTERRUPT))) {
 		/* There is an interrupt needs p_who_wanna_recv's handling and
@@ -304,6 +305,7 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 
 
 	/* Arrives here if no interrupt for p_who_wanna_recv. */
+	/* 确定p_from, 在队列中找到一个用于接受消息的进程指针 */
 	if (src == ANY) {
 		/* p_who_wanna_recv is ready to receive messages from
 		 * ANY proc, we'll check the sending queue and pick the
@@ -341,8 +343,10 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 			assert(p); /* p_from must have been appended to the
 				    * queue, so the queue must not be NULL
 				    */
+			/* 遍历队列，找到发送消息的源进程 */
 			while (p) {
 				assert(p_from->p_flags & SENDING);
+				/* 如果p就是我要收的源进程，就不用找了 */
 				if (proc2pid(p) == src) { /* if p is the one */
 					p_from = p;
 					break;
@@ -363,17 +367,22 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 		}
 	}
 
+	/* 标注了copyok，意味着已经找到了p_from, 确定了源进程，并且源进程已经准备好了消息，可以将消息复制过来 */
 	if (copyok) {
 		/* It's determined from which proc the message will
 		 * be copied. Note that this proc must have been
 		 * waiting for this moment in the queue, so we should
 		 * remove it from the queue.
 		 */
+
+		/* 维护待接收信息的进程队列 */
+		/* 如果要接受的进程位于队列头，则由于队列头需要从队列中除去，需要做一些处理 */
 		if (p_from == p_who_wanna_recv->q_sending) { /* the 1st one */
 			assert(prev == 0);
 			p_who_wanna_recv->q_sending = p_from->next_sending;
 			p_from->next_sending = 0;
 		}
+		/* 如果不是队列头，则源进程的前一项和后一项接在一次 */
 		else {
 			assert(prev);
 			prev->next_sending = p_from->next_sending;
@@ -392,6 +401,7 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 		p_from->p_flags &= ~SENDING;
 		unblock(p_from);
 	}
+	/* 从已有的接收消息等待队列中，找不到自己想要的信息 */
 	else {  /* nobody's sending any msg */
 		/* Set p_flags so that p_who_wanna_recv will not
 		 * be scheduled until it is unblocked.
@@ -433,7 +443,7 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 PUBLIC int sys_sendrec(int function, int src_dest, message_t* m, proc_task_struct_t* p)
 {
     int a = 0;
-    com_printk("in the sys_sendrec\n");
+    // com_printk("in the sys_sendrec\n");
 	// assert(k_reenter == 0);	/* make sure we are not in ring0 */
 	// assert((src_dest >= 0 && src_dest < NR_TASKS + NR_PROCS) ||
 	//        src_dest == ANY ||
