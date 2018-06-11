@@ -21,7 +21,7 @@
             "launchCompleteCommand": "None",
 
             "logging": {
-                "engineLogging": false
+                "engineLogging": ture
             },
             "stopAtEntry": false,
             "environment": [],
@@ -59,7 +59,7 @@
             "stopAtEntry": false,
             /* 以下日志打开的话可以寻找配置上的问题（如果没有配好的话） */
             "logging": {
-                "engineLogging": false
+                "engineLogging": true
             },
             // "args": [
                 //         "-fThreading"

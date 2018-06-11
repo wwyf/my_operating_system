@@ -38,7 +38,7 @@ extern desc_table_t g_gdt_table;
  * 
  * 定义在process.h中 
  */
-extern proc_task_struct_t g_pcb_table[MAX_PROCESS_NUM]; 
+extern proc_task_struct_t g_pcb_table[_PROC_NR_PROCS]; 
 
 /**
  * @brief 当前进程指针

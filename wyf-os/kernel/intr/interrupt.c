@@ -6,6 +6,7 @@
 #include <common/common.h>
 #include <intr/interrupt.h>
 #include <hd_drv/hd.h>
+#include <sys_call.h>
 
 /**
  * @brief 将获得的上下文信息（寄存器）保存到当前进程中
@@ -25,8 +26,8 @@ void interrupt_init(){
 
 
     /* 打开中断 */
-    _basic_sti();
-    // _basic_cli();
+    // _basic_sti();
+    _basic_cli();
 }
 
 /**
@@ -61,7 +62,7 @@ void _interrupt_handler(proc_regs_t * regs){
         }
         /* 系统调用 */
         case 0x80:{
-            // sys_call();
+            sys_call(regs);
             break;
         }
         default:{

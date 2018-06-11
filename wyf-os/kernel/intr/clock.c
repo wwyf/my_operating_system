@@ -16,6 +16,7 @@ PUBLIC uint32_t g_ticks = 0;
 
 void irq0_clock_handler(){
     g_ticks++;
+    
     // _basic_cli();
     // uint8_t master_port_value = _basic_inb(INT_M_CTLMASK);
     // _basic_outb(INT_M_CTLMASK, master_port_value | 1);//不允许再发生时钟中断

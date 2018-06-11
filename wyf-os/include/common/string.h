@@ -25,4 +25,8 @@ PUBLIC int com_strncmp(char * lhs, char * rhs, int size);
 使用字符填充一段内存 */
 PUBLIC void com_memset(void* p_dst, char ch, size_t size);
 
+/* 
+复制一段内存 */
+PUBLIC void com_memncpy(void * dest, void * src, uint32_t size);
+
 #endif

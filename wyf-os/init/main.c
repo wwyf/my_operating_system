@@ -10,6 +10,7 @@ int main(){
     process_init();
     hd_init();
     
+    _basic_cli();
     main_test();
     return 0;
 }

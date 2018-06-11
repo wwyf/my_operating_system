@@ -9,7 +9,7 @@
 #include <message.h>
 
 extern void _proc_restart();
-extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k);
+extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
 
 PRIVATE void _test1();
 PRIVATE void _test2();
@@ -38,28 +38,28 @@ PRIVATE int _test_sys_call_get_ticks(){
 	message_t msg;
 	msg_reset(&msg);
 	msg.type = GET_TICKS;
-	// send_recv(BOTH, TASK_SYS, &msg);
-	msg.RETVAL = g_ticks;
+	msg_send_recv(BOTH, TASK_SYS, &msg);
+	// msg.RETVAL = g_ticks;
 	return msg.RETVAL;
 }
 
 PRIVATE void _test_sys_task(){
 	message_t msg;
 	while (1) {
-        for (int i = 0; i < 10000000; i++);
+        for (int i = 0; i < 100000000; i++);
         com_printk("in the sys task");
-		// send_recv(RECEIVE, ANY, &msg);
-		// int src = msg.source;
+		msg_send_recv(RECEIVE, ANY, &msg);
+		int src = msg.source;
 
-		// switch (msg.type) {
-		// case GET_TICKS:
-		// 	msg.RETVAL = g_ticks;
-		// 	send_recv(SEND, src, &msg);
-		// 	break;
-		// default:{}
-		// 	panic("unknown msg type");
-		// 	break;
-		// }
+		switch (msg.type) {
+		case GET_TICKS:
+			msg.RETVAL = g_ticks;
+			msg_send_recv(SEND, src, &msg);
+			break;
+		default:{}
+			panic("unknown msg type");
+			break;
+		}
 	}
 }
 
@@ -76,10 +76,11 @@ PRIVATE void _test_get_process(){
 }
 
 PRIVATE void _test_get_ticks(){
-    _init_a_process(0, "test_sys_task", 0, _test_sys_task, (proc_regs_t *)0x20000);
-    _init_a_process(1, "test_get_process", 1, _test_get_process, (proc_regs_t *)0x30000);
+    _init_a_process(0, "test_sys_task", 0, _test_sys_task, (proc_regs_t *)0x20000, 2);
+    _init_a_process(1, "test_get_process", 1, _test_get_process, (proc_regs_t *)0x30000, 3);
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    // _basic_cli();
     _proc_restart();
 }
 
@@ -105,8 +106,8 @@ void _test_hd_process(){
 
 
 void _test_hd(){
-    _init_a_process(0, "test_hd", 0, _test_idle, (proc_regs_t *)0x30000);
-    _init_a_process(1, "test_hd", 1, _test_hd_process, (proc_regs_t *)0x20000);
+    _init_a_process(0, "test_hd", 0, _test_idle, (proc_regs_t *)0x30000, 1);
+    _init_a_process(1, "test_hd", 1, _test_hd_process, (proc_regs_t *)0x20000, 1);
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();
@@ -133,8 +134,8 @@ void _test_clock_proc2(){
 
 
 void _test5(){
-    _init_a_process(0, "test1", 1, _test_clock_proc1, (proc_regs_t *)0x20000);
-    _init_a_process(1, "test2", 2, _test_clock_proc2, (proc_regs_t *)0x30000);
+    _init_a_process(0, "test1", 1, _test_clock_proc1, (proc_regs_t *)0x20000,1);
+    _init_a_process(1, "test2", 2, _test_clock_proc2, (proc_regs_t *)0x30000,1);
 
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
@@ -167,8 +168,8 @@ void _test_66_proc2(){
 
 
 void _test4(){
-    _init_a_process(0, "test1", 1, _test_66_proc1, (proc_regs_t *)0x20000);
-    _init_a_process(1, "test2", 2, _test_66_proc2, (proc_regs_t *)0x30000);
+    _init_a_process(0, "test1", 1, _test_66_proc1, (proc_regs_t *)0x20000,1);
+    _init_a_process(1, "test2", 2, _test_66_proc2, (proc_regs_t *)0x30000,1);
 
     g_cur_proc = &g_pcb_table[1];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;

@@ -9,7 +9,6 @@
 #define __KERNEL_ES 0x08
 #define __KERNEL_SS 0x08
 
-#define MAX_PROCESS_NUM 4
 
 
 /* 8259A interrupt controller ports. */
@@ -107,5 +106,44 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 #define MAG_CH_PANIC	'\002'
 #define MAG_CH_ASSERT	'\003'
 
+
+/* Process */
+#define SENDING   0x02	/* set when proc trying to send */
+#define RECEIVING 0x04	/* set when proc trying to recv */
+#define WAITING   0x08	/* set when proc waiting for the child to terminate */
+#define HANGING   0x10	/* set when proc exits without being waited by parent */
+#define FREE_SLOT 0x20	/* set when proc table entry is not used
+						* (ok to allocated to a new process)
+						*/
+
+
+
+/* ipc */
+#define SEND		1
+#define RECEIVE		2
+#define BOTH		3	/* BOTH = (SEND | RECEIVE) */
+
+/* Number of tasks & processes */
+#define _PROC_NR_TASKS		5
+#define _PROC_NR_PROCS		4
+
+
+
+/* tasks */
+/* 注意 TASK_XXX 的定义要与 global.c 中对应 */
+#define INVALID_DRIVER	-20
+#define INTERRUPT	-10
+#define TASK_TTY	0
+#define TASK_SYS	1
+#define TASK_HD		2
+#define TASK_FS		3
+#define TASK_MM		4
+#define INIT		5
+#define ANY		(_PROC_NR_PROCS + _PROC_NR_TASKS + 10)
+#define NO_TASK		(_PROC_NR_PROCS + _PROC_NR_TASKS + 20)
+
+/* descriptor indices in LDT */
+#define INDEX_LDT_C             0
+#define INDEX_LDT_RW            1
 
 #endif

@@ -3,21 +3,23 @@
 #include <mm/memory.h>
 #include <const.h>
 
-proc_task_struct_t g_pcb_table[MAX_PROCESS_NUM]; /// 进程控制块表。
+proc_task_struct_t g_pcb_table[_PROC_NR_PROCS]; /// 进程控制块表。
 proc_task_struct_t * g_cur_proc; /// 当前进程。
 proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文所用内核栈。
 
 extern void _proc_restart();
 
-void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k);
+void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
 
 
 /**
- * @brief 初始化第一个进程
+ * @brief 初始化进程模块
  * 
  */
 void process_init(){
-
+    for (int i = 0; i < _PROC_NR_PROCS; i++){
+        g_pcb_table[i].status = _PROC_STOP;
+    }
 }
 
 /**
@@ -28,7 +30,7 @@ void process_init(){
  * @param pid 如名
  * @param function 该进程的入口函数（即入口地址）
  */
-void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k){
+void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority){
     g_pcb_table[n].regs.eax = 0;
     g_pcb_table[n].regs.ebx = 0;
     g_pcb_table[n].regs.ecx = 0;
@@ -53,9 +55,14 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].active_mm = &init_kernel_mm;
     com_strncpy(g_cur_proc[n].p_name, name, 10);
 
+    g_pcb_table[n].priority = priority;
+    g_pcb_table[n].remain_ticks = priority;
+
     /* 将该进程的上下文复制到相应的内核栈中 */
     com_memcpy((char *)&g_pcb_table[n].regs, (char *)k, sizeof(proc_regs_t));
     g_pcb_table[n].kernel_stack = (void *)k;
+    g_pcb_table[n].status = _PROC_RUN;
+    g_pcb_table[n].p_flags = 0;
     com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
 }

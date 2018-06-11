@@ -42,10 +42,10 @@ RM = "D:\Program Files\JetBrains\CLion 2018.1.2\bin\cmake\bin\cmake.exe" -E remo
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = E:\code\my_operating_system\wyf-os
+CMAKE_SOURCE_DIR = E:\0code\my_operating_system\wyf-os
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = E:\code\my_operating_system\wyf-os\cmake-build-debug
+CMAKE_BINARY_DIR = E:\0code\my_operating_system\wyf-os\cmake-build-debug
 
 # Utility rule file for wyf_os.
 
@@ -53,7 +53,7 @@ CMAKE_BINARY_DIR = E:\code\my_operating_system\wyf-os\cmake-build-debug
 include CMakeFiles/wyf_os.dir/progress.make
 
 CMakeFiles/wyf_os:
-	make all -C E:/code/my_operating_system/wyf-os CLION_EXE_DIR=E:/code/my_operating_system/wyf-os/cmake-build-debug
+	make all -C E:/0code/my_operating_system/wyf-os CLION_EXE_DIR=E:/0code/my_operating_system/wyf-os/cmake-build-debug
 
 wyf_os: CMakeFiles/wyf_os
 wyf_os: CMakeFiles/wyf_os.dir/build.make
@@ -70,6 +70,6 @@ CMakeFiles/wyf_os.dir/clean:
 .PHONY : CMakeFiles/wyf_os.dir/clean
 
 CMakeFiles/wyf_os.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" E:\code\my_operating_system\wyf-os E:\code\my_operating_system\wyf-os E:\code\my_operating_system\wyf-os\cmake-build-debug E:\code\my_operating_system\wyf-os\cmake-build-debug E:\code\my_operating_system\wyf-os\cmake-build-debug\CMakeFiles\wyf_os.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" E:\0code\my_operating_system\wyf-os E:\0code\my_operating_system\wyf-os E:\0code\my_operating_system\wyf-os\cmake-build-debug E:\0code\my_operating_system\wyf-os\cmake-build-debug E:\0code\my_operating_system\wyf-os\cmake-build-debug\CMakeFiles\wyf_os.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/wyf_os.dir/depend
 

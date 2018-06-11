@@ -43,7 +43,10 @@
         "hd.h": "c",
         "const.h": "c",
         "common.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "protect.h": "c",
+        "sys_call.h": "c",
+        "memory.h": "c"
       },
       "cSpell.words": [
         "com_printk",

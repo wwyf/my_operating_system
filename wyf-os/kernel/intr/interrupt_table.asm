@@ -59,6 +59,7 @@ _proc_restart:
     mov esp, [g_cur_proc_context_stack]
     RESTORE_ALL
     add esp, 4
+    sti
     iret
 
     
