@@ -35,9 +35,20 @@ void main_test(){
 PRIVATE void _test_process_get_process(){
     while(1){
         for (int i = 0; i <100000; i++){
-            for (int j = 0; j < 10000; j++);
+            for (int j = 0; j < 1000; j++);
         }
-        com_printk("<Ticks:%d>", user_get_ticks());
+        com_printk("<Ticks:%d>\n", user_get_ticks());
+        com_printk("<Pid:%d>\n", user_get_pid());
+    }
+}
+
+PRIVATE void _test_process_get_process_2(){
+    while(1){
+        for (int i = 0; i <100000; i++){
+            for (int j = 0; j < 1000; j++);
+        }
+        com_printk("<Ticks:%d>\n", user_get_ticks());
+        com_printk("<Pid:%d>\n", user_get_pid());
     }
 }
 
@@ -45,6 +56,7 @@ PRIVATE void _test_process_get_process(){
 
 PRIVATE void _test_background_task(){
     _init_a_process(5, "test_get_process", 5, _test_process_get_process, (proc_regs_t *)0x30000, 3);
+    _init_a_process(6, "test_get_process", 6, _test_process_get_process, (proc_regs_t *)0x40000, 3);
     g_cur_proc = &g_pcb_table[5];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     // _basic_cli();

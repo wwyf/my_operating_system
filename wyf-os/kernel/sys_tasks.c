@@ -27,6 +27,10 @@ PRIVATE void task_sys_call(){
 			msg.RETVAL = g_ticks;
 			msg_send_recv(SEND, src, &msg);
 			break;
+		case GET_PID:
+			msg.RETVAL = g_pcb_table[msg.source].pid;
+			msg_send_recv(SEND, src, &msg);
+			break;
 		default:{}
 			panic("unknown msg type");
 			break;

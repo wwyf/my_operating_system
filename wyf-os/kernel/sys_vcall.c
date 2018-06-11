@@ -12,3 +12,14 @@ PUBLIC int user_get_ticks(){
 	// msg.RETVAL = g_ticks;
 	return msg.RETVAL;
 }
+
+PUBLIC int user_get_pid(){
+	message_t msg;
+	msg_reset(&msg);
+	msg.type = GET_PID;
+    /* NOTICE: TASK_SYS 指的是ssy_task的进程号 */
+	msg_send_recv(BOTH, TASK_SYS, &msg);
+	// msg.RETVAL = g_ticks;
+	return msg.RETVAL;
+
+}

@@ -79,7 +79,7 @@ PUBLIC void sys_call(proc_regs_t * regs){
             break;
         }
         default:{
-            com_printk("in sys call!");
+            com_printk("in default sys call!");
             break;
         }
     }
