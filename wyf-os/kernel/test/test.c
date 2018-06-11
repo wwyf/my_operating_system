@@ -7,6 +7,7 @@
 #include <proc/process.h>
 #include <hd_drv/hd.h>
 #include <message.h>
+#include <sys_vcall.h>
 
 extern void _proc_restart();
 extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
@@ -17,6 +18,7 @@ PRIVATE void _test3();
 PRIVATE void _test4();
 PRIVATE void _test5();
 PRIVATE void _test_get_ticks();
+PRIVATE void _test_background_task();
 PRIVATE void _test_hd();
 
 void main_test(){
@@ -25,9 +27,30 @@ void main_test(){
     // _test3();
     // _test4();
     // _test5();
-    _test_get_ticks();
+    // _test_get_ticks();
+    _test_background_task();
     // _test_hd();
 }
+
+PRIVATE void _test_process_get_process(){
+    while(1){
+        for (int i = 0; i <100000; i++){
+            for (int j = 0; j < 10000; j++);
+        }
+        com_printk("<Ticks:%d>", user_get_ticks());
+    }
+}
+
+
+
+PRIVATE void _test_background_task(){
+    _init_a_process(5, "test_get_process", 5, _test_process_get_process, (proc_regs_t *)0x30000, 3);
+    g_cur_proc = &g_pcb_table[5];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    // _basic_cli();
+    _proc_restart();
+}
+
 
 /***********************************************/
 /* 测试消息机制下的get_ticks系统调用

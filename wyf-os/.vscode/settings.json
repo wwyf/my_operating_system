@@ -46,7 +46,8 @@
         "string.h": "c",
         "protect.h": "c",
         "sys_call.h": "c",
-        "memory.h": "c"
+        "memory.h": "c",
+        "sys_vcall.h": "c"
       },
       "cSpell.words": [
         "com_printk",

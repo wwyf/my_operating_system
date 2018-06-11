@@ -71,5 +71,7 @@ void process_init();
 void proc_sleep_myself();
 void proc_wake_pid(int n);
 
+void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
+
 #endif
 

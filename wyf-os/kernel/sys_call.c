@@ -75,7 +75,6 @@ PUBLIC void sys_call(proc_regs_t * regs){
 	int ret = 0;
     switch (v){
         case TASK_SYS:{
-            com_printk("in task solve!");
             ret = sys_sendrec(regs->ebx, regs->ecx, (message_t*)regs->edx, (proc_task_struct_t*)regs->esi);
             break;
         }
@@ -434,7 +433,7 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 PUBLIC int sys_sendrec(int function, int src_dest, message_t* m, proc_task_struct_t* p)
 {
     int a = 0;
-    com_printk("in the sys_sendrec");
+    com_printk("in the sys_sendrec\n");
 	// assert(k_reenter == 0);	/* make sure we are not in ring0 */
 	// assert((src_dest >= 0 && src_dest < NR_TASKS + NR_PROCS) ||
 	//        src_dest == ANY ||

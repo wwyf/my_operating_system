@@ -1,5 +1,5 @@
 INIT_OBJDECT=../init/head.o ../init/main.o
-KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o message.o syscall.o sys_call.o
+KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o message.o syscall.o sys_call.o sys_tasks.o sys_vcall.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
 INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o intr/clock.o
 MM_OBJECT=mm/memory.o
@@ -37,6 +37,10 @@ syscall.o:syscall.asm
 	nasm syscall.asm -o syscall.o $(NASM_FLAGS)
 sys_call.o:sys_call.c
 	gcc sys_call.c -o sys_call.o $(C_FLAGS)
+sys_vcall.o:sys_vcall.c
+	gcc sys_vcall.c -o sys_vcall.o $(C_FLAGS)
+sys_tasks.o:sys_tasks.c
+	gcc sys_tasks.c -o sys_tasks.o $(C_FLAGS)
 
 
 
