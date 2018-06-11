@@ -38,6 +38,7 @@ PRIVATE int _test_sys_call_get_ticks(){
 	message_t msg;
 	msg_reset(&msg);
 	msg.type = GET_TICKS;
+    /* NOTICE: TASK_SYS 指的是ssy_task的进程号 */
 	msg_send_recv(BOTH, TASK_SYS, &msg);
 	// msg.RETVAL = g_ticks;
 	return msg.RETVAL;
@@ -69,16 +70,13 @@ PRIVATE void _test_get_process(){
             for (int j = 0; j < 1000; j++);
         }
         com_printk("<Ticks:%d>", _test_sys_call_get_ticks());
-        for (int i = 0; i < 1000; i++){
-            assert(i == 999);
-        }
     }
 }
 
 PRIVATE void _test_get_ticks(){
-    _init_a_process(0, "test_sys_task", 0, _test_sys_task, (proc_regs_t *)0x20000, 2);
-    _init_a_process(1, "test_get_process", 1, _test_get_process, (proc_regs_t *)0x30000, 3);
-    g_cur_proc = &g_pcb_table[0];
+    _init_a_process(1, "test_sys_task", 1, _test_sys_task, (proc_regs_t *)0x20000, 2);
+    _init_a_process(3, "test_get_process", 3, _test_get_process, (proc_regs_t *)0x30000, 3);
+    g_cur_proc = &g_pcb_table[1];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     // _basic_cli();
     _proc_restart();

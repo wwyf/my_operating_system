@@ -65,6 +65,10 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].p_flags = 0;
     com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
+
+    g_pcb_table[n].p_recvfrom = NO_TASK;
+    g_pcb_table[n].p_sendto = NO_TASK;
+    g_pcb_table[n].has_int_msg = 0;
 }
 
 void _proc_switch_to(){

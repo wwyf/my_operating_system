@@ -47,8 +47,8 @@ PUBLIC void com_memset(void* p_dst, char ch, size_t size){
 }
 
 PUBLIC void com_memncpy(void * dest, void * src, uint32_t size){
-    char * char_dest = (char *)char_dest;
-    char * char_src = (char *)char_src;
+    char * char_dest = (char *)dest;
+    char * char_src = (char *)src;
     for (int i = 0; i < size; i++){
         char_dest[i] = char_src[i];
     }

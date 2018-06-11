@@ -40,9 +40,6 @@ PRIVATE int proc2pid(proc_task_struct_t * p){
 }
 
 
-
-
-
 /**
  * <Ring 0~1> Virtual addr --> Linear addr.
  * 
@@ -75,10 +72,11 @@ PRIVATE void* va2la(int pid, void* va)
  */
 PUBLIC void sys_call(proc_regs_t * regs){
     int v = regs->eax;
+	int ret = 0;
     switch (v){
         case TASK_SYS:{
             com_printk("in task solve!");
-            sys_sendrec(regs->ebx, regs->ecx, (message_t*)regs->edx, (proc_task_struct_t*)regs->esi);
+            ret = sys_sendrec(regs->ebx, regs->ecx, (message_t*)regs->edx, (proc_task_struct_t*)regs->esi);
             break;
         }
         default:{
@@ -86,6 +84,8 @@ PUBLIC void sys_call(proc_regs_t * regs){
             break;
         }
     }
+	/* 设置系统调用返回值 */
+	regs->eax = ret;
 }
 
 
@@ -148,9 +148,9 @@ PRIVATE void block(proc_task_struct_t* p)
 {
 	p->status = _PROC_SLEEP;
 	assert(p->p_flags);
-	asm("sti");
+	proc_schedule();
 	/* 自旋锁 */
-	while (p->status != _PROC_RUN);
+	// while (p->status != _PROC_RUN);
 }
 
 /*****************************************************************************
@@ -211,14 +211,14 @@ PRIVATE int msg_send(proc_task_struct_t * current, int dest, message_t * m)
 		p_dest->p_recvfrom = NO_TASK;
 		unblock(p_dest);
 
-		// assert(p_dest->p_flags == 0);
-		// assert(p_dest->p_msg == 0);
-		// assert(p_dest->p_recvfrom == NO_TASK);
-		// assert(p_dest->p_sendto == NO_TASK);
-		// assert(sender->p_flags == 0);
-		// assert(sender->p_msg == 0);
-		// assert(sender->p_recvfrom == NO_TASK);
-		// assert(sender->p_sendto == NO_TASK);
+		assert(p_dest->p_flags == 0);
+		assert(p_dest->p_msg == 0);
+		assert(p_dest->p_recvfrom == NO_TASK);
+		assert(p_dest->p_sendto == NO_TASK);
+		assert(sender->p_flags == 0);
+		assert(sender->p_msg == 0);
+		assert(sender->p_recvfrom == NO_TASK);
+		assert(sender->p_sendto == NO_TASK);
 	}
 	else { /* dest is not waiting for the msg */
 		sender->p_flags |= SENDING;
@@ -241,10 +241,10 @@ PRIVATE int msg_send(proc_task_struct_t * current, int dest, message_t * m)
 
 		block(sender);
 
-		// assert(sender->p_flags == SENDING);
-		// assert(sender->p_msg != 0);
-		// assert(sender->p_recvfrom == NO_TASK);
-		// assert(sender->p_sendto == dest);
+		assert(sender->p_flags == SENDING);
+		assert(sender->p_msg != 0);
+		assert(sender->p_recvfrom == NO_TASK);
+		assert(sender->p_sendto == dest);
 	}
 
 	return 0;
@@ -406,7 +406,7 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 		else
 			p_who_wanna_recv->p_recvfrom = proc2pid(p_from);
 
-		/* block住后，应该能够切换到其他进程，并且设置为休眠状态 */
+		/* block住，然后退出系统调用后时钟中断会使该进程被阻塞 */
 		block(p_who_wanna_recv);
 
 		assert(p_who_wanna_recv->p_flags == RECEIVING);
@@ -415,7 +415,6 @@ PRIVATE int msg_receive(proc_task_struct_t * current, int src, message_t * m)
 		assert(p_who_wanna_recv->p_sendto == NO_TASK);
 		assert(p_who_wanna_recv->has_int_msg == 0);
 	}
-
 	return 0;
 }
 
