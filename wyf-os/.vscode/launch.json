@@ -21,7 +21,7 @@
             "launchCompleteCommand": "None",
 
             "logging": {
-                "engineLogging": true
+                "engineLogging": false
             },
             "stopAtEntry": false,
             "environment": [],
@@ -47,9 +47,14 @@
                     "description": "connect to remote target",
                     "ignoreFailures": false
                 },
+                {
+                    "text": "set archi i386",
+                    "description": "set archi i386",
+                    "ignoreFailures": false
+                },
             ],
-            // "showDisplayString" : true,
-            
+            "showDisplayString" : true,
+            "TargetArchitecture" : "x86", 
             
             //**************************************************************************************/
             //* 可有可无 */
@@ -59,7 +64,7 @@
             "stopAtEntry": false,
             /* 以下日志打开的话可以寻找配置上的问题（如果没有配好的话） */
             "logging": {
-                "engineLogging": true
+                "engineLogging": false
             },
             // "args": [
                 //         "-fThreading"

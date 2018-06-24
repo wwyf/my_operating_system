@@ -8,17 +8,17 @@ COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o common/debug.o
 HD_DRV_OBJECT=hd_drv/hd.o
 ALL_OBJDECTS=$(INIT_OBJDECT) $(KERNEL_OBJDECT) $(CHR_DRV_OBJDECT) $(TEST_OBJECT) $(INTR_OBJECT) $(COMMON_OBJECT) $(MM_OBJECT) $(HD_DRV_OBJECT)
 
-C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g
+C_FLAGS=-I ../include -c -m32 -ffreestanding -Og -g -fvar-tracking
 NASM_FLAGS=-f elf32
-LINK_FLAGS=-e kernel_head_start -L../include -Ttext 0x00000 -m elf_i386 --oformat binary -lmycrt
-LINK_FLAGS_DEBUG=-e kernel_head_start -L../include -Ttext 0x00000 -m elf_i386 -lmycrt
+LINK_FLAGS=-e kernel_head_start -L../include -T t.lds -m elf_i386 --oformat binary -lmycrt
+LINK_FLAGS_DEBUG=-e kernel_head_start -L../include -T t.lds -m elf_i386 -lmycrt
 OBJDUMP_FLAGS= -m i386 -Sl
 
-all:kernel.bin kernel.elf
+all:../kernel.bin ../kernel.elf
 
-kernel.bin:$(ALL_OBJDECTS)
-	ld $(ALL_OBJDECTS) -o ../kernel.bin $(LINK_FLAGS)
-kernel.elf:$(ALL_OBJDECTS)
+../kernel.bin:$(ALL_OBJDECTS) ../kernel.elf
+	objcopy -O binary ../kernel.elf ../kernel.bin
+../kernel.elf:$(ALL_OBJDECTS)
 	ld $(ALL_OBJDECTS) -o ../kernel.elf $(LINK_FLAGS_DEBUG)
 	objcopy --only-keep-debug ../kernel.elf ../kernel.sym
 	objdump ../kernel.elf  $(OBJDUMP_FLAGS) > ../kernel.objdump
