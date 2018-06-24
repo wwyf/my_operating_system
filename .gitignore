@@ -4,6 +4,8 @@
 *.com
 *.o
 *.objdump
+*.sym
+*.img
 *.list
 *.elf
 bochsout.txt

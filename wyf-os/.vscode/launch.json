@@ -16,12 +16,12 @@
             "program": "${workspaceRoot}\\kernel.elf",
             "cwd": "${workspaceRoot}",
             "MIMode": "gdb",
-            "miDebuggerPath": "D:/MinGW/bin/gdb.exe", // GDB的路径，注意替换成自己的路径
+            "miDebuggerPath": "D:/msys64/mingw32/bin/gdb.exe", // GDB的路径，注意替换成自己的路径
             "miDebuggerServerAddress": "localhost:1234",
             "launchCompleteCommand": "None",
 
             "logging": {
-                "engineLogging": ture
+                "engineLogging": true
             },
             "stopAtEntry": false,
             "environment": [],

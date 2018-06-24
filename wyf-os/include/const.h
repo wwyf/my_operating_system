@@ -138,7 +138,7 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 #define TASK_HD		2
 #define TASK_FS		3
 #define TASK_MM		4
-#define INIT		5
+#define TASK_INIT		5
 #define ANY		(_PROC_NR_PROCS + _PROC_NR_TASKS + 10)
 #define NO_TASK		(_PROC_NR_PROCS + _PROC_NR_TASKS + 20)
 
