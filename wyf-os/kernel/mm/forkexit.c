@@ -26,10 +26,10 @@ PUBLIC int do_fork()
     com_printk("do fork!");
     return 10;
 	/* find a free slot in proc_table */
-	// proc_task_struct_t * p = g_pcb_table;
-    // for (int i = 0; i < _PROC_NR_PROCS; i++){
+	proc_task_struct_t * p = g_pcb_table;
+    for (int i = 0; i < _PROC_NUM; i++){
 
-    // }
+    }
 	// int i;
 	// for (i = 0; i < NR_TASKS + NR_PROCS; i++,p++)
 	// 	if (p->p_flags == FREE_SLOT)
