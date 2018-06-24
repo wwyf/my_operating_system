@@ -9,4 +9,6 @@ PUBLIC int user_get_ticks();
 
 PUBLIC int user_get_pid();
 
+PUBLIC int user_fork();
+
 #endif // !_SYS_VCALL_H_

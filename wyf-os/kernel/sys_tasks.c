@@ -4,6 +4,7 @@
 #include <proc/process.h>
 #include <sys_call.h>
 #include <message.h>
+#include <mm/mm.h>
 
 PRIVATE void task_sys_call();
 PRIVATE void task_init_init();
@@ -14,8 +15,9 @@ PRIVATE void task_init_init();
  * 初始化1号进程为 任务：处理各项系统调用的进程
  */
 PUBLIC void task_init(){
-    proc_init_a_task(TASK_INIT, "sys_call", TASK_INIT, (void*)task_init_init, (proc_regs_t*)0x30000, 2);
-    proc_init_a_task(TASK_SYS, "sys_call", TASK_SYS, (void*)task_sys_call, (proc_regs_t*)0x20000, 2);
+    proc_init_a_task(TASK_INIT, "init", TASK_INIT, (void*)task_init_init, (proc_regs_t*)0x20000, 2);
+    proc_init_a_task(TASK_SYS, "sys_call", TASK_SYS, (void*)task_sys_call, (proc_regs_t*)0x30000, 2);
+    proc_init_a_task(TASK_MM, "mm", TASK_MM, (void*)task_mm, (proc_regs_t*)0x40000, 2);
 }
 
 
@@ -28,8 +30,8 @@ PUBLIC void task_init(){
 PRIVATE void task_init_init()
 {
 	com_printk("Init() is running ...\n");
-	while (1){}
 	// int pid = fork();
+	while (1){}
 	// if (pid != 0) { /* parent process */
 	// 	com_printk("parent is running, child pid:%d\n", pid);
 	// 	spin("parent");

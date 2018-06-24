@@ -40,10 +40,21 @@ void main_test(){
 /* NOTICE:在schedule.c中设置当前进程数量
 /***********************************************/
 
+PRIVATE void _test_fork_process(){
+    int pid = user_fork();
+    int status;
+    // user_wait(&status);
+    // user_exit(status);
+    com_printk("in the user process");
+    while (1){
+
+    }
+}
 
 
 PRIVATE void _test_fork(){
-    g_cur_proc = &g_pcb_table[TASK_INIT];
+    _init_a_process(6, "test_fork_process", 6, _test_fork_process, (proc_regs_t *)0x50000, 3);
+    g_cur_proc = &g_pcb_table[6];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();
 }

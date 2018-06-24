@@ -2,7 +2,7 @@ INIT_OBJDECT=../init/head.o ../init/main.o
 KERNEL_OBJDECT=basic.o protect.o  process.o schedule.o message.o syscall.o sys_call.o sys_tasks.o sys_vcall.o
 CHR_DRV_OBJDECT=chr_drv/printk.o chr_drv/debug.o  chr_drv/console.o chr_drv/tty_drv.o
 INTR_OBJECT=intr/interrupt.o  intr/interrupt_table.o intr/clock.o
-MM_OBJECT=mm/memory.o
+MM_OBJECT=mm/memory.o mm/forkexit.o mm/mm.o
 TEST_OBJECT=test/test.o
 COMMON_OBJECT=common/string.o common/vsprintf.o common/stdlib.o common/debug.o
 HD_DRV_OBJECT=hd_drv/hd.o
@@ -54,6 +54,10 @@ intr/clock.o:intr/clock.c
 	
 mm/memory.o:mm/memory.c
 	gcc mm/memory.c -o mm/memory.o $(C_FLAGS)
+mm/mm.o:mm/mm.c
+	gcc mm/mm.c -o mm/mm.o $(C_FLAGS)
+mm/forkexit.o:mm/forkexit.c
+	gcc mm/forkexit.c -o mm/forkexit.o $(C_FLAGS)
 
 chr_drv/debug.o:chr_drv/debug.c
 	gcc chr_drv/debug.c -o chr_drv/debug.o $(C_FLAGS)
