@@ -38,16 +38,17 @@ PUBLIC int user_get_pid(){
  *           On failure, a -1 will be returned in the parent's context, no
  *         child process will be created.
  *****************************************************************************/
+message_t fork_msg;
 PUBLIC int user_fork()
 {
-	message_t msg;
-	msg.type = FORK;
+	
+	fork_msg.type = FORK;
 
-	msg_send_recv(BOTH, TASK_MM, &msg);
-	// assert(msg.type == SYSCALL_RET);
-	// assert(msg.RETVAL == 0);
+	msg_send_recv(BOTH, TASK_MM, &fork_msg);
+	// assert(fork_msg.type == SYSCALL_RET);
+	// assert(fork_msg.RETVAL == 0);
 
-	return msg.PID;
+	return fork_msg.PID;
 }
 
 PUBLIC int user_wait(int * status)
