@@ -15,10 +15,14 @@ PRIVATE void _switch_to(){
     1. 进程控制块为空
     1. 停止状态
     2. 睡眠状态，但是仍然被阻塞 */
-    while (g_pcb_table[next_num].status == _PROC_STOP ||
-            g_pcb_table[next_num].status == _PROC_EMPTY ||
-                (g_pcb_table[next_num].status == _PROC_SLEEP && 
-                g_pcb_table[next_num].p_flags != 0) ){
+    /* 对于能够运行的状态，进行取反 */
+    while (!( g_pcb_table[next_num].status == _PROC_RUN || 
+            (g_pcb_table[next_num].status != _PROC_EMPTY && g_pcb_table[next_num].p_flags == 0)
+            )){
+    // while (g_pcb_table[next_num].status == _PROC_STOP ||
+    //         g_pcb_table[next_num].status == _PROC_EMPTY ||
+    //             (g_pcb_table[next_num].status == _PROC_SLEEP && 
+    //             g_pcb_table[next_num].p_flags != 0) ){
         // FIXME:硬编码了当前进程数量
         next_num = (next_num + 1); 
         

@@ -286,7 +286,7 @@ PUBLIC void do_wait()
 	int i;
 	int children = 0;
 	proc_task_struct_t * p_proc = g_pcb_table;
-	/* 
+	/*
 	遍历进程控制块列表，寻找该进程的所有子进程
 	如果找到了子进程，并且该子进程还处于handing状态，就清除该进程
 	*/
