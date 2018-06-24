@@ -43,13 +43,16 @@ void main_test(){
 /***********************************************/
 PRIVATE void _test_wait_exit_process(){
     com_printk("Init() is running ...\n");
+    /* 下面将派生出父进程和子进程 */
 	int pid = user_fork();
+
 	if (pid != 0) { /* parent process */
 		com_printk("pid(%d) : parent is running, child pid:%d\n", user_get_pid(), pid);
         int status;
         user_wait(&status);
         com_printk("pid(%d) : child has exited, exit status is %d\n", user_get_pid(), status);
 	}
+    
 	else {	/* child process */
 		com_printk("pid(%d) : child is running, pid:%d\n", user_get_pid(), user_get_pid());
         user_exit(10);

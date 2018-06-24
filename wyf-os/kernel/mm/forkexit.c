@@ -33,6 +33,7 @@ PRIVATE void cleanup(proc_task_struct_t * proc)
 	msg_send_recv(SEND, proc->p_parent, &msg2parent);
 
 	proc->p_flags = FREE_SLOT;
+	proc->status = _PROC_EMPTY;
 }
 
 
