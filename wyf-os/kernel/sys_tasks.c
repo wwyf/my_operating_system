@@ -6,6 +6,7 @@
 #include <message.h>
 
 PRIVATE void task_sys_call();
+PRIVATE void task_init_init();
 
 /**
  * @brief 初始化系统的各项任务
@@ -13,9 +14,41 @@ PRIVATE void task_sys_call();
  * 初始化1号进程为 任务：处理各项系统调用的进程
  */
 PUBLIC void task_init(){
+    proc_init_a_task(TASK_INIT, "sys_call", TASK_INIT, (void*)task_init_init, (proc_regs_t*)0x30000, 2);
     proc_init_a_task(TASK_SYS, "sys_call", TASK_SYS, (void*)task_sys_call, (proc_regs_t*)0x20000, 2);
 }
 
+
+
+/**
+ * @brief 初始化init进程
+ * 
+ * @return PRIVATE init_init 
+ */
+PRIVATE void task_init_init()
+{
+	com_printk("Init() is running ...\n");
+	while (1){}
+	// int pid = fork();
+	// if (pid != 0) { /* parent process */
+	// 	com_printk("parent is running, child pid:%d\n", pid);
+	// 	spin("parent");
+	// }
+	// else {	/* child process */
+	// 	com_printk("child is running, pid:%d\n", getpid());
+	// 	spin("child");
+	// }
+}
+
+
+
+/**
+ * @brief 系统任务
+ * 
+ * 该任务默认pid为1，并且作为常数不变。
+ * 
+ * @return PRIVATE task_sys_call 
+ */
 PRIVATE void task_sys_call(){
 	message_t msg;
 	while (1) {

@@ -20,6 +20,7 @@ PRIVATE void _test5();
 PRIVATE void _test_get_ticks();
 PRIVATE void _test_background_task();
 PRIVATE void _test_hd();
+PRIVATE void _test_fork();
 
 void main_test(){
     // _test1();
@@ -28,9 +29,33 @@ void main_test(){
     // _test4();
     // _test5();
     // _test_get_ticks();
-    _test_background_task();
+    // _test_background_task();
     // _test_hd();
+    _test_fork();
 }
+
+
+/***********************************************/
+/* 测试消息机制下的fork系统调用
+/* NOTICE:在schedule.c中设置当前进程数量
+/***********************************************/
+
+
+
+PRIVATE void _test_fork(){
+    g_cur_proc = &g_pcb_table[TASK_INIT];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
+}
+
+
+
+
+/***********************************************/
+/* 测试消息机制下的get_ticks and get_pid系统调用
+/* NOTICE:在schedule.c中设置当前进程数量
+/***********************************************/
+
 
 PRIVATE void _test_process_get_process(){
     while(1){
