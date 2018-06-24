@@ -31,15 +31,15 @@ PRIVATE void task_init_init()
 {
 	com_printk("Init() is running ...\n");
 	// int pid = fork();
-	while (1){}
 	// if (pid != 0) { /* parent process */
 	// 	com_printk("parent is running, child pid:%d\n", pid);
-	// 	spin("parent");
+	// 	// spin("parent");
 	// }
 	// else {	/* child process */
 	// 	com_printk("child is running, pid:%d\n", getpid());
-	// 	spin("child");
+	// 	// spin("child");
 	// }
+	while (1){}
 }
 
 

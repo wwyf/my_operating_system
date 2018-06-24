@@ -22,6 +22,7 @@ PRIVATE void _test_get_ticks();
 PRIVATE void _test_background_task();
 PRIVATE void _test_hd();
 PRIVATE void _test_fork();
+PRIVATE void _test_wait_exit();
 
 void main_test(){
     // _test1();
@@ -32,8 +33,35 @@ void main_test(){
     // _test_get_ticks();
     // _test_background_task();
     // _test_hd();
-    _test_fork();
+    // _test_fork();
+    _test_wait_exit();
 }
+
+
+/***********************************************/
+/* 测试消息机制下的wait 和 exit系统调用
+/* NOTICE:在schedule.c中设置当前进程数量
+/***********************************************/
+PRIVATE void _test_wait_exit_process(){
+    com_printk("Init() is running ...\n");
+	int pid = user_fork();
+	if (pid != 0) { /* parent process */
+		com_printk("parent is running, child pid:%d\n", pid);
+	}
+	else {	/* child process */
+		com_printk("child is running, pid:%d\n", user_get_pid());
+	}
+    while (1){}
+}
+
+PRIVATE void _test_wait_exit(){
+    _init_a_process(6, "test_wait_exit", 6, _test_wait_exit_process, 3);
+    g_cur_proc = &g_pcb_table[6];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
+}
+
+
 
 
 /***********************************************/
@@ -42,15 +70,15 @@ void main_test(){
 /***********************************************/
 
 PRIVATE void _test_fork_process(){
-    int status;
-    // user_wait(&status);
-    // user_exit(status);
-    com_printk("in the user process");
-    int pid = user_fork();
-    com_printk("I am pid:%d process ~", pid);
-    while (1){
-
-    }
+	com_printk("Init() is running ...\n");
+	int pid = user_fork();
+	if (pid != 0) { /* parent process */
+		com_printk("parent is running, child pid:%d\n", pid);
+	}
+	else {	/* child process */
+		com_printk("child is running, pid:%d\n", user_get_pid());
+	}
+    while (1){}
 }
 
 

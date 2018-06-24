@@ -57,6 +57,10 @@ typedef struct s_proc{
     /* 消息内容 */
     message_t * p_msg;
 
+    /* 父进程 */
+    uint32_t p_parent;
+    uint32_t exit_status;
+
 }proc_task_struct_t;
 
 

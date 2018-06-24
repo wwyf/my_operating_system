@@ -65,7 +65,7 @@ void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, ui
     g_pcb_table[n].kernel_stack = (void *)k;
     g_pcb_table[n].status = _PROC_RUN;
     g_pcb_table[n].p_flags = 0;
-    com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
+    com_print(" %d kernel stack %d\n", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
 
     g_pcb_table[n].stack_base = (uint32_t)k;
@@ -116,7 +116,7 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, uin
     g_pcb_table[n].kernel_stack = (void *)k;
     g_pcb_table[n].status = _PROC_RUN;
     g_pcb_table[n].p_flags = 0;
-    com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
+    com_print(" %d kernel stack %d\n", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
 
     g_pcb_table[n].stack_base = (uint32_t)k;
