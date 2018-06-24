@@ -14,4 +14,6 @@ PUBLIC void do_wait();
 
 PUBLIC int mm_alloc_mem_default(int pid);
 
+extern message_t mm_msg;
+
 #endif // !_MM_H_

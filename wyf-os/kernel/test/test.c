@@ -42,11 +42,11 @@ void main_test(){
 /***********************************************/
 
 PRIVATE void _test_fork_process(){
-    int pid = user_fork();
     int status;
     // user_wait(&status);
     // user_exit(status);
     com_printk("in the user process");
+    int pid = user_fork();
     while (1){
 
     }

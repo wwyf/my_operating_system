@@ -10,6 +10,9 @@
 #include <common/common.h>
 #include <proc/process.h>
 #include <global.h>
+#include <proc/process.h>
+#include <message.h>
+#include <global.h>
 
 // PRIVATE void cleanup(struct proc * proc);
 
@@ -24,28 +27,45 @@
 PUBLIC int do_fork()
 {
     com_printk("do fork!");
-    return 10;
 	/* find a free slot in proc_table */
 	proc_task_struct_t * cur_proc_table = g_pcb_table;
     int cur_empty_pcb_pid = 0;
-    for (int i = 0; i < _PROC_NUM; i++){
+    for (int i = 5; i < _PROC_NUM; i++){
         if (cur_proc_table[i].status == _PROC_EMPTY){
             cur_empty_pcb_pid = i;
             break;
         }
     }
     proc_task_struct_t * child_proc = &g_cur_proc[cur_empty_pcb_pid];
+    int child_pid = cur_empty_pcb_pid;
 
     /* 得到了 cur_empty_pcb_pid， 等下就把进程控制块复制一遍，放到这个pcb上 */
     com_memncpy(child_proc, g_cur_proc, sizeof(proc_task_struct_t));
 
     /* 分配栈空间，并将父进程的栈复制到子进程的栈中 */
     uint32_t new_stack = mm_alloc_mem_default(cur_empty_pcb_pid);
-    // com_memncpy((void *)new_stack, (void *)g_cur_proc->regs)
+    // 栈复制 源地址
+    uint32_t src = (uint32_t)g_cur_proc->kernel_stack;
+    // 栈偏移量
+    uint32_t offset = g_cur_proc->stack_base + sizeof(proc_regs_t) - src;
+    // 栈复制 目的地址
+    uint32_t dest = new_stack + sizeof(proc_regs_t) - offset;
+    com_memncpy((void *)dest, (void *)src, offset);
 
     /* 修改子进程控制块，子进程使用新栈 */
+    child_proc->kernel_stack = (void *)dest;
 
+	/* child PID will be returned to the parent proc */
+	mm_msg.PID = child_pid;
 
+	/* birth of the child */
+	message_t m;
+	m.type = SYSCALL_RET;
+	m.RETVAL = 0;
+	m.PID = 0;
+	msg_send_recv(SEND, child_pid, &m);
+
+    return 0;
 	// int i;
 	// for (i = 0; i < NR_TASKS + NR_PROCS; i++,p++)
 	// 	if (p->p_flags == FREE_SLOT)

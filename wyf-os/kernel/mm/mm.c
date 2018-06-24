@@ -3,11 +3,12 @@
 PRIVATE void init_mm();
 PUBLIC int mm_alloc_mem_default(int pid);
 
+message_t mm_msg;
 
 PUBLIC void task_mm()
 {
 	init_mm();
-	message_t mm_msg;
+	
 	while (1) {
 		msg_send_recv(RECEIVE, ANY, &mm_msg);
 		int src = mm_msg.source;
