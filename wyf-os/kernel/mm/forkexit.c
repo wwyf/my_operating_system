@@ -46,7 +46,6 @@ PRIVATE void cleanup(proc_task_struct_t * proc)
  *****************************************************************************/
 PUBLIC int do_fork()
 {
-    com_printk("do fork!");
 	/* find a free slot in proc_table */
 	proc_task_struct_t * cur_proc_table = g_pcb_table;
     int cur_empty_pcb_pid = 0;
@@ -60,6 +59,7 @@ PUBLIC int do_fork()
 	proc_task_struct_t * father_proc = &g_pcb_table[father_pid];
     int child_pid = cur_empty_pcb_pid;
     proc_task_struct_t * child_proc = &g_pcb_table[child_pid];
+    com_printk("pid(%d) : do fork! fork to pid(%d)\n", father_pid, child_pid);
 
     /* 得到了 cur_empty_pcb_pid， 等下就把进程控制块复制一遍，放到这个pcb上 */
     com_memncpy(child_proc, father_proc, sizeof(proc_task_struct_t));
@@ -243,10 +243,10 @@ PUBLIC int do_fork()
  *****************************************************************************/
 PUBLIC void do_exit(int status)
 {
-	com_printk("do exit!");
 	int i;
 	int pid = mm_msg.source; /* PID of caller */
 	int parent_pid = g_pcb_table[pid].p_parent;
+	com_printk("pid(%d) : do exit! My father is pid(%d)\n", pid, parent_pid);
 	proc_task_struct_t * p = &g_pcb_table[pid];
 
 	/* 应该有一个清楚内存的函数 */
@@ -281,7 +281,6 @@ PUBLIC void do_exit(int status)
  *****************************************************************************/
 PUBLIC void do_wait()
 {
-	com_printk("do wait!");
 	int pid = mm_msg.source;
 
 	int i;
@@ -294,6 +293,7 @@ PUBLIC void do_wait()
 	for (i = 0; i < _PROC_NUM; i++,p_proc++) {
 		if (p_proc->p_parent == pid) {
 			children++;
+			com_printk("pid(%d) : do wait! I have children pid(%d) status(%d)\n", pid, p_proc->pid, p_proc->p_flags);
 			if (p_proc->p_flags & HANGING) {
 				cleanup(p_proc);
 				return;
@@ -307,6 +307,7 @@ PUBLIC void do_wait()
 	}
 	else {
 		/* no child at all */
+		com_printk("pid(%d) : do wait! I don't have children\n", pid);
 		message_t msg;
 		msg.type = SYSCALL_RET;
 		msg.PID = NO_TASK;
