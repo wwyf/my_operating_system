@@ -18,7 +18,7 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
  */
 void process_init(){
     for (int i = 0; i < _PROC_NR_PROCS; i++){
-        g_pcb_table[i].status = _PROC_STOP;
+        g_pcb_table[i].status = _PROC_EMPTY;
     }
 }
 

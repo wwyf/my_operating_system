@@ -13,8 +13,10 @@ PRIVATE void _switch_to(){
     /* 进程满足以下条件的话，不能调度
     1. 停止状态
     2. 睡眠状态，但是仍然被阻塞 */
-    while (g_pcb_table[next_num].status == _PROC_STOP ||          (g_pcb_table[next_num].status == _PROC_SLEEP && 
-        g_pcb_table[next_num].p_flags != 0) ){
+    while (g_pcb_table[next_num].status == _PROC_STOP ||
+            g_pcb_table[next_num].status == _PROC_EMPTY ||
+                (g_pcb_table[next_num].status == _PROC_SLEEP && 
+                g_pcb_table[next_num].p_flags != 0) ){
         next_num = (next_num + 1)  % _PROC_NR_PROCS;
     }
     /* 找到处于RUN状态，或者可以run的进程后，修改当前进程 */

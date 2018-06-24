@@ -62,6 +62,7 @@ typedef struct s_proc{
 #define _PROC_STOP 2
 #define _PROC_SLEEP 1
 #define _PROC_RUN 0
+#define _PROC_EMPTY 99
 
 
 void process_init();
