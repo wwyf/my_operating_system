@@ -2,6 +2,7 @@
 #include <proc/process.h>
 #include <mm/memory.h>
 #include <const.h>
+#include <mm/mm.h>
 
 proc_task_struct_t g_pcb_table[_PROC_NUM]; /// 进程控制块表。
 proc_task_struct_t * g_cur_proc; /// 当前进程。
@@ -30,7 +31,8 @@ void process_init(){
  * @param pid 如名
  * @param function 该进程的入口函数（即入口地址）
  */
-void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority){
+void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority){
+    uint32_t k = mm_alloc_mem_default(n);
     g_pcb_table[n].regs.eax = 0;
     g_pcb_table[n].regs.ebx = 0;
     g_pcb_table[n].regs.ecx = 0;
@@ -65,6 +67,8 @@ void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, pr
     g_pcb_table[n].p_flags = 0;
     com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
+
+    g_pcb_table[n].stack_base = (uint32_t)k;
 
     g_pcb_table[n].p_recvfrom = NO_TASK;
     g_pcb_table[n].p_sendto = NO_TASK;
@@ -113,6 +117,8 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].p_flags = 0;
     com_print(" %d kernel stack %d", n,  g_pcb_table[n].kernel_stack);
     // TODO:要为这个进程分配一个栈段，怎么分配？
+
+    g_pcb_table[n].stack_base = (uint32_t)k;
 
     g_pcb_table[n].p_recvfrom = NO_TASK;
     g_pcb_table[n].p_sendto = NO_TASK;

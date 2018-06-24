@@ -34,12 +34,14 @@ PUBLIC int do_fork()
             break;
         }
     }
+    proc_task_struct_t * child_proc = &g_cur_proc[cur_empty_pcb_pid];
 
     /* 得到了 cur_empty_pcb_pid， 等下就把进程控制块复制一遍，放到这个pcb上 */
-    com_memncpy(&g_cur_proc[cur_empty_pcb_pid], &g_cur_proc, sizeof(proc_task_struct_t));
+    com_memncpy(child_proc, g_cur_proc, sizeof(proc_task_struct_t));
 
     /* 分配栈空间，并将父进程的栈复制到子进程的栈中 */
-    
+    uint32_t new_stack = mm_alloc_mem_default(cur_empty_pcb_pid);
+    // com_memncpy((void *)new_stack, (void *)g_cur_proc->regs)
 
     /* 修改子进程控制块，子进程使用新栈 */
 

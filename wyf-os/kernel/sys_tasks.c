@@ -15,9 +15,9 @@ PRIVATE void task_init_init();
  * 初始化1号进程为 任务：处理各项系统调用的进程
  */
 PUBLIC void task_init(){
-    proc_init_a_task(TASK_INIT, "init", TASK_INIT, (void*)task_init_init, (proc_regs_t*)mm_alloc_mem_default(TASK_INIT), 2);
-    proc_init_a_task(TASK_SYS, "sys_call", TASK_SYS, (void*)task_sys_call, (proc_regs_t*)mm_alloc_mem_default(TASK_SYS), 2);
-    proc_init_a_task(TASK_MM, "mm", TASK_MM, (void*)task_mm, (proc_regs_t*)mm_alloc_mem_default(TASK_MM), 2);
+    proc_init_a_task(TASK_INIT, "init", TASK_INIT, (void*)task_init_init, 2);
+    proc_init_a_task(TASK_SYS, "sys_call", TASK_SYS, (void*)task_sys_call, 2);
+    proc_init_a_task(TASK_MM, "mm", TASK_MM, (void*)task_mm, 2);
 }
 
 

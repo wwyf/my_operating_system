@@ -37,6 +37,9 @@ typedef struct s_proc{
     char p_name[16];
     void * kernel_stack;
 
+    /* 该进程栈基地址 */
+    uint32_t stack_base;
+
     /* 进程优先级 及时间片信息*/
     uint32_t remain_ticks;                 /* remained ticks */
     uint32_t priority;
@@ -70,7 +73,7 @@ void process_init();
 void proc_sleep_myself();
 void proc_wake_pid(int n);
 
-void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
+void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority);
 
 #endif
 
