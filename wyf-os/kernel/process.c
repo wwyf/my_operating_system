@@ -10,7 +10,7 @@ proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文所用内
 
 extern void _proc_restart();
 
-void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
+void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority);
 
 
 /**
@@ -82,7 +82,8 @@ void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, ui
  * @param pid 如名
  * @param function 该进程的入口函数（即入口地址）
  */
-void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority){
+void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority){
+    uint32_t k = mm_alloc_mem_default(n);
     g_pcb_table[n].regs.eax = 0;
     g_pcb_table[n].regs.ebx = 0;
     g_pcb_table[n].regs.ecx = 0;
@@ -124,7 +125,6 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
     g_pcb_table[n].p_sendto = NO_TASK;
     g_pcb_table[n].has_int_msg = 0;
 }
-
 void _proc_switch_to(){
     asm("int $0x79");
 }

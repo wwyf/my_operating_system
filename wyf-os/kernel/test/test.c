@@ -11,7 +11,7 @@
 #include <mm/mm.h>
 
 extern void _proc_restart();
-extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
+extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority);
 
 PRIVATE void _test1();
 PRIVATE void _test2();
@@ -54,7 +54,7 @@ PRIVATE void _test_fork_process(){
 
 
 PRIVATE void _test_fork(){
-    _init_a_process(6, "test_fork_process", 6, _test_fork_process, (proc_regs_t *)mm_alloc_mem_default(6), 3);
+    _init_a_process(6, "test_fork_process", 6, _test_fork_process, 3);
     g_cur_proc = &g_pcb_table[6];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();
@@ -92,8 +92,8 @@ PRIVATE void _test_process_get_process_2(){
 
 
 PRIVATE void _test_background_task(){
-    _init_a_process(5, "test_get_process", 5, _test_process_get_process, (proc_regs_t *)0x30000, 3);
-    _init_a_process(6, "test_get_process", 6, _test_process_get_process, (proc_regs_t *)0x40000, 3);
+    _init_a_process(5, "test_get_process", 5, _test_process_get_process, 3);
+    _init_a_process(6, "test_get_process", 6, _test_process_get_process, 3);
     g_cur_proc = &g_pcb_table[5];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     // _basic_cli();
@@ -146,8 +146,8 @@ PRIVATE void _test_get_process(){
 }
 
 PRIVATE void _test_get_ticks(){
-    _init_a_process(1, "test_sys_task", 1, _test_sys_task, (proc_regs_t *)0x20000, 2);
-    _init_a_process(3, "test_get_process", 3, _test_get_process, (proc_regs_t *)0x30000, 3);
+    _init_a_process(1, "test_sys_task", 1, _test_sys_task, 2);
+    _init_a_process(3, "test_get_process", 3, _test_get_process,  3);
     g_cur_proc = &g_pcb_table[1];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     // _basic_cli();
@@ -176,8 +176,8 @@ void _test_hd_process(){
 
 
 void _test_hd(){
-    _init_a_process(0, "test_hd", 0, _test_idle, (proc_regs_t *)0x30000, 1);
-    _init_a_process(1, "test_hd", 1, _test_hd_process, (proc_regs_t *)0x20000, 1);
+    _init_a_process(0, "test_hd", 0, _test_idle,1);
+    _init_a_process(1, "test_hd", 1, _test_hd_process, 1);
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();
@@ -204,8 +204,8 @@ void _test_clock_proc2(){
 
 
 void _test5(){
-    _init_a_process(0, "test1", 1, _test_clock_proc1, (proc_regs_t *)0x20000,1);
-    _init_a_process(1, "test2", 2, _test_clock_proc2, (proc_regs_t *)0x30000,1);
+    _init_a_process(0, "test1", 1, _test_clock_proc1,1);
+    _init_a_process(1, "test2", 2, _test_clock_proc2,1);
 
     g_cur_proc = &g_pcb_table[0];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
@@ -238,8 +238,8 @@ void _test_66_proc2(){
 
 
 void _test4(){
-    _init_a_process(0, "test1", 1, _test_66_proc1, (proc_regs_t *)0x20000,1);
-    _init_a_process(1, "test2", 2, _test_66_proc2, (proc_regs_t *)0x30000,1);
+    _init_a_process(0, "test1", 1, _test_66_proc1,1);
+    _init_a_process(1, "test2", 2, _test_66_proc2, 1);
 
     g_cur_proc = &g_pcb_table[1];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
