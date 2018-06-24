@@ -4,6 +4,10 @@ tags: #inbox
 
 # 实验7：fork，exit，wait系统调用的实现
 
+姓名：王永锋
+
+学号：16337237
+
 
 
 [TOC]
@@ -28,59 +32,180 @@ tags: #inbox
 ## 3 基本原理
 
 ###  3.1 fork的实现
-      1. 主要工作：向mm进程发送一个`fork`消息，主要工作由mm进程完成
-      2. mm进程是这样子完成fork的
-      1. 寻找到一个空闲的进程控制块（通过遍历PCB数组，寻找空闲的块就可以实现）
-      2. 复制发送消息者的pcb到空闲进程控制块中
-      3. 从内存池中，分配一块栈空间
-      4. 复制栈到新进程的栈空间中
-      5. 将子进程的状态设置为running
 
-### 3.2 wait 的实现
+1. 主要工作：向mm进程发送一个`fork`消息，主要工作由mm进程完成
+2. mm进程收到消息，判断是fork后，调用`do_fork函数
+   1. 寻找到一个空闲的进程控制块（通过遍历PCB数组，寻找空闲的块就可以实现），确定子进程pid
+   2. 从消息中，确定父进程pid。
+   3. 复制发送消息者的pcb到子进程中。
+   4. 对子进程复制过来的PCB做出适当的调整
+      1. 分配新的栈空间给子进程（通过一个很简单的内存分配程序）。
+      2. 将父进程的栈空间复制到子进程中。
+      3. 修改子进程pid（刚刚复制PCB的时候覆盖了原有的pid）。
+      4. 设置父进程pid号。
+   5. 由于此时父进程和子进程均阻塞在等待接收消息的状态，而该函数结束后只会向父进程发送消息，因此在do_fork的最后还需要向新生成的子进程发送消息，解除子进程的阻塞状态。
 
-对于用户的wait，我是这样子实现的：
+执行的代码可见`mm/forkexit.c`
 
-```c
-PUBLIC int user_wait(int * status)
+```c++
+PUBLIC int do_fork()
 {
-	message_t msg;
-	msg.type   = WAIT;
+	/* find a free slot in proc_table */
+	proc_task_struct_t * cur_proc_table = g_pcb_table;
+    int cur_empty_pcb_pid = 0;
+    for (int i = 5; i < _PROC_NUM; i++){
+        if (cur_proc_table[i].status == _PROC_EMPTY){
+            cur_empty_pcb_pid = i;
+            break;
+        }
+    }
+	int father_pid = mm_msg.source;
+	proc_task_struct_t * father_proc = &g_pcb_table[father_pid];
+    int child_pid = cur_empty_pcb_pid;
+    proc_task_struct_t * child_proc = &g_pcb_table[child_pid];
+    com_printk("pid(%d) : do fork! fork to pid(%d)\n", father_pid, child_pid);
 
-	msg_send_recv(BOTH, TASK_MM, &msg);
+    /* 得到了 cur_empty_pcb_pid， 等下就把进程控制块复制一遍，放到这个pcb上 */
+    com_memncpy(child_proc, father_proc, sizeof(proc_task_struct_t));
 
-	*status = msg.STATUS;
+    /* 分配栈空间，并将父进程的栈复制到子进程的栈中 */
+    uint32_t new_stack = mm_alloc_mem_default(cur_empty_pcb_pid);
+    // 栈复制 源地址
+    uint32_t src = (uint32_t)father_proc->kernel_stack;
+    // 栈偏移量
+    uint32_t offset = father_proc->stack_base + sizeof(proc_regs_t) - src;
+    // 栈复制 目的地址
+    uint32_t dest = new_stack + sizeof(proc_regs_t) - offset;
+    com_memncpy((void *)dest, (void *)src, offset);
 
-	return (msg.PID == NO_TASK ? -1 : msg.PID);
+    /* 修改子进程控制块，子进程使用新栈 */
+    child_proc->kernel_stack = (void *)dest;
+	child_proc->pid = child_pid;
+	child_proc->p_parent = father_pid;
+
+	/* child PID will be returned to the parent proc */
+	mm_msg.PID = child_pid;
+
+	/* birth of the child */
+	message_t m;
+	m.type = SYSCALL_RET;
+	m.RETVAL = 0;
+	m.PID = 0;
+	msg_send_recv(SEND, child_pid, &m);
+
+    return 0;
 }
 ```
 
-这里就通过使用`msg_send_recv`系统调用，向`TASK_MM`进程发送`WAIT`类型的消息来实现wait。
 
-具体的`do_wait`操作，在`mm/forkexit.c`中实现。
 
-do_wait的实现可以如下说明：
+### 3.2 wait 的实现
 
-1. 
+对于用户的wait，我是这样子实现的，具体的`do_wait`操作，在`mm/forkexit.c`中实现。
+
+1. 用户调用`user_wait`函数，该函数会向`TASK_MM`发送`WAIT`消息。
+2. `TASK_MM`收到`WAIT`消息，调用`do_wait`函数。
+   1. 从消息中，得知调用`WAIT`的进程的pid
+   2. 遍历PCB进程控制块列表，寻找该进程的所有子进程，如果找到了子进程，且该子进程处于HANHING状态，就调用`cleanup`函数清除该进程。
+   3. 如果没有处于HANGING的子进程，就将进程状态设置为`WAITING`，阻塞住。
+   4. 如果没有子进程，就没有比较阻塞了，直接向进程发送消息返回`NO_TASK`。
+
+```c
+PUBLIC void do_wait()
+{
+	int pid = mm_msg.source;
+
+	int i;
+	int children = 0;
+	proc_task_struct_t * p_proc = g_pcb_table;
+	/*
+	遍历进程控制块列表，寻找该进程的所有子进程
+	如果找到了子进程，并且该子进程还处于handing状态，就清除该进程
+	*/
+	for (i = 0; i < _PROC_NUM; i++,p_proc++) {
+		if (p_proc->p_parent == pid) {
+			children++;
+			com_printk("pid(%d) : do wait! I have children pid(%d) status(%d)\n", pid, p_proc->pid, p_proc->p_flags);
+			if (p_proc->p_flags & HANGING) {
+				cleanup(p_proc);
+				return;
+			}
+		}
+	}
+	if (children) {
+		/* has children, but no child is HANGING */
+		g_pcb_table[pid].p_flags |= WAITING;
+	}
+	else {
+		/* no child at all */
+		com_printk("pid(%d) : do wait! I don't have children\n", pid);
+		message_t msg;
+		msg.type = SYSCALL_RET;
+		msg.PID = NO_TASK;
+		msg_send_recv(SEND, pid, &msg);
+	}
+}
+
+```
 
 
 
 ### 3.3 exit的实现
 
+exit与wait是相互对应的操作。子进程的exit对应着父进程的wait，只有子进程完全exit后，父进程的wait才可以接触阻塞，继续向下执行。
+
+对于用户的exit，我是这样子实现的，具体的`do_exit`操作，在`mm/forkexit.c`中实现。
+
+1. 用户调用`user_exit`函数，该函数会向`TASK_MM`发送`EXIT`消息。
+2. `TASK_MM`收到`EXIT`消息，调用`do_EXIT`函数。
+   1. 从消息中，得知调用`EXIT`的进程的pid
+   2. 从PCB中得知该进程的父进程，判断父进程是否处于`WAITING`状态
+      1. 如果处于`WAITING`状态，则直接清除子进程
+      2. 如果没有在`WAITING`，则将当前进程设置为`HANGING`状态，等待父进程调用`wait`
+   3. 如果该进程还有子进程，将这些子进程的父进程设置为`INIT`进程。
+
+```c++
+PUBLIC void do_exit(int status)
+{
+	int i;
+	int pid = mm_msg.source; /* PID of caller */
+	int parent_pid = g_pcb_table[pid].p_parent;
+	com_printk("pid(%d) : do exit! My father is pid(%d)\n", pid, parent_pid);
+	proc_task_struct_t * p = &g_pcb_table[pid];
+
+	/* 应该有一个清楚内存的函数 */
+
+	p->exit_status = status;
+
+	if (g_pcb_table[parent_pid].p_flags & WAITING) { /* parent is waiting */
+		g_pcb_table[parent_pid].p_flags &= ~WAITING;
+		cleanup(&g_pcb_table[pid]);
+	}
+	else { /* parent is not waiting */
+		g_pcb_table[pid].p_flags |= HANGING;
+	}
+
+	/* if the proc has any child, make INIT the new parent */
+	for (i = 0; i < _PROC_NUM; i++) {
+		if (g_pcb_table[i].p_parent == pid) { /* is a child */
+			g_pcb_table[i].p_parent = TASK_INIT;
+			if ((g_pcb_table[TASK_INIT].p_flags & WAITING) &&
+			    (g_pcb_table[i].p_flags & HANGING)) {
+				g_pcb_table[TASK_INIT].p_flags &= ~WAITING;
+				cleanup(&g_pcb_table[i]);
+			}
+		}
+	}
+}
+```
+
+
+
 
 
 ## 4 遇到的问题
 
-调用fork后，生成的子进程无法正常的从函数中返回。这个涉及到堆栈信息了。
-
-试想这样一种情况，我在调用某一个函数后，执行了fork函数，派生出来了一个子进程，如果该子进程正常开始运作，那么他如何正确的从函数中返回呢？此时堆栈中存有的地址都是原先父进程地址空间中的地址，然而子进程的地址空间与父进程不同，因此这就导致子进程无法正确从函数中返回。
-
-根本原因在于子进程与用户进程的地址空间不一致。如此情况，在我去设计我的fork进程的时候，便显得很困难。
-
-不过，仔细想了一下，子进程和父进程的地址空间相同呀。没有这个问题，先试一下。
-
-
-
-### 一个大坑
+### 4.1 一个有关子进程地址空间与父进程地址空间不一致的问题。
 
 我曾出现过一个问题：子进程返回的pid值不对。
 
@@ -94,13 +219,29 @@ do_wait的实现可以如下说明：
 
 我的解决方法是：将fork所使用的消息变量， 改为全局变量，这样子就避免了相对寻址导致的问题。
 
-![](https://lh3.googleusercontent.com/-EmroEyQEifg/Wy-3ZkmNO8I/AAAAAAAAIog/bDq8zbMfkNYaMqAT7vYSMVhqNlu0dAmTgCHMYCw/s0/Snipaste_2018-06-24_23-23-18.png)
+也就是说，将上面的代码修改为：
 
-### 一个问题
+```c++
+message_t fork_msg; // 全局！！
+PUBLIC int user_fork()
+{
+	fork_msg.type = FORK;
+	msg_send_recv(BOTH, TASK_MM, &fork_msg);
+	return fork_msg.PID;
+}
+```
+
+
+
+### 4.2 一个小问题
 
 ![](https://lh3.googleusercontent.com/-ecPl-FhaHuc/Wy_XlM1AFqI/AAAAAAAAIos/tRlJOIKm9KsPgvtxZbPyxlSelqGgVJz7gCHMYCw/s0/qemu-system-i386_2018-06-25_01-40-34.png)
 
 在我编写wait和exit的时候，发生了这样的问题，代码中的assert检测到了问题，及时提示消息，停止了系统的进一步运行。后来发现这个是因为我忘记了在清楚进程控制块的时候，往status打上一个已空的标记。
+
+补上这个就好了
+
+![](https://lh3.googleusercontent.com/-G-J7YKGwYq8/Wy_jE_omlLI/AAAAAAAAIo4/H4POngzF_W4HgQRx6KVfnyWgxDf8l6CygCHMYCw/s0/Snipaste_2018-06-25_02-29-38.png)
 
 ## 5 测试过程
 
@@ -134,7 +275,25 @@ PRIVATE void _test_wait_exit_process(){
 
 这部分代码做的是派生出两个父进程和子进程，然后父进程调用`user_wait`等待子进程，子进程调用`user_exit`让父进程从wait中返回，父进程从而打印出子进程的退出状态。
 
+程序的运行结果如下图所示，可以看见，既成功地创建了父进程和子进程，同时父进程能够等待子进程的退出，并且获取子进程的退出状态。
+
+
+
+![](https://lh3.googleusercontent.com/-SU3SqO_Cu1s/Wy_jUJtxplI/AAAAAAAAIo8/MZoaxI0jkcYr7Wjt_Q6Vk80nxPWVhjHBACHMYCw/s0/Snipaste_2018-06-25_02-30-40.png)
+
 
 
 ## 6 实验感想
+
+这一次我的实验实现了fork，exit，wait三个系统调用。
+
+这几个函数虽然说是系统调用，不过还是一个包装在发送接收消息上的接口。这一次实验我主要的代码贡献在设置多一个MM进程，这个进程能够帮助我简单的管理内存，同时处理一些fork，exit，wait相关的事务。
+
+这一次的难点主要在栈段的复制上。我自己的进程栈段的大小，以及起始位置，都需要自己去算出来，然后再使用`com_memncpy`函数进行复制，在复制的过程中一旦出错，也许整个子进程就再也回不来了。幸运的是，我应该是前期对这个比较谨慎，后面一次调试成功。反倒是一些我本来没有认为是问题的细节，卡了我很久。
+
+编写这一次代码的思路主要来自于orange的实现，不过由于有很多地方和orange并不兼容，fork函数其实是完全的重写了，orange设置了ldt，也对gdt表做了一些设置，我自己的操作系统简单起见，其实并没有去设置。但是改动这些代码的话，错综复杂的依赖关系，又让我很担心会不会出事，也就不敢改了。
+
+在编写操作系统的过程中，我越发的体会到，完成一个完善的系统，真的能力要求特别高。我一直想让我的操作系统更加优雅，简洁，但是在编写的过程中，越来越多的历史遗留问题，让我自己写的代码依赖性越来越强。这些依赖性，比如说，一些模块内常量与操作系统常量的混杂，比如说模块内私有函数与操作系统公有函数的混杂。再比如说，一些不得不设置的全局变量。再加上我的操作系统对页表的支持并不是特别好，在进程切换的时候并不能够顺便切换页表实现地址空间的不变，导致我的一些操作不能够很优美的实现。
+
+其实我本来想写一下文件系统的。我一直很着迷于linux的VFS（虚拟文件系统），想到各种操作都可以抽象为文件的读写，就觉得很优雅，很想用在自己的操作系统上。了解过一些具体的实现，但是放到自己的操作系统上，还是有很多很难解决的问题需要我去花费大量的时间去解决。到现在为止我还没有将键盘驱动放到操作系统，导致目前用户的交互性仍不够好，甚至比以前我在实模式下编写的操作系统还不如。不过，就发展的潜力而言，当然是目前我现在已经进入保护模式的操作系统潜力大了，别的不说，就可用地址空间而言就胜过实模式一大截。
 

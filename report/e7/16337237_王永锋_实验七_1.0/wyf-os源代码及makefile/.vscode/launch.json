@@ -1,0 +1,109 @@
+// Available variables which can be used inside of strings.
+// ${workspaceRoot}: the root folder of the team        
+// ${file}: the current opened file                     
+// ${fileBasename}: the current opened file's basename 
+// ${fileDirname}: the current opened file's dirname    
+// ${fileExtname}: the current opened file's extension  
+// ${cwd}: the current working directory of the spawned process
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            // "preLaunchTask": "build",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}\\kernel.elf",
+            "cwd": "${workspaceRoot}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "D:/msys64/mingw32/bin/gdb.exe", // GDB的路径，注意替换成自己的路径
+            "miDebuggerServerAddress": "localhost:1234",
+            "launchCompleteCommand": "None",
+
+            "logging": {
+                "engineLogging": false
+            },
+            "stopAtEntry": false,
+            "environment": [],
+            "externalConsole": true,
+            "sourceFileMap": {
+                "/mnt/e": "e:\\"
+            }
+        },
+        {
+            "name": "wsl-gdb",
+            /* 调试前运行的任务，可以考虑配置 */
+            // "preLaunchTask": "build",
+            "type": "cppdbg",
+            "request": "launch",
+            // 会从中读取调试信息
+            "program": "/mnt/e/0code/my_operating_system/wyf-os/kernel.elf",
+            // 会有一个cd到当前目录的操作
+            "cwd": "/mnt/e/0code/my_operating_system/wyf-os",
+            "MIMode": "gdb",
+            "setupCommands":[
+                {
+                    "text": "target remote localhost:1234",
+                    "description": "connect to remote target",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "set archi i386",
+                    "description": "set archi i386",
+                    "ignoreFailures": false
+                },
+            ],
+            "showDisplayString" : true,
+            "TargetArchitecture" : "x86", 
+            
+            //**************************************************************************************/
+            //* 可有可无 */
+            // "environment": [],
+            "launchCompleteCommand": "None",
+            "externalConsole": true,
+            "stopAtEntry": false,
+            /* 以下日志打开的话可以寻找配置上的问题（如果没有配好的话） */
+            "logging": {
+                "engineLogging": false
+            },
+            // "args": [
+                //         "-fThreading"
+                //     ],
+                // 下面这个是失败的尝试，必须依靠vscode自己的一些初始化，不能完全覆写
+            // "targetArchitecture": "x86",
+            // "customLaunchSetupCommands": [
+            //     {
+            //         "text": "cd /mnt/e/code/my_operating_system/wyf-os"
+            //     },
+            //     {
+            //         "text": "target remote localhost:1234",
+            //         "description": "connect to remote target",
+            //         "ignoreFailures": false
+            //     },
+            //     {
+            //         "description": "load symbol file",
+            //         "text": "symbol-file /mnt/e/code/my_operating_system/wyf-os/kernel.sym",
+            //         "ignoreFailures": true
+            //     },
+            // ],
+            //**************************************************************************************/
+            //*以下为wsl下的配置 
+
+            /* 在 wsl 下，需要这一项使用wsl下的gdb
+            linux 下不需要 */
+            "pipeTransport": {
+                "pipeCwd": "",
+                "pipeProgram": "C:\\Windows\\System32\\bash.exe",
+                "pipeArgs": [
+                    "-c"
+                ],
+                "debuggerPath": "/usr/bin/gdb",
+            },
+            /* 在 wsl 下，需要这一项来进行文件路径的翻译 \mnt\e -> e:\ 
+                linux 下不需要*/
+            "sourceFileMap": {
+                "/mnt/e": "e:\\"
+            }
+        }
+    ]
+}
