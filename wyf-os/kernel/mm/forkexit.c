@@ -8,7 +8,8 @@
  *****************************************************************************/
 #include <mm/mm.h>
 #include <common/common.h>
-
+#include <proc/process.h>
+#include <global.h>
 
 // PRIVATE void cleanup(struct proc * proc);
 
@@ -24,8 +25,11 @@ PUBLIC int do_fork()
 {
     com_printk("do fork!");
     return 10;
-	// /* find a free slot in proc_table */
-	// struct proc* p = proc_table;
+	/* find a free slot in proc_table */
+	// proc_task_struct_t * p = g_pcb_table;
+    // for (int i = 0; i < _PROC_NR_PROCS; i++){
+
+    // }
 	// int i;
 	// for (i = 0; i < NR_TASKS + NR_PROCS; i++,p++)
 	// 	if (p->p_flags == FREE_SLOT)

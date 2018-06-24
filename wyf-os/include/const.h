@@ -126,6 +126,7 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 /* Number of tasks & processes */
 #define _PROC_NR_TASKS		5
 #define _PROC_NR_PROCS		10
+#define _PROC_NUM _PROC_NR_PROCS + _PROC_NR_TASKS + 5
 
 
 

@@ -3,7 +3,7 @@
 #include <mm/memory.h>
 #include <const.h>
 
-proc_task_struct_t g_pcb_table[_PROC_NR_PROCS]; /// 进程控制块表。
+proc_task_struct_t g_pcb_table[_PROC_NUM]; /// 进程控制块表。
 proc_task_struct_t * g_cur_proc; /// 当前进程。
 proc_regs_t * g_cur_proc_context_stack; /// 当前进程恢复上下文所用内核栈。
 
@@ -17,7 +17,7 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, pro
  * 
  */
 void process_init(){
-    for (int i = 0; i < _PROC_NR_PROCS; i++){
+    for (int i = 0; i < _PROC_NUM; i++){
         g_pcb_table[i].status = _PROC_EMPTY;
     }
 }
