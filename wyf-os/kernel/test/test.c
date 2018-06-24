@@ -47,8 +47,9 @@ PRIVATE void _test_fork_process(){
     // user_exit(status);
     com_printk("in the user process");
     int pid = user_fork();
+    com_printk("%d", pid);
     while (1){
-
+        
     }
 }
 

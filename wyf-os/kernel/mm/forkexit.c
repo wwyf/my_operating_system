@@ -36,24 +36,27 @@ PUBLIC int do_fork()
             break;
         }
     }
-    proc_task_struct_t * child_proc = &g_cur_proc[cur_empty_pcb_pid];
+	int father_pid = mm_msg.source;
+	proc_task_struct_t * father_proc = &g_pcb_table[father_pid];
     int child_pid = cur_empty_pcb_pid;
+    proc_task_struct_t * child_proc = &g_pcb_table[child_pid];
 
     /* 得到了 cur_empty_pcb_pid， 等下就把进程控制块复制一遍，放到这个pcb上 */
-    com_memncpy(child_proc, g_cur_proc, sizeof(proc_task_struct_t));
+    com_memncpy(child_proc, father_proc, sizeof(proc_task_struct_t));
 
     /* 分配栈空间，并将父进程的栈复制到子进程的栈中 */
     uint32_t new_stack = mm_alloc_mem_default(cur_empty_pcb_pid);
     // 栈复制 源地址
-    uint32_t src = (uint32_t)g_cur_proc->kernel_stack;
+    uint32_t src = (uint32_t)father_proc->kernel_stack;
     // 栈偏移量
-    uint32_t offset = g_cur_proc->stack_base + sizeof(proc_regs_t) - src;
+    uint32_t offset = father_proc->stack_base + sizeof(proc_regs_t) - src;
     // 栈复制 目的地址
     uint32_t dest = new_stack + sizeof(proc_regs_t) - offset;
     com_memncpy((void *)dest, (void *)src, offset);
 
     /* 修改子进程控制块，子进程使用新栈 */
     child_proc->kernel_stack = (void *)dest;
+	child_proc->pid = child_pid;
 
 	/* child PID will be returned to the parent proc */
 	mm_msg.PID = child_pid;
