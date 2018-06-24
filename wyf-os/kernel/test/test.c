@@ -8,6 +8,7 @@
 #include <hd_drv/hd.h>
 #include <message.h>
 #include <sys_vcall.h>
+#include <mm/mm.h>
 
 extern void _proc_restart();
 extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, proc_regs_t * k, uint32_t priority);
@@ -53,7 +54,7 @@ PRIVATE void _test_fork_process(){
 
 
 PRIVATE void _test_fork(){
-    _init_a_process(6, "test_fork_process", 6, _test_fork_process, (proc_regs_t *)0x50000, 3);
+    _init_a_process(6, "test_fork_process", 6, _test_fork_process, (proc_regs_t *)mm_alloc_mem_default(6), 3);
     g_cur_proc = &g_pcb_table[6];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();

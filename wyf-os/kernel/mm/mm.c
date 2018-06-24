@@ -1,6 +1,8 @@
 #include <mm/mm.h>
 #include <message.h>
 PRIVATE void init_mm();
+PUBLIC int mm_alloc_mem_default(int pid);
+
 
 PUBLIC void task_mm()
 {
@@ -61,3 +63,22 @@ PRIVATE void init_mm()
 	// printl("{MM} memsize:%dMB\n", memory_size / (1024 * 1024));
 }
 
+
+
+/*****************************************************************************
+ *                                alloc_mem
+ *****************************************************************************/
+/**
+ * Allocate a memory block for a proc.
+ * 
+ * @param pid  Which proc the memory is for.
+ * @param memsize  How many bytes is needed.
+ * 
+ * @return  The base of the memory just allocated.
+ *****************************************************************************/
+PUBLIC int mm_alloc_mem_default(int pid)
+{
+	/* 从0x40000开始分配， 给每个进程分配固定大小0x4000字节*/
+	int base = 0x20000 + pid * 0x5000;
+	return base;
+}

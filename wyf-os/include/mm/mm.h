@@ -12,4 +12,6 @@ PUBLIC void do_exit(int status);
 
 PUBLIC void do_wait();
 
+PUBLIC int mm_alloc_mem_default(int pid);
+
 #endif // !_MM_H_
