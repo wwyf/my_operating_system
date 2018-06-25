@@ -42,7 +42,10 @@ PRIVATE void task_init_init()
 	while (1){}
 }
 
-
+PUBLIC int sem_solve(uint32_t src_proc, uint32_t sem_type, uint32_t sem_value){
+	com_printk("src:%d send msg! sem_type:%d sem_value:%d", src_proc, sem_type, sem_value);
+	return 2;
+}
 
 /**
  * @brief 系统任务
@@ -66,9 +69,14 @@ PRIVATE void task_sys_call(){
 			msg.RETVAL = g_pcb_table[msg.source].pid;
 			msg_send_recv(SEND, src, &msg);
 			break;
+		case SEMAPHORE:
+			msg.RETVAL = sem_solve(msg.source, msg.FLAGS, msg.VALUE);
+			msg_send_recv(SEND, src, &msg);
+			break;
 		default:{}
 			panic("unknown msg type");
 			break;
 		}
 	}
 }
+

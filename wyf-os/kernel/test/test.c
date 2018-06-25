@@ -23,6 +23,7 @@ PRIVATE void _test_background_task();
 PRIVATE void _test_hd();
 PRIVATE void _test_fork();
 PRIVATE void _test_wait_exit();
+PRIVATE void _test_semaphore();
 
 void main_test(){
     // _test1();
@@ -34,8 +35,30 @@ void main_test(){
     // _test_background_task();
     // _test_hd();
     // _test_fork();
-    _test_wait_exit();
+    // _test_wait_exit();
+    _test_semaphore();
 }
+
+
+/***********************************************/
+/* 测试消息机制下的信号量机制
+/***********************************************/
+
+
+PRIVATE void _test_semaphore_1_process(){
+    int ret = user_getsem(10);
+    com_printk("get %d semaphore\n", ret);
+    while(1){}
+}
+
+
+PRIVATE void _test_semaphore(){
+    _init_a_process(6, "test_semaphore", 6, _test_semaphore_1_process, 3);
+    g_cur_proc = &g_pcb_table[6];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
+}
+
 
 
 /***********************************************/

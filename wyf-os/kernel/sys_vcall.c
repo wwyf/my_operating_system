@@ -73,3 +73,15 @@ PUBLIC void user_exit(int status)
 	// assert(msg.type == SYSCALL_RET);
 }
 
+
+PUBLIC int user_getsem(int sem_value){
+	message_t msg;
+	msg.type = SEMAPHORE;
+	msg.FLAGS = SEM_GETSEM;
+	msg.VALUE = sem_value;
+
+	msg_send_recv(BOTH, TASK_SYS, &msg);
+
+	/* 返回 */
+	return msg.RETVAL;
+}

@@ -51,6 +51,9 @@ enum msgtype {
 	/* SYS task */
 	GET_TICKS, GET_PID, GET_RTC_TIME,
 
+	/* semaphore */
+	SEMAPHORE,
+
 	/* FS */
 	OPEN, CLOSE, READ, WRITE, LSEEK, STAT, UNLINK,
 
@@ -77,7 +80,9 @@ enum msgtype {
 /* macros for messages */
 #define	FD		u.m3.m3i1
 #define	PATHNAME	u.m3.m3p1
+/* for semaphore */
 #define	FLAGS		u.m3.m3i1
+#define VALUE u.m3.m3i2
 #define	NAME_LEN	u.m3.m3i2
 #define	CNT		u.m3.m3i2
 #define	REQUEST		u.m3.m3i2
@@ -91,6 +96,7 @@ enum msgtype {
 #define	PID		u.m3.m3i2
 #define	STATUS		u.m3.m3i1
 #define	RETVAL		u.m3.m3i1
+
 
 /* the assert macro */
 #define ASSERT
@@ -116,7 +122,11 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 						* (ok to allocated to a new process)
 						*/
 
-
+/* semaphore use msg.FLAGS */
+#define SEM_GETSEM 0x01
+#define SEM_FREESEM 0x02
+#define SEM_P 0x03
+#define SEM_V 0x04
 
 /* ipc */
 #define SEND		1
