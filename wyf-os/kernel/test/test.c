@@ -45,21 +45,56 @@ void main_test(){
 /* 测试消息机制下的信号量机制
 /***********************************************/
 
+int _test_semaphore_id_1;
+int _test_semaphore_id_2;
+char fruit_disk;
+char _test_words[30];
 
-PRIVATE void _test_semaphore_1_process(){
-    int ret = user_get_sem(10);
-    com_printk("get %d semaphore\n", ret);
-    ret = user_free_sem(10);
-    com_printk("get %d semaphore\n", ret);
-    ret = user_sem_p(10);
-    com_printk("get %d semaphore\n", ret);
-    ret = user_sem_v(10);
-    com_printk("get %d semaphore\n", ret);
-    while(1){}
+
+/**
+ * @brief 测试使用信号量同步
+ * 
+ * 必须等到两个子进程，一个说完祝福语，一个放完水果之后，父亲进程才能够回复祝福语。
+ * 
+ * @return PRIVATE _test_semaphore_1_process 
+ */
+PRIVATE void _test_semaphore_1_process()
+{
+    if (user_fork()){
+        /* 这里会派生出两个子进程，父进程运行下面这一段，子进程运行下面的else */
+        while (1){
+            user_sem_p(_test_semaphore_id_1);
+            user_sem_p(_test_semaphore_id_2);
+            com_printk(_test_words);
+            com_memncpy(_test_words,"Father love you, too!", 25);
+            com_printk("I eat my fruit %d\n", fruit_disk);
+            fruit_disk = 0;
+        }
+    }
+    else{
+        /* 这里又派生出两个进程，父进程运行下面的放祝福语，子进程到下面的else放水果*/
+        if (user_fork())
+            while (1){
+                com_printk(_test_words);
+                com_memncpy(_test_words,"Father, I love you!", 25);
+                user_sem_v(_test_semaphore_id_1);
+            }
+        else 
+            while (1){
+                com_printk("The fruit is %d. It's empty!\n", fruit_disk);
+                fruit_disk = 5;
+                user_sem_v(_test_semaphore_id_2);
+            }
+    } 
 }
 
 
 PRIVATE void _test_semaphore(){
+    /* 初始化信号量 */
+    _test_semaphore_id_1 = user_get_sem(0);
+    _test_semaphore_id_2 = user_get_sem(0);
+    com_memncpy(_test_words,"Father love you, too!", 25);
+
     _init_a_process(6, "test_semaphore", 6, _test_semaphore_1_process, 3);
     g_cur_proc = &g_pcb_table[6];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;

@@ -23,6 +23,7 @@ void process_init(){
     }
 }
 
+
 /**
  * @brief  初始化一个内核进程，初始化其eip，cs，其他使用内核常量填充。这样就能够跳转过去运行。
  * 
@@ -73,6 +74,9 @@ void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, ui
     g_pcb_table[n].p_recvfrom = NO_TASK;
     g_pcb_table[n].p_sendto = NO_TASK;
     g_pcb_table[n].has_int_msg = 0;
+
+    /* 信号量 */
+    g_pcb_table[n].sem_next =(void *) 0;
 }
 /**
  * @brief  初始化一个内核进程，初始化其eip，cs，其他使用内核常量填充。这样就能够跳转过去运行。
@@ -124,6 +128,9 @@ void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, uin
     g_pcb_table[n].p_recvfrom = NO_TASK;
     g_pcb_table[n].p_sendto = NO_TASK;
     g_pcb_table[n].has_int_msg = 0;
+
+    /* 信号量 */
+    g_pcb_table[n].sem_next =(void *) 0;
 }
 void _proc_switch_to(){
     asm("int $0x79");
@@ -139,11 +146,16 @@ void proc_sleep_myself(){
 }
 
 
+PUBLIC void proc_block_pid(int pid){
+    g_pcb_table[pid].status = _PROC_SLEEP;
+}
+
+
 /**
  * @brief 激活一个进程，该n为进程控制块的索引号
  * 
  * @param n 
  */
-void proc_wake_pid(int n){
-    g_pcb_table[n].status = _PROC_RUN;
+PUBLIC void proc_wake_pid(int pid){
+    g_pcb_table[pid].status = _PROC_RUN;
 }

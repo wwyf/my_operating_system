@@ -1,6 +1,8 @@
 #ifndef _CONST_H_
 #define _CONST_H_
 
+#define NULL ((void *)0)
+
 /* 本头文件放的是一些系统中用到的常量 */
 
 #define __KERNEL_CS 0x10
@@ -156,5 +158,7 @@ void assertion_failure(char *exp, char *file, char *base_file, int line);
 /* descriptor indices in LDT */
 #define INDEX_LDT_C             0
 #define INDEX_LDT_RW            1
+
+
 
 #endif

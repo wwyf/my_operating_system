@@ -11,26 +11,26 @@
 
 本次实验，我实现了以下四个系统调用
 
-1. `user_p(int sem_id)`
+1. `user_sem_p(int sem_id)`
    1. 用于信号量的P操作，该操作会调用内核的do_p原语。
-2. `user_v(int sem_id)`
+2. `user_sem_v(int sem_id)`
    1. 用于信号量的V操作，该操作会调用内核的do_v原语。
-3. `int user_getsem(int value)`
+3. `int user_get_sem(int value)`
    1. 用于得到一个信号量。
-4. `user_freesem(int sem_id)`
+4. `user_free_sem(int sem_id)`
    1. 用于释放该信号量。
 
 同时，在信号量机制中，我还实现了专属于信号量机制的`sem_block`和`sem_waitup`函数，用于阻塞进程以及唤醒进程。
 
 ## 3 基本原理
 
-### user_getsem函数
+### user_get_sem函数
 
 通过这个函数，用户可以得到一个在内核中进行管理的信号量，并得到该信号量对应的id，此后对信号量的所有操作，都依赖于该id而不是直接访问该信号量所在的内存地址。
 
 
 
-### user_freesem函数
+### user_free_sem函数
 
 
 

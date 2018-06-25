@@ -61,6 +61,9 @@ typedef struct s_proc{
     uint32_t p_parent;
     uint32_t exit_status;
 
+    /* 信号量队列 */
+    struct s_proc * sem_next;
+
 }proc_task_struct_t;
 
 
@@ -75,7 +78,9 @@ typedef struct s_proc{
 void process_init();
 
 void proc_sleep_myself();
-void proc_wake_pid(int n);
+
+PUBLIC void proc_block_pid(int pid);
+PUBLIC void proc_wake_pid(int n);
 
 void proc_init_a_task(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority);
 
