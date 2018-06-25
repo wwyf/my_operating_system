@@ -109,7 +109,7 @@ PRIVATE int do_get_sem(int sem_value) {
     for (int i = 1; i < MAX_SEM_NUM; i++){
         /* 一旦找到一个可用的信号量 */
         if (semaphore_list[i].used == 0){
-            semaphore_list[i].used == 1;
+            semaphore_list[i].used = 1;
             semaphore_list[i].value = sem_value;
             return i;
         }

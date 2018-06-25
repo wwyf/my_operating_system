@@ -165,6 +165,7 @@ PRIVATE void unblock(proc_task_struct_t* p)
 {
 	assert(p->p_flags == 0);
 	p->status = _PROC_RUN;
+	proc_schedule();
 }
 
 

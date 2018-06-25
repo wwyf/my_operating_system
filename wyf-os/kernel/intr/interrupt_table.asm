@@ -48,11 +48,11 @@ common_handler:
     SAVE_ALL
     mov eax, esp
     push eax
+    cli
     ; 开启中断
     ;sti
     call _interrupt_handler
     ; 关闭中断
-    ;cli
     pop eax
     jmp ret_from_intr
 

@@ -39,16 +39,26 @@ PUBLIC int user_get_pid(){
  *         child process will be created.
  *****************************************************************************/
 message_t fork_msg;
+message_t fork_msg2;
 PUBLIC int user_fork()
 {
 	
-	fork_msg.type = FORK;
+	if (user_get_pid() <= 6){
+		fork_msg.type = FORK;
+		msg_send_recv(BOTH, TASK_MM, &fork_msg);
+		// assert(fork_msg.type == SYSCALL_RET);
+		// assert(fork_msg.RETVAL == 0);
+		return fork_msg.PID;
+	}
+	else {
+		fork_msg2.type = FORK;
+		msg_send_recv(BOTH, TASK_MM, &fork_msg2);
+		// assert(fork_msg.type == SYSCALL_RET);
+		// assert(fork_msg.RETVAL == 0);
+		return fork_msg2.PID;
 
-	msg_send_recv(BOTH, TASK_MM, &fork_msg);
-	// assert(fork_msg.type == SYSCALL_RET);
-	// assert(fork_msg.RETVAL == 0);
+	}
 
-	return fork_msg.PID;
 }
 
 PUBLIC int user_wait(int * status)

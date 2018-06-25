@@ -50,10 +50,11 @@ void proc_schedule(){
     if (g_cur_proc->status == _PROC_STOP || 
         (g_cur_proc->status == _PROC_SLEEP && g_cur_proc->p_flags != 0)){
             _switch_to();
+            return ;
     }
-    else if (g_cur_proc->remain_ticks){
+    g_cur_proc->remain_ticks--;
+    if (g_cur_proc->remain_ticks){
         /* 时间片没有用完 */
-        g_cur_proc->remain_ticks--;
         return ;
     }
     else if(!g_cur_proc->remain_ticks){
