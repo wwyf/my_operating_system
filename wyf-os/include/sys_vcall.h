@@ -13,6 +13,10 @@ PUBLIC int user_fork();
 PUBLIC int user_wait(int * status);
 PUBLIC void user_exit(int status);
 
-PUBLIC int user_getsem(int sem_value);
+PUBLIC int user_get_sem(int sem_value);
+PUBLIC int user_free_sem(int sem_id);
+PUBLIC int user_sem_p(int sem_id);
+PUBLIC int user_sem_v(int sem_id);
+
 
 #endif // !_SYS_VCALL_H_

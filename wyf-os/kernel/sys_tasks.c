@@ -43,7 +43,7 @@ PRIVATE void task_init_init()
 }
 
 PUBLIC int sem_solve(uint32_t src_proc, uint32_t sem_type, uint32_t sem_value){
-	com_printk("src:%d send msg! sem_type:%d sem_value:%d", src_proc, sem_type, sem_value);
+	com_printk("src:%d send msg! sem_type:%d sem_value:%d\n", src_proc, sem_type, sem_value);
 	return 2;
 }
 

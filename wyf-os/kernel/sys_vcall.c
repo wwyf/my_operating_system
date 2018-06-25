@@ -74,11 +74,81 @@ PUBLIC void user_exit(int status)
 }
 
 
-PUBLIC int user_getsem(int sem_value){
+/**
+ * @brief 申请信号量
+ * 
+ * 从信号量数组中寻找到可用信号量，并设置信号量初值，返回信号量ID。
+ * 
+ * @param sem_value 信号量初值
+ * @return int 申请到的信号量的id
+ */
+PUBLIC int user_get_sem(int sem_value){
 	message_t msg;
 	msg.type = SEMAPHORE;
 	msg.FLAGS = SEM_GETSEM;
 	msg.VALUE = sem_value;
+
+	msg_send_recv(BOTH, TASK_SYS, &msg);
+
+	/* 返回 */
+	return msg.RETVAL;
+}
+
+/**
+ * @brief 释放信号量
+ * 
+ * 将信号量的使用标志设置为未使用。
+ * 
+ * @param sem_id 要释放的信号量的id
+ * @return 
+ */
+PUBLIC int user_free_sem(int sem_id){
+	message_t msg;
+	msg.type = SEMAPHORE;
+	msg.FLAGS = SEM_FREESEM;
+	msg.VALUE = sem_id;
+
+	msg_send_recv(BOTH, TASK_SYS, &msg);
+
+	/* 返回 */
+	return msg.RETVAL;
+}
+
+/**
+ * @brief 信号量的P操作
+ * 
+ * 将信号量的值减去1
+ * 如果信号量的值小于0，就阻塞当前进程。
+ * 
+ * @param sem_id 
+ * @return 
+ */
+PUBLIC int user_sem_p(int sem_id){
+	message_t msg;
+	msg.type = SEMAPHORE;
+	msg.FLAGS = SEM_P;
+	msg.VALUE = sem_id;
+
+	msg_send_recv(BOTH, TASK_SYS, &msg);
+
+	/* 返回 */
+	return msg.RETVAL;
+}
+
+/**
+ * @brief 信号量的V操作
+ * 
+ * 将信号量的值+1
+ * 如果信号量的值<=0，就唤醒一个新进程
+ * 
+ * @param sem_id 
+ * @return PUBLIC user_sem_p 
+ */
+PUBLIC int user_sem_v(int sem_id){
+	message_t msg;
+	msg.type = SEMAPHORE;
+	msg.FLAGS = SEM_V;
+	msg.VALUE = sem_id;
 
 	msg_send_recv(BOTH, TASK_SYS, &msg);
 

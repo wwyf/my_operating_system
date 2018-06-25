@@ -46,7 +46,13 @@ void main_test(){
 
 
 PRIVATE void _test_semaphore_1_process(){
-    int ret = user_getsem(10);
+    int ret = user_get_sem(10);
+    com_printk("get %d semaphore\n", ret);
+    ret = user_free_sem(10);
+    com_printk("get %d semaphore\n", ret);
+    ret = user_sem_p(10);
+    com_printk("get %d semaphore\n", ret);
+    ret = user_sem_v(10);
     com_printk("get %d semaphore\n", ret);
     while(1){}
 }
