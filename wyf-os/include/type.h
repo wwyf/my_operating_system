@@ -17,6 +17,7 @@
 #define	PUBLIC		/* PUBLIC is the opposite of PRIVATE */
 #define	PRIVATE	static	/* PRIVATE x limits the scope of x */
 
+
 typedef struct desc_struct{
 	uint32_t a;
     uint32_t b;
@@ -59,8 +60,6 @@ typedef struct {
 		struct mess3 m3;
 	}u;
 }message_t;
-
-
 
 
 

@@ -5,6 +5,7 @@
 #include <sys_call.h>
 #include <message.h>
 #include <mm/mm.h>
+#include <semaphore.h>
 
 PRIVATE void task_sys_call();
 PRIVATE void task_init_init();
@@ -42,10 +43,7 @@ PRIVATE void task_init_init()
 	while (1){}
 }
 
-PUBLIC int sem_solve(uint32_t src_proc, uint32_t sem_type, uint32_t sem_value){
-	com_printk("src:%d send msg! sem_type:%d sem_value:%d\n", src_proc, sem_type, sem_value);
-	return 2;
-}
+
 
 /**
  * @brief 系统任务

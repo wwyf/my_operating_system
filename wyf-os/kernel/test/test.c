@@ -9,6 +9,7 @@
 #include <message.h>
 #include <sys_vcall.h>
 #include <mm/mm.h>
+#include <semaphore.h>
 
 extern void _proc_restart();
 extern void _init_a_process(uint32_t n, char * name, uint32_t pid, void * function, uint32_t priority);
