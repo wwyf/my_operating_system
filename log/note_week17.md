@@ -46,6 +46,33 @@
 
 ## 4 遇到的问题
 
+### 4.1 fork的子进程没有返回0
+
+现在我遇到了一个很奇怪的问题，我使用上一个实验的示例，是fork后，子进程的fork是的确能够返回0的，但是当我编写好信号量的测试程序后，我的fork无论是父进程还是子进程都返回了7。
+
+当fork完成，mm进程向子进程发送一个消息，解除子进程的阻塞时，可能会有两种情况：
+
+1. 子进程正处于等待接收消息的状态，此时mm进程将消息复制到子进程的q_msg中
+2. 子进程没有处于等待接受消息的状态，此时mm进程将会处于sending状态，阻塞住，直到子进程接收到mm进程的消息，子进程会从mm进程中的q_msg成员将消息复制过来。
+
+想一想这样的一种情况，父进程已经处于等待接受消息的状态了，如果在此时mm进程被调用，将父进程复制一份变成子进程，子进程此时存有的q_msg仍然是父进程中的q_msg，这样子会造成一个怎样的问题呢？
+
+由于fork_msg是一个全局变量，因此子进程接受了消息后若不没有及时处理，而是先被父进程
+
+
+
+### 4.2 
+
+![](https://lh3.googleusercontent.com/-rpBs9cikTNk/WzDxdAAktJI/AAAAAAAAIpU/1IP10iMZTQwWFUkVZNulib0ePOk0HNw7wCHMYCw/s0/Snipaste_2018-06-25_21-43-15.png)
+
+将等号不小心打了两个，导致信号量的used值没有被更新，最终我申请的两个信号量id一样。
+
+![](https://lh3.googleusercontent.com/-7CPicLUWZ0g/WzDx0ZJLM0I/AAAAAAAAIpc/j7BeV-zQJWA0fX68ZYYn-NeIPGgzZsoDACHMYCw/s0/Snipaste_2018-06-25_21-44-51.png)
+
+### 4.3 mm进程被神秘解除阻塞
+
+
+
 ## 5 测试结果
 
 ## 6 实验感想
