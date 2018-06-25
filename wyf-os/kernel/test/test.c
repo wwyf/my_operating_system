@@ -24,6 +24,7 @@ PRIVATE void _test_background_task();
 PRIVATE void _test_hd();
 PRIVATE void _test_fork();
 PRIVATE void _test_wait_exit();
+PRIVATE void _test_multifork();
 PRIVATE void _test_semaphore();
 
 void main_test(){
@@ -36,8 +37,9 @@ void main_test(){
     // _test_background_task();
     // _test_hd();
     // _test_fork();
-    // _test_wait_exit();
-    _test_semaphore();
+    _test_wait_exit();
+    // _test_multifork();
+    // _test_semaphore();
 }
 
 
@@ -60,8 +62,15 @@ char _test_words[30];
  */
 PRIVATE void _test_semaphore_1_process()
 {
-    if (user_fork()){
+   /* 初始化信号量 */
+    _test_semaphore_id_1 = user_get_sem(0);
+    _test_semaphore_id_2 = user_get_sem(0);
+
+    int pid1 = user_fork();
+    
+    if (pid1){
         /* 这里会派生出两个子进程，父进程运行下面这一段，子进程运行下面的else */
+        com_printk("pid:%d\n", user_get_pid());
         while (1){
             user_sem_p(_test_semaphore_id_1);
             user_sem_p(_test_semaphore_id_2);
@@ -73,29 +82,71 @@ PRIVATE void _test_semaphore_1_process()
     }
     else{
         /* 这里又派生出两个进程，父进程运行下面的放祝福语，子进程到下面的else放水果*/
-        if (user_fork())
+        if (user_fork()){
+            com_printk("pid:%d\n", user_get_pid());
             while (1){
                 com_printk(_test_words);
                 com_memncpy(_test_words,"Father, I love you!", 25);
                 user_sem_v(_test_semaphore_id_1);
             }
-        else 
+        }
+        else{
+            com_printk("pid:%d\n", user_get_pid());
             while (1){
                 com_printk("The fruit is %d. It's empty!\n", fruit_disk);
                 fruit_disk = 5;
                 user_sem_v(_test_semaphore_id_2);
             }
+
+        } 
     } 
 }
 
 
 PRIVATE void _test_semaphore(){
-    /* 初始化信号量 */
-    _test_semaphore_id_1 = user_get_sem(0);
-    _test_semaphore_id_2 = user_get_sem(0);
-    com_memncpy(_test_words,"Father love you, too!", 25);
 
-    _init_a_process(6, "test_semaphore", 6, _test_semaphore_1_process, 3);
+    com_memncpy(_test_words,"Father love you, too!", 25);
+    _init_a_process(6, "test_semaphore", 6, _test_semaphore_1_process, 1);
+    g_cur_proc = &g_pcb_table[6];
+    g_cur_proc_context_stack = g_cur_proc->kernel_stack;
+    _proc_restart();
+}
+
+
+/* 测试多重fork */
+PRIVATE void _test_multifork_process()
+{
+
+    int pid1 = user_fork();
+    
+    if (pid1){
+        /* 这里会派生出两个子进程，父进程运行下面这一段，子进程运行下面的else */
+        com_printk("pid:%d\n", 6);
+        while (1){}
+    }
+    else{
+        int pid2 = user_get_pid();
+        com_printk("pid:%d\n", pid2);
+        /* 这里又派生出两个进程，父进程运行下面，子进程到下面的else*/
+        
+        int pid3 = user_fork();
+        if (pid3){
+            com_printk("pid:%d\n", 8);
+            while (1){}
+        }
+        else{
+            com_printk("pid:%d\n", 9);
+            while (1){}
+        } 
+    } 
+}
+
+void _delay(){
+    for (int i = 0; i < 10000000; i++);
+}
+
+PRIVATE void _test_multifork(){
+    _init_a_process(6, "test_multifork", 6, _test_multifork_process, 1);
     g_cur_proc = &g_pcb_table[6];
     g_cur_proc_context_stack = g_cur_proc->kernel_stack;
     _proc_restart();
@@ -119,7 +170,7 @@ PRIVATE void _test_wait_exit_process(){
 	}
     
 	else {	/* child process */
-		com_printk("pid(%d) : child is running, pid:%d\n", user_get_pid(), user_get_pid());
+		com_printk("pid(%d) : child is running, pid:%d, ret:%d\n", user_get_pid(), user_get_pid(), pid);
         user_exit(10);
 	}
     while (1){}
